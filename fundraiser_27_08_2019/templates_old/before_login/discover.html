@@ -1,0 +1,219 @@
+{% extends 'before_login/index.html' %}
+
+{% block title %}
+  <title> Crowd Funding | Discover </title>
+{% endblock %}
+
+{% block extra_style %}
+  <link href="/static/css/style.css" rel="stylesheet">
+{% endblock %}
+
+
+{% block body %}
+  <main>
+    <div class="discoverDiv">
+      <div class="DImageDiv"><img src="/static/images/Home_1.jpg" class="DImage"
+          alt="">
+        <div class="jss445">
+          <div class="jss4446 ">Discover Campaigns</div>
+          <div class="jss447_c"></div>
+          <div class="jss448_c color_fff">Find a political initiative of your choice and support it. Your contributions
+            helps strengthen
+            democracy.</div>
+        </div>
+      </div>
+
+
+      <section class="jss2_c desktop_mode">
+        <div class="jss10_c">
+          <div class="jss7_c jss75_c jss377_c bg_fff ">
+            <ul class="jss1148 jss1149 category_ul" role="menu">
+              <li class="category_ul_head" tabindex="0" role="menuitem">Category<span class="jss1167"></span></li>
+              <li class="category_ul_list active cursor_pointer" role="menuitem">Fundraisers<span class="jss1167"></span></li>
+              <li class="category_ul_list cursor_pointer" role="menuitem">Mobilisation Campaign</span></li>
+              <li class="category_ul_list cursor_pointer" role="menuitem">Event</span></li>
+            </ul>
+          </div>
+        </div>
+        <div class="jss11_c filter_result">
+
+            {% if title %}
+            <div class="DMainFiltersDiv">
+                {% if sub_category == None %}
+                <p class="btn btnActive"><a href="javascript:void(0);">Show All</a></p>
+                {% else %}
+                <p class="btn" onclick="change_sub_category(this)"><a href="javascript:void(0);">Show All</a></p>
+                {% endif %}
+                {% for category in instance_CampaignCategory %}
+                    {% if sub_category|slugify  == category|slugify %}
+                        <p class="btn btnActive"><a href="javascript:void(0);">{{category.category}}</a></p>
+                    {% else %}
+                        <p class="btn" onclick="change_sub_category(this)"><a href="javascript:void(0);">{{category.category}}</a></p>
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+            <div>Showing results for '{{title}}'</div>
+            
+            <div class="DItemsDiv">
+                {% for fundraiser in instance_CampaignFundRaiser %}
+                <a href="{% url 'campaign_selected' fundraiser.id fundraiser.title %}" class="DItemDiv">
+                    <img src="/media/{{ fundraiser.picture }}" class="DItemImage" alt="">
+                    <div class="DItemIconDiv"><img
+                            src="data:image/png;base64,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"
+                            class="DItemIcon" alt=""></div>
+                    <div class="DItemDetailsDiv">
+                        <p class="DItemTitle"> {{ fundraiser.title }} </p>
+                        <div class="DItemByDiv"><img src="/media/{{fundraiser.user.profile}}" class="DItemByImg" alt="">
+                            <p class="DItemByText">by {{ fundraiser.user.name }}</p>
+                        </div>
+                        <p class="DItemDescp" style="max-height: 33px;">{{ fundraiser.short_description }}</p>
+                    </div>
+                    <div class="DItemNumLineDiv">
+                        <div class="DItemNumbersDiv">
+                            <div class="DItemDeadlineDiv" style="">
+                                <p class="DItemDeadline">{{ fundraiser.available_days }} <br>DAYS LEFT</p>
+                            </div>
+                            <div class="DItemGoalDiv">
+                                <p class="DItemGoal"><svg aria-hidden="true" data-prefix="fas" data-icon="rupee-sign"
+                                        class="svg-inline--fa fa-rupee-sign fa-w-10 " role="img" xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 320 512">
+                                        <path fill="currentColor"
+                                            d="M308 96c6.627 0 12-5.373 12-12V44c0-6.627-5.373-12-12-12H12C5.373 32 0 37.373 0 44v44.748c0 6.627 5.373 12 12 12h85.28c27.308 0 48.261 9.958 60.97 27.252H12c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h158.757c-6.217 36.086-32.961 58.632-74.757 58.632H12c-6.627 0-12 5.373-12 12v53.012c0 3.349 1.4 6.546 3.861 8.818l165.052 152.356a12.001 12.001 0 0 0 8.139 3.182h82.562c10.924 0 16.166-13.408 8.139-20.818L116.871 319.906c76.499-2.34 131.144-53.395 138.318-127.906H308c6.627 0 12-5.373 12-12v-40c0-6.627-5.373-12-12-12h-58.69c-3.486-11.541-8.28-22.246-14.252-32H308z">
+                                        </path>
+                                    </svg> {{ fundraiser.campaigntotalamount.total_amount}} <br>RAISED</p>
+                            </div>
+                        </div>
+                        <div class="DItemCompletionDiv">
+                            <div class="DItemCompletionLineDiv">
+                                <div class="filled" style="width: {{ fundraiser.totalfund_in_percentage }}%;"></div>
+                            </div>
+                            <p class="DItemCompletionText">{{ fundraiser.totalfund_in_percentage }} %</p>
+                        </div>
+                    </div>
+                </a>
+                {% endfor %}
+           
+                {% for supportgroup in instance_SupportGroup %}
+                <a href="{% url 'support_group_selected' supportgroup.id supportgroup.title %}" class="DItemDiv">
+                    <img src="/media/{{supportgroup.picture}}" class="DItemImage" alt="">
+                    <div class="DItemDetailsDiv">
+                    <p class="DItemTitle"> {{supportgroup.title}}</p>
+                    <div class="DItemByDiv"><img src="/media/{{supportgroup.group_leader.profile}}" class="DItemByImg" alt="">
+                        <p class="DItemByText">by {{ supportgroup.group_leader.name }}</p>
+                    </div>
+                    <p class="DItemDescp" style="max-height: 33px;"> {{ supportgroup.short_description }} </p>
+                    </div>
+                    <div class="DItemNumLineDiv">
+                    <div class="DItemNumbersDiv">
+                        <div class="DItemGoalDiv" style="border: 0px;">
+                        <p class="DItemGoal"><svg aria-hidden="true" data-prefix="fas" data-icon="users"
+                            class="svg-inline--fa fa-users fa-w-20 " role="img" xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 640 512">
+                            <path fill="currentColor"
+                                d="M96 224c35.3 0 64-28.7 64-64s-28.7-64-64-64-64 28.7-64 64 28.7 64 64 64zm448 0c35.3 0 64-28.7 64-64s-28.7-64-64-64-64 28.7-64 64 28.7 64 64 64zm32 32h-64c-17.6 0-33.5 7.1-45.1 18.6 40.3 22.1 68.9 62 75.1 109.4h66c17.7 0 32-14.3 32-32v-32c0-35.3-28.7-64-64-64zm-256 0c61.9 0 112-50.1 112-112S381.9 32 320 32 208 82.1 208 144s50.1 112 112 112zm76.8 32h-8.3c-20.8 10-43.9 16-68.5 16s-47.6-6-68.5-16h-8.3C179.6 288 128 339.6 128 403.2V432c0 26.5 21.5 48 48 48h288c26.5 0 48-21.5 48-48v-28.8c0-63.6-51.6-115.2-115.2-115.2zm-223.7-13.4C161.5 263.1 145.6 256 128 256H64c-35.3 0-64 28.7-64 64v32c0 17.7 14.3 32 32 32h65.9c6.3-47.4 34.9-87.3 75.2-109.4z">
+                            </path>
+                            </svg> {{ supportgroup.group_member_count}} <br>MEMBERS</p>
+                        </div>
+                    </div>
+                    </div>
+                </a>
+                {% endfor %}
+
+                {% for event in instance_Event %}
+                <a href="{% url 'event_selected' event.id event.name %}" class="DItemDiv">
+                    <img src="/media/{{event.image}}" class="DItemImage" alt="">
+                    <div class="DItemDetailsDiv">
+                    <p class="DItemTitle"> {{event.name}}</p>
+                    <div class="DItemByDiv"><img src="/media/{{event.user.profile}}" class="DItemByImg" alt="">
+                        <p class="DItemByText">by {{ event.user.name }}</p>
+                    </div>
+                    
+                    </div>
+                    <div class="DItemNumLineDiv">
+                    <div class="DItemNumbersDiv">
+                        <div class="DItemGoalDiv" style="border: 0px;">
+                        <p class="DItemGoal"><svg aria-hidden="true" data-prefix="fas" data-icon="users"
+                            class="svg-inline--fa fa-users fa-w-20 " role="img" xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 640 512">
+                            <path fill="currentColor"
+                                d="M96 224c35.3 0 64-28.7 64-64s-28.7-64-64-64-64 28.7-64 64 28.7 64 64 64zm448 0c35.3 0 64-28.7 64-64s-28.7-64-64-64-64 28.7-64 64 28.7 64 64 64zm32 32h-64c-17.6 0-33.5 7.1-45.1 18.6 40.3 22.1 68.9 62 75.1 109.4h66c17.7 0 32-14.3 32-32v-32c0-35.3-28.7-64-64-64zm-256 0c61.9 0 112-50.1 112-112S381.9 32 320 32 208 82.1 208 144s50.1 112 112 112zm76.8 32h-8.3c-20.8 10-43.9 16-68.5 16s-47.6-6-68.5-16h-8.3C179.6 288 128 339.6 128 403.2V432c0 26.5 21.5 48 48 48h288c26.5 0 48-21.5 48-48v-28.8c0-63.6-51.6-115.2-115.2-115.2zm-223.7-13.4C161.5 263.1 145.6 256 128 256H64c-35.3 0-64 28.7-64 64v32c0 17.7 14.3 32 32 32h65.9c6.3-47.4 34.9-87.3 75.2-109.4z">
+                            </path>
+                            </svg> {{ event.group_member_count}} <br>MEMBERS</p>
+                        </div>
+                    </div>
+                    </div>
+                </a>
+                {% endfor %}
+
+                
+            </div>
+            {% endif %}
+
+        </div>
+
+
+      </section>
+    </div>
+  </main>
+{% endblock %}        
+
+{% block extra_script %}
+  
+  
+  <script type="text/javascript" src="/static/js/select2.full.min.js"></script>
+  {% if title %}
+  {% else %}
+ <script>
+    $(document).ready(function(){
+      $.get("{% url 'discover' %}?category=Fundraisers", function(result){
+        $('.filter_result').html(result);                                     
+      })
+    });
+ </script>
+ {% endif %}
+
+ <script>
+    function change_sub_category(e){
+        var sub_category = $(e).text();
+        $(".DMainFiltersDiv").find('.btn').removeClass("btnActive");
+        $(e).addClass("btnActive")
+        var category = $('.category_ul li.active').text();
+        // alert("{% url 'discover' %}?category="+category+"&sub_category="+sub_category)
+        $.get("{% url 'discover' %}?category="+category+"&sub_category="+sub_category, function(result){
+          $('.filter_result').html(result);                                     
+        })
+    };
+
+    $(".category_ul li ").click(function(e){
+        var category = $(e.target).text();
+        $(".category_ul").find('.category_ul_list').removeClass("active");
+        $(e.target).addClass("active");
+        $.get("{% url 'discover' %}?category="+category, function(result){
+          $('.filter_result').html(result);                                     
+        })
+    });
+
+    function changesupportgrouppage(page){
+      var sub_category = $(".DMainFiltersDiv p.btnActive").text();
+      var category = $('.category_ul li.active ').text();
+      $.get("{% url 'discover' %}?category="+category+"&page="+page, function(result){
+          $('.filter_result').html(result);                                     
+      })
+    };
+
+    function changefundraiserpage(page){
+      var sub_category = $(".DMainFiltersDiv p.btnActive").text();
+      var category = $('.category_ul li.active ').text();
+      $.get("{% url 'discover' %}?category="+category+"&sub_category="+sub_category+"&page="+page, function(result){
+          $('.filter_result').html(result);                                     
+      })
+    };
+
+    function changeeventpage(page){
+      $.get("{% url 'discover' %}?category=Event&page="+page, function(result){
+          $('.filter_result').html(result);                                     
+      })
+    }
+ </script>
+{% endblock %}

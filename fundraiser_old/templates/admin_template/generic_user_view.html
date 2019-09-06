@@ -1,0 +1,165 @@
+{% extends 'admin_template/admin_dashboard.html' %}
+
+{% block title %}
+<title>Crowd Funding Admin | Manage Generic User </title>
+{% endblock %}
+
+
+{% block meta_tag %}
+<meta name="description" content="" />
+<meta property="og:title" content="" />
+<meta property="og:url" content="web page path" />
+<meta property="og:description" content="">
+<meta property="og:image" content="image PATH">
+{% endblock %}
+
+{% block extra_style %}
+
+{% endblock %}
+
+
+{% block body %}
+<main>
+    <div class="container">
+      <div class="row mt-3 mb-3 align-items-center">
+        <div class="col-md-6">
+          <h4 class="mb-0">Generic Emails</h4>
+        </div>
+        <div class="col-md-6 text-right">
+          <button type="button" class="custom_btn" data-toggle="modal" data-target="#createGenericEmails">Add Generic User</button>
+        </div>
+      </div>
+      <div class="table_parent">
+        <table class="table text-center  data_table">
+            <thead class="thead-light">
+              <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Name</th>
+                <th scope="col">Departments</th>
+                <th scope="col">Email</th>
+                <th scope="col">Role</th>
+                <th scope="col">Status</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for GenericEmails in instance_GenericEmails %}
+                    <tr>
+                        <th scope="row">{{GenericEmails.id}}</th>
+                        <td>{{GenericEmails.name}}</td>
+                        <td>{{GenericEmails.departments}}</td>
+                        <td>{{GenericEmails.email}}</td>
+                        <td>{{GenericEmails.role}}</td>
+                        <td>
+                            {% if GenericEmails.is_active %}
+                                <span><i class="fa fa-check sucess" aria-hidden="true"></i></span>
+                            {% else %}
+                                <span><i class="fa fa-times-circle-o warning" aria-hidden="true"></i></span>
+                            {% endif %}
+                        </td>
+                        <td class="width_150">
+                            {% if GenericEmails.is_active %}
+                                <a href="{% url 'admin_manage_generic_user_status' GenericEmails.id 'False'  %}"><i class="fa fa-times-circle-o warning" aria-hidden="true"></i></a>
+                            {% else %}
+                                <a href="{% url 'admin_manage_generic_user_status' GenericEmails.id 'True'  %}"><i class="fa fa-check sucess" aria-hidden="true"></i></a>
+                            {% endif %}
+                
+                            <a href="{% url 'admin_manage_generic_user_edit' GenericEmails.id  %}"><i class="fa fa-edit warning" aria-hidden="true"></i></a>
+                            <a href="{% url 'admin_manage_generic_user_delete' GenericEmails.id  %}"><i class="fa fa-trash danger" aria-hidden="true"></i></a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+          </table>
+        </div>
+    </div>
+</main>
+{% endblock %}
+
+
+{% block model_popup %}
+    <div class="modal fade" id="createGenericEmails" tabindex="-1" role="dialog" aria-labelledby="createCampaignTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable  modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header border-0 pl-4  pb-1">
+                    <h5 class="modal-title" id="exampleModalScrollableTitle">Add Generic User</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body pt-0 pb-0">
+                    <form method="POST" enctype="multipart/form-data" class="jss349">
+                        {% csrf_token %}
+
+                        <div class="jss833 jss834 jss836">
+                            <p class="jss798 jss807">Name</p>
+                            <div class="jss833">
+                                <div class="jss850 jss837 jss841 jss851 jss838">
+                                    {{Generic_Emails_Form.name}}
+                                </div>
+                                <span class="error"> {{Generic_Emails_Form.errors.name}}</span>
+                            </div>
+                        </div>
+
+                        <div class="jss550 jss551 jss553">
+                            <p class="jss515 jss524">Departments​</p>
+                            <div class="jss550">
+                                <div class="jss567 jss554 jss558 jss568 jss555 select2_con">
+                                    {{Generic_Emails_Form.departments}}
+                                </div>
+                            </div>
+                            <span class="error">{{Generic_Emails_Form.errors.departments}}</span>
+                        </div>
+
+                        <div class="jss833 jss834 jss836">
+                            <p class="jss798 jss807">Email</p>
+                            <div class="jss833">
+                                <div class="jss850 jss837 jss841 jss851 jss838">
+                                    {{Generic_Emails_Form.email}}
+                                </div>
+                                <span class="error"> {{Generic_Emails_Form.errors.email}}</span>
+                            </div>
+                        </div>
+
+                        <div class="jss550 jss551 jss553">
+                            <p class="jss515 jss524">Role​</p>
+                            <div class="jss550">
+                                <div class="jss567 jss554 jss558 jss568 jss555 select2_con">
+                                    {{Generic_Emails_Form.role}}
+                                </div>
+                            </div>
+                            <span class="error">{{Generic_Emails_Form.errors.role}}</span>
+                        </div>
+
+                        <button class="jss892 jss901 jss912 jss913 jss915 jss916 jss926 jss633" id="register_btn" tabindex="0" type="submit">
+                            <span class="jss902">Submit</span>
+                            <span class="jss934"></span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+
+{% block extra_script %}
+<script type="text/javascript" src="/static/js/intlTelInput.js" ></script>
+
+<script>
+    $(document).ready(function() {
+        $("#mobile-number").intlTelInput();    
+        $('.select2_modal').select2({
+            dropdownParent: $('.modal')
+        });
+    });
+</script>
+
+{% if form_error %}
+      <script>
+        $("#createGenericEmails").modal('show');
+      </script>
+{% endif %}
+{% endblock %}

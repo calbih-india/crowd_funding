@@ -1,0 +1,447 @@
+
+  <link href="/static/css/select2.min.css" rel="stylesheet">
+{% if block == 'event' %}
+
+<div class="DMainFiltersDiv">
+    <form class="jss349 row">
+
+        <div class="col-sm-12 col-md-2">
+          <div class="jss550 jss551 jss553">
+            <p class="jss515 jss524">Cause</p>
+            <div class="jss550">
+              <div class="jss567 jss554 jss558 jss568 jss555 select2_con">
+                <select class="select2" name="cause" required onchange="getFilterValues(this)">
+                  <option value="all">ALL</option>
+                  {% for cause in instance_CauseCategory %}
+                    {% if request.GET.cause == cause.id|slugify %}
+                        <option value="{{cause.id}}" selected>{{cause}}</option>
+                    {% else %}
+                        <option value="{{cause.id}}">{{cause}}</option>
+                    {% endif %}
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+            <span class="error"></span>
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-2">
+          <div class="jss550 jss551 jss553">
+            <p class="jss515 jss524">Sensitivity</p>
+            <div class="jss550">
+              <div class="jss567 jss554 jss558 jss568 jss555 select2_con">
+                <select class="select2" name="sensitivity" required onchange="getFilterValues(this)"> 
+                  <option value="all">ALL</option>
+                  {% for value,key in sensitivity_choices %}
+                    {% if value == request.GET.sensitivity %}
+                        <option value="{{value}}" selected>{{key}}</option>
+                    {% else %}
+                        <option value="{{value}}">{{key}}</option>
+                    {% endif %}
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+            <span class="error"></span>
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-3">
+            <div class="jss550 jss551 jss553">
+              <p class="jss515 jss524">Event Title</p>
+              <div class="jss550">
+                <div class="jss567 jss554 jss558 jss568 jss555 select2_con">
+                  <select class="select2" name="object_id" required onchange="getFilterValues(this)">
+                    <option value="all">ALL</option>
+                    {% for Event in instance_Event %}
+                        {% if request.GET.object_id == Event.id|slugify %}
+                            <option value="{{Event.id}}" selected>{{Event}}</option>
+                        {% else %}
+                            <option value="{{Event.id}}">{{Event}}</option>
+                        {% endif %}
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+              <span class="error"></span>
+            </div>
+          </div>
+
+    </form>
+</div>
+
+    <div class="DItemsDiv">
+        {% for event in instance_Event %}
+        <div class="DItemDiv">
+            <img src="/media/{{event.image}}" class="DItemImage" alt="" draggable="false">
+            <div class="DItemDetailsDiv">
+                <p class="DItemTitle">{{event.name}}</p>
+                <div class="DItemByDiv">
+                    <img src="/media/{{event.user.profile}}" class="DItemByImg" alt="" draggable="false">
+                    <p class="DItemByText">by {{ event.user.name }}</p>
+                </div>
+            </div>
+            <div class="DItemNumLineDiv">
+                <div class="DItemNumbersDiv">
+                    <div class="DItemGoalDiv" style="border: 0px;">
+                        <p class="DItemGoal"><svg aria-hidden="true" data-prefix="fas" data-icon="users"
+                                class="svg-inline--fa fa-users fa-w-20 " role="img" xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 640 512">
+                                <path fill="currentColor"
+                                    d="M96 224c35.3 0 64-28.7 64-64s-28.7-64-64-64-64 28.7-64 64 28.7 64 64 64zm448 0c35.3 0 64-28.7 64-64s-28.7-64-64-64-64 28.7-64 64 28.7 64 64 64zm32 32h-64c-17.6 0-33.5 7.1-45.1 18.6 40.3 22.1 68.9 62 75.1 109.4h66c17.7 0 32-14.3 32-32v-32c0-35.3-28.7-64-64-64zm-256 0c61.9 0 112-50.1 112-112S381.9 32 320 32 208 82.1 208 144s50.1 112 112 112zm76.8 32h-8.3c-20.8 10-43.9 16-68.5 16s-47.6-6-68.5-16h-8.3C179.6 288 128 339.6 128 403.2V432c0 26.5 21.5 48 48 48h288c26.5 0 48-21.5 48-48v-28.8c0-63.6-51.6-115.2-115.2-115.2zm-223.7-13.4C161.5 263.1 145.6 256 128 256H64c-35.3 0-64 28.7-64 64v32c0 17.7 14.3 32 32 32h65.9c6.3-47.4 34.9-87.3 75.2-109.4z">
+                                </path>
+                            </svg> {{ event.group_member_count }} <br>MEMBERS</p>
+                    </div>
+                </div>
+            </div>
+            <div class="DItemActionDiv">
+                <ul class="DItemActionDiv_con campaignAction_div">
+                    <li>
+                        <a href="{% url 'event_selected' event.id event.name %}" target="_blank"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                    </li>
+                    <li>
+                        <a href="{% url 'admin_manage_event_edit' event.id %}"  target="_blank"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                    </li>
+                    <li>
+                        <a href="{% url 'admin_manage_usera_edit' event.user.id %}"  target="_blank"><i class="fa fa-user" aria-hidden="true"></i></a>
+                    </li>
+                    <!-- <li>
+                        <a href="javascript:void(0)" data-toggle="modal" data-target="#support_user" aria-hidden="true" onclick="SupportUser('{% url 'admin_event_user' event.id %}')">
+                            <i class="fa fa-users" aria-hidden="true"></i>
+                        </a>
+                    </li> -->
+                </ul>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <ul class="DPageNumberDiv">
+        {% if instance_Event.has_other_pages %}
+        <ul class="DPageNumberDiv">
+            {% if instance_Event.has_previous %}
+            <li class="PagePrevNext" onclick="changepage('{{ instance_Event.previous_page_number }}')"> &lt; </li>
+            {% endif %}
+    
+            {% for i in instance_Event.paginator.page_range %}
+            {% if instance_Event.number == i %}
+            <li onclick="changepage('{{ i }}')" class="DPageNumber DPageNumberActive"> {{i}} </li>
+            {% else %}
+            <li onclick="changepage('{{ i }}')" class="DPageNumber">{{i}}</li>
+            {% endif %}
+            {% endfor %}
+    
+            {% if instance_Event.has_next %}
+            <li class="PagePrevNext" onclick="changepage('{{ instance_Event.next_page_number }}')"> &gt; </li>
+            {% endif %}
+        </ul>
+        {% endif %}
+    </ul>
+
+
+{% elif block == 'supportgroup' %}
+
+<div class="DMainFiltersDiv">
+    <form class="jss349 row">
+
+        <div class="col-sm-12 col-md-2">
+            <div class="jss550 jss551 jss553">
+              <p class="jss515 jss524">Cause</p>
+              <div class="jss550">
+                <div class="jss567 jss554 jss558 jss568 jss555 select2_con">
+                  <select class="select2" name="cause" required onchange="getFilterValues(this)">
+                    <option value="all">ALL</option>
+                    {% for cause in instance_CauseCategory %}
+                      {% if request.GET.cause == cause.id|slugify %}
+                          <option value="{{cause.id}}" selected>{{cause}}</option>
+                      {% else %}
+                          <option value="{{cause.id}}">{{cause}}</option>
+                      {% endif %}
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+              <span class="error"></span>
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-2">
+            <div class="jss550 jss551 jss553">
+              <p class="jss515 jss524">Sensitivity</p>
+              <div class="jss550">
+                <div class="jss567 jss554 jss558 jss568 jss555 select2_con">
+                  <select class="select2" name="sensitivity" required onchange="getFilterValues(this)"> 
+                    <option value="all">ALL</option>
+                    {% for value,key in sensitivity_choices %}
+                      {% if value == request.GET.sensitivity %}
+                          <option value="{{value}}" selected>{{key}}</option>
+                      {% else %}
+                          <option value="{{value}}">{{key}}</option>
+                      {% endif %}
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+              <span class="error"></span>
+            </div>
+          </div>
+        <div class="col-sm-12 col-md-3">
+            <div class="jss550 jss551 jss553">
+              <p class="jss515 jss524">Mobilisation Campaign Title</p>
+              <div class="jss550">
+                <div class="jss567 jss554 jss558 jss568 jss555 select2_con">
+                  <select class="select2" name="object_id" required onchange="getFilterValues(this)">
+                    <option value="all">ALL</option>
+                    {% for SupportGroup in instance_SupportGroup %}
+                        {% if request.GET.object_id == SupportGroup.id|slugify %}
+                            <option value="{{SupportGroup.id}}" selected>{{SupportGroup}}</option>
+                        {% else %}
+                            <option value="{{SupportGroup.id}}">{{SupportGroup}}</option>
+                        {% endif %}
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+              <span class="error"></span>
+            </div>
+          </div>
+
+    </form>
+</div>
+
+    <div class="DItemsDiv">
+        {% for supportgroup in instance_SupportGroup %}
+            <div class="DItemDiv">
+                <img src="/media/{{ supportgroup.picture }}" class="DItemImage" alt="" draggable="false">
+                <div class="DItemDetailsDiv">
+                    <p class="DItemTitle"> {{ supportgroup.title }}</p>
+                    <div class="DItemByDiv">
+                        <img src="/media/{{supportgroup.group_leader.profile}}" class="DItemByImg" alt="" draggable="false">
+                        <p class="DItemByText">by {{ supportgroup.group_leader.name }}</p>
+                    </div>
+                    <p class="DItemDescp" style="max-height: 33px;">
+                        {{ supportgroup.short_description }}
+                    </p>
+                </div>
+                <div class="DItemNumLineDiv">
+                    <div class="DItemNumbersDiv">
+                        <div class="DItemGoalDiv" style="border: 0px;">
+                            <p class="DItemGoal"><svg aria-hidden="true" data-prefix="fas" data-icon="users"
+                                    class="svg-inline--fa fa-users fa-w-20 " role="img" xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 640 512">
+                                    <path fill="currentColor"
+                                        d="M96 224c35.3 0 64-28.7 64-64s-28.7-64-64-64-64 28.7-64 64 28.7 64 64 64zm448 0c35.3 0 64-28.7 64-64s-28.7-64-64-64-64 28.7-64 64 28.7 64 64 64zm32 32h-64c-17.6 0-33.5 7.1-45.1 18.6 40.3 22.1 68.9 62 75.1 109.4h66c17.7 0 32-14.3 32-32v-32c0-35.3-28.7-64-64-64zm-256 0c61.9 0 112-50.1 112-112S381.9 32 320 32 208 82.1 208 144s50.1 112 112 112zm76.8 32h-8.3c-20.8 10-43.9 16-68.5 16s-47.6-6-68.5-16h-8.3C179.6 288 128 339.6 128 403.2V432c0 26.5 21.5 48 48 48h288c26.5 0 48-21.5 48-48v-28.8c0-63.6-51.6-115.2-115.2-115.2zm-223.7-13.4C161.5 263.1 145.6 256 128 256H64c-35.3 0-64 28.7-64 64v32c0 17.7 14.3 32 32 32h65.9c6.3-47.4 34.9-87.3 75.2-109.4z">
+                                    </path>
+                                </svg> {{ supportgroup.group_member_count}} <br>MEMBERS</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="DItemActionDiv">
+                    <ul class="DItemActionDiv_con campaignAction_div">
+                        <li>
+                            <a href="{% url 'support_group_selected' supportgroup.id supportgroup.title %}" target="_blank"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                        </li>
+                        <li>
+                            <a href="{% url 'admin_manage_support_group_edit' supportgroup.id %}" target="_blank">
+                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'admin_manage_usera_edit' supportgroup.group_leader.id %}"  target="_blank"><i class="fa fa-user" aria-hidden="true"></i></a>
+                        </li>
+                        <!-- <li>
+                            <a href="javascript:void(0)" data-toggle="modal" data-target="#support_user" aria-hidden="true" onclick="SupportUser('{% url 'admin_support_group_user' supportgroup.id %}')">
+                                <i class="fa fa-users" aria-hidden="true"></i>
+                            </a>
+                        </li> -->
+                    </ul>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <ul class="DPageNumberDiv">
+        {% if instance_SupportGroup.has_other_pages %}
+        <ul class="DPageNumberDiv">
+            {% if instance_SupportGroup.has_previous %}
+                <li class="PagePrevNext" onclick="changepage('{{ instance_SupportGroup.previous_page_number }}')" > &lt; </li>
+            {% endif %}
+        
+            {% for i in instance_SupportGroup.paginator.page_range %}
+                {% if instance_SupportGroup.number == i %}
+                    <li onclick="changepage('{{ i }}')" class="DPageNumber DPageNumberActive"> {{i}} </li>
+                {% else %}
+                    <li onclick="changepage('{{ i }}')" class="DPageNumber" >{{i}}</li>
+                {% endif %}
+            {% endfor %}
+        
+            {% if instance_SupportGroup.has_next %}
+                <li class="PagePrevNext" onclick="changepage('{{ instance_SupportGroup.next_page_number }}')"> &gt; </li>
+            {% endif %}
+        </ul>
+        {% endif %} 
+    </ul>
+{% elif block == 'fundraiser' %}
+
+
+<div class="DMainFiltersDiv">
+        <form class="jss349 row">
+
+            <div class="col-sm-12 col-md-2">
+                <div class="jss550 jss551 jss553">
+                  <p class="jss515 jss524">Cause</p>
+                  <div class="jss550">
+                    <div class="jss567 jss554 jss558 jss568 jss555 select2_con">
+                      <select class="select2" name="cause" required onchange="getFilterValues(this)">
+                        <option value="all">ALL</option>
+                        {% for cause in instance_CauseCategory %}
+                          {% if request.GET.cause == cause.id|slugify %}
+                              <option value="{{cause.id}}" selected>{{cause}}</option>
+                          {% else %}
+                              <option value="{{cause.id}}">{{cause}}</option>
+                          {% endif %}
+                        {% endfor %}
+                      </select>
+                    </div>
+                  </div>
+                  <span class="error"></span>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-2">
+                <div class="jss550 jss551 jss553">
+                  <p class="jss515 jss524">Sensitivity</p>
+                  <div class="jss550">
+                    <div class="jss567 jss554 jss558 jss568 jss555 select2_con">
+                      <select class="select2" name="sensitivity" required onchange="getFilterValues(this)"> 
+                        <option value="all">ALL</option>
+                        {% for value,key in sensitivity_choices %}
+                          {% if value == request.GET.sensitivity %}
+                              <option value="{{value}}" selected>{{key}}</option>
+                          {% else %}
+                              <option value="{{value}}">{{key}}</option>
+                          {% endif %}
+                        {% endfor %}
+                      </select>
+                    </div>
+                  </div>
+                  <span class="error"></span>
+                </div>
+              </div>
+            <div class="col-sm-12 col-md-3">
+                <div class="jss550 jss551 jss553">
+                  <p class="jss515 jss524">Campaign Title</p>
+                  <div class="jss550">
+                    <div class="jss567 jss554 jss558 jss568 jss555 select2_con">
+                      <select class="select2" name="object_id" required onchange="getFilterValues(this)">
+                        <option value="all">ALL</option>
+                        {% for campaign in instance_CampaignFundRaiser %}
+                            {% if request.GET.object_id == campaign.id|slugify %}
+                                <option value="{{campaign.id}}" selected>{{campaign}}</option>
+                            {% else %}
+                                <option value="{{campaign.id}}">{{campaign}}</option>
+                            {% endif %}
+                        {% endfor %}
+                      </select>
+                    </div>
+                  </div>
+                  <span class="error"></span>
+                </div>
+              </div>
+
+        </form>
+    </div>
+    
+        <div class="DItemsDiv">
+            {% for fundraiser in instance_CampaignFundRaiser %}
+                <div class="DItemDiv">
+                    <img src="/media/{{ fundraiser.picture }}" class="DItemImage" alt="" draggable="false">
+                    <div class="DItemDetailsDiv">
+                        <p class="DItemTitle"> {{ fundraiser.title }}</p>
+                        <div class="DItemByDiv"><img
+                                src="/media/{{ fundraiser.user.profile }}"
+                                class="DItemByImg" alt="" draggable="false">
+                            <p class="DItemByText">by {{ fundraiser.user.name }}</p>
+                        </div>
+                        <p class="DItemDescp" style="max-height: 33px;">
+                            {{ fundraiser.short_description }}
+                        </p>
+                    </div>
+                    <div class="DItemNumLineDiv">
+                            <div class="DItemNumbersDiv">
+                                <div class="DItemDeadlineDiv" style="">
+                                    <p class="DItemDeadline">{{ fundraiser.available_days }} <br>DAYS LEFT</p>
+                                </div>
+                                <div class="DItemGoalDiv">
+                                    <p class="DItemGoal"><svg aria-hidden="true" data-prefix="fas" data-icon="rupee-sign"
+                                            class="svg-inline--fa fa-rupee-sign fa-w-10 " role="img" xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 320 512">
+                                            <path fill="currentColor"
+                                                d="M308 96c6.627 0 12-5.373 12-12V44c0-6.627-5.373-12-12-12H12C5.373 32 0 37.373 0 44v44.748c0 6.627 5.373 12 12 12h85.28c27.308 0 48.261 9.958 60.97 27.252H12c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h158.757c-6.217 36.086-32.961 58.632-74.757 58.632H12c-6.627 0-12 5.373-12 12v53.012c0 3.349 1.4 6.546 3.861 8.818l165.052 152.356a12.001 12.001 0 0 0 8.139 3.182h82.562c10.924 0 16.166-13.408 8.139-20.818L116.871 319.906c76.499-2.34 131.144-53.395 138.318-127.906H308c6.627 0 12-5.373 12-12v-40c0-6.627-5.373-12-12-12h-58.69c-3.486-11.541-8.28-22.246-14.252-32H308z">
+                                            </path>
+                                        </svg> {{ fundraiser.campaigntotalamount.total_amount}} <br>RAISED</p>
+                                </div>
+                            </div>
+                            <div class="DItemCompletionDiv">
+                                <div class="DItemCompletionLineDiv">
+                                    <div class="filled" style="width: {{ fundraiser.totalfund_in_percentage }}%;"></div>
+                                </div>
+                                <p class="DItemCompletionText">{{ fundraiser.totalfund_in_percentage }} %</p>
+                            </div>
+                        </div>
+                    <div class="DItemActionDiv">
+                        <ul class="DItemActionDiv_con campaignAction_div">
+                            <li>
+                                <a href="{% url 'campaign_selected' fundraiser.id fundraiser.title %}" target="_blank"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                            </li>
+                            <li>
+                                <a href="{% url 'admin_manage_campaign_edit' fundraiser.id %}" target="_blank" >
+                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0)" onclick="funds_summary('{% url 'admin_campaign_funds_summary' fundraiser.id  %}')" aria-hidden="true">
+                                    <i class="fa fa-files-o" aria-hidden="true"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{% url 'admin_manage_usera_edit' fundraiser.user.id %}"  target="_blank"><i class="fa fa-user" aria-hidden="true"></i></a>
+                            </li>
+                            <!-- <li>
+                                <a href="javascript:void(0)" data-toggle="modal" data-target="#support_user" aria-hidden="true" onclick="SupportUser('{% url 'admin_campaign_user' fundraiser.id %}')">
+                                    <i class="fa fa-users" aria-hidden="true"></i>
+                                </a>
+                            </li> -->
+            
+                        </ul>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <ul class="DPageNumberDiv">
+            {% if instance_CampaignFundRaiser.has_other_pages %}
+            <ul class="DPageNumberDiv">
+                {% if instance_CampaignFundRaiser.has_previous %}
+                    <li class="PagePrevNext" onclick="changepage('{{ instance_CampaignFundRaiser.previous_page_number }}')" > &lt; </li>
+                {% endif %}
+            
+                {% for i in instance_CampaignFundRaiser.paginator.page_range %}
+                    {% if instance_CampaignFundRaiser.number == i %}
+                        <li onclick="changepage('{{ i }}')" class="DPageNumber DPageNumberActive"> {{i}} </li>
+                    {% else %}
+                        <li onclick="changepage('{{ i }}')" class="DPageNumber" >{{i}}</li>
+                    {% endif %}
+                {% endfor %}
+            
+                {% if instance_CampaignFundRaiser.has_next %}
+                    <li class="PagePrevNext" onclick="changepage('{{ instance_CampaignFundRaiser.next_page_number }}')"> &gt; </li>
+                {% endif %}
+            </ul>
+            {% endif %} 
+        </ul>
+    
+{% else %}
+{% endif %}
+
+<script type="text/javascript" src="/static/js/select2.full.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('.select2').select2();
+   
+});
+</script>

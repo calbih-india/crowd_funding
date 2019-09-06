@@ -1,0 +1,48 @@
+{% extends 'registration/login.html' %}
+
+  {% block title %}
+  <title>Crowd Funding | Plans & Pricing </title>
+  {% endblock %}
+
+  {% block body %}
+    <main>   
+        <div class="how-it-works-row get-started" style="padding-top: 25vh;">
+            <div class="row1-heading how-heading" >
+                <h2 style="margin-top: 0px; font-size: 1.5rem;">No fixed fees. Simple Pricing</h2>
+                <div class="row1-dash">
+                  <div class="row1-big-dash" ></div>
+                  <div class="row1-small-dash"></div>
+                </div>
+              </div>
+
+              <div class="jss3_c">
+                <div class="PPprice1">
+                  <p class="PPprice11">5</p>
+                  <p class="PPprice12">%</p>
+                </div>
+                <div class="PPprice2">
+                  <p class="PPprice21">Our Democracy platform fees 5% or INR 5000/- (whichever is higher) + Payment gateway fees 3% +
+                    applicable taxes*</p>
+                </div>
+              </div>
+          </div>  
+    </main>
+  {% endblock %}
+  
+  {% block extra_script %}
+  <script type="text/javascript" src="static/js/jquery.flexisel.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+        $('.select2').select2();
+    });
+    $("#technology-focus").flexisel({
+     visibleItems:5,
+     itemsToScroll: 1,         
+     autoPlay: {
+       enable: true,
+       interval: 7000,
+       pauseOnHover: true
+     }        
+   });
+ </script>
+ {% endblock %}

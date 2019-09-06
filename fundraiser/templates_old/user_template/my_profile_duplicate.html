@@ -1,0 +1,567 @@
+{% extends 'user_template/dashboard.html' %}
+
+{% load social_share %}
+
+{% block title %}
+<title>Crowd Funding Admin | My Profile </title>
+{% endblock %}
+
+
+{% block meta_tag %}
+<meta name="description" content="" />
+<meta property="og:title" content="" />
+<meta property="og:url" content="web page path" />
+<meta property="og:description" content="">
+<meta property="og:image" content="image PATH">
+{% endblock %}
+
+{% block extra_style %}
+<link href="/static/css/intlTelInput.css" rel="stylesheet">
+<link href="/static/css/demo.css" rel="stylesheet">
+<link href="/static/css/jquerysctipttop.css" rel="stylesheet">
+{% endblock %}
+
+
+{% block body %}
+<main class="profile_contanier">
+    <div class="profile_innercontanier">
+        <div class="profile-row1-part">
+            <div class="profile-row1-img">
+                <img src="/media/{{request.user.profile}}" alt="" class="profile-iconImg">
+            </div>
+            <div class="profile-row1-name">
+                <ul class="profile-row1-details">
+                    <li class="profile-row1-nameHeading">
+                        <p class="jss1060 jss1069 jss898">{{request.user.name}}</p>
+                        <div data-toggle="modal" data-target="#profile_edit">
+                            <svg aria-hidden="true" data-prefix="fas" data-icon="pencil-alt" class="svg-inline--fa fa-pencil-alt fa-w-16 jss899" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                <path fill="currentColor"
+                                    d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z">
+                                </path>
+                            </svg>
+                        </div>
+                    </li>
+                    {% if request.user.is_indian %}
+                    <li class="profile-row1-normalDetails">
+                        <p class="jss1060 jss1069 jss900_c">Location:</p>
+                        <p class="jss1060 jss1069 jss901_c">India</p>
+                    </li>
+                    {% endif %}
+                    <li class="profile-row1-normalDetails">
+                        <p class="jss1060 jss1069 jss900_c">Mobile:</p>
+                        <p class="jss1060 jss1069 jss901_c">{{request.user.mobile_no}}</p>
+                    </li>
+                    <li class="profile-row1-normalDetails">
+                        <p class="jss1060 jss1069 jss900_c">Email:</p>
+                        <p class="jss1060 jss1069 jss901_c">{{request.user.email}}</p>
+                    </li>
+                    {% if request.user.address %}
+                    <li class="profile-row1-normalDetails">
+                        <p class="jss1060 jss1069 jss900_c">Address:</p>
+                        <p class="jss1060 jss1069 jss901_c">{{request.user.address}}</p>
+                    </li>
+                    {% endif %}
+                    {% if request.user.pincode %}
+                    <li class="profile-row1-normalDetails">
+                        <p class="jss1060 jss1069 jss900_c">Pincode:</p>
+                        <p class="jss1060 jss1069 jss901_c">{{request.user.pincode}}</p>
+                    </li>
+                    {% endif %}
+
+
+
+                    <li class="profile-row1-normalDetails">
+                        <p class="jss1060 jss1069 jss900_c" style="min-width: 113px;">Share Profile:</p>
+                        <p class="jss1060 jss1069 jss902 mb-0">
+                            <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A//18.185.69.64/my-profile/">
+                                <span class="profile-social-icons facebookicon">
+                                <svg aria-hidden="true" data-prefix="fab" data-icon="facebook-f" class="svg-inline--fa fa-facebook-f fa-w-9 " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 264 512">
+                                    <path fill="currentColor"
+                                        d="M76.7 512V283H0v-91h76.7v-71.7C76.7 42.4 124.3 0 193.8 0c33.3 0 61.9 2.5 70.2 3.6V85h-48.2c-37.8 0-45.1 18-45.1 44.3V192H256l-11.7 91h-73.6v229">
+                                    </path>
+                                </svg></span>
+                            </a>
+
+                            {% post_to_twitter "New Song:ghjfgjhgjhgbfbjhb.!" object_or_url "Post to Twitter" %}
+
+                            <a href="https://twitter.com/intent/tweet?text=New%20Song%3A%20fgfgdfgf.%20Check%20it%20out%21%20http%3A//18.185.69.64/my-profile/">
+                                <span class="profile-social-icons twittericon">
+                                <svg aria-hidden="true" data-prefix="fab" data-icon="twitter" class="svg-inline--fa fa-twitter fa-w-16 " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                    <path fill="currentColor"
+                                        d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z">
+                                    </path>
+                                </svg></span>
+                            </a>
+                            
+                            <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A//18.185.69.64/my-profile/">
+                                <span class="profile-social-icons whatsappicon">
+                                    <svg aria-hidden="true" data-prefix="fab" data-icon="whatsapp" class="svg-inline--fa fa-whatsapp fa-w-14 " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                                    <path fill="currentColor"  d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z">
+                                    </path>
+                                </svg></span>
+                            </a>
+                        </p>
+                    </li>
+                    <li class="profile-row1-normalDetails">
+                        <div>
+                            <div>
+                                <button class="Campaigner_Verification_btn" data-toggle="modal"
+                                    data-target="#Campaigner_Payout_ver" tabindex="0" type="button"><span
+                                        class="jss1104">Campaigner Verification</span><span
+                                        class="jss1164"></span></button>
+                                <p style="font-size: 0.8rem; margin: 5px 0px;">(Provide your Bank Account details here)
+                                </p>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="profile-line"></div>
+        <div class="profile-row2-part">
+            <div class="profile-row2-container">
+                <p class="jss1060 jss1069 jss905">Fundraisers</p>
+                <div class="profile-row2-bottom">
+                    <div class="profile-row2-stats">
+                        <p class="jss1060 jss1069 jss903">Started:</p>
+                        <p class="jss1060 jss1069 jss904">{{instance_CampaignFundRaiser_count}}</p>
+                    </div>
+                    <div class="profile-row2-stats">
+                        <p class="jss1060 jss1069 jss903">Supported:</p>
+                        <p class="jss1060 jss1069 jss904">{{instance_supported_CampaignFundRaiser_count}}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="profile-line2"></div>
+            <div class="profile-row2-container">
+                <p class="jss1060 jss1069 jss905">Support Groups</p>
+                <div class="profile-row2-bottom">
+                    <div class="profile-row2-stats">
+                        <p class="jss1060 jss1069 jss903">Started:</p>
+                        <p class="jss1060 jss1069 jss904">{{instance_SupportGroup_count}}</p>
+                    </div>
+                    <div class="profile-row2-stats">
+                        <p class="jss1060 jss1069 jss903">Supported:</p>
+                        <p class="jss1060 jss1069 jss904">{{instance_joined_SupportGroup_count}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="profile_innercontanier">
+        <div>
+                      <h3 class="mt-3">Change Password</h3>
+                        <form>
+                            <div class="jss833 jss834 jss836">
+                                <p class="jss798 jss807">Current Password</p>
+                                <div class="jss833">
+                                    <div class="jss850 jss837 jss841 jss851 jss838">
+                                      <input aria-invalid="false" class="jss860 jss845" required type="password" id="old_pass" value="">
+                                    </div>
+                                    <span class="error"></span>
+                                </div>
+                            </div>
+                            <div class="jss833 jss834 jss836">
+                                <p class="jss798 jss807">New Password</p>
+                                <div class="jss833">
+                                    <div class="jss850 jss837 jss841 jss851 jss838">
+                                      <input aria-invalid="false" class="jss860 jss845" required type="password" id="new_pass" value="">
+                                    </div>
+                                    <span class="error"></span>
+                                </div>
+                            </div>
+                            <div class="jss833 jss834 jss836">
+                                <p class="jss798 jss807">Repeat Password</p>
+                                <div class="jss833">
+                                    <div class="jss850 jss837 jss841 jss851 jss838">
+                                      <input aria-invalid="false" class="jss860 jss845" required type="password" id="con_pass" value="">
+                                    </div>
+                                    <span class="error"></span>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center justify-content-center mt-5  ">
+                                <div class="donateBtnDiv">
+                                    <button type="submit"  id="change_pass_btn" class="jss262_c"><span class="jss237 jss231">Change Password</span></button>
+                               </div>
+                            </div>
+                        </form>
+                    </div>
+    </div> -->
+</main>
+{% endblock %}
+
+{% block model_popup %}
+<div class="modal fade" id="Campaigner_Payout_ver" tabindex="-1" role="dialog" aria-labelledby="Campaigner_Payout_verTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable  modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header  pl-4  pb-3">
+              <h5 class="modal-title" id="Campaigner_Payout_verTitle">Campaigner Payout Verification</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+            </div>
+            <div class="modal-body pt-0 pb-0">
+                <form class="jss632" method="POST">
+                    {% csrf_token %}     
+                    <div class="jss833 jss834 jss836">
+                        <p class="jss798 jss807">Name</p>
+                        <div class="jss833">
+                            <div class="jss850 jss837 jss841 jss851 jss838">
+                              <!-- <input aria-invalid="false" class="jss860 jss845" required type="text" value=""> -->
+                              {{Beneficiary_Form.name}}
+                            </div>
+                            <span class="error">{{Beneficiary_Form.errors.name}}</span>
+                        </div>
+                    </div>
+                    <div class="jss833 jss834 jss836">
+                        <p class="jss798 jss807">Email Address</p>
+                        <div class="jss833">
+                            <div class="jss850 jss837 jss841 jss851 jss838">
+                              <!-- <input aria-invalid="false" autocomplete="email" class="jss860 jss845" required type="email" value=""> -->
+                                {{Beneficiary_Form.email}}
+                            </div>
+                            <span class="error">{{Beneficiary_Form.errors.email}}</span>
+                        </div>
+                    </div>
+                    <div class="jss833 jss834 jss836">                                    
+                        <p class="jss798 jss807">Mobile No</p>
+                        <div>
+                            <!-- <input type="tel" id="mobile-number" required placeholder="e.g. +1 702 123 4567"> -->
+                            {{Beneficiary_Form.mobile_no}}
+                        </div>
+                        <span class="error">{{Beneficiary_Form.errors.mobile_no}}</span>
+                    </div>
+                    <div class="jss833 jss834 jss836">
+                        <p class="jss798 jss807">Bank Account </p>
+                        <div class="jss833">
+                            <div class="jss850 jss837 jss841 jss851 jss838">
+                              <!-- <input aria-invalid="false" class="jss860 jss845"  required type="text" value=""> -->
+                              {{Beneficiary_Form.bank_account}}
+                            </div>
+                            <span class="error">{{Beneficiary_Form.errors.bank_account}}</span>
+                        </div>
+                    </div>
+                    <div class="jss833 jss834 jss836">
+                        <p class="jss798 jss807">Account Holder </p>
+                        <div class="jss833">
+                            <div class="jss850 jss837 jss841 jss851 jss838">
+                              <!-- <input aria-invalid="false" class="jss860 jss845"  required type="text" value=""> -->
+                              {{Beneficiary_Form.account_holder}}
+                            </div>
+                            <span class="error">{{Beneficiary_Form.errors.account_holder}}</span>
+                        </div>
+                    </div>                  
+                    <div class="jss833 jss834 jss836">
+                        <p class="jss798 jss807">IFSC </p>
+                        <div class="jss833">
+                            <div class="jss850 jss837 jss841 jss851 jss838">
+                              <!-- <input aria-invalid="false" class="jss860 jss845" required  type="text" value=""> -->
+                              {{Beneficiary_Form.ifsc}}
+                            </div>
+                            <span class="error">{{Beneficiary_Form.errors.ifsc}}</span>
+                        </div>
+                    </div>
+                    <div class="jss833 jss834 jss836">
+                        <p class="jss798 jss807">Address 1 </p>
+                        <div class="jss833">
+                            <div class="jss850 jss837 jss841 jss851 jss838">
+                              <!-- <input aria-invalid="false" class="jss860 jss845"  required type="text" value=""> -->
+                              {{Beneficiary_Form.primary_address}}
+                            </div>
+                            <span class="error">{{Beneficiary_Form.errors.primary_address}}</span>
+                        </div>
+                    </div>
+                    <div class="jss833 jss834 jss836">
+                        <p class="jss798 jss807">Address 2 </p>
+                        <div class="jss833">
+                            <div class="jss850 jss837 jss841 jss851 jss838">
+                              <!-- <input aria-invalid="false" class="jss860 jss845"  required type="text" value=""> -->
+                              {{Beneficiary_Form.secondry_address}}
+                            </div>
+                            <span class="error">{{Beneficiary_Form.errors.secondry_address}}</span>
+                        </div>
+                    </div>
+                    <div class="jss833 jss834 jss836">
+                        <p class="jss798 jss807">Pincode </p>
+                        <div class="jss833">
+                            <div class="jss850 jss837 jss841 jss851 jss838">
+                              <!-- <input aria-invalid="false" class="jss860 jss845" required  type="text" value=""> -->
+                              {{Beneficiary_Form.pincode}}
+                            </div>
+                            <span class="error">{{Beneficiary_Form.errors.pincode}}</span>
+                        </div>
+                    </div>
+                    <div class="jss833 jss834 jss836">
+                        <p class="jss798 jss807">State </p>
+                        <div class="jss833">
+                            <div class="jss850 jss837 jss841 jss851 jss838">
+                              <!-- <input aria-invalid="false" class="jss860 jss845" required  type="text" value=""> -->
+                              {{Beneficiary_Form.state}}
+                            </div>
+                            <span class="error">{{Beneficiary_Form.errors.state}}</span>
+                        </div>
+                    </div>
+                    <div class="jss833 jss834 jss836">
+                        <p class="jss798 jss807">City </p>
+                        <div class="jss833">
+                            <div class="jss850 jss837 jss841 jss851 jss838">
+                              <!-- <input aria-invalid="false" class="jss860 jss845" required  type="text" value=""> -->
+                              {{Beneficiary_Form.city}}
+                            </div>
+                            <span class="error">{{Beneficiary_Form.errors.city}}</span>
+                        </div>
+                    </div>
+                    <div class="jss833 jss834 jss836">
+                        <p class="jss798 jss807">Pan Card No. </p>
+                        <div class="jss833">
+                            <div class="jss850 jss837 jss841 jss851 jss838">
+                              <!-- <input aria-invalid="false" class="jss860 jss845" required  type="text" value=""> -->
+                              {{Beneficiary_Form.pan_card_no}}
+                            </div>
+                            <span class="error">{{Beneficiary_Form.errors.pan_card_no}}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex align-items-center justify-content-between mt-5  ">
+                        <button type="button" data-dismiss="modal" aria-label="Close" class="a_222222 btn_none">close</button>
+                        
+                        <button type="submit" name="form_type" id="accout_submit" value="beneficiary" class="colr_yellow btn_none" ><span class="jss237 jss231">Submit</span></button>
+                    </div>
+                </form>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      
+  
+      <div class="modal fade" id="profile_edit" tabindex="-1" role="dialog" aria-labelledby="profile_editTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-scrollable  modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header  pl-4  pb-3">
+                <h5 class="modal-title" id="profile_editTitle">Update Profile</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+              </div>
+              <div class="modal-body pt-0 pb-0">
+                  <form class="jss632" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div>
+                      <div class="editp_image_profile_div">
+                        <img src="/media/{{request.user.profile}}" alt="" id="blah" class="editp_image_profile">
+                        <input name="profile" type="file" accept="image/*" id="profImg" onchange="uploadphoto(this);" style="display: none;">
+                        <label for="profImg" style="align-self: flex-start;">
+                            <svg aria-hidden="true" data-prefix="fas" data-icon="pencil-alt" class="svg-inline--fa fa-pencil-alt fa-w-16 editp_eicon" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                            <path fill="currentColor" d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z">
+                            </path>
+                          </svg>
+                        </label>
+                      </div>
+                      <div class="error text-center" id="editp_image_profile_error"></div>
+                    </div>
+                      <div class="jss833 jss834 jss836">
+                          <p class="jss798 jss807">Name</p>
+                          <div class="jss833">
+                              <div class="jss850 jss837 jss841 jss851 jss838">
+                                <!-- <input aria-invalid="false" class="jss860 jss845" required type="text" value=""> -->
+                                {{My_User_Edit_Form.name}}
+                              </div>
+                              <span class="error">{{My_User_Edit_Form.errors.name}}</span>
+                          </div>
+                      </div>
+                      <div class="jss833 jss834 jss836">
+                          <p class="jss798 jss807">Email Address</p>
+                          <div class="jss833">
+                              <div class="jss850 jss837 jss841 jss851 jss838">
+                                <!-- <input aria-invalid="false" autocomplete="email" class="jss860 jss845" required type="email" value=""> -->
+                                {{My_User_Edit_Form.email}}
+                              </div>
+                              <span class="error">{{My_User_Edit_Form.errors.email}}</span>
+                          </div>
+                      </div>
+                      <div class="jss833 jss834 jss836">                                    
+                          <p class="jss798 jss807">Mobile No</p>
+                          <div>
+                              <!-- <input type="tel" class="mobile-number-2" id="mobile-number-2" required placeholder="e.g. +1 702 123 4567"> -->
+                              {{My_User_Edit_Form.mobile_no}}
+                          </div>
+                          <span class="error">{{My_User_Edit_Form.errors.mobile_no}}</span>
+                      </div>
+                      <div style="text-align: center;">
+                          <label class="jss867">
+                            <span class="jss873">
+                              <span class="jss892 jss886 jss882 jss876 jss883 jss878 jss877">
+                                <span class="jss891">
+                                  <span class="jss874 jss875"></span>
+                                  <!-- <input class="jss885" id="user_citizen_id" type="checkbox" value="user_citizen" checked=""> -->
+                                  {{My_User_Edit_Form.is_indian}}
+                                </span>
+                                <span class="jss934"></span>
+                              </span>
+                              <span class="jss881"></span>
+                            </span>
+                            <span id="user_citizen_id_text" class="jss798 jss807 jss872">I am an Indian citizen</span></label>
+                      </div>
+                      <div class="jss833 jss834 jss836">
+                          <p class="jss798 jss807">Address </p>
+                          <div class="jss833">
+                              <div class="jss850 jss837 jss841 jss851 jss838">
+                                <!-- <input aria-invalid="false" class="jss860 jss845"  required type="text" value=""> -->
+                                {{My_User_Edit_Form.address}}
+                              </div>
+                              <span class="error">{{My_User_Edit_Form.errors.address}}</span>
+                          </div>
+                      </div>
+                      <div class="jss833 jss834 jss836">
+                          <p class="jss798 jss807">Pincode </p>
+                          <div class="jss833">
+                              <div class="jss850 jss837 jss841 jss851 jss838">
+                                <!-- <input aria-invalid="false" class="jss860 jss845" required  type="text" value=""> -->
+                                {{My_User_Edit_Form.pincode}}
+                              </div>
+                              <span class="error">{{My_User_Edit_Form.errors.pincode}}</span>
+                          </div>
+                      </div>
+                      <div>
+                        <p class="mb-1 mt-2" style="font-weight: 500; font-size: 0.8rem;">* Attaching Social Media Profiles makes your campaign more credible to the potential donor</p>
+                      </div>
+                      <div class="jss370_c">
+                        <div class="jss405_c">
+                          <div class="jss422_c ">
+                            <div> 
+                                <svg aria-hidden="true" data-prefix="fab" data-icon="facebook-f" class="svg-inline--fa fa-facebook-f fa-w-9 " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 264 512">
+                                <path fill="currentColor" d="M76.7 512V283H0v-91h76.7v-71.7C76.7 42.4 124.3 0 193.8 0c33.3 0 61.9 2.5 70.2 3.6V85h-48.2c-37.8 0-45.1 18-45.1 44.3V192H256l-11.7 91h-73.6v229">
+                                </path>
+                              </svg> </div>
+                          </div>
+                          <!-- <input aria-invalid="false" class="jss860 jss845" type="text" value=""> -->
+                          {{My_User_Edit_Form.facebook}}
+                        </div>
+                      </div>
+                      <div class="jss370_c mt-3 mb-3">
+                          <div class="jss405_c">
+                            <div class="jss422_c ">
+                              <div> 
+                                <svg aria-hidden="true" data-prefix="fab" data-icon="twitter" class="svg-inline--fa fa-twitter fa-w-16 " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"></path></svg>
+                              </div>
+                            </div>
+                            <!-- <input aria-invalid="false" class="jss860 jss845" type="text" value=""> -->
+                            {{My_User_Edit_Form.twitter}}
+                          </div>
+                        </div>
+    
+                        <div class="d-flex align-items-center justify-content-between mt-5  ">
+                            <button type="button" data-toggle="modal" data-target="#changepassword"  class="a_222222 btn_none">Change Password</button>
+                            <div class="donateBtnDiv">
+                                <button type="submit" name="form_type" id="Update_Details" value="profile"  class="jss262_c"><span class="jss237 jss231">Update Details</span></button>
+                            </div>                      
+                        </div>
+                        <div class="d-flex align-items-center justify-content-center mt-3  ">
+                            <button type="button" data-dismiss="modal" aria-label="Close" class="a_222222 btn_none">close</button>
+                        </div>
+                  </form>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <div class="modal fade " id="changepassword" tabindex="-1" role="dialog" aria-labelledby="changepasswordTitle" aria-hidden="true">
+            <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="changepasswordLabel">Password Reset Request</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" action="/password_reset/">
+
+                    {% csrf_token %}
+                    <input type="hidden" name="email" value="{{request.user.email}}">
+                        <p class="jss515 jss524 mt-3 mb-3">You will be logged out and a password reset link will be sent to your email id</p>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <button type="button" data-dismiss="modal" aria-label="Close" class="a_222222 btn_none">Close</button>
+                            <button type="submit" class="colr_yellow btn_none">ok</button>
+                        </div>
+                    </form>
+                </div>
+              </div>
+            </div>
+          </div>
+{% endblock %}
+
+
+{% block extra_script %}
+<script type="text/javascript" src="/static/js/intlTelInput.js" ></script>
+<script>
+        $("#mobile-number").intlTelInput();  
+        $(".mobile-number-2").intlTelInput();
+  </script>
+
+<script>
+    $(document).ready(function() {
+
+        $('.select2_modal').select2({
+            dropdownParent: $('.modal')
+        });
+
+        
+    });
+</script>
+
+<script>
+	
+    var _validFileExtensions_img = [".png", ".jpg", "jpeg"];
+
+        function uploadphoto(oInputimg) {
+
+            if (oInputimg.type == "file") {
+
+                var sFileName = oInputimg.value;
+
+
+
+                if (sFileName.length > 0) {
+                    var blnValid = false;
+                    for (var j = 0; j < _validFileExtensions_img.length; j++) {
+                        var sCurExtension = _validFileExtensions_img[j];
+                        if (sFileName.substr(sFileName.length - sCurExtension.length, sCurExtension.length).toLowerCase() == sCurExtension.toLowerCase()) {
+                            blnValid = true;
+                            break;
+                        }
+                    }
+
+                    if (!blnValid) {
+                        document.getElementById('blah').src = 'https://www.ourdemocracy.in/src/assets/images/static/people_avatar.png'
+                        oInputimg.value = "";
+                        $("#editp_image_profile_error").text("Please Select file type of .jpg / .jpeg or .png only.");
+                        return false;
+                    }
+
+                    if (blnValid) {
+                        if (oInputimg.files && oInputimg.files[0]) {
+                            var reader = new FileReader();
+
+                            reader.onload = function (e) {
+
+                            //Initiate the JavaScript Image object.
+                                var image = new Image();
+                
+                                //Set the Base64 string return from FileReader as source.
+                                image.src = e.target.result;   
+                                $('#blah')
+                                    .attr('src', e.target.result)
+                                    .width(100)
+                                    .height(100);
+                                    $("#editp_image_profile_error").text("");
+                            };  
+                            reader.readAsDataURL(oInputimg.files[0]);
+                        }
+                    }
+
+                }
+            }
+            return true;
+        }
+
+
+</script>
+{% endblock %}

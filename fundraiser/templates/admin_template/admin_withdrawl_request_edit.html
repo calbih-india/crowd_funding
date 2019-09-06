@@ -1,0 +1,104 @@
+{% extends 'admin_template/admin_dashboard.html' %}
+
+{% block title %}
+<title>Crowd Funding Admin |  Edit Withdrawal Request​​</title>
+{% endblock %}
+
+
+{% block meta_tag %}
+<meta name="description" content="" />
+<meta property="og:title" content="" />
+<meta property="og:url" content="web page path" />
+<meta property="og:description" content="">
+<meta property="og:image" content="image PATH">
+{% endblock %}
+
+{% block extra_style %}
+<link href="/static/css/intlTelInput.css" rel="stylesheet">
+  <link href="/static/css/demo.css" rel="stylesheet">
+  <link href="/static/css/jquerysctipttop.css" rel="stylesheet">
+  <link href="/static/css/datepicker.css" rel="stylesheet">
+{% endblock %}
+
+
+{% block body %}
+<main class="jss346 ">
+    <div style="display: block;">
+        <div class="row align-items-center">
+            <div class="col-md-12 text-center">
+                <h4 class="mb-0">Edit Withdrawal Request​</h4>
+            </div>
+        </div>
+        <div class="jss476 jss480 jss477 jss347 mt-4">
+            <form method="POST" class="jss632">
+                {% csrf_token %}
+                
+                
+                <div class="jss550 jss551 jss553">
+                    <p class="jss515 jss524">status​</p>
+                    <div class="jss550">
+                        <div class="jss567 jss554 jss558 jss568 jss555 select2_con">
+                                {{Admin_Withdrawal_Request_Form.status}}
+                        </div>
+                    </div>
+                    <span class="error"> {{Admin_Withdrawal_Request_Form.errors.status}} </span>
+                </div>
+
+                <div class="jss833 jss834 jss836" id="payment_date_id">
+                    <p class="jss798 jss807">payment_date</p>
+                    <div class="jss833 w-100">
+                        <div class="jss850 jss837 jss841 jss851 jss838">
+                            {{Admin_Withdrawal_Request_Form.payment_date}}
+                        </div>
+                        <span class="error">{{Admin_Withdrawal_Request_Form.errors.payment_date}}</span>
+                    </div>
+                </div>
+
+                <button class="jss892 jss901 jss912 jss913 jss915 jss916 jss926 jss633" id="manage_user_edit_btn" tabindex="0"
+                    type="submit">
+                    <span class="jss902">Submit</span>
+                    <span class="jss934"></span>
+                </button>
+            </form>
+        </div>
+    </div>
+</main>
+{% endblock %}
+
+  
+
+
+{% block extra_script %}
+<script type="text/javascript" src="/static/js/intlTelInput.js" ></script>
+<script type="text/javascript" src="/static/js/bootstrap-datepicker.js" ></script>
+
+  <script>
+      $("#mobile-number").intlTelInput();   
+      </script>
+    <script>
+
+        function onChangeStatus(){
+            var statusValue = document.getElementById("id_status").value;
+
+            if(statusValue == 'Approved'){
+               document.getElementById('payment_date_id').style.display = "block";
+               document.getElementById('datetimepicker3').disabled = false;               
+            }
+            else{
+                document.getElementById('payment_date_id').style.display = "none";
+                document.getElementById('datetimepicker3').disabled = true;
+            }
+        }
+
+        window.onload = onChangeStatus;
+    </script>
+    <script type="text/javascript">
+	  $(function () {
+	      $('#datetimepicker3').datepicker({
+            format : 'yyyy-mm-dd',
+            autoclose : true
+          });
+	  });
+	</script>
+
+{% endblock %}

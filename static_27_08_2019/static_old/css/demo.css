@@ -1,0 +1,16 @@
+.intl-tel-input {
+    margin: 0px;
+    font-size: 14px;
+}
+.intl-tel-input input {
+    width: 100%;
+    border: 1px solid #cacaca;
+    font-family: inherit;
+    font-size: 14px;
+    color: inherit;
+    height: 35px;
+    padding-left: 48px;
+    border-radius: 5px;
+    line-height: 25px;
+}
+

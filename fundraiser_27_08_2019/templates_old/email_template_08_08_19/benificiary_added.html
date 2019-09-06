@@ -1,0 +1,27 @@
+{% autoescape off %}
+<h2><b>Hi {{Beneficiary_Form.name}},</b></h2><br>
+<p>You have successfully added as a Benificiary on Ourdemocracy.in, with below details</p><br>
+
+<b> Name : </b> {{Beneficiary_Form.name}} <br>
+<b> Email : </b> {{Beneficiary_Form.email}} <br>
+<b> Mobile No : </b> {{Beneficiary_Form.mobile_no}} <br>
+<b> Bank Account : </b> {{Beneficiary_Form.bank_account}} <br>
+<b> Account Holder : </b> {{Beneficiary_Form.account_holder}} <br>
+<b> IFSC : </b> {{Beneficiary_Form.ifsc}} <br>
+<b> Primary Address : </b> {{Beneficiary_Form.primary_address}} <br>
+{% if Beneficiary_Form.secondry_address %}
+<b> Secondry Address : </b> {{Beneficiary_Form.secondry_address}} <br>
+{% endif %}
+<b> Pincode : </b> {{Beneficiary_Form.pincode}} <br>
+<b> State : </b> {{Beneficiary_Form.state}} <br>
+<b> City : </b> {{Beneficiary_Form.city}} <br>
+<b> Pan Card No : </b> {{Beneficiary_Form.pan_card_no}} <br>
+
+<br>
+<br>
+
+Regards,<br>
+Team Ourdemocracy
+
+{% endautoescape %}
+

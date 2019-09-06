@@ -1,0 +1,126 @@
+{% extends 'user_template/dashboard.html' %}
+
+{% block title %}
+<title>Crowd Funding Admin | Campaign </title>
+{% endblock %}
+
+
+{% block meta_tag %}
+<meta name="description" content="" />
+<meta property="og:title" content="" />
+<meta property="og:url" content="web page path" />
+<meta property="og:description" content="">
+<meta property="og:image" content="image PATH">
+{% endblock %}
+
+{% block extra_style %}
+  <link href="/static/css/jquery-te-1.4.0.css" rel="stylesheet">
+{% endblock %}
+
+
+{% block body %}
+<main class="jss346 mt-0">            
+  <div style="display: block;">
+    <div class="jss476 jss480 jss477 jss347">
+      <div class="jss503 jss504 jss348"><svg class="jss506" focusable="false" viewBox="0 0 24 24" aria-hidden="true"
+          role="presentation">
+          <g fill="none">
+            <path d="M0 0h24v24H0V0z"></path>
+            <path d="M0 0h24v24H0V0z" opacity=".87"></path>
+          </g>
+          <path
+            d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM9 6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9V6zm9 14H6V10h12v10zm-6-3c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z">
+          </path>
+        </svg>
+      </div>
+      <h5 class="jss515 jss531">{% if Support_Group_Form.title.value %} Edit {% else %} Start a {% endif %} Mobilisation Campaign</h5>
+      <form method="POST" class="jss349" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="jss550 jss551 jss553">
+          <p class="jss515 jss524">Title</p>
+          <div class="jss550">
+            <div class="jss567 jss554 jss558 jss568 jss555">
+             {{Support_Group_Form.title}}               
+            </div>
+            <span class="error">{{ Support_Group_Form.errors.title }}</span>
+          </div>
+        </div>
+        <div class="jss550 jss551 jss553">
+          <p class="jss515 jss524">Goal</p>
+          <div class="jss550">
+            <div class="jss567 jss554 jss558 jss568 jss555">
+                {{Support_Group_Form.goal}}
+            </div>
+          <span class="error">{{ Support_Group_Form.errors.goal }}</span>
+          </div>
+        </div>
+        <div class="jss550 jss551 jss553">
+          <p class="jss515 jss524">Short Description</p>
+          <div class="jss550">
+            <div class="jss567 jss554 jss558 jss568 jss555">
+                {{Support_Group_Form.short_description}}
+            </div>
+          <span class="error">{{ Support_Group_Form.errors.short_description }}</span>
+          </div>
+        </div>
+
+        <div class="jss550 jss551 jss553">
+          <p class="jss515 jss524 d-flex justify-content-between"><span>About</span> <span class="cursor_pointer" data-toggle="modal" data-target="#text_editor" id="id_about_edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></span></p>
+            <div class="jss550">
+              <div class="jss567 jss554 jss568 jss555" id="id_about_div">
+                <textarea class="jss577 jss562 jqte-test w-100" id="id_about" name="about" value="{{ Support_Group_Form.about.value }}" required="required">{% if Support_Group_Form.about.value %} {{ Support_Group_Form.about.value }}  {% endif %}</textarea>
+              </div>
+            </div>
+          <span class="error" id="id_about_error">{{ Support_Group_Form.errors.about }}</span>
+        </div>
+
+        <div class="jss550 jss551 jss553">
+          <p class="jss515 jss524">Upload Image</p>
+          <div class="jss550">
+            <div class="jss567 jss554 jss558 jss568 jss555">
+                <span class="js">
+                    <span class="box">
+                        {{Support_Group_Form.picture}}
+                        <label id="lblfile-1" for="id_picture"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"></path></svg> <span>Upload Image</span></label>
+                    </span>
+                </span>  
+            </div>
+            <span class="error" id="img_val">{{ Support_Group_Form.errors.picture }}</span>
+          </div>
+        </div>
+        <button class="jss610 jss584 jss595 jss596 jss598 jss599 jss609 jss350" id="Support_Group"  type="submit">
+        <span class="jss585">Start Mobilisation Campaign</span><span class="jss636"></span></button>
+      </form>
+    </div>
+  </div>
+</main>
+{% endblock %}
+
+{% block model_popup %}
+<div class="modal fade " id="text_editor" tabindex="-1" role="dialog" aria-labelledby="text_editorLabel" aria-hidden="false" data-backdrop="static">
+      <div class="modal-dialog modal-dialog-centered modal-lg  " role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="text_editorLabel">About</h5>
+            <button type="button" class="close" id="about_textarea_modal_close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body" id="about_textarea_modal">
+                  <textarea  class="jqte-test" style="min-height: 475px"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock %}
+
+
+{% block extra_script %}
+ <script type="text/javascript" src="/static/js/jquery-te-1.4.0.min.js"></script>
+  <script>
+    $(document).ready(function() {
+        $('.jqte-test').jqte();
+    });
+
+  </script>
+{% endblock %}

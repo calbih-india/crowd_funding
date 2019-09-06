@@ -1,0 +1,346 @@
+{% load template_filter %}
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+  <meta name="theme-color" content="#000000">
+ 
+  <link rel="shortcut icon" href="https://www.ourdemocracy.in/favicon.ico">
+  <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,400,700&display=swap" rel="stylesheet">
+  <meta property="og:site_name" content="Crowd Funding">
+
+  {% block title %}
+  <title>Crowd Funding</title>
+  {% endblock %}
+
+  {% block meta_tag %}
+    <meta name="description"
+      content="Crowd Funding is about raising awarness and a platform to bring change by the people for the people">
+    <meta name="og:title" content="Crowd Funding">
+    <meta name="og:description"
+      content="Crowd Funding is about raising awarness and a platform to bring change by the people for the people">
+    <meta name="og:image" content="https://www.ourdemocracy.in/src/assets/images/check/static/Home_2.jpg">
+    <meta name="og:url" content="https://www.ourdemocracy.in/">
+  {% endblock %}
+  
+  <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/static/css/select2.min.css" rel="stylesheet">
+  <link href="/static/css/intlTelInput.css" rel="stylesheet">
+  <link href="/static/css/demo.css" rel="stylesheet">
+  <link href="/static/css/jquerysctipttop.css" rel="stylesheet">
+  <link href="/static/css/style.css" rel="stylesheet">
+  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+  {% block extra_style %}
+  {% endblock %}
+
+</head>
+
+<body id="page-top" data-spy="scroll" data-target="#mainNav" data-offset="70">
+  <div id="root">
+    <div>
+      <main class="main_container">
+        <div class="jss49 bg_fff" id="mainNav">
+            <header class="jss71 jss77 jss62 jss66">
+              <nav class="navbar navbar-expand-xl navbar-light bg-light">
+              
+                <div id="page-wrap">
+                  <a class="navbar-brand" href="/">
+                    <div class="jss47"><img src="/static/images/logo.png" class="jss48" alt=""></div>
+                  </a>
+                </div>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#links" aria-controls="links" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+              
+                <div  class="collapse navbar-collapse jss61" id="links">
+                      <div id="search" class="">
+                        <div class="jss50"></div>
+                        <div class="jss53">
+                          <div class="jss124 jss111 ">
+                            <div class="jss54">
+                              <svg class="jss102" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="presentation">
+                                <path
+                                  d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z">
+                                </path>
+                                <path fill="none" d="M0 0h24v24H0z"></path>
+                              </svg>
+                            </div>
+                            <form action="{% url 'discover' %}" method="POST" class="jss124 jss111 jss55 mb-0">                        
+                                {% csrf_token %}
+                                <input class="jss134 jss119 jss56" name="title" placeholder="Search campaigns..." type="text" value="">                            
+                          </form>
+                          </div>
+                        </div>
+                      </div>
+                  <ul class="navbar-nav ml-auto">
+                    <li class="nav-item jss59 {% if 'discover' in request.path %}active{% endif %}">
+                      <a class="nav-link jss167 jss141 jss143 jss146" href="{% url 'discover' %}"><span class="jss142 jss58">Discover</span><span class="jss339"></span> <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item jss59 {% if 'how-it-works' in request.path %}active{% endif %}">
+                      <a class="nav-link jss167 jss141 jss143 jss146" href="{% url 'how_it_works' %}"><span class="jss142 jss58">How it works</span><span class="jss339"></span></a>
+                    </li>
+                    <li class="nav-item jss59 {% if 'services' in request.path %}active{% endif %}">
+                      <a class="nav-link jss167 jss141 jss143 jss146" href="{% url 'services' %}" ><span class="jss142 jss58">Services</span><span class="jss339"></span></a>
+                    </li>
+                    <li class="nav-item jss59 {% if 'tips' in request.path %}active{% endif %}">
+                      <a class="nav-link jss167 jss141 jss143 jss146" href="{% url 'tips' %}" ><span class="jss142 jss58">Tips</span><span class="jss339"></span></a>
+                    </li>
+                    <li class="nav-item jss59 {% if 'Medias' in request.path %}active{% endif %}">
+                      <a class="nav-link jss167 jss141 jss143 jss146" href="{% url 'media' %}" ><span class="jss142 jss58">Media</span><span class="jss339"></span></a>
+                    </li>
+                    {% if request.user.is_anonymous %}
+                    <li class="nav-item jss59 {% if 'login' in request.path %}active{% endif %}">
+                        <a class="nav-link jss167 jss141 jss143 jss146" href="{% url 'login' %}" ><span class="jss142 jss170">Login</span><span class="jss339"></span></a>
+                      </li>
+                      {% endif %}
+                      {% if not request.user.is_anonymous %}
+                    {% if request.user.user_type == 'End User' %}
+                    <li class="nav-item jss59">
+                        <a class="nav-link jss167 jss141 jss143 jss146 jss162" href="{% url 'dashboard' %}" ><span class="jss142 jss58">Dashboard</span><span class="jss339"></span></a>
+                      </li>
+                      <li class="nav-item dropdown text-center mr-4 right_zero">
+                          <a class="nav-link dropdown-toggle  icon_navbar" href="#" id="navbarDropdown" role="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              <i class="fa fa-user-circle-o" aria-hidden="true"></i> 
+                          </a>
+                          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{% url 'my_profile' %}"><i class="fa fa-user mr-2" aria-hidden="true"></i> Profile</a>
+                            {% if request.user.id|check_support_group %}
+                            <a class="dropdown-item" href="{% url 'my_analytics' %}"><i class="fa fa-line-chart mr-1"></i> Analytics</a>
+                            {% endif %}
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{% url 'logout' %}"><i class="fa fa-sign-out mr-2" aria-hidden="true"></i> Logout</a>
+                          </div>
+                        </li>
+                    {% else %}
+                    <li class="nav-item jss59">
+                        <a class="nav-link jss167 jss141 jss143 jss146 jss162" href="{% url 'admin_dashboard' %}" ><span class="jss142 jss58">Dashboard</span><span class="jss339"></span></a>
+                      </li>
+                      <li class="nav-item dropdown text-center mr-4 right_zero">
+                          <a class="nav-link dropdown-toggle  icon_navbar" href="#" id="navbarDropdown" role="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              <i class="fa fa-user-circle-o" aria-hidden="true"></i> 
+                          </a>
+                          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{% url 'my_profile' %}"><i class="fa fa-user mr-2" aria-hidden="true"></i> Profile</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{% url 'logout' %}"><i class="fa fa-sign-out mr-2" aria-hidden="true"></i> Logout</a>
+                          </div>
+                        </li>
+                    {% endif %}
+                  {% endif %}
+                  
+                  </ul>
+                  <div class="jss59"><a class="jss167 jss141 jss149 jss150 jss57" tabindex="0" role="button"
+                    href="{% url 'chose_campaign' %}"><span class="jss142 jss58">Start a Campaign</span><span
+                      class="jss339"></span></a></div>
+                </div>
+              </nav>
+            </header>
+        </div>
+        {% block body %}
+          <main class="jss346">            
+            <div style="display: block;">
+              <div class="jss476 jss480 jss477 jss347">
+                <div class="jss503 jss504 jss348"><svg class="jss506" focusable="false" viewBox="0 0 24 24" aria-hidden="true"
+                    role="presentation">
+                    <g fill="none">
+                      <path d="M0 0h24v24H0V0z"></path>
+                      <path d="M0 0h24v24H0V0z" opacity=".87"></path>
+                    </g>
+                    <path
+                      d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM9 6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9V6zm9 14H6V10h12v10zm-6-3c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z">
+                    </path>
+                  </svg></div>
+                <h5 class="jss515 jss531">Sign In</h5>
+                <div style="display: flex; justify-content: center; margin-top: 1em;">
+                    <ul class="social_icon">
+                      <li><a href="{% url 'social:begin' 'facebook' %}" class="facebook"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                      <li><a href="{% url 'social:begin' 'google-oauth2' %}" class="google"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>                      
+                    </ul>
+                  </div>
+                <div style="display: flex; justify-content: center; margin-top: 1em;">
+                  <p style="margin: 0px;">OR</p>
+                </div>
+                <form method="POST" class="jss349">
+                  {% csrf_token %}
+                  <div class="jss550 jss551 jss553">
+                    <p class="jss515 jss524">Email Id</p>
+                    <div class="jss550">
+                      <div class="jss567 jss554 jss558 jss568 jss555">
+                        {{ login_form.email }}                  
+                      </div>
+                      <span class="error"></span>
+                    </div>
+                  </div>
+                  <div class="jss550 jss551 jss553">
+                    <p class="jss515 jss524">Password</p>
+                    <div class="jss550">
+                      <div class="jss567 jss554 jss558 jss568 jss555">
+                        {{ login_form.password }}
+                      </div>
+                    </div>
+                    <span class="error"></span>
+                  </div>
+                  <button class="jss610 jss584 jss595 jss596 jss598 jss599 jss609 jss350" tabindex="0" id="login_btn" type="submit"><span
+                      class="jss585">Sign in</span><span class="jss636"></span></button>
+                </form>
+                <div class="logBelowSubmitDiv">
+                  <div style="display: flex;">New to Our Democracy? <p class="link1"><a href="{% url 'registration' %}">Register</a></p>
+                  </div>
+                  <div class="logForgotPassText"><a href="{% url 'admin_password_reset' %}">Forgot Password?</a></div>
+                </div>
+                <div style="font-size: 0.8rem; text-align: left; width: 100%;"> Having Trouble?<a class="link1" data-toggle="modal" data-target="#resend_link"
+                    style="font-size: 0.8rem;"> Resend</a> Activation Link</div>
+              </div>
+            </div>
+          </main>
+          {% endblock %}
+        <footer>
+          <div class="footer-top">
+            <div class="footer-container">
+              <div class="footer-row">
+                <h1>Discover</h1>
+                <p><a href="{% url 'discover' %}">Political Campaigns</a></p>
+                <p><a href="{% url 'discover' %}">Journalism Campaigns</a></p>
+                <p><a href="{% url 'discover' %}">Social Cause Campaigns</a></p>
+              </div>
+              <div class="footer-row">
+                <h1>About US</h1>
+                <p><a href="{% url 'how_it_works' %}">How It Works</a></p>
+                <p><a href="{% url 'media' %}">Media</a></p>
+                <p><a href="{% url 'services' %}">Services Offerred</a></p>
+                <p><a href="{% url 'about_us' %}">About Us</a></p>
+                <p><a href="{% url 'pricing' %}">Plans &amp; Pricing</a></p>
+              </div>
+              <div class="footer-row">
+                <h1>Support</h1>
+                <p><a href="{% url 'campaign_criteria' %}">Campaign Criteria</a></p>
+                <p><a href="{% url 'tips' %}">Campaign Tips</a></p>
+                <!-- <p><a href="{% url 'discover' %}">Contact Us</a></p> -->
+                <p><a href="{% url 'contact_us' %}">Contact Us</a></p>
+                <p><a href="{% url 'terms_conditions' %}">Terms &amp; Conditions</a></p>
+                <p><a href="{% url 'privacy_policy' %}">Privacy Policy</a></p>
+              </div>
+              <div class="footer-row">
+                <h1>Follow Us</h1><a rel="noopener noreferrer" target="_blank"
+                  href="https://www.facebook.com/OurDemocracy.in/"><svg aria-hidden="true" data-prefix="fab"
+                    data-icon="facebook" class="svg-inline--fa fa-facebook fa-w-14 " role="img"
+                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                    <path fill="currentColor"
+                      d="M448 56.7v398.5c0 13.7-11.1 24.7-24.7 24.7H309.1V306.5h58.2l8.7-67.6h-67v-43.2c0-19.6 5.4-32.9 33.5-32.9h35.8v-60.5c-6.2-.8-27.4-2.7-52.2-2.7-51.6 0-87 31.5-87 89.4v49.9h-58.4v67.6h58.4V480H24.7C11.1 480 0 468.9 0 455.3V56.7C0 43.1 11.1 32 24.7 32h398.5c13.7 0 24.8 11.1 24.8 24.7z">
+                    </path>
+                  </svg> &nbsp; Facebook</a><a rel="noopener noreferrer" target="_blank"
+                  href="https://www.instagram.com/ourdemocracy.in/"><svg aria-hidden="true" data-prefix="fab"
+                    data-icon="instagram" class="svg-inline--fa fa-instagram fa-w-14 " role="img"
+                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                    <path fill="currentColor"
+                      d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z">
+                    </path>
+                  </svg> &nbsp; Instagram</a><a rel="noopener noreferrer" target="_blank"
+                  href="https://twitter.com/ourdemocracyin"><svg aria-hidden="true" data-prefix="fab"
+                    data-icon="twitter" class="svg-inline--fa fa-twitter fa-w-16 " role="img"
+                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                    <path fill="currentColor"
+                      d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z">
+                    </path>
+                  </svg> &nbsp; Twitter</a>
+              </div>
+            </div>
+          </div>
+          <div class="footer-bottom">
+            <div class="footer-left"><a href="/">Our Democracy</a></div>
+            <div class="footer-right">
+              <div class="foot-bottom-designed" href="# ">
+                <h3 style="color: rgb(221, 221, 221); margin: 0px;"> </h3>
+                <div style="margin-left: 10px; color: rgb(196, 24, 84);"> </div>
+              </div>
+            </div>
+          </div>
+        </footer>
+      </main>
+    </div>
+  </div>
+
+  <div class="modal fade " id="resend_link" tabindex="-1" role="dialog" aria-labelledby="resend_link" aria-hidden="true">
+      <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Resend Activation Link</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+              <form method="POST" class="jss349" action="{% url 'new_activate_link' %}">
+                {% csrf_token %}
+                  <div class="jss550 jss551 jss553">
+                    <p class="jss515 jss524">Email Id</p>
+                    <div class="jss550">
+                      <div class="jss567 jss554 jss558 jss568 jss555">
+                        <input name="email" aria-invalid="false" autocomplete="email" class="jss577 jss562 " id="forget_email" type="text" >                      
+                      </div>
+                      <span class="error"></span>
+                    </div>
+                  </div>
+                <div class="d-flex align-items-center justify-content-between">
+                    <button type="button" data-dismiss="modal" aria-label="Close" class="a_222222 btn_none">Cancle</button>
+                    <button type="submit" id="forget_btn"  class="colr_yellow btn_none">Re-Send</button>
+                </div>
+              </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% block model_popup %}
+    {% endblock %}
+
+    {% if messages %}
+    <div class="toast_con" >
+        <div class="toast error_msg" data-autohide="false">
+      
+            <div class="toast-body">
+                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast">&times;</button>
+                
+                  {% for message in messages %}
+                    {% if 'error' in message.tags %}
+                      <strong class="mr-auto text-primary"><i class="fa fa-exclamation-triangle fa-5" aria-hidden="true"></i></strong>
+                      {% autoescape off %}{{ message }}{% endautoescape %}
+                    {% else %}
+                      <strong class="mr-auto text-primary"><i class="fa fa-exclamation-triangle fa-5" aria-hidden="true"></i></strong>
+                      {% autoescape off %}{{ message }}{% endautoescape %}
+                    {% endif %}
+                  {% endfor %}
+            </div>
+          </div>
+    </div>
+    {% endif %}
+
+    
+  <script type="text/javascript" src="/static/js/jquery.min.js" ></script>
+  <script type="text/javascript" src="/static/js/bootstrap.min.js" ></script>  
+  <script type="text/javascript" src="/static/js/script.js"></script>  
+  <script type="text/javascript" src="/static/js/select2.full.min.js"></script>
+   <script type="text/javascript" src="/static/js/intlTelInput.js" ></script>
+
+
+<script>
+    $(document).ready(function() {
+        $('.select2').select2();
+        $("#mobile-number").intlTelInput();  
+        $('.select2_modal').select2({
+            dropdownParent: $('.modal')
+        });       
+    });
+  </script>
+
+  {% if messages %}
+  <script>
+    $('.error_msg').toast('show');
+  </script>
+  {% endif %}
+
+  {% block extra_script %}
+  {% endblock %}
+</body>
+</html>

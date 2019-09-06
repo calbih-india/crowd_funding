@@ -1,0 +1,208 @@
+<div class="table_parent">
+<table class="table text-center  data_table" id="Campaign_action">
+        <thead class="thead-light">
+          <tr>
+            {% if 'Campaign' in Column %}
+            <th scope="col" style="min-width: 250px">Campaign</th>
+            {% endif %}
+            {% if 'User' in Column %}
+            <th scope="col">User</th>
+            {% endif %}
+            {% if 'Category' in Column %}
+            <th scope="col">Category</th>
+            {% endif %}
+            {% if 'Goal' in Column %}
+            <th scope="col">Goal</th>
+            {% endif %}
+            {% if 'Day' in Column %}
+            <th scope="col">Day</th>
+            {% endif %}
+            {% if 'Short Description' in Column %}
+            <th scope="col">Short Description</th>
+            {% endif %}
+            {% if 'About' in Column %}
+            <th scope="col">About</th>
+            {% endif %}
+            {% if 'Picture' in Column %}
+            <th scope="col">Picture</th>
+            {% endif %}
+            {% if 'Cause' in Column %}
+            <th scope="col">Cause</th>
+            {% endif %}
+            {% if 'Sensitivity' in Column %}
+            <th scope="col">Sensitivity</th>
+            {% endif %}
+            {% if 'Created at' in Column %}
+            <th scope="col" style="min-width: 150px">Created at</th>
+            {% endif %}
+            {% if 'End Date' in Column %}
+            <th scope="col">End Date</th>
+            {% endif %}
+            {% if 'Place' in Column %}
+            <th scope="col">Place</th>
+            {% endif %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for fundraiser in instance_CampaignFundRaiser %}
+          <tr>
+            {% if 'Campaign' in Column %}
+            <td>{{fundraiser.title}}</td>
+            {% endif %}
+            {% if 'User' in Column %}
+            <td>{{fundraiser.user}}</td>
+            {% endif %}
+            {% if 'Category' in Column %}
+            <td>{{fundraiser.category}}</td>
+            {% endif %}
+            {% if 'Goal' in Column %}
+            <td>{{fundraiser.goal}}</td>
+            {% endif %}
+            {% if 'Day' in Column %}
+            <td>{{fundraiser.day}}</td>
+            {% endif %}
+            {% if 'Short Description' in Column %}
+            <td>
+              <!-- {{fundraiser.short_description}} -->
+              <div class="text_ecllipse reaon_req"  data-toggle="modal" data-target="#textDisplay"><i onclick="reaon_req(this)" class="fa fa-eye cursor_pointer" aria-hidden="true"></i>
+                <div class=" reaon_req_text d-none">{% autoescape off %}{{ fundraiser.short_description|linebreaks }}{% endautoescape %}</div></div>
+            </td>
+            {% endif %}
+            {% if 'About' in Column %}
+            <td>
+                <!-- {% autoescape off %}
+                {{fundraiser.about|linebreaks}}
+                {% endautoescape %} -->
+                <div class="text_ecllipse reaon_req"  data-toggle="modal" data-target="#textDisplay"><i onclick="reaon_req(this)" class="fa fa-eye cursor_pointer" aria-hidden="true"></i>
+                <div class=" reaon_req_text d-none">{% autoescape off %}{{ fundraiser.about|linebreaks }}{% endautoescape %}</div></div>
+            </td>
+            {% endif %}
+            {% if 'Picture' in Column %}            
+            <td><a class="color_blue" href="javascript:void(0);" NAME="My Window Name"  title=" My title here " onClick=window.open("/media/{{ fundraiser.picture}}","Ratting","width=550,height=500,0,left=50%,top=50%,toolbar=0,status=0,");>Attachments</a></td>
+            {% endif %}
+            {% if 'Cause' in Column %}
+            <td>{{fundraiser.cause}}</td>
+            {% endif %}
+            {% if 'Sensitivity' in Column %}
+            <td>{{fundraiser.sensitivity}}</td>
+            {% endif %}
+            {% if 'Created at' in Column %}
+            <td>{{fundraiser.created_at}}</td>
+            {% endif %}
+            {% if 'End Date' in Column %}
+            <td>{{fundraiser.end_date}}</td>
+            {% endif %}
+            {% if 'Place' in Column %}
+            <td></td>
+            {% endif %}
+          </tr>
+          {% endfor %}
+      
+          {% for supportgroup in instance_SupportGroup %}
+          <tr>
+            {% if 'Campaign' in Column %}
+            <td>{{supportgroup.title}}</td>
+            {% endif %}
+            {% if 'User' in Column %}
+            <td>{{supportgroup.group_leader}}</td>
+            {% endif %}
+            {% if 'Category' in Column %}
+            <td></td>
+            {% endif %}
+            {% if 'Goal' in Column %}
+            <td>{{supportgroup.goal}}</td>
+            {% endif %}
+            {% if 'Day' in Column %}
+            <td></td>
+            {% endif %}
+            {% if 'Short Description' in Column %}
+            <td>
+              <!-- {{supportgroup.short_description}} -->
+               <div class="text_ecllipse reaon_req"  data-toggle="modal" data-target="#textDisplay"><i onclick="reaon_req(this)" class="fa fa-eye cursor_pointer" aria-hidden="true"></i>
+                <div class=" reaon_req_text d-none">{% autoescape off %}{{ supportgroup.short_description|linebreaks }}{% endautoescape %}</div></div>
+            </td>
+            {% endif %}
+            {% if 'About' in Column %}
+            <td>
+               <!--  {% autoescape off %}
+                {{supportgroup.about|linebreaks}}
+                {% endautoescape %} -->
+                <div class="text_ecllipse reaon_req"  data-toggle="modal" data-target="#textDisplay"><i onclick="reaon_req(this)" class="fa fa-eye cursor_pointer" aria-hidden="true"></i>
+                <div class=" reaon_req_text d-none">{% autoescape off %}{{ supportgroup.about|linebreaks }}{% endautoescape %}</div></div>
+            </td>
+            {% endif %}
+            {% if 'Picture' in Column %}            
+            <td><a class="color_blue" href="javascript:void(0);" NAME="My Window Name"  title=" My title here " onClick=window.open("/media/{{ supportgroup.picture}}","Ratting","width=550,height=500,0,left=50%,top=50%,toolbar=0,status=0,");>Attachments</a></td>
+            {% endif %}
+            {% if 'Cause' in Column %}
+            <td>{{supportgroup.cause}}</td>
+            {% endif %}
+            {% if 'Sensitivity' in Column %}
+            <td>{{supportgroup.sensitivity}}</td>
+            {% endif %}
+            {% if 'Created at' in Column %}
+            <td>{{supportgroup.created_at}}</td>
+            {% endif %}
+            {% if 'End Date' in Column %}
+            <td></td>
+            {% endif %}
+            {% if 'Place' in Column %}
+            <td></td>
+            {% endif %}
+          </tr>
+          {% endfor %}
+      
+          {% for event in instance_Event %}
+          <tr>
+            {% if 'Campaign' in Column %}
+            <td>{{event.name}}</td>
+            {% endif %}
+            {% if 'User' in Column %}
+            <td>{{event.user}}</td>
+            {% endif %}
+            {% if 'Category' in Column %}
+            <td></td>
+            {% endif %}
+            {% if 'Goal' in Column %}
+            <td></td>
+            {% endif %}
+            {% if 'Day' in Column %}
+            <td></td>
+            {% endif %}
+            {% if 'Short Description' in Column %}
+            <td></td>
+            {% endif %}
+            {% if 'About' in Column %}
+            <td>
+                <!-- {% autoescape off %}
+                {{event.about|linebreaks}}
+                {% endautoescape %} -->
+                
+                <div class="text_ecllipse reaon_req"  data-toggle="modal" data-target="#textDisplay"><i onclick="reaon_req(this)" class="fa fa-eye cursor_pointer" aria-hidden="true"></i>
+                <div class=" reaon_req_text d-none">{% autoescape off %}{{ event.about|linebreaks }}{% endautoescape %}</div></div>
+            </td>
+            {% endif %}
+            {% if 'Picture' in Column %}            
+            <td><a class="color_blue" href="javascript:void(0);" NAME="My Window Name"  title=" My title here " onClick=window.open("/media/{{ event.picture}}","Ratting","width=550,height=500,0,left=50%,top=50%,toolbar=0,status=0,");>Attachments</a></td>
+            {% endif %}
+            {% if 'Cause' in Column %}
+            <td>{{event.cause}}</td>
+            {% endif %}
+            {% if 'Sensitivity' in Column %}
+            <td>{{event.sensitivity}}</td>
+            {% endif %}
+            {% if 'Created at' in Column %}
+            <td>{{event.created_at}}</td>
+            {% endif %}
+            {% if 'End Date' in Column %}
+            <td></td>
+            {% endif %}
+            {% if 'Place' in Column %}
+            <td>{{event.place}}</td>
+            {% endif %}
+          </tr>
+          {% endfor %}
+      
+        </tbody>
+      </table>
+</div>

@@ -1,0 +1,26 @@
+<div class="table_parent">
+<table class="table text-center">
+    <thead>
+        <th>Campaign</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Amount</th>
+        <th>Date</th>
+        <th>Action <input type="checkbox" id="checkbox_parent" onchange="allCheckboxtocheck()" ></th>
+    </thead>
+    <tbody>
+        {% for CampaignDoners in instance_CampaignDoners %}
+        <tr>
+            <td>{{CampaignDoners.campaign_fund_raiser}}</td>
+            <td>{{CampaignDoners.name}}</td>
+            <td>{{CampaignDoners.email}}</td>
+            <td>{{CampaignDoners.phone}}</td>
+            <td>{{CampaignDoners.amount}}</td>
+            <td>{{CampaignDoners.created_at}}</td>
+            <td><input type="checkbox" value="{{CampaignDoners.email}}"  name="email_id" onchange="childCheckboxtocheck()" class="child"> </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>

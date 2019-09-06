@@ -1,0 +1,58 @@
+{% extends 'registration/login.html' %}
+
+  {% block title %}
+  <title>Crowd Funding | Media </title>
+  {% endblock %}
+  
+
+  {% block body %}
+    <main>   
+        <div class="how-it-works-row get-started" style="padding-top: 8vh;">
+            <div class="row1-heading how-heading">
+              <h2 class="jss3">Media Advocacy</h2>
+              <div class="row1-dash">
+                <div class="row1-big-dash"></div>
+                <div class="row1-small-dash"></div>
+              </div>
+            </div>
+            <div class="sub-heading">
+              <p>Building a positive narrative in the media for political crowdfunding</p>
+            </div>
+            <div class="media-container">
+
+                {% for MediaArtical in instance_MediaArtical %}
+                <div class="media-item">
+                  <div class="media-item_img-box"><img class="media-item__img" src="/media/{{MediaArtical.picture}}" alt=""></div>
+                  <div><a rel="noopener" target="_blank"
+                      href="{{MediaArtical.link}}">
+                      <h3 class="media-item__heading">{{MediaArtical.title}}</h3>
+                    </a>
+                    <div class="media-item__details"><span>{{MediaArtical.created_at}}</span><span class="separator">|</span><span> {{ MediaArtical.publisher }}</span></div>
+                    <p class="media-item__intro">{% autoescape off %}{{MediaArtical.short_text|linebreaks }}{% endautoescape %}</p>
+                    <a class="media-item__read-more" target="_blank" href="{{MediaArtical.link}}">Read More</a>
+                  </div>
+                </div>
+                {% endfor %}
+                
+            </div>
+          </div>  
+    </main>
+  {% endblock %}      
+ 
+
+
+  {% block extra_script %}
+  <script type="text/javascript" src="static/js/jquery.flexisel.js"></script>
+  <script type="text/javascript">
+    
+    $("#technology-focus").flexisel({
+     visibleItems:5,
+     itemsToScroll: 1,         
+     autoPlay: {
+       enable: true,
+       interval: 7000,
+       pauseOnHover: true
+     }        
+   });
+ </script>
+ {% endblock %}

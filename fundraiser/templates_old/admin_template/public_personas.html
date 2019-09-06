@@ -1,0 +1,140 @@
+{% extends 'admin_template/admin_dashboard.html' %}
+
+{% block title %}
+<title>Crowd Funding Admin |  Send Email Public Persons​</title>
+{% endblock %}
+
+
+{% block meta_tag %}
+<meta name="description" content="" />
+<meta property="og:title" content="" />
+<meta property="og:url" content="web page path" />
+<meta property="og:description" content="">
+<meta property="og:image" content="image PATH">
+{% endblock %}
+
+{% block extra_style %}
+  <link href="/static/css/intlTelInput.css" rel="stylesheet">
+  <link href="/static/css/demo.css" rel="stylesheet">
+  <link href="/static/css/jquerysctipttop.css" rel="stylesheet">
+{% endblock %}
+
+
+{% block body %}
+    <main class="jss346 js800_c">
+        <div style="display: block;">
+            <div class="row align-items-center">
+                <div class="col-md-12 text-center">
+                    <h4 class="mb-0">Authorize to Support the Campaign</h4>
+                </div>
+            </div>
+            <div class="jss476 jss480 jss477 jss347 mt-4">
+
+                <form class="jss349 row" method="POST">
+                    {% csrf_token %}
+
+                    <div class="col-sm-12 col-md-6">
+                        <div class="jss550 jss551 jss553">
+                            <p class="jss515 jss524">Departments</p>
+                            <div class="jss550">
+                                <div class="jss567 jss554 jss558 jss568 jss555 select2_con">
+                                    <select name="departments" id="id_departments" class="select2" required="required">
+                                        <option value="" disabled selected>Select Departments</option>
+                                        {% for value,key in generic_emails_departments %}
+                                        <option value="{{value}}">{{key}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <span class="error"></span>
+                        </div>
+
+                        <div class="jss550 jss551 jss553 mt-5">
+                            <p class="jss515 jss524">From</p>
+                            <div class="jss550">
+                                <div class="jss567 jss554 jss558 jss568 jss555">
+                                    <input class="jss577 jss562 integer_value" type="text" value="abcd.123@gmail.com"
+                                        disabled required="required">
+                                </div>
+                            </div>
+                            <span class="error"></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <div class="jss550 jss551 jss553">
+                            <p class="jss515 jss524">Email ID</p>
+                            <div class="jss550">
+                                <div class="email_id" id="id_email_filter">
+                                    
+                                </div>
+                                <span class="error"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 mt-4">
+                            <div class="jss550 jss551 jss553 mt-5">
+                                <p class="jss515 jss524">Subject</p>
+                                <div class="jss550">
+                                    <div class="jss567 jss554 jss558 jss568 jss555">
+                                            {{public_email_form.subject}}
+                                    </div>
+                                </div>
+                                <span class="error"></span>
+                            </div>
+                        
+                        <!-- <textarea name="message" class="w-100" style="resize: both;height: 150px;overflow-y: scroll;" required></textarea> -->
+                    </div>
+                    <div class="col-sm-12 mt-4">
+                        <div class="jqte-test_main_container">
+                            <textarea name="message" class="w-100 jqte-test " style="resize: both;height: 150px;overflow-y: scroll;" required>{% autoescape off %}{{public_email_form.message.value|linebreaks }}{% endautoescape%} </textarea>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <p class="error text-center" id="checkbox_error"></p>
+                    </div>
+                    <button class="jss610 jss584 jss595 jss596 jss598 jss599 jss609 jss350" id="send_email_finally" type="submit"><span
+                            class="jss585">Send Email</span><span class="jss636"></span></button>
+
+                </form>
+            </div>
+        </div>
+    </main>
+{% endblock %}
+
+  
+
+
+{% block extra_script %}
+<link href="/static/css/jquery-te-1.4.0.css" rel="stylesheet">
+<script type="text/javascript" src="/static/js/jquery-te-1.4.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('.select2').select2();
+        $('.jqte-test').jqte();
+    });
+</script>
+
+<script>
+    $("#id_departments").change(function(){
+        if ($(this).val()){
+            $.get("{% url 'public_personas_get_department_user' %}", {'department':$(this).val()}, function(data, status){
+                $("#id_email_filter").html(data)
+            });
+        }
+        else {
+            $("#id_email_filter").html('')
+        }
+    });
+
+    $("#send_email_finally").click(function(){
+        if($("input:checkbox[name=email]:checked").length<=0){
+            $("#checkbox_error").text("Please select any one Email id");
+            return false;
+        }
+        else{
+           $("#checkbox_error").text("");
+           return true;           
+        }
+    });
+</script>
+{% endblock %}

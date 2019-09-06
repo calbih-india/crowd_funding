@@ -1,0 +1,977 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+  <meta name="theme-color" content="#000000">
+ 
+  <link rel="shortcut icon" href="https://www.ourdemocracy.in/favicon.ico">
+  <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,400,700&display=swap" rel="stylesheet">
+  <meta property="og:site_name" content="Crowd Funding">
+
+  {% block title %}
+  <title>Crowd Funding</title>
+  {% endblock %}
+
+  {% block meta_tag %}
+    <meta name="description"
+      content="Crowd Funding is about raising awarness and a platform to bring change by the people for the people">
+    <meta name="og:title" content="Crowd Funding">
+    <meta name="og:description"
+      content="Crowd Funding is about raising awarness and a platform to bring change by the people for the people">
+    <meta name="og:image" content="https://www.ourdemocracy.in/src/assets/images/check/static/Home_2.jpg">
+    <meta name="og:url" content="https://www.ourdemocracy.in/">
+  {% endblock %}
+  
+  <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+  {% block extra_style %}
+  {% endblock %}
+    
+<link href="/static/css/component.css" rel="stylesheet">
+  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="/static/css/style.css" rel="stylesheet">
+  <link href="/static/css/flexslider.css" rel="stylesheet">
+
+</head>
+
+<body id="page-top" data-spy="scroll" data-target="#st-nav">
+  <div id="root">
+    <div>
+      <main class="main_container">
+        <div class="jss49 bg_fff" id="mainNav">
+            <header class="jss71 jss77 jss62 jss66 header_area" >
+              <nav class="navbar navbar-expand-xl navbar-light bg-light ">
+              
+                <div id="page-wrap">
+                  <a class="navbar-brand" href="/">
+                    <div class="jss47"><img src="/static/images/logo.png" class="jss48" alt=""></div>
+                  </a>
+                </div>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#links" aria-controls="links" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+              
+                <div  class="collapse navbar-collapse jss61" id="links">
+                    <div id="search" class="jss59">
+                        <div class="jss50"></div>
+                        <div class="jss53">
+                          <div class="jss54">
+                            <svg class="jss102" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="presentation">
+                              <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"> </path>
+                              <path fill="none" d="M0 0h24v24H0z"></path>
+                            </svg>
+                          </div>
+                          <form action="{% url 'discover' %}" method="POST" class="jss124 jss111 jss55 mb-0">                        
+                                {% csrf_token %}
+                                <input class="jss134 jss119 jss56" name="title" placeholder="Search campaigns..." type="text" value="">                            
+                          </form>
+                        </div>
+                      </div>
+                  <ul class="navbar-nav ml-auto">
+                    <li class="nav-item jss59 {% if 'discover' in request.path %}active{% endif %}">
+                      <a class="nav-link jss167 jss141 jss143 jss146 jss162" href="{% url 'discover' %}"><span class="jss142 jss58">Discover</span><span class="jss339"></span> {% if 'discover' in request.path %}<span class="sr-only">(current)</span>{% endif %} </a>
+                    </li>
+                    <li class="nav-item jss59 {% if 'how-it-works' in request.path %}active{% endif %}">
+                      <a class="nav-link jss167 jss141 jss143 jss146 jss162" href="{% url 'how_it_works' %}"><span class="jss142 jss58">How it works</span><span class="jss339"></span></a>
+                    </li>
+                    <li class="nav-item jss59 {% if 'services' in request.path %}active{% endif %}">
+                      <a class="nav-link jss167 jss141 jss143 jss146 jss162" href="{% url 'services' %}" ><span class="jss142 jss58">Services</span><span class="jss339"></span></a>
+                    </li>
+                    <li class="nav-item jss59 {% if 'tips' in request.path %}active{% endif %}">
+                      <a class="nav-link jss167 jss141 jss143 jss146 jss162" href="{% url 'tips' %}" ><span class="jss142 jss58">Tips</span><span class="jss339"></span></a>
+                    </li>
+                    <li class="nav-item jss59 {% if 'Medias' in request.path %}active{% endif %}">
+                      <a class="nav-link jss167 jss141 jss143 jss146 jss162" href="{% url 'media' %}" ><span class="jss142 jss58">Media</span><span class="jss339"></span></a>
+                    </li>
+                    {% if request.user.is_anonymous %}
+                    <li class="nav-item jss59">
+                        <a class="nav-link jss167 jss141 jss143 jss146 jss162" href="{% url 'login' %}" ><span class="jss142 jss170">Login</span><span class="jss339"></span></a>
+                      </li>
+                      {% endif %}
+                      {% if not request.user.is_anonymous %}
+                    {% if request.user.user_type == 'End User' %}
+                        <li class="nav-item jss59">
+                      <a class="nav-link jss167 jss141 jss143 jss146 jss162" href="{% url 'dashboard' %}" ><span class="jss142 jss58">Dashboard</span><span class="jss339"></span></a>
+                    </li>
+                    <li class="nav-item dropdown text-center mr-4 right_zero">
+                        <a class="nav-link dropdown-toggle  icon_navbar" href="#" id="navbarDropdown" role="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-user-circle-o" aria-hidden="true"></i> 
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                          <a class="dropdown-item" href="{% url 'my_profile' %}"><i class="fa fa-user mr-2" aria-hidden="true"></i> Profile</a>
+                          <!-- <a class="dropdown-item" href="#"><i class="fa fa-lock mr-2" aria-hidden="true"></i> Change Password</a> -->
+                          <div class="dropdown-divider"></div>
+                          <a class="dropdown-item" href="{% url 'logout' %}"><i class="fa fa-sign-out mr-2" aria-hidden="true"></i> Logout</a>
+                        </div>
+                      </li>
+                    {% else %}
+                    <li class="nav-item jss59">
+                        <a class="nav-link jss167 jss141 jss143 jss146 jss162" href="{% url 'admin_dashboard' %}" ><span class="jss142 jss58">Dashboard</span><span class="jss339"></span></a>
+                      </li>
+                      <li class="nav-item dropdown text-center mr-4 right_zero">
+                          <a class="nav-link dropdown-toggle  icon_navbar" href="#" id="navbarDropdown" role="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              <i class="fa fa-user-circle-o" aria-hidden="true"></i> 
+                          </a>
+                          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <!-- <a class="dropdown-item" href="#"><i class="fa fa-user mr-2" aria-hidden="true"></i> Profile</a> -->
+                            <!-- <a class="dropdown-item" href="#"><i class="fa fa-lock mr-2" aria-hidden="true"></i> Change Password</a> -->
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{% url 'logout' %}"><i class="fa fa-sign-out mr-2" aria-hidden="true"></i> Logout</a>
+                          </div>
+                        </li>
+                    {% endif %}
+                  {% endif %}
+                  
+                  
+                  </ul>
+                  <div class="jss59"><a class="jss167 jss141 jss149 jss150 jss57" tabindex="0" role="button"
+                    href="{% url 'start_campaign' %}"><span class="jss142 jss58">Start a Campaign</span><span
+                      class="jss339"></span></a></div>
+                </div>
+              </nav>
+            </header>
+        </div>
+        {% block body %}
+        <main>        
+            <div id="crowdfunnding_slider" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner">
+                  <div class="carousel-item active">
+                    <img src="/static/images/Home_2.jpg" class="d-block w-100" alt="...">
+                    <div class="carousel-caption">
+                        <div class="jss7">
+                            <div class="jss8">
+                              <p class="jss171 jss180 jss9">India's first Political fundraising platform</p>
+                              <p class="jss171 jss180 jss10">Fully compliant with FCRA rules and Election Commission norms
+                              </p><a class="jss232 jss206 jss217 jss218 jss220 jss221 jss11" tabindex="0" role="button"
+                                href="{% url 'start_campaign' %}"><span class="jss207">Start a Fundraiser</span><span
+                                  class="jss269"></span></a>
+                            </div>
+                            <div class="jss8 jss12">
+                              <p class="homeSubHead1">A</p><a href="https://crowdnewsing.com/" target="_blank"><img
+                                src="/static/images/logo_21.png" class="cnLogo1"
+                                alt=""></a>
+                              <p class="homeSubHead2">Initiative</p>
+                            </div>
+                          </div>
+                    </div>
+                  </div>
+                  <div class="carousel-item">
+                    <img src="/static/images/Home_2.jpg" class="d-block w-100" alt="...">
+                    <div class="carousel-caption">
+                        <div class="jss7">
+                          <div class="jss8">
+                            <p class="jss171 jss180 jss9">Making Democracy accessible to all</p>
+                            <p class="jss171 jss180 jss10">Campaigns for Change, Fundraisers for Democracy</p><a
+                              class="jss232 jss206 jss217 jss218 jss220 jss221 jss11" tabindex="0" role="button"
+                              href="{% url 'start_support_group' %}"><span class="jss207">Start a Mobilisation Campaign</span><span
+                                class="jss269"></span></a>
+                          </div>
+                          <div class="jss8 jss12">
+                            <p class="homeSubHead1">A</p><a href="https://crowdnewsing.com/" target="_blank"><img
+                              src="/static/images/logo_21.png" class="cnLogo1"
+                              alt=""></a>
+                            <p class="homeSubHead2">Initiative</p>
+                          </div>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="carousel-item">
+                    <img src="/static/images/Home_2.jpg" class="d-block w-100" alt="...">
+                    <div class="carousel-caption">
+                        <div class="jss7">
+                            <div class="jss8">
+                              <p class="jss171 jss180 jss9">Media Impact</p>
+                              <p class="jss171 jss180 jss10">This is how we changed the narrative on political finance in
+                                India and around the world.</p><a class="jss232 jss206 jss217 jss218 jss220 jss221 jss11"
+                                tabindex="0" role="button" href="{% url 'media' %}"><span class="jss207">Media Impact</span><span
+                                  class="jss269"></span></a>
+                            </div>
+                            <div class="jss8 jss12">
+                              <p class="homeSubHead1">A</p><a href="https://crowdnewsing.com/" target="_blank"><img
+                                src="/static/images/logo_21.png" class="cnLogo1"
+                                alt=""></a>
+                              <p class="homeSubHead2">Initiative</p>
+                            </div>
+                          </div>
+                    </div>
+                  </div>
+                </div>
+                <a class="carousel-control-prev" href="#crowdfunnding_slider" role="button" data-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#crowdfunnding_slider" role="button" data-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="sr-only">Next</span>
+                </a>
+
+                <div class="jss25 below-S-Image">
+                    <div class="jss26">
+                      <h5 class="jss171 jss187 jss27">Let's reclaim democracy!</h5>
+                      <h6 class="jss171 jss189 jss28">Online fundraising helps bring transparency and public participation</h6>
+                    </div>
+                    <div class="jss29"><a class="jss232 jss206 jss217 jss220 jss30" tabindex="0" role="button"
+                        href="{% url 'start_campaign' %}"><span class="jss207">Start a Fundraiser</span><span class="jss269"></span></a><a
+                        class="jss232 jss206 jss217 jss220 jss30" tabindex="0" role="button" href="{% url 'start_support_group' %}"><span
+                          class="jss207">Start a Mobilisation Campaign</span><span class="jss269"></span></a>
+                          <a class="jss232 jss206 jss217 jss220 jss30" tabindex="0" role="button" href="{% url 'start_event' %}"><span class="jss207">Create an Event</span><span class="jss269"></span></a>
+                    </div>
+                  </div>
+
+              </div>
+            {% if instance_CampaignFundRaiser|length != 0 %}
+              <div class="container"> 
+                <div class="row">
+                  <div class="col-sm-12">
+                      <div class="row1-heading how-heading">
+                          <h2 class="jss3">Featured Fundraisers</h2>
+                          <div class="row1-dash">
+                            <div class="row1-big-dash"></div>
+                            <div class="row1-small-dash"></div>
+                          </div>
+                        </div>
+
+                        {% if instance_CampaignFundRaiser|length  <= 3 %}
+                                <div class="DItemsDiv my_fund">
+                                {% for fundraiser in instance_CampaignFundRaiser %}
+                                        <a href="{% url 'campaign_selected' fundraiser.id fundraiser.title %}" class="DItemDiv position-relative">
+                                          <div class="DItemEndedImageDiv">
+                                            <img src="/media/{{ fundraiser.picture }}" class="DItemImage" alt="">
+                                          </div>
+                                          <div class="DItemEndedTextDiv">
+                                            <p>Fundraiser ended on {{ fundraiser.end_date }}</p>
+                                          </div>
+                                          <div class="DItemIconDiv"><img
+                                              src="data:image/png;base64,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"
+                                              class="DItemIcon" alt=""></div>
+                                          <div class="DItemDetailsDiv">
+                                            <p class="DItemTitle"> {{ fundraiser.title }}</p>
+                                            <div class="DItemByDiv"><img src="/media/{{fundraiser.user.profile}}" class="DItemByImg" alt="">
+                                              <p class="DItemByText">by {{ fundraiser.user.name }}</p>
+                                            </div>
+                                            <p class="DItemDescp" style="max-height: 33px;">{{ fundraiser.short_description }}</p>
+                                          </div>
+                                          <div class="DItemNumLineDiv">
+                                            <div class="DItemNumbersDiv">
+                                              <div class="DItemDeadlineDiv" style="">
+                                                <p class="DItemDeadline">{{ fundraiser.available_days }}<br>DAYS LEFT</p>
+                                              </div>
+                                              <div class="DItemGoalDiv">
+                                                <p class="DItemGoal"><svg aria-hidden="true" data-prefix="fas" data-icon="rupee-sign"
+                                                    class="svg-inline--fa fa-rupee-sign fa-w-10 " role="img" xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 320 512">
+                                                    <path fill="currentColor"
+                                                      d="M308 96c6.627 0 12-5.373 12-12V44c0-6.627-5.373-12-12-12H12C5.373 32 0 37.373 0 44v44.748c0 6.627 5.373 12 12 12h85.28c27.308 0 48.261 9.958 60.97 27.252H12c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h158.757c-6.217 36.086-32.961 58.632-74.757 58.632H12c-6.627 0-12 5.373-12 12v53.012c0 3.349 1.4 6.546 3.861 8.818l165.052 152.356a12.001 12.001 0 0 0 8.139 3.182h82.562c10.924 0 16.166-13.408 8.139-20.818L116.871 319.906c76.499-2.34 131.144-53.395 138.318-127.906H308c6.627 0 12-5.373 12-12v-40c0-6.627-5.373-12-12-12h-58.69c-3.486-11.541-8.28-22.246-14.252-32H308z">
+                                                    </path>
+                                                  </svg> {{ fundraiser.campaigntotalamount.total_amount}} <br>RAISED</p>
+                                              </div>
+                                            </div>
+                                            <div class="DItemCompletionDiv">
+                                              <div class="DItemCompletionLineDiv">
+                                                <div class="filled" style="width: {{ fundraiser.totalfund_in_percentage }}%;"></div>
+                                              </div>
+                                              <p class="DItemCompletionText">{{ fundraiser.totalfund_in_percentage }} %</p>
+                                            </div>
+                                          </div>
+                                        </a>
+                                   {% endfor %}
+                                  </div>
+                                {% else %}
+                                <div class="flexslider" id="Featured_Fundraisers">
+                                  <ul class="slides" >
+
+                                    
+                                    {% for fundraiser in instance_CampaignFundRaiser %}
+                                    <li>
+                                        <a href="{% url 'campaign_selected' fundraiser.id fundraiser.title %}" class="DItemDiv" >
+                                          <div class="DItemEndedImageDiv">
+                                            <img src="/media/{{ fundraiser.picture }}"
+                                              class="DItemImage" alt="">
+                                            </div>
+                                              <div class="DItemEndedTextDiv"><p>Fundraiser ended on {{ fundraiser.end_date }}</p></div> 
+                                            <div class="DItemIconDiv"><img
+                                                src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACsAAAArCAYAAADhXXHAAAAAAXNSR0IArs4c6QAAB2FJREFUWAnFmHmoVUUcx32aWbbZBmorCSXtaWSL5sOopEjDopXIFijItn+ColKI0vZsX6WCdsUi26Esi/aFsn23fV+sNFtOn8+8mdPcc8+99uqFX/i+3zpz5syZ+c3c16tXD6Moir3h+3BAD3fdq/d/7ZBB7Q+HZP1sjb4hVAYQPwBulOxlIhlAb/gz/BwOdBBIZ3ZuGhD6cVCcnXzLTDKIQx0JOKxuEPifgx/Ateri3fF1dCe5VS4DGU7sZTgYjoLO8nz4CNS3uKOj4zPksgeD7QtvgX/CHN9j7LtMR8gABsFRcAcHgrwWitmwE+4FL4KL4B9wx5i3LvrOcPv//QV4yGD4MMyR7HurAyDJgYvX4ctB+/vP/ajLVdv0mE3n8+KzrkPuCi+JtmJMehD6vvAH+Dh8E4pvoWXuQPgoFKemNj0q6Xiz0H1RXJM6xh4BXZfiQjgF3qEBvoEugYSZKKEiIPvDr+Fzqa8elXS8HxR+0ifgdxotYLkaAn3Bl7IcB/82nAt9ye+7M8jurJl02g3lAb/D1+FNcEO4J9wPfgW/pUxZxgIY0F0oW8HT4Ag4DI6GYmGX6OG/PHQ8FIfnXWNfH7wsidyfdGLTYzxUjsz/FP7u1V4a9IEXQGukx+Y+qcNc4l8/5viQ1YwhrQ4LoTg/z49xj+M3QrSrDveL/uH4fN6sapsYX5OYm9ClMgd60IQHTsUQ8+FPQaMWhmDlD7HzY3wJ0nX7ZbRdvz78+NQEfRV4FRRfdYnQv4PwOb9Al0QT8HvAiBehVeQ3ONLZcfSP2QK5CxRTqz3gc5ZGQ2c/h+VpAvwgOn2B56EvJE6H+8BfNTLciu5R3AT8vvxTBpDbQzFNQ9wWA4O6zGJ63gO+w+CCGFM4qwNhGpA+b1/CarEY/gh/h3nOLOxhMA3cr/EAdAOWwLbNnTqQa0BxRdrhZWJVIelAfDPgp3AStOOR7PjPkVvAZ6Ho3yV6nUtsBXSrRR/YF/4Jz4QHE3sBab3dHXpt3BY+yXPWR7aHQwa1M4u/H/STvADLMhf9NyOdGWun6937gaeWurMnXJ93Qw8A4do9IB8RdvrMlyY/vtqZbbsMaLQ1FKekjpTYVwRvUdyOLGcE/cLo/xDpi2yU2qGPh59CB9KwsbDNfybLrR1sOVspsSJXjvYoOpsSdcvP0XAOn9SDIIfly4rgC9xH/L0URL+LPuZjuzxuQM/L1or4Vkq5reTSBruAhovg2Mi8n/NyQ50Bfcwg7kYdBy/Sl4P4u3GQLoXN8xi6L9IWbQdL51YAN9F6WS8nojuYt4g5g/4a2J3cd5DiSDgG+8Fg8Yc8B74E30nIt6L/CGQ58+ivRH9L0XawtuIB7yJkAA/eP6pLkFtC16VnfRgs+d4PwoZFJoxEWQM62N+i81lylzrAmBvEUgebJ1d0Hzw4+sbxEgt4+ENIf5aPRb8MfV30idC8FbGnIHeG/w50IKqly0I9F1rUXQppNv2k02AdFuL0lDsZWglWjTqiFmFpEfFYtrr4LI/Wi6HHa9OhUJ3Zn+Ir74b0M8+AndCj0Z3vOjsd3gP7wBwfMZsO0tPPSvAjuptwHqw+5wviHxHvJOY1cxB0Yw6Ax0LxS5fI/tJAlGsM3cuxOMc0pAfDOdDi/xncI2v+r1T68KaXavIn6DvFZ/llrCjijOhrOm7z/x84m+IP/zADv0LX5yi4GN5DRzOgR2q3Qbs1aWQFOQE6SUPp/wmkWB72DhpfM8o0tsKZ84h8Mga03Qi+nReT4cmvxB4A74fi6jz2T3TarAS96Ihp1Tb4poZI4++8dIqGW9czJHj+pzdwUBtAr4JeHy1PJbD9VPOgcB3/I5DbAd244qxqI3wuNRE2VopjHxS8/nsKZXI0qhcMf+y5SXyRbVJjJfZA6M79EqbbVp7SpJM3AYpyf6QkfIeESFcF8pZWAv/TMbaOD3YBW3Y8kRrWIfYO0EuFA96k7AEF+1gowkbIY1WdHGf1VejLr57HsU+Ebl4rTkPVwN4DivvKNhinBFdRXF46o4J/PLQkPZ3HsN3Rlh/vuW1BzmgoJueJ2MOCl18FyOqMro7P6uPeGVK2w8jX4ZgyEBXiI6GX5Qbgmw7FiIZAxSB+TcgqiqF5CF9/eBRsunHhmwPFxLxN0HEOhm6AXZuCLRzmQnFyi5TUt1/g/XY5eYzcY+wUzMz9tTpJnbWBipM8y5yYXQmVJrG1Q0ZR3Fg62yjkbgwXwQVwlTapYeN0kiQ62ybGIHmvwY9b5RJzzYtJrXKSn5wVoD+L3HBtl1Zq406fWBpLUcj11i/WrkvFf2aIFsV2dfHcR96lMbdhI+Y5tTqNDoU3wYZyVk0mntbX+GpMm/hD0PLXsNurucT3hMLKkI7calq9TYOjbQmurM/o8hLfLmQxg3V5xDzOyx+DLXLSIWMdXq8up62PRhbyR6HYtFUysb7QmWs4Js3HZ4UR5c/sun6IXxayWvyfra5Nk48OfOPJcOWmYOYgPhF2Zq6g4vPgmAQHVmO5Tdw6fkTuq9P/Aj46B0QjCAaVAAAAAElFTkSuQmCC"
+                                                class="DItemIcon" alt=""></div>
+                                            <div class="DItemDetailsDiv">
+                                              <p class="DItemTitle"> {{ fundraiser.title }}</p>
+                                              <div class="DItemByDiv"><img src="/media/{{fundraiser.user.profile}}" class="DItemByImg" alt="">
+                                                <p class="DItemByText">by {{ fundraiser.user.name }}</p>
+                                              </div>
+                                              <p class="DItemDescp" style="max-height: 33px;">{{ fundraiser.short_description }}</p>
+                                            </div>
+                                            <div class="DItemNumLineDiv">
+                                              <div class="DItemNumbersDiv">
+                                                <div class="DItemDeadlineDiv" style="">
+                                                  <p class="DItemDeadline">{{ fundraiser.available_days }}<br>DAYS LEFT</p>
+                                                </div>
+                                                <div class="DItemGoalDiv">
+                                                  <p class="DItemGoal"><svg aria-hidden="true" data-prefix="fas" data-icon="rupee-sign"
+                                                      class="svg-inline--fa fa-rupee-sign fa-w-10 " role="img" xmlns="http://www.w3.org/2000/svg"
+                                                      viewBox="0 0 320 512">
+                                                      <path fill="currentColor"
+                                                        d="M308 96c6.627 0 12-5.373 12-12V44c0-6.627-5.373-12-12-12H12C5.373 32 0 37.373 0 44v44.748c0 6.627 5.373 12 12 12h85.28c27.308 0 48.261 9.958 60.97 27.252H12c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h158.757c-6.217 36.086-32.961 58.632-74.757 58.632H12c-6.627 0-12 5.373-12 12v53.012c0 3.349 1.4 6.546 3.861 8.818l165.052 152.356a12.001 12.001 0 0 0 8.139 3.182h82.562c10.924 0 16.166-13.408 8.139-20.818L116.871 319.906c76.499-2.34 131.144-53.395 138.318-127.906H308c6.627 0 12-5.373 12-12v-40c0-6.627-5.373-12-12-12h-58.69c-3.486-11.541-8.28-22.246-14.252-32H308z">
+                                                      </path>
+                                                    </svg> {{ fundraiser.campaigntotalamount.total_amount}} <br>RAISED</p>
+                                                </div>
+                                              </div>
+                                              <div class="DItemCompletionDiv">
+                                                <div class="DItemCompletionLineDiv">
+                                                  <div class="filled" style="width: {{ fundraiser.totalfund_in_percentage }}%;"></div>
+                                                </div>
+                                                <p class="DItemCompletionText">{{ fundraiser.totalfund_in_percentage }} %</p>
+                                              </div>
+                                            </div>
+                                          </a>
+                                    </li>
+                                   {% endfor %}
+                                    
+                                  </ul> 
+                                </div>
+                                {% endif %}
+                        
+                          
+                        <div class="text-center">
+                            <a class="jss232 jss206 jss217 jss218 jss220 jss221 jss24" tabindex="0" role="button" href="{% url 'discover' %}"><span class="jss207">Discover More <svg aria-hidden="true" data-prefix="fas" data-icon="arrow-right" class="svg-inline--fa fa-arrow-right fa-w-14 " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" style="margin-left: 5px;"><path fill="currentColor" d="M190.5 66.9l22.2-22.2c9.4-9.4 24.6-9.4 33.9 0L441 239c9.4 9.4 9.4 24.6 0 33.9L246.6 467.3c-9.4 9.4-24.6 9.4-33.9 0l-22.2-22.2c-9.5-9.5-9.3-25 .4-34.3L311.4 296H24c-13.3 0-24-10.7-24-24v-32c0-13.3 10.7-24 24-24h287.4L190.9 101.2c-9.8-9.3-10-24.8-.4-34.3z"></path></svg></span><span class="jss269"></span></a>
+                        </div>                        
+                  </div>
+                </div>
+            </div>
+
+             {% endif %}
+
+             {% if instance_SupportGroup|length  != 0 %}
+
+            <div class="container"> 
+                <div class="row">
+                  <div class="col-sm-12">
+                      <div class="row1-heading how-heading">
+                          <h2 class="jss3">Featured Mobilisation Campaign</h2>
+                          <div class="row1-dash">
+                            <div class="row1-big-dash"></div>
+                            <div class="row1-small-dash"></div>
+                          </div>
+                        </div>
+                        {% if instance_SupportGroup|length  <= 3 %}
+                        <div class="DItemsDiv">
+                            {% for supportgroup in instance_SupportGroup %}
+                            <a href="{% url 'support_group_selected' supportgroup.id supportgroup.title %}" class="DItemDiv">
+                                <img src="/media/{{supportgroup.picture}}" class="DItemImage"
+                                  alt="">
+                                <div class="DItemDetailsDiv">
+                                  <p class="DItemTitle"> {{supportgroup.title}}</p>
+                                  <div class="DItemByDiv"><img
+                                      src="/media/{{supportgroup.group_leader.profile}}" class="DItemByImg"
+                                      alt="">
+                                    <p class="DItemByText">by {{ supportgroup.group_leader.name }}</p>
+                                  </div>
+                                  <p class="DItemDescp" style="max-height: 33px;">{{ supportgroup.short_description }}
+                                  </p>
+                                </div>
+                                <div class="DItemNumLineDiv">
+                                  <div class="DItemNumbersDiv">
+                                    <div class="DItemGoalDiv" style="border: 0px;">
+                                      <p class="DItemGoal"><svg aria-hidden="true" data-prefix="fas" data-icon="users"
+                                          class="svg-inline--fa fa-users fa-w-20 " role="img" xmlns="http://www.w3.org/2000/svg"
+                                          viewBox="0 0 640 512">
+                                          <path fill="currentColor"
+                                            d="M96 224c35.3 0 64-28.7 64-64s-28.7-64-64-64-64 28.7-64 64 28.7 64 64 64zm448 0c35.3 0 64-28.7 64-64s-28.7-64-64-64-64 28.7-64 64 28.7 64 64 64zm32 32h-64c-17.6 0-33.5 7.1-45.1 18.6 40.3 22.1 68.9 62 75.1 109.4h66c17.7 0 32-14.3 32-32v-32c0-35.3-28.7-64-64-64zm-256 0c61.9 0 112-50.1 112-112S381.9 32 320 32 208 82.1 208 144s50.1 112 112 112zm76.8 32h-8.3c-20.8 10-43.9 16-68.5 16s-47.6-6-68.5-16h-8.3C179.6 288 128 339.6 128 403.2V432c0 26.5 21.5 48 48 48h288c26.5 0 48-21.5 48-48v-28.8c0-63.6-51.6-115.2-115.2-115.2zm-223.7-13.4C161.5 263.1 145.6 256 128 256H64c-35.3 0-64 28.7-64 64v32c0 17.7 14.3 32 32 32h65.9c6.3-47.4 34.9-87.3 75.2-109.4z">
+                                          </path>
+                                        </svg> {{ supportgroup.group_member_count}} <br>MEMBERS</p>
+                                    </div>
+                                  </div>
+                                </div>
+                              </a>
+                              {% endfor  %}
+                        </div>
+                        {% else %}
+
+                        <div class="flexslider" id="Support_grop_landing_page">
+                          <ul class="slides" >
+
+
+
+                            {% for supportgroup in instance_SupportGroup %}
+                            <li>
+                                <a href="{% url 'support_group_selected' supportgroup.id supportgroup.title %}" class="DItemDiv">
+                                  <img src="/media/{{supportgroup.picture}}" class="DItemImage"
+                                    alt="">
+                                  <div class="DItemDetailsDiv">
+                                    <p class="DItemTitle"> {{supportgroup.title}}</p>
+                                    <div class="DItemByDiv"><img
+                                        src="/media/{{supportgroup.group_leader.profile}}" class="DItemByImg"
+                                        alt="">
+                                      <p class="DItemByText">by {{ supportgroup.group_leader.name }}</p>
+                                    </div>
+                                    <p class="DItemDescp" style="max-height: 33px;">{{ supportgroup.short_description }}
+                                    </p>
+                                  </div>
+                                  <div class="DItemNumLineDiv">
+                                    <div class="DItemNumbersDiv">
+                                      <div class="DItemGoalDiv" style="border: 0px;">
+                                        <p class="DItemGoal"><svg aria-hidden="true" data-prefix="fas" data-icon="users"
+                                            class="svg-inline--fa fa-users fa-w-20 " role="img" xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 640 512">
+                                            <path fill="currentColor"
+                                              d="M96 224c35.3 0 64-28.7 64-64s-28.7-64-64-64-64 28.7-64 64 28.7 64 64 64zm448 0c35.3 0 64-28.7 64-64s-28.7-64-64-64-64 28.7-64 64 28.7 64 64 64zm32 32h-64c-17.6 0-33.5 7.1-45.1 18.6 40.3 22.1 68.9 62 75.1 109.4h66c17.7 0 32-14.3 32-32v-32c0-35.3-28.7-64-64-64zm-256 0c61.9 0 112-50.1 112-112S381.9 32 320 32 208 82.1 208 144s50.1 112 112 112zm76.8 32h-8.3c-20.8 10-43.9 16-68.5 16s-47.6-6-68.5-16h-8.3C179.6 288 128 339.6 128 403.2V432c0 26.5 21.5 48 48 48h288c26.5 0 48-21.5 48-48v-28.8c0-63.6-51.6-115.2-115.2-115.2zm-223.7-13.4C161.5 263.1 145.6 256 128 256H64c-35.3 0-64 28.7-64 64v32c0 17.7 14.3 32 32 32h65.9c6.3-47.4 34.9-87.3 75.2-109.4z">
+                                            </path>
+                                          </svg> {{ supportgroup.group_member_count}} <br>MEMBERS</p>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </a>
+                            </li>
+                            {% endfor  %}
+                            
+                            
+                          </ul> 
+                        </div>   
+                        {% endif %}  
+                        <!-- <div class="flexslider" id="Support_grop_landing_page">
+                          <ul class="slides" >
+
+                              {% for supportgroup in instance_SupportGroup %}
+                            <li>
+                                <a href="{% url 'support_group_selected' supportgroup.id supportgroup.title %}" class="DItemDiv">
+                                  <img src="/media/{{supportgroup.picture}}" class="DItemImage"
+                                    alt="">
+                                  <div class="DItemDetailsDiv">
+                                    <p class="DItemTitle"> {{supportgroup.title}} </p>
+                                    <div class="DItemByDiv"><img
+                                        src="/media/{{supportgroup.group_leader.profile}}" class="DItemByImg"
+                                        alt="">
+                                      <p class="DItemByText">by {{ supportgroup.group_leader.name }} </p>
+                                    </div>
+                                    <p class="DItemDescp" style="max-height: 33px;">{{ supportgroup.short_description }}</p>
+                                  </div>
+                                  <div class="DItemNumLineDiv">
+                                    <div class="DItemNumbersDiv">
+                                      <div class="DItemGoalDiv" style="border: 0px;">
+                                        <p class="DItemGoal"><svg aria-hidden="true" data-prefix="fas" data-icon="users"
+                                            class="svg-inline--fa fa-users fa-w-20 " role="img" xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 640 512">
+                                            <path fill="currentColor"
+                                              d="M96 224c35.3 0 64-28.7 64-64s-28.7-64-64-64-64 28.7-64 64 28.7 64 64 64zm448 0c35.3 0 64-28.7 64-64s-28.7-64-64-64-64 28.7-64 64 28.7 64 64 64zm32 32h-64c-17.6 0-33.5 7.1-45.1 18.6 40.3 22.1 68.9 62 75.1 109.4h66c17.7 0 32-14.3 32-32v-32c0-35.3-28.7-64-64-64zm-256 0c61.9 0 112-50.1 112-112S381.9 32 320 32 208 82.1 208 144s50.1 112 112 112zm76.8 32h-8.3c-20.8 10-43.9 16-68.5 16s-47.6-6-68.5-16h-8.3C179.6 288 128 339.6 128 403.2V432c0 26.5 21.5 48 48 48h288c26.5 0 48-21.5 48-48v-28.8c0-63.6-51.6-115.2-115.2-115.2zm-223.7-13.4C161.5 263.1 145.6 256 128 256H64c-35.3 0-64 28.7-64 64v32c0 17.7 14.3 32 32 32h65.9c6.3-47.4 34.9-87.3 75.2-109.4z">
+                                            </path>
+                                          </svg> {{ supportgroup.group_member_count}} <br>MEMBERS</p>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </a>
+                            </li>
+                            {% endfor %}
+
+                          </ul> 
+                        </div> -->
+                          
+                        <div class="text-center">
+                            <a class="jss232 jss206 jss217 jss218 jss220 jss221 jss24" tabindex="0" role="button" href="{% url 'discover' %}"><span class="jss207">Discover More <svg aria-hidden="true" data-prefix="fas" data-icon="arrow-right" class="svg-inline--fa fa-arrow-right fa-w-14 " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" style="margin-left: 5px;"><path fill="currentColor" d="M190.5 66.9l22.2-22.2c9.4-9.4 24.6-9.4 33.9 0L441 239c9.4 9.4 9.4 24.6 0 33.9L246.6 467.3c-9.4 9.4-24.6 9.4-33.9 0l-22.2-22.2c-9.5-9.5-9.3-25 .4-34.3L311.4 296H24c-13.3 0-24-10.7-24-24v-32c0-13.3 10.7-24 24-24h287.4L190.9 101.2c-9.8-9.3-10-24.8-.4-34.3z"></path></svg></span><span class="jss269"></span></a>
+                        </div>                        
+                  </div>
+                </div>
+            </div>
+            {% endif %}
+
+         
+          
+        
+          <div class="how-it-works-row get-started" style="padding-top: 8vh;">
+            <div class="row1-heading how-heading">
+              <h2 class="jss3">Make A Contribution By</h2>
+              <div class="row1-dash">
+                <div class="row1-big-dash"></div>
+                <div class="row1-small-dash"></div>
+              </div>
+            </div>
+            <div class="why-container">
+              <div class="jss235 jss239 jss236 jss31">
+                <div class="support-icon"><svg aria-hidden="true" data-prefix="fas" data-icon="hand-holding-heart"
+                    class="svg-inline--fa fa-hand-holding-heart fa-w-18 " role="img" xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 576 512">
+                    <path fill="currentColor"
+                      d="M275.3 250.5c7 7.4 18.4 7.4 25.5 0l108.9-114.2c31.6-33.2 29.8-88.2-5.6-118.8-30.8-26.7-76.7-21.9-104.9 7.7L288 36.9l-11.1-11.6C248.7-4.4 202.8-9.2 172 17.5c-35.3 30.6-37.2 85.6-5.6 118.8l108.9 114.2zm290 77.6c-11.8-10.7-30.2-10-42.6 0L430.3 402c-11.3 9.1-25.4 14-40 14H272c-8.8 0-16-7.2-16-16s7.2-16 16-16h78.3c15.9 0 30.7-10.9 33.3-26.6 3.3-20-12.1-37.4-31.6-37.4H192c-27 0-53.1 9.3-74.1 26.3L71.4 384H16c-8.8 0-16 7.2-16 16v96c0 8.8 7.2 16 16 16h356.8c14.5 0 28.6-4.9 40-14L564 377c15.2-12.1 16.4-35.3 1.3-48.9z">
+                    </path>
+                  </svg></div>
+                <p class="jss171 jss180 jss32">Fund a Campaign</p>
+                <p class="jss171 jss180 jss33">Find a political initiative of your choice and support it. Your
+                  contributions helps strengthen democracy.</p><a
+                  class="jss232 jss206 jss223 jss224 jss217 jss220 jss230 jss34" tabindex="0" role="button"
+                  href="{% url 'discover' %}"><span class="jss207">Donate Now</span><span class="jss269"></span></a>
+              </div>
+              <div class="jss235 jss239 jss236 jss31">
+                <div class="support-icon"><svg aria-hidden="true" data-prefix="fas" data-icon="file-signature"
+                    class="svg-inline--fa fa-file-signature fa-w-18 " role="img" xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 576 512">
+                    <path fill="currentColor"
+                      d="M218.17 424.14c-2.95-5.92-8.09-6.52-10.17-6.52s-7.22.59-10.02 6.19l-7.67 15.34c-6.37 12.78-25.03 11.37-29.48-2.09L144 386.59l-10.61 31.88c-5.89 17.66-22.38 29.53-41 29.53H80c-8.84 0-16-7.16-16-16s7.16-16 16-16h12.39c4.83 0 9.11-3.08 10.64-7.66l18.19-54.64c3.3-9.81 12.44-16.41 22.78-16.41s19.48 6.59 22.77 16.41l13.88 41.64c19.75-16.19 54.06-9.7 66 14.16 1.89 3.78 5.49 5.95 9.36 6.26v-82.12l128-127.09V160H248c-13.2 0-24-10.8-24-24V0H24C10.7 0 0 10.7 0 24v464c0 13.3 10.7 24 24 24h336c13.3 0 24-10.7 24-24v-40l-128-.11c-16.12-.31-30.58-9.28-37.83-23.75zM384 121.9c0-6.3-2.5-12.4-7-16.9L279.1 7c-4.5-4.5-10.6-7-17-7H256v128h128v-6.1zm-96 225.06V416h68.99l161.68-162.78-67.88-67.88L288 346.96zm280.54-179.63l-31.87-31.87c-9.94-9.94-26.07-9.94-36.01 0l-27.25 27.25 67.88 67.88 27.25-27.25c9.95-9.94 9.95-26.07 0-36.01z">
+                    </path>
+                  </svg></div>
+                <p class="jss171 jss180 jss32">Join a Mobilisation Campaign</p>
+                <div class="jss33">Why create a campaign community?<br>
+                  <ul style="text-align: left;">
+                    <li>Create a community of supporters you could mobilise for a cause</li>
+                    <li>Communicate with your community through email and sms</li>
+                    <li>Bypass social media algorithms and chaos</li>
+                    <li>Have direct access to your community</li>
+                  </ul>
+                </div><a class="jss232 jss206 jss223 jss224 jss217 jss220 jss230 jss34" tabindex="0" role="button"
+                  href="{% url 'discover' %}"><span class="jss207">Join a Mobilisation Campaign</span><span class="jss269"></span></a>
+              </div>
+              <div class="jss235 jss239 jss236 jss31">
+                <div class="support-icon"><svg aria-hidden="true" data-prefix="fas" data-icon="hands-helping"
+                    class="svg-inline--fa fa-hands-helping fa-w-20 " role="img" xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 640 512">
+                    <path fill="currentColor"
+                      d="M488 192H336v56c0 39.7-32.3 72-72 72s-72-32.3-72-72V126.4l-64.9 39C107.8 176.9 96 197.8 96 220.2v47.3l-80 46.2C.7 322.5-4.6 342.1 4.3 357.4l80 138.6c8.8 15.3 28.4 20.5 43.7 11.7L231.4 448H368c35.3 0 64-28.7 64-64h16c17.7 0 32-14.3 32-32v-64h8c13.3 0 24-10.7 24-24v-48c0-13.3-10.7-24-24-24zm147.7-37.4L555.7 16C546.9.7 527.3-4.5 512 4.3L408.6 64H306.4c-12 0-23.7 3.4-33.9 9.7L239 94.6c-9.4 5.8-15 16.1-15 27.1V248c0 22.1 17.9 40 40 40s40-17.9 40-40v-88h184c30.9 0 56 25.1 56 56v28.5l80-46.2c15.3-8.9 20.5-28.4 11.7-43.7z">
+                    </path>
+                  </svg></div>
+                <p class="jss171 jss180 jss32">Democracy Pro Bono</p>
+                <p class="jss171 jss180 jss33">In case of crisis, maybe your skillset can save a life. Join our pool of
+                  contributors if you are a lawyer, journalist, counselor or even a concerned citizen who wants to be
+                  contacted in case of a crisis or a campaign.</p><button
+                  class="jss306 jss280 jss297 jss298 jss291 jss294 jss304 jss279" tabindex="0" type="button"><span
+                    class="jss281">Coming Soon</span><span class="jss325"></span></button>
+              </div>
+            </div>
+          </div>
+          <div class="how-it-works-row stats" id="stats_id">
+            <div class="stats-heading">
+              <p class="stats-heading-text">Campaigns by CrowdNewsing</p>
+            </div>
+            <div class="stats-container">
+              <div class="stats-content">
+                <div class="stats-numbers"><span class="count">32</span></div>
+                <div class="stats-line"></div>
+                <h5 class="jss171 jss187 jss22">FINISHED PROJECTS</h5>
+              </div>
+              <div class="stats-content">
+                <div class="stats-numbers"><span class="count">2 </span> CR +</div>
+                <div class="stats-line"></div>
+                <h5 class="jss171 jss187 jss22">RAISED</h5>
+              </div>
+              <div class="stats-content">
+                <div class="stats-numbers"><span class="count">9400</span></div>
+                <div class="stats-line"></div>
+                <h5 class="jss171 jss187 jss22">CONTRIBUTORS</h5>
+              </div>
+            </div>
+          </div>
+          <div class="how-it-works-row get-started">
+            <div class="jss235 jss239 jss236 jss35">
+              <div class="row1-heading how-heading">
+                <h2 class="jss3">Platform Features</h2>
+                <div class="row1-dash">
+                  <div class="row1-big-dash"></div>
+                  <div class="row1-small-dash"></div>
+                </div>
+              </div>
+              <div class="platform-container">
+                <div class="platform-row"><svg aria-hidden="true" data-prefix="fas" data-icon="check-circle"
+                    class="svg-inline--fa fa-check-circle fa-w-16 jss36" role="img" xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 512 512">
+                    <path fill="currentColor"
+                      d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z">
+                    </path>
+                  </svg>
+                  <h6 class="jss171 jss188 jss37">Easy setup form and instant setup</h6>
+                </div>
+                <div class="platform-row"><svg aria-hidden="true" data-prefix="fas" data-icon="check-circle"
+                    class="svg-inline--fa fa-check-circle fa-w-16 jss36" role="img" xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 512 512">
+                    <path fill="currentColor"
+                      d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z">
+                    </path>
+                  </svg>
+                  <h6 class="jss171 jss188 jss37">100% Transparent fundraising</h6>
+                </div>
+                <div class="platform-row"><svg aria-hidden="true" data-prefix="fas" data-icon="check-circle"
+                    class="svg-inline--fa fa-check-circle fa-w-16 jss36" role="img" xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 512 512">
+                    <path fill="currentColor"
+                      d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z">
+                    </path>
+                  </svg>
+                  <h6 class="jss171 jss188 jss37">Contact us over phone for advice or troubleshooting</h6>
+                </div>
+                <div class="platform-row"><svg aria-hidden="true" data-prefix="fas" data-icon="check-circle"
+                    class="svg-inline--fa fa-check-circle fa-w-16 jss36" role="img" xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 512 512">
+                    <path fill="currentColor"
+                      d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z">
+                    </path>
+                  </svg>
+                  <h6 class="jss171 jss188 jss37">India’s only fundraising platform built around new FCRA guidelines.
+                  </h6>
+                </div>
+                <div class="platform-row"><svg aria-hidden="true" data-prefix="fas" data-icon="check-circle"
+                    class="svg-inline--fa fa-check-circle fa-w-16 jss36" role="img" xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 512 512">
+                    <path fill="currentColor"
+                      d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z">
+                    </path>
+                  </svg>
+                  <h6 class="jss171 jss188 jss37">Accepts contributions from all recognised Indian banks, credit/debit
+                    cards, wallets, Bhim and phone apps.</h6>
+                </div>
+                <div class="platform-row"><svg aria-hidden="true" data-prefix="fas" data-icon="check-circle"
+                    class="svg-inline--fa fa-check-circle fa-w-16 jss36" role="img" xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 512 512">
+                    <path fill="currentColor"
+                      d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z">
+                    </path>
+                  </svg>
+                  <h6 class="jss171 jss188 jss37">Download entire Donor list with contact details and address as per
+                    Election Commission, Income Tax department norms.</h6>
+                </div>
+                <div class="platform-row"><svg aria-hidden="true" data-prefix="fas" data-icon="check-circle"
+                    class="svg-inline--fa fa-check-circle fa-w-16 jss36" role="img" xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 512 512">
+                    <path fill="currentColor"
+                      d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z">
+                    </path>
+                  </svg>
+                  <h6 class="jss171 jss188 jss37">Engage with your community using email and sms messages.</h6>
+                </div>
+                <div class="platform-row"><svg aria-hidden="true" data-prefix="fas" data-icon="check-circle"
+                    class="svg-inline--fa fa-check-circle fa-w-16 jss36" role="img" xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 512 512">
+                    <path fill="currentColor"
+                      d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z">
+                    </path>
+                  </svg>
+                  <h6 class="jss171 jss188 jss37">Dashboard that lets you manage your campaign like a champion.</h6>
+                </div>
+                <div class="platform-row"><svg aria-hidden="true" data-prefix="fas" data-icon="check-circle"
+                    class="svg-inline--fa fa-check-circle fa-w-16 jss36" role="img" xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 512 512">
+                    <path fill="currentColor"
+                      d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z">
+                    </path>
+                  </svg>
+                  <h6 class="jss171 jss188 jss37">No minimum amount</h6>
+                </div>
+                <div class="platform-row">
+                  <div class="jss36"></div>
+                  <h6 class="jss171 jss188 jss37"> </h6>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="how-it-works-row get-started">
+            <div class="row1-heading how-heading">
+              <h2 class="jss3">How It Works ?</h2>
+              <div class="row1-dash">
+                <div class="row1-big-dash"></div>
+                <div class="row1-small-dash"></div>
+              </div>
+              <p class="jss171 jss180 jss14">Start a Fundraiser Campaign in 5 Easy Steps</p>
+            </div>
+            <div class="why-container">
+              <div class="jss235 jss239 jss236 jss15">
+                <div class="how-Numbers">1</div>
+                <p class="jss171 jss180 jss16">Fill The Form</p>
+                <p class="jss171 jss180 jss17">Start your campaign by setting up your campaign page</p>
+              </div>
+              <div class="jss235 jss239 jss236 jss15">
+                <div class="how-Numbers">2</div>
+                <p class="jss171 jss180 jss16">Submit Your Campaign</p>
+                <p class="jss171 jss180 jss17">Submit the campaign for approval. It usually takes 1-12 hours</p>
+              </div>
+              <div class="jss235 jss239 jss236 jss15">
+                <div class="how-Numbers">3</div>
+                <p class="jss171 jss180 jss16">Share</p>
+                <p class="jss171 jss180 jss17">Once approved, share the campaign link with your family, friends and
+                  followers</p>
+              </div>
+              <div class="jss235 jss239 jss236 jss15" style="margin-top: 30px;">
+                <div class="how-Numbers">4</div>
+                <p class="jss171 jss180 jss16">Avail Our Services</p>
+                <p class="jss171 jss180 jss17">Tell us if you want to use our campaign services like content creation
+                  and marketing</p>
+              </div>
+              <div class="jss235 jss239 jss236 jss15" style="margin-top: 30px;">
+                <div class="how-Numbers">5</div>
+                <p class="jss171 jss180 jss16">Access The Funds</p>
+                <p class="jss171 jss180 jss17">Submit your bank documents and start accessing funds that your project
+                  needs!</p>
+              </div>
+            </div><a class="jss232 jss206 jss217 jss218 jss220 jss221 jss24" tabindex="0" role="button"
+              href="{% url 'how_it_works' %}"><span class="jss207">More Details</span><span class="jss269"></span></a>
+          </div>
+
+          {% if instance_CrowdNewsing|length != 0 %}
+          <div class="how-it-works-row get-started">
+            <div class="row1-heading how-heading">
+              <h2 style="margin-top: 0px; font-size: 1.5rem;">What People Say</h2>
+              <div class="row1-dash">
+                <div class="row1-big-dash"></div>
+                <div class="row1-small-dash"></div>
+              </div>
+            </div>
+            <div class="outer-continer">
+              <div class="jss16_how-it-works-row">
+                <div class="flexslider" id="wat_ppl_said">
+                  <ul class="slides">
+                    {% for CrowdNewsing in instance_CrowdNewsing %}
+                    <li>
+                      <div class="extra-slider-container position-relative">
+                        <div class="jss214_how_it_works slider-container">
+                          <img src="/media/{{CrowdNewsing.profile}}" class="slider-image"
+                            alt=" ">
+                          <h2 class="jss12_how-it-works-row ">{% autoescape off %} {{CrowdNewsing.about_crowd_newsing|linebreaks }} {% endautoescape %}</h2>
+                          <div class="slider-name">
+                            <h5 class="jss13_how-it-works-row">{{CrowdNewsing.name}}</h5>
+                            <h6 class="jss14_how-it-works-row">{{CrowdNewsing.designation}}</h6>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                   {% endfor %}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endif %}
+
+
+        </main>
+        {% endblock %}
+        <footer>
+          <div class="footer-top">
+            <div class="footer-container">
+              <div class="footer-row">
+                <h1>Discover</h1>
+                <p><a href="{% url 'discover' %}">Political Campaigns</a></p>
+                <p><a href="{% url 'discover' %}">Journalism Campaigns</a></p>
+                <p><a href="{% url 'discover' %}">Social Cause Campaigns</a></p>
+              </div>
+              <div class="footer-row">
+                <h1>About US</h1>
+                <p><a href="{% url 'how_it_works' %}">How It Works</a></p>
+                <p><a href="{% url 'media' %}">Media</a></p>
+                <p><a href="{% url 'services' %}">Services Offerred</a></p>
+                <p><a href="{% url 'about_us' %}">About Us</a></p>
+                <p><a href="{% url 'pricing' %}">Plans &amp; Pricing</a></p>
+              </div>
+              <div class="footer-row">
+                <h1>Support</h1>
+                <p><a href="{% url 'campaign_criteria' %}">Campaign Criteria</a></p>
+                <p><a href="{% url 'tips' %}">Campaign Tips</a></p>
+                <!-- <p><a href="{% url 'discover' %}">Contact Us</a></p> -->
+                <p><a href="{% url 'contact_us' %}">Contact Us</a></p>
+                <p><a href="{% url 'terms_conditions' %}">Terms &amp; Conditions</a></p>
+                <p><a href="{% url 'privacy_policy' %}">Privacy Policy</a></p>
+              </div>
+              <div class="footer-row">
+                <h1>Follow Us</h1><a rel="noopener noreferrer" target="_blank"
+                  href="https://www.facebook.com/OurDemocracy.in/"><svg aria-hidden="true" data-prefix="fab"
+                    data-icon="facebook" class="svg-inline--fa fa-facebook fa-w-14 " role="img"
+                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                    <path fill="currentColor"
+                      d="M448 56.7v398.5c0 13.7-11.1 24.7-24.7 24.7H309.1V306.5h58.2l8.7-67.6h-67v-43.2c0-19.6 5.4-32.9 33.5-32.9h35.8v-60.5c-6.2-.8-27.4-2.7-52.2-2.7-51.6 0-87 31.5-87 89.4v49.9h-58.4v67.6h58.4V480H24.7C11.1 480 0 468.9 0 455.3V56.7C0 43.1 11.1 32 24.7 32h398.5c13.7 0 24.8 11.1 24.8 24.7z">
+                    </path>
+                  </svg> &nbsp; Facebook</a><a rel="noopener noreferrer" target="_blank"
+                  href="https://www.instagram.com/ourdemocracy.in/"><svg aria-hidden="true" data-prefix="fab"
+                    data-icon="instagram" class="svg-inline--fa fa-instagram fa-w-14 " role="img"
+                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                    <path fill="currentColor"
+                      d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z">
+                    </path>
+                  </svg> &nbsp; Instagram</a><a rel="noopener noreferrer" target="_blank"
+                  href="https://twitter.com/ourdemocracyin"><svg aria-hidden="true" data-prefix="fab"
+                    data-icon="twitter" class="svg-inline--fa fa-twitter fa-w-16 " role="img"
+                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                    <path fill="currentColor"
+                      d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z">
+                    </path>
+                  </svg> &nbsp; Twitter</a>
+              </div>
+            </div>
+          </div>
+          <div class="footer-bottom">
+            <div class="footer-left"><a href="/">Our Democracy</a></div>
+            <div class="footer-right">
+              <div class="foot-bottom-designed" href="# ">
+                <h3 style="color: rgb(221, 221, 221); margin: 0px;"> </h3>
+                <div style="margin-left: 10px; color: rgb(196, 24, 84);"> </div>
+              </div>
+            </div>
+          </div>
+        </footer>
+      </main>
+    </div>
+  </div>
+
+  {% if messages %}
+  <div class="toast_con" >
+      <div class="toast error_msg" data-autohide="false">
+    
+          <div class="toast-body">
+              <button type="button" class="ml-2 mb-1 close" data-dismiss="toast">&times;</button>
+              
+                {% for message in messages %}
+                  {% if 'error' in message.tags %}
+                    <strong class="mr-auto text-primary"><i class="fa fa-exclamation-triangle fa-5" aria-hidden="true"></i></strong>
+                    {% autoescape off %}{{ message }}{% endautoescape %}
+                  {% else %}
+                    <strong class="mr-auto text-primary"><i class="fa fa-exclamation-triangle fa-5" aria-hidden="true"></i></strong>
+                    {% autoescape off %}{{ message }}{% endautoescape %}
+                  {% endif %}
+                {% endfor %}
+          </div>
+        </div>
+  </div>
+  {% endif %}
+
+
+  {% block model_popup %}
+  {% endblock %}
+
+  <script type="text/javascript" src="/static/js/jquery.min.js" ></script>
+  <script type="text/javascript" src="/static/js/bootstrap.min.js" ></script>
+  <script type="text/javascript" src="/static/js/script.js"></script>
+  <script type="text/javascript" src="/static/js/jquery.flexslider.js"></script>
+  <script type="text/javascript" src="/static/js/custom-file-input.js"></script>
+
+  {% if messages %}
+  <script>
+    $('.error_msg').toast('show');
+  </script>
+  {% endif %}
+
+  {% block extra_script %}
+  {% endblock %}
+
+<script type="text/javascript">
+  (function() {
+ 
+  // store the slider in a local variable
+  var $window = $(window),
+      flexslider_two = { vars:{} };
+ 
+  // tiny helper function to add breakpoints
+  function getGridSize_two() {
+    return (window.innerWidth < 600) ? 1 :
+           (window.innerWidth < 900) ? 1 : 2;
+  }
+ 
+  $(function() {
+    SyntaxHighlighter.all();
+  });
+ 
+  $( document ).ready(function() {
+    $('#wat_ppl_said').flexslider({
+      animation: "slide",
+      animationLoop: false,
+      itemWidth: 540,
+      move: 1,
+      itemMargin: 1,
+      minItems: getGridSize_two(), // use function to pull in initial value
+      maxItems: getGridSize_two() // use function to pull in initial value
+    
+    });
+  });
+ 
+  // check grid size on resize event
+  $window.resize(function() {
+    var gridSize_two = getGridSize_two();
+ 
+      flexslider_two.vars.minItems = gridSize_two;
+      flexslider_two.vars.maxItems = gridSize_two;
+  });
+}());
+ </script>
+  <script type="text/javascript">
+    (function() {
+   
+    // store the slider in a local variable
+    var $window = $(window),
+        flexslider = { vars:{} };
+   
+    // tiny helper function to add breakpoints
+    function getGridSize() {
+      return (window.innerWidth < 600) ? 1 :
+             (window.innerWidth < 900) ? 2 : 3;
+    }
+   
+    $(function() {
+      SyntaxHighlighter.all();
+    });
+   
+    $( document ).ready(function() {
+      $('.flexslider').flexslider({
+        animation: "slide",
+        animationLoop: false,
+        itemWidth: 210,
+        move: 1,
+        itemMargin: 5,
+        minItems: getGridSize(), // use function to pull in initial value
+        maxItems: getGridSize() // use function to pull in initial value
+      
+      });
+    });
+   
+    // check grid size on resize event
+    $window.resize(function() {
+      var gridSize = getGridSize();
+   
+      flexslider.vars.minItems = gridSize;
+      flexslider.vars.maxItems = gridSize;
+    });
+  }());
+      
+   </script>
+    <script>
+    // $('.Count').each(function () {  
+    //         var $this = $(this);
+    //         jQuery({ Counter: 0 }).animate({ Counter: $this.text() }, {
+    //           duration: 1000,
+    //           easing: 'swing',
+    //           step: function () {
+    //             $this.text(Math.ceil(this.Counter));
+    //           }
+    //         });
+    //       });
+    
+    // var stats_offset = $('#stats_id').offset().top ;    
+    // $(window).scroll(function() {    
+    //   var scroll_offset = $(window).scrollTop(); 
+    //    if (scroll_offset >= stats_offset ) {  
+    //      stats_fun()
+    //    }
+    //  });
+      
+    //   function stats_fun(){
+
+    //   }
+     </script>
+
+     <script type="text/javascript">
+       var section = document.querySelector('.stats');
+        var hasEntered = false;
+
+        window.addEventListener('scroll', (e) => {
+    var shouldAnimate = (window.scrollY + window.innerHeight) >= section.offsetTop;
+
+    if (shouldAnimate && !hasEntered) {
+    hasEntered = true;
+
+    $('.count').each(function () {
+        $(this).prop('Counter',0).animate({
+            Counter: $(this).text()
+        }, {
+            duration: 4000,
+            easing: 'swing',
+            step: function (now) {
+                $(this).text(Math.ceil(now));
+            }
+        });
+    });
+
+
+  }
+});
+        
+     </script>
+  
+</body>
+</html>

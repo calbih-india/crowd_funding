@@ -1,0 +1,106 @@
+{% extends 'admin_template/admin_dashboard.html' %}
+
+{% block title %}
+<title>Crowd Funding Admin | Manage Event </title>
+{% endblock %}
+
+
+{% block meta_tag %}
+<meta name="description" content="" />
+<meta property="og:title" content="" />
+<meta property="og:url" content="web page path" />
+<meta property="og:description" content="">
+<meta property="og:image" content="image PATH">
+{% endblock %}
+
+{% block extra_style %}
+
+{% endblock %}
+
+
+{% block body %}
+<main>
+    <div class="container">
+      <div class="row mt-3 mb-3 align-items-center">
+        <div class="col-md-12 text-center">
+            <h4 class="mb-0">Authorize Event</h4>
+        </div>                    
+      </div>
+      <div class="table_parent">
+        <table class="table text-center  data_table">
+            <thead class="thead-light">
+              <tr>
+                <th scope="col">Event ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Place​</th>
+                <th scope="col">Date</th>
+                <th scope="col">About Event</th>
+                <th scope="col">Image</th>
+                <th scope="col">Authorize Event</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for Event in instance_Event %}
+                <tr>
+                  <td>{{Event.id}}</td>
+                  <td>{{ Event.name }}</td>
+                  <td>{{ Event.place }}</td>
+                  <td>{{ Event.date }}</td>
+                  <td>
+                    <div class="text_ecllipse reaon_req"  data-toggle="modal" data-target="#textDisplay"><i class="fa fa-eye cursor_pointer" aria-hidden="true"></i>
+                    <div class=" reaon_req_text d-none">{% autoescape off %}{{ Event.about|linebreaks }}{% endautoescape %}</div></div>
+                  </td>
+                  <td><a href="javascript:void(0);" class="color_blue" NAME="My Window Name"  title=" My title here " onClick=window.open("/media/{{ Event.image}}","Ratting","width=550,height=500,0,left=50%,top=50%,toolbar=0,status=0,");>Attachments</a></td>                 
+                  
+                  <td>
+                      {% if Event.is_active %}
+                      Yes
+                      {% else %}
+                      No
+                      {% endif %}
+                  </td>
+                  <td>
+                    <a href="{% url 'admin_manage_event_edit' Event.id %}"><i class="fa fa-edit warning" aria-hidden="true"></i></a>
+                  </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+          </table>
+      </div>
+    </div>
+</main>
+{% endblock %}
+
+
+{% block model_popup %}
+<div id="textDisplay" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+  
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header text-center">
+          <h5 class="modal-title w-100">About</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p id="reason_txt"></p>
+        </div>
+      </div>
+  
+    </div>
+  </div>
+  {% endblock %}
+
+  
+
+
+{% block extra_script %}
+<script type="text/javascript">
+	$(".reaon_req").click(function(){
+    $("#reason_txt").html($(this).find(".reaon_req_text").html());
+  });
+</script>
+{% endblock %}

@@ -1,0 +1,115 @@
+{% extends 'registration/login.html' %}
+
+  {% block title %}
+  <title>Crowd Funding | Campaign-Tips</title>
+  {% endblock %}
+  
+  {% block body %}
+    <main>   
+        <div class="how-it-works-row get-started" style="padding-top: 25vh;">
+            <div class="row1-heading how-heading" >
+              <h2 style="margin-top: 0px; font-size: 1.5rem;">Make your campaign fly in 7 steps</h2>
+              <div class="row1-dash">
+                <div class="row1-big-dash" ></div>
+                <div class="row1-small-dash"></div>
+              </div>
+            </div>
+
+            <div class="why-container flex-row">
+                <div class="jss464_c">
+                    <div class="how-Numbers how-Numbers_c">1</div>
+                      <div class="jss338_c">
+                        <img src="/static/images/step1.jpg" class="stepsImg" alt=" ">
+                        <div class="jss337_c">
+                          <ul>
+                            <li>Share the campaign on Facebook &amp; Twitter (Everyday with a different messaging)</li>
+                            <li>Send the campaign to your WhatsApp contacts</li>
+                            <li>Sent the campaign on your email list.</li>
+                          </ul>
+                        </div>
+                      </div>
+                </div>
+                <div class="jss464_c">
+                    <div class="how-Numbers how-Numbers_c">2</div>
+                      <div class="jss338_c">
+                        <img src="/static/images/step2.jpg" class="stepsImg" alt=" ">
+                        <div class="jss337_c">
+                            Share it on WhatsApp groups you are part of, asking people to help you spread the campaign.
+                        </div>
+                      </div>
+                </div>
+                <div class="jss464_c">
+                    <div class="how-Numbers how-Numbers_c">3</div>
+                      <div class="jss338_c">
+                        <img src="/static/images/step3.jpg" class="stepsImg" alt=" ">
+                        <div class="jss337_c">
+                            Share the campaign with personalised messages to top 20 of your friends on Facebook in messenger, asking them to help & spread the word.
+                        </div>
+                      </div>
+                </div>
+                <div class="jss464_c">
+                    <div class="how-Numbers how-Numbers_c">4</div>
+                      <div class="jss338_c">
+                        <img src="/static/images/step4.jpg" class="stepsImg" alt=" ">
+                        <div class="jss337_c">
+                            Call influencers, important people you know & tell them about your campaign, why you are doing it & why this is important. Send them the link to share it among their friends.
+                        </div>
+                      </div>
+                </div>
+                <div class="jss464_c">
+                    <div class="how-Numbers how-Numbers_c">5</div>
+                      <div class="jss338_c">
+                        <img src="/static/images/step5.jpg" class="stepsImg" alt=" ">
+                        <div class="jss337_c">
+                          <ul>
+                            <li>Make a small 2 minutes video, where you appeal people to support your campaign & post it with the campaign link on your Facebook & Twitter.</li>
+                            <li>Send this video to people you think can help you in spreading the word.</li>
+                          </ul>
+                        </div>
+                      </div>
+                </div>
+                <div class="jss464_c">
+                    <div class="how-Numbers how-Numbers_c">6</div>
+                      <div class="jss338_c">
+                        <img src="/static/images/step6.jpg" class="stepsImg" alt=" ">
+                        <div class="jss337_c">
+                            Ask people who have supported your campaign if they can make a small video appeal asking people to support your campaign. Ask them to share it with the campaign link on their social media.
+                        </div>
+                      </div>
+                </div>
+                <div class="jss464_c">
+                    <div class="how-Numbers how-Numbers_c">6</div>
+                      <div class="jss338_c">
+                        <img src="/static/images/step7.jpg" class="stepsImg" alt=" ">
+                        <div class="jss337_c">
+                            Send another round of WhatsApp, email & Facebook messages to everyone & ask them to support your campaign, or atleast spread it among their contacts.
+                        </div>
+                      </div>
+                </div>
+                <div class="jss336" style="font-size: 18px; margin-top: 2em;">
+                  <ul>
+                    <li>Reach out to Ourdemocracy.in if you need support with digital marketing, public relations, content creation or
+                      any of the Premium Services listed <a href="{% url 'services' %}"><span class="link1">here</span></a> .</li>
+                  </ul>
+                </div>
+            </div>
+            
+          </div>  
+    </main>
+  {% endblock %}
+        
+  
+  {% block extra_script %}
+  <script type="text/javascript" src="static/js/jquery.flexisel.js"></script>
+  <script type="text/javascript">
+    $("#technology-focus").flexisel({
+     visibleItems:5,
+     itemsToScroll: 1,         
+     autoPlay: {
+       enable: true,
+       interval: 7000,
+       pauseOnHover: true
+     }        
+   });
+ </script>
+ {% endblock %}

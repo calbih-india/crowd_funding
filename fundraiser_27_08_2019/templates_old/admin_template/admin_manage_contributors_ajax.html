@@ -1,0 +1,68 @@
+<div class="table_parent">
+<table class="table text-center  data_table" id="contributor_table">
+        <thead class="thead-light">
+          <tr>
+            {% if 'Campaign' in Column %}
+            <th scope="col">Campaign</th>
+            {% endif %}
+            {% if 'Date' in Column %}
+            <th scope="col">Date</th>
+            {% endif %}
+            {% if 'Time' in Column %}
+            <th scope="col">Time</th>
+            {% endif %}
+            {% if 'Name' in Column %}
+            <th scope="col">Name</th>
+            {% endif %}
+            {% if 'Email' in Column %}
+            <th scope="col">Email</th>
+            {% endif %}
+            {% if 'Phone' in Column %}
+            <th scope="col">Phone</th>
+            {% endif %}
+            {% if 'Amount' in Column %}
+            <th scope="col">Amount</th>
+            {% endif %}
+            {% if 'Address' in Column %}
+            <th scope="col">Address</th>
+            {% endif %}
+            {% if 'Pincode' in Column %}
+            <th scope="col">Pincode</th>
+            {% endif %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for CampaignDoners in instance_CampaignDoners %}
+          <tr>
+            {% if 'Campaign' in Column %}
+            <td>{{CampaignDoners.campaign_fund_raiser}}</td>
+            {% endif %}
+            {% if 'Date' in Column %}
+            <td>{{CampaignDoners.created_at|date:'Y-m-d'}}</td>
+            {% endif %}
+            {% if 'Time' in Column %}
+            <td>{{CampaignDoners.created_at|date:'H:i'}}</td>
+            {% endif %}
+            {% if 'Name' in Column %}
+            <td>{{CampaignDoners.name}}</td>
+            {% endif %}
+            {% if 'Email' in Column %}
+            <td>{{CampaignDoners.email}}</td>
+            {% endif %}
+            {% if 'Phone' in Column %}
+            <td>{{CampaignDoners.phone}}</td>
+            {% endif %}
+            {% if 'Amount' in Column %}
+            <td>{{CampaignDoners.amount}}</td>
+            {% endif %}
+            {% if 'Address' in Column %}
+            <td>{{CampaignDoners.address}}</td>
+            {% endif %}
+            {% if 'Pincode' in Column %}
+            <td>{{CampaignDoners.pincode}}</td>
+            {% endif %}
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+</div>

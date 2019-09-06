@@ -1,0 +1,105 @@
+{% extends 'registration/login.html' %}
+
+  {% block title %}
+  <title>Crowd Funding | Campaign Criteria </title>
+  {% endblock %}
+
+  {% block body %}
+
+    <main class="margin_top_80">
+
+      <main class="jss222_c bg_fafafa">
+        <h5 class="jss3_c bg_fafafa"> Campaign Criteria and Terms of Service </h5>
+        <div class="jss4_c">
+            <div class=" jss5_cc">
+              <span class="jss6_c ">Your access to and use of OurDemocracy is conditional upon your acceptance and
+                compliance with the following terms:</span><br>
+              <ul>
+                <li>Tax liabilities will be the sole responsibility of the applicant.</li>
+                <li>All contributions are voluntary in nature and non-refundable.</li>
+                <li>All funds will be transferred directly into the personal account of the beneficiary only. Funds will not be
+                  transferred into the account of any third party.</li>
+                <li>Campaigner must take responsibility for all the coordination with the beneficiary or whoever they are raising
+                  funds for.</li>
+                <li>If the campaigner and beneficiary are different entities, the campaigner must provide written consent from the
+                  beneficiary. The applicant’s use of the OurDemocracy platform must be only for legal and authorized purposes.</li>
+                <li>The applicant shall not use the OurDemocracy platform in any way which is illegal, obscene, defamatory,
+                  threatening, harassing, racially or ethnically hateful or offensive, or instigates conduct that is illegal or
+                  amounts to promotion of violent crimes.</li>
+                <li>The applicant shall not undertake any campaign, the objective of which is inconsistent with the spirit and
+                  provisions of the Constitution of India or is in violation of existing law.</li>
+                <li>Campaign approval is the sole discretion of Our Democracy platform admin.</li>
+              </ul>
+            </div>
+
+            <div class=" jss5_cc">
+                <span class="jss6_c ">General criteria to start a campaign:</span><br>
+                <ul>
+                  <li>The applicant should be 18 years or above</li>
+                  <li>The applicant should be an Indian citizen</li>
+                  <li>Beneficiary should be an Indian citizen</li>
+                </ul>
+              </div>
+
+              <div class=" jss5_cc">
+                  <span class="jss6_c ">Criteria for Media campaigns (In addition to the general criteria mentioned above):</span><br>
+                  <ul>
+                    <li>Journalist or media organisation should be based in India.</li>
+                    <li>Campaigns are not just limited to Journalists or media organisations. Anyone with a genuine story idea or a project can apply, subject to approval by Our Democracy admin.</li>
+                  </ul>
+                </div>
+
+                <div class=" jss5_cc">
+                    <span class="jss6_c ">Criteria for Electoral campaigns</span><br>
+                    <ul>
+                      <li>Applicant raising funds must provide additional documents, recommendations and written undertaking to Our
+                        Democracy admin before the campaign is approved.</li>
+                      <li>Applicant must be a candidate contesting elections in India to the Parliament, State Legislative Assembly or
+                        urban/rural local bodies.</li>
+                      <li>Applicant contesting elections must fulfill all qualifications laid down by law, to be eligible to contest
+                        elections to the Parliament or State Legislative Assembly.</li>
+                      <li>Applicant contesting elections must not be disqualified by law, from contesting elections to Parliament, state or
+                        urban/rural local bodies.</li>
+                      <li>Applicants must undertake to conduct their campaign in accordance with election law, abide by the letter and
+                        spirit of the Model Code of Conduct and maintain a true and correct account of their election expenses in the manner
+                        prescribed by law.</li>
+                    </ul>
+                  </div>
+
+        </div>
+      </main>            
+        
+      
+    </main>
+  {% endblock %}
+  {% block model_popup %}
+  <div class="modal fade " id="resend_link" tabindex="-1" role="dialog" aria-labelledby="resend_link" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Resend Activation Link</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form class="jss349">
+            <div class="jss550 jss551 jss553">
+              <p class="jss515 jss524">Email Address</p>
+              <div class="jss550">
+                <div class="jss567 jss554 jss558 jss568 jss555">
+                  <input aria-invalid="false" autocomplete="email" class="jss577 jss562 " id="forget_email" type="text">
+                </div>
+                <span class="error"></span>
+              </div>
+            </div>
+            <div class="d-flex align-items-center justify-content-between">
+              <button type="button" data-dismiss="modal" aria-label="Close" class="a_222222 btn_none">Close</button>
+              <button type="submit" id="forget_btn" class="colr_yellow btn_none">Save changes</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endblock %}

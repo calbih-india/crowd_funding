@@ -1,0 +1,178 @@
+
+/* ---------------------------------------------------
+    SIDEBAR STYLE
+----------------------------------------------------- */
+
+#sidebar {
+    width: 250px;
+    position: fixed;
+    top: 0;
+    left: -250px;
+    height: 100vh;
+    z-index: 9999;
+    background: #373a47;
+    color: #fff;
+    transition: all 0.3s;
+    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
+}
+
+#sidebar.active {
+    left: 0;
+}
+
+#dismiss {
+    width: 35px;
+    height: 19px;
+    line-height: 19px;
+    text-align: center;
+    background: transparent;
+    position: absolute;
+    top: 35px;
+    right: 4px;
+    cursor: pointer;
+    -webkit-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+    color: #EC156E;
+}
+
+#dismiss:hover {
+    /* background: #fff; */
+    color: #EC156E;
+}
+
+.overlay {
+    display: none;
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 999;
+    opacity: 0;
+    transition: all 0.5s ease-in-out;
+}
+.overlay.active {
+    display: block;
+    opacity: 1;
+}
+
+#sidebar .sidebar-header {
+    padding: 20px;
+    background: #373a47;
+    padding-left: 0px;
+    border-bottom: 1px solid #EC156E;
+}
+
+#sidebar ul.components {
+    padding: 0px;
+    border-bottom: 0px;
+}
+
+#sidebar ul p {
+    color: #fff;
+    padding: 10px;
+}
+
+#sidebar ul li a {
+    padding: 10px;
+    font-size: 15px;
+    display: block;
+    color: #fff;
+    line-height: 15px;
+}
+
+#sidebar ul li a:hover {
+    color: #EC156E;
+    background: #fff;
+}
+
+#sidebar ul li.active>a,
+a[aria-expanded="true"] {
+    color: #fff;
+    background: #EC156E;
+}
+
+a[data-toggle="collapse"] {
+    position: relative;
+}
+
+.dropdown-toggle::after {
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+}
+
+ul ul a {
+    font-size: 0.9em !important;
+    padding-left: 30px !important;
+    background: #EC156E;
+}
+
+ul.CTAs {
+    padding: 20px;
+}
+
+ul.CTAs a {
+    text-align: center;
+    font-size: 0.9em !important;
+    display: block;
+    border-radius: 5px;
+    margin-bottom: 5px;
+}
+
+a.download {
+    background: #fff;
+    color: #EC156E;
+}
+
+a.article,
+a.article:hover {
+    background: #EC156E !important;
+    color: #fff !important;
+}
+
+/* ---------------------------------------------------
+    CONTENT STYLE
+----------------------------------------------------- */
+
+#content {
+    width: 100%;
+    padding: 20px;
+    min-height: 100vh;
+    transition: all 0.3s;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.warning {
+    color: #c5b14e;
+}
+
+.danger {
+    color: #e21414;
+}
+
+.width_150 {
+    width: 150px;
+}
+
+.custom_btn {
+    border: 2px solid #EC156E;
+    transition: all ease-in-out 0.4s;
+    font-weight: 500;
+    color: #EC156E;
+    padding: 8px 16px;
+    font-size: 14px;
+    min-width: 64px;
+    box-sizing: border-box;
+    min-height: 36px;
+    background: transparent;
+    margin: 0;
+}
+
+.dataTables_wrapper .dataTables_filter input {
+    border: 1px solid #444;
+}

@@ -1,0 +1,43 @@
+<div class="mt-3">
+        <table class="table">
+          <tbody>
+            <tr>
+              <td>Commission</td>
+              <td>{{instance_CampaignFundRaiser.commission_in_rs}}</td>
+            </tr>
+            <tr>
+              <td>Withdrawn</td>
+              <td>{{instance_CampaignFundRaiser.total_withdrawl_fund}}</td>
+            </tr>
+            {% if instance_WithdrawalRequest_latest %}
+            <tr>
+              <td>Last Withdrawnal</td>
+              <td>{{instance_WithdrawalRequest_latest.amount}}</td>
+            </tr>
+            {% endif %}
+            <tr>
+              <td>Available to be withdrawn</td>
+              <td>{{instance_CampaignFundRaiser.available_withdrawl_fund}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <h5 class="modal-title" id="edit_fundraiser_summaryTittle">Previous Withdrawals</h5>
+      <div>
+        <table class="table">
+          <thead>
+            <th class="colr_yellow border-top-0">Payment Date</th>
+            <th class="colr_yellow border-top-0">Amount</th>
+            <th class="colr_yellow border-top-0">Status</th>
+          </thead>
+          <tbody>
+            {% for withdrawals in instance_WithdrawalRequest %}
+            <tr>
+              <td>{% if withdrawals.payment_date %}{{withdrawals.payment_date}}{% else %} --- {% endif %}</td>
+              <td>{{withdrawals.amount}}</td>
+              <td>{{withdrawals.status}}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>

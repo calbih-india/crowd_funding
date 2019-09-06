@@ -1,0 +1,410 @@
+{% load template_filter %}
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+  <meta name="theme-color" content="#000000">
+ 
+  <link rel="shortcut icon" href="https://www.ourdemocracy.in/favicon.ico">
+  <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,400,700&display=swap" rel="stylesheet">
+  <meta property="og:site_name" content="Crowd Funding">
+
+  {% block title %}
+  <title>Crowd Funding Admin</title>
+  {% endblock %}
+
+  {% block meta_tag %}
+  <meta name="description"
+    content="Crowd Funding is about raising awarness and a platform to bring change by the people for the people">
+  <meta name="og:title" content="Crowd Funding">
+  <meta name="og:description"
+    content="Crowd Funding is about raising awarness and a platform to bring change by the people for the people">
+  <meta name="og:image" content="https://www.ourdemocracy.in/src/assets/images/check/static/Home_2.jpg">
+  <meta name="og:url" content="https://www.ourdemocracy.in/">
+  {% endblock %}
+  
+  <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/static/css/select2.min.css" rel="stylesheet">
+  <link href="/static/css/style.css" rel="stylesheet">
+  <link href="/static/css/style3.css" rel="stylesheet">
+  <link href="/static/css/jquery.dataTables.min.css" rel="stylesheet">
+  <link href="/static/css/component.css" rel="stylesheet">
+  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link href="/static/css/jquery-te-1.4.0.css" rel="stylesheet">
+  <link href="/static/css/bootstrap-datetimepicker.css" rel="stylesheet">
+
+  {% block extra_style %}
+  {% endblock %}
+
+</head>
+
+<body>
+  <div id="root">
+      <div class="jss49 bg_fff" id="mainNav">
+          <header class="jss71 jss77 jss62 jss66">
+            <nav class="navbar navbar-expand-xl navbar-light bg-light">
+            
+              <div id="page-wrap w-100">
+                <a class="navbar-brand" href="/">
+                  <div class="jss47"><img src="/static/images/logo.png" class="jss48" alt=""></div>
+                </a>
+                <button type="button" id="sidebarCollapse" class="btn btn-info">
+                    <i class="fa fa-bars" aria-hidden="true"></i>
+                </button>
+              </div>            
+            
+              <div  class=" jss61" id="links">     
+                <ul class="navbar-nav ml-auto">
+                  <li class="nav-item jss59 ">
+                      <span class="nav-link jss167 jss143 jss146 " style="color: #444444 !important;    padding: 5px;" ><span class="jss142 jss170">{{ request.user.name }} </span><span class="jss339"></span></span>
+                    
+                    </li>
+                  <li class="nav-item jss59 ">
+                      <a class="nav-link jss167 jss141 jss143 jss146 " href="{% url 'logout' %}" ><span class="jss142 jss170">Logout </span><span class="jss339"></span></a>
+                    
+                    </li>
+                </ul>
+              </div>
+            </nav>
+          </header>
+      </div>
+      <div class="wrapper">
+         
+          <!-- Sidebar  -->
+          <nav id="sidebar">
+              <div id="dismiss">
+                  <i class="fa fa-arrow-left"></i>
+              </div>
+  
+              <div class="sidebar-header">
+                  <a class="navbar-brand" href="/">
+                    <div class="w-100"><img src="/static/images/logo.png" class="w-100" alt=""></div>
+                  </a>
+              </div>
+  
+              <ul class="list-unstyled components">
+                  <li>
+                      <a href="{% url 'admin_dashboard' %}">Dashboard</a>                      
+                  </li>
+                  <!-- <li>
+                      <a href="{% url 'admin_analytics' %}"> Analytics </a>                      
+                  </li> -->
+                  <li>
+                      <a href="{% url 'admin_crm' %}">Mail Support Journey</a>                      
+                  </li>
+                  <li>
+                      <a href="{% url 'admin_manage_category' %}">Create New Campaign Category</a>                      
+                  </li>
+                  <li>
+                      <a href="{% url 'admin_manage_cause' %}">Create New Cause</a>                      
+                  </li>
+                  <li>
+                      <a href="{% url 'generic_user_view' %}">Manage Generic User</a>                      
+                  </li>
+                  <li>
+                      <a href="{% url 'admin_manage_media' %}">Media Article</a>                      
+                  </li>
+                  <li>
+                      <a href="{% url 'admin_manage_crowd_newsing' %}">Testimonial</a>                      
+                  </li>
+                    <li>
+                      <a href="{% url 'admin_manage_campaign_action' %}">Campaign Action</a>                      
+                  </li>
+                  <li>
+                      <a href="{% url 'admin_withdrawl_request' %}">Withdrawal Request</a>                      
+                  </li>
+                  <li>
+                      <a href="{% url 'admin_manage_campaign' %}">Authorize/Edit Campaign​ ({{ 'test'|get_unauthorized_campaign }})</a>
+                  </li>
+                  <li>
+                      <a href="{% url 'admin_manage_support_group' %}">​Authorize/Edit Mobilisation Campaign ({{ 'test'|get_unauthorized_supportgroup }})</a>
+                  </li>
+                  <li>
+                      <a href="{% url 'admin_manage_event' %}">​Authorize/Edit event ({{ 'test'|get_unauthorized_event }})</a>
+                  </li>
+
+                  <li>
+                      <a href="{% url 'admin_manage_support_group_member' %}">Mobilisation Campaign Member​</a>
+                  </li>
+                  <li>
+                      <a href="{% url 'admin_manage_contributors' %}">Contributors</a>
+                  </li>
+                  <li>
+                      <a href="{% url 'admin_manage_donors' %}">Donors</a>
+                  </li>
+                  <li>
+                      <a href="{% url 'admin_manage_refund' %}">Refund</a>
+                  </li>
+                  {% if request.user.user_type == 'Admin' %}
+                  <li>
+                      <a href="{% url 'admin_manage_user' %}">Manage User</a>
+                  </li>
+                  {% endif %}
+
+              </ul>
+          </nav>
+  
+          <!-- Page Content  -->
+          <div id="content" class="margin_top_80">
+              {% block body %}
+              <main>
+                  <div class="container">
+                    <div class="DMainFiltersDiv first_setion_list mt-3" >
+                      <p onclick="change_sub_category(this)" class="btn btnActive"><a href="javasript:void(0)">Fundraiser</a></p>
+                      <p onclick="change_sub_category(this)" class="btn"><a href="javasript:void(0)">Mobilisation Campaign</a></p>
+                      <p onclick="change_sub_category(this)" class="btn"><a href="javasript:void(0)">Event</a></p>
+                    </div>
+                    <div class="DMainFiltersDiv sec_setion_list mt-3">
+                      <p  onclick="change_sec_sub_category(this)" class="btn "><a href="javasript:void(0)">Approval Request</a></p>
+                      <p  onclick="change_sec_sub_category(this)" class="btn btnActive" id="need_active"><a href="javasript:void(0)">Active</a></p>
+                      <p  onclick="change_sec_sub_category(this)" id="Completed_hide" class="btn"><a href="javasript:void(0)">Completed</a></p>
+                    </div>
+                    <div id="main_data">
+                      
+                    </div>
+                  </div>
+                <main>
+              {% endblock %}
+
+          </div>
+      </div>
+  </div>
+  {% block model_popup %}
+  <div class="modal fade" id="fundraiser_summary" role="dialog" aria-labelledby="fundraiser_summaryTittle"
+      aria-hidden="false" data-backdrop="static">
+      <div class="modal-dialog modal-dialog-scrollable  modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header border-0 pl-4  pb-1">
+            <h5 class="modal-title" id="fundraiser_summaryTittle">Funds Summary</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body funds-summary-modal-body pt-0 pb-0">
+            
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="edit_withdrawal" role="dialog" aria-labelledby="edit_withdrawalTittle" aria-hidden="false"
+      data-backdrop="static">
+      <div class="modal-dialog modal-dialog-scrollable  modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header border-0 pl-4  pb-1">
+            <h5 class="modal-title" id="edit_withdrawalTittle">Withdrawal Request</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body withdrawal-modal-body pt-0 pb-0">
+            
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="modal fade " id="support_user" role="dialog" aria-labelledby="support_userTittle"
+      aria-hidden="false" data-backdrop="static">
+      <div class="modal-dialog modal-dialog-scrollable  modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header border-0 pl-4  pb-1">
+            <h5 class="modal-title" id="support_userTittle">Support User</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body support-user-modal-body pt-0 pb-0 mt-4 mb-4">
+              
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endblock %}
+  {% if messages %}
+    <div class="toast_con" >
+        <div class="toast" data-autohide="false">
+      
+            <div class="toast-body">
+                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast">&times;</button>
+                
+                  {% for message in messages %}
+                    {% if 'error' in message.tags %}
+                      <strong class="mr-auto text-primary"><i class="fa fa-exclamation-triangle fa-5" aria-hidden="true"></i></strong>
+                      {% autoescape off %}{{ message }}{% endautoescape %}
+                    {% else %}
+                      <strong class="mr-auto text-primary"><i class="fa fa-exclamation-triangle fa-5" aria-hidden="true"></i></strong>
+                      {% autoescape off %}{{ message }}{% endautoescape %}
+                    {% endif %}
+                  {% endfor %}
+            </div>
+          </div>
+    </div>
+    {% endif %}
+  <div class="overlay"></div>
+
+
+  <script type="text/javascript" src="/static/js/jquery.min.js" ></script>
+  <script type="text/javascript" src="/static/js/bootstrap.min.js" ></script>  
+  <script type="text/javascript" src="/static/js/script.js"></script>
+  <script type="text/javascript" src="/static/js/jquery.dataTables.min.js"></script>
+  <script type="text/javascript" src="/static/js/select2.full.min.js"></script>
+  <script type="text/javascript" src="/static/js/custom-file-input.js"></script>
+
+  <script type="text/javascript" src="/static/js/bootstrap-datetimepicker.js"></script>
+  <script type="text/javascript" src="/static/js/bootstrap-datetimepicker.fr.js"></script>
+
+  <script type="text/javascript">
+    $('#dismiss, .overlay').on('click', function () {
+        $('#sidebar').removeClass('active');
+        $('.overlay').removeClass('active');
+    });
+    $(document).ready(function () {
+        $('#sidebarCollapse').on('click', function () {
+          $('#sidebar').addClass('active');
+          $('.overlay').addClass('active');
+          $('.collapse.in').toggleClass('in');
+          $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+        });
+    });
+
+    $(document).ready( function () {
+        $('.data_table').DataTable({
+          "ordering": false,
+          "info":     false
+        });
+    } );
+</script>
+
+<script>
+    $(document).ready(function() {
+        $('.select2').select2();
+       
+    });
+  </script>
+
+<script type="text/javascript">
+  $(function () {
+      $('#datetimepicker1').datetimepicker({
+            todayBtn: 1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            forceParse: 0,
+            Default: true
+      });
+  });
+</script>
+
+  {% if messages %}
+    <script>
+      $('.toast').toast('show');
+    </script>
+  {% endif %}
+
+  {% block extra_script %}
+
+  <script>
+      function change_sub_category(e){
+          var sub_category = $(e).text();
+          $(".first_setion_list").find('.btn').removeClass("btnActive");
+          $(e).addClass("btnActive")
+          $(".sec_setion_list").find('.btn').removeClass("btnActive");
+          $("#need_active").addClass("btnActive");
+          var category = $(".first_setion_list p.btnActive").text();
+  
+          $.get("{% url 'admin_dashboard' %}", {'category':category}, function(result){
+              $('#main_data').html(result);                                     
+          })
+      };
+  
+      function change_sec_sub_category(e) {
+        var status = $(e).text();
+        $(".sec_setion_list").find('.btn').removeClass("btnActive");
+        $(e).addClass("btnActive");
+        var category = $(".first_setion_list p.btnActive").text();
+       
+        
+        $.get("{% url 'admin_dashboard' %}", {'category':category, 'status':status}, function(result){
+            $('#main_data').html(result);                                     
+        })
+      }
+  
+      function changepage(page){
+        var category = $(".first_setion_list p.btnActive").text();
+        var status = $(".sec_setion_list p.btnActive").text();
+        var cause = $("select[name='cause']").val();
+        var sensitivity = $("select[name='sensitivity']").val();
+        var object_id = $("select[name='object_id']").val();
+
+        $.get("{% url 'admin_dashboard' %}", {'category':category, 'status':status, 'page':page, 'cause':cause, 'sensitivity':sensitivity, 'object_id':object_id}, function(result){
+            $('#main_data').html(result);                                     
+        })
+      };
+
+      function getFilterValues(e){
+        var cause = $("select[name='cause']").val();
+        var sensitivity = $("select[name='sensitivity']").val();
+        var object_id = $("select[name='object_id']").val();
+        var category = $(".first_setion_list p.btnActive").text();
+        var status = $(".sec_setion_list p.btnActive").text();
+
+        $.get("{% url 'admin_dashboard' %}", {'category':category, 'status':status, 'cause':cause, 'sensitivity':sensitivity, 'object_id':object_id}, function(result){
+            $('#main_data').html(result);                                     
+        })
+      }
+  
+      $( document ).ready(function() {
+        $.get("{% url 'admin_dashboard' %}", function(result){
+            $('#main_data').html(result);                                     
+        })
+      });
+      </script>
+  
+
+  <!-- Funds Summary -->
+  <script>
+      function funds_summary(url){
+        $.get(url, function(result){
+            $('.funds-summary-modal-body').html(result); 
+            $("#fundraiser_summary").modal('show');                               
+        })
+      }
+  </script>
+  
+  
+  <!-- Support Group User -->
+  <script>
+    function SupportUser(url) {
+      $.ajax({
+          url: url,
+          type: 'GET',
+          async: true,
+          cache: false,
+          contentType: false,
+          processData: false,
+          success: function (response) {
+            $('.support-user-modal-body').html(response); 
+            $('#support_group_datatable').DataTable({
+              "ordering": false,
+              "info":     false
+            });        
+          },
+          error: function(response) {
+            $('.support-user-modal-body').html(response);  
+            $('#support_group_datatable').DataTable({
+              "ordering": false,
+              "info":     false
+            });         
+          }
+      });
+    }
+  </script>
+  
+
+  {% endblock %}
+
+</body>
+</html>

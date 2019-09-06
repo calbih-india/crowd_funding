@@ -1,0 +1,90 @@
+<div class="table_parent">
+    <table class="table text-center data_table" id="donor_table">
+            <thead class="thead-light">
+              <tr>
+                <th scope="col">
+                  <input type="checkbox" id="checkbox_parent" onchange="allCheckboxtocheck(this)" />                 
+                </th>
+                {% if 'Name' in Column %}
+                <th scope="col">Name</th>
+                {% endif %}
+
+                {% if 'Email' in Column %}
+                <th scope="col">Email</th>
+                {% endif %}
+
+                {% if 'Phone' in Column %}
+                <th scope="col" style="width: 100px;">Phone</th>
+                {% endif %}
+                
+                {% if 'Total Donations' in Column %}
+                <th>Total Donations</th>
+                {% endif %}
+                
+                {% if 'Total Amount' in Column %}
+                <th>Total Amount</th>
+                {% endif %}
+
+                {% if 'Campaign' in Column %}
+                <th scope="col" style="min-width: 150px;">Campaign</th>
+                {% endif %}
+
+                {% if 'Address' in Column %}
+                <th scope="col" style="min-width: 250px;">Address</th>
+                {% endif %}
+                {% if 'Pincode' in Column %}
+                <th scope="col">Pincode</th>
+                {% endif %}
+
+                {% if 'Action' in Column %}
+                <th scope="col">Action</th>
+                {% endif %}
+              </tr>
+            </thead>
+            <tbody>
+              {% for CampaignDoners in instance_CampaignDoners %}
+              <tr>
+                <td scope="col">
+                      <input type="checkbox" id="checkbox_{{forloop.counter}}" name="child" class="child" onchange="childCheckboxtocheck(this)" />
+                </td>
+                {% if 'Name' in Column %}
+                <td>{{CampaignDoners.name}}</td>
+                {% endif %}
+
+                {% if 'Email' in Column %}
+                <td>{{CampaignDoners.email}}</td>
+                {% endif %}
+
+                {% if 'Phone' in Column %}
+                <td>{{CampaignDoners.phone}}</td>
+                {% endif %}
+
+                {% if 'Total Donations' in Column %}
+                <td>{{CampaignDoners.num_donation}}</th>
+                {% endif %}
+
+                {% if 'Total Amount' in Column %}
+                <td>{{CampaignDoners.total}}</th>
+                {% endif %}
+
+                {% if 'Campaign' in Column %}
+                <td>{{CampaignDoners.campaign_fund_raiser__title}}</td>
+                {% endif %}
+
+                {% if 'Address' in Column %}
+                <td>{{CampaignDoners.address}}</td>
+                {% endif %}
+
+                {% if 'Pincode' in Column %}
+                <td>{{CampaignDoners.pincode}}</td>
+                {% endif %}
+
+                {% if 'Action' in Column %}
+                <td></td>
+                {% endif %}
+
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+    </div>

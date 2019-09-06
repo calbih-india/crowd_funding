@@ -1,0 +1,1175 @@
+{% extends 'registration/login.html' %}
+{% load template_filter %}
+
+{% block title %}
+  <title> Crowd Funding | Discover </title>
+{% endblock %}
+
+{% block meta_tag %}
+  <meta name="description" content="Crowd Funding is about raising awarness and a platform to bring change by the people for the people">
+  <meta name="og:title" content="Crowd Funding | {{ instance_CampaignFundRaiser.title }} ">
+  <meta name="og:description" content="Crowd Funding is about raising awarness and a platform to bring change by the people for the people">
+  <meta name="og:image" content="{% if request.is_secure %}https{% else %}http{% endif %}://{{domain}}/media/{{ instance_CampaignFundRaiser.picture }}">
+  <meta name="og:url" content="{% if request.is_secure %}https{% else %}http{% endif %}://{{domain}}{{request.path}}">
+
+  <meta property="og:title" content="{{ instance_CampaignFundRaiser.title }}">
+  <meta property="og:image" content="{% if request.is_secure %}https{% else %}http{% endif %}://{{domain}}/media/{{ instance_CampaignFundRaiser.picture }}">
+
+  <meta name="twitter:image:src" content="{% if request.is_secure %}https{% else %}http{% endif %}://{{domain}}/media/{{ instance_CampaignFundRaiser.picture }}">
+
+{% endblock %}
+
+{% block extra_style %}
+  <link href="/static/css/jquery.dataTables.min.css" rel="stylesheet">
+  <link href="/static/css/style.css" rel="stylesheet">
+  <link href="/static/css/component.css" rel="stylesheet">
+{% endblock %}
+
+
+{% block body %}
+<main class="bg_eee">
+  <div class="padding_top_80">
+    <div class="jss528_c">
+      <p class="CDCampTitle position-relative">
+        {% if is_authorised_for_edit %}
+          <i class="fa fa-pencil edit_icon"  data-toggle="modal" data-target="#edit_title" aria-hidden="true"></i> 
+        {% endif %}
+        {{ instance_CampaignFundRaiser.title }}
+      </p>
+      <div class="CDBelowTitleDiv">
+        <div class="CDImageDiv">
+            <div class="position-relative">
+            {% if is_authorised_for_edit %}
+              <i class="fa fa-pencil edit_icon"  data-toggle="modal" data-target="#edit_image" aria-hidden="true"></i>
+            {% endif %}
+          <img src="/media/{{ instance_CampaignFundRaiser.picture }}"
+            class="CDImgInitMain" alt="">
+            </div>
+          <p style="margin: 1em 0px 0px; width: 80%; color: rgb(51, 51, 51);">{{ instance_CampaignFundRaiser.short_description }}</p>
+          <div class="CDShareBtnDiv">
+
+            <a href="https://www.facebook.com/sharer/sharer.php?u={% if request.is_secure %}https{% else %}http{% endif %}://{{domain}}{{request.path}}" target="_blank" class="CDShareBtnFB">
+              <svg aria-hidden="true" data-prefix="fab" data-icon="facebook-f"
+                class="svg-inline--fa fa-facebook-f fa-w-9 " role="img" xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 264 512">
+                <path fill="currentColor"
+                  d="M76.7 512V283H0v-91h76.7v-71.7C76.7 42.4 124.3 0 193.8 0c33.3 0 61.9 2.5 70.2 3.6V85h-48.2c-37.8 0-45.1 18-45.1 44.3V192H256l-11.7 91h-73.6v229">
+                </path>
+              </svg>
+            </a>
+
+            <a href="https://twitter.com/intent/tweet?text={{ instance_CampaignFundRaiser.title }} {% if request.is_secure %}https{% else %}http{% endif %}://{{domain}}{{request.path}}" target="_blank" class="CDShareBtnTW">
+              <svg aria-hidden="true" data-prefix="fab" data-icon="twitter" class="svg-inline--fa fa-twitter fa-w-16 "
+                role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                <path fill="currentColor"
+                  d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z">
+                </path>
+              </svg>
+            </a>
+            <a href="https://api.whatsapp.com/send?text={% if request.is_secure %}https{% else %}http{% endif %}://{{domain}}{{request.path}}" data-action="share/whatsapp/share" target="_blank" class="CDShareBtnWH">
+              <svg aria-hidden="true" data-prefix="fab" data-icon="whatsapp" class="svg-inline--fa fa-whatsapp fa-w-14 "
+                role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                <path fill="currentColor"
+                  d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z">
+                </path>
+              </svg>
+            </a>
+          </div>
+        </div>
+        <div class="CDValuesDiv">
+          {% if not is_authorised_for_edit %}
+            <div class="donateBtnDiv w-100" style="margin-top: 20px;">
+                <button class="jss262_c" data-toggle="modal" data-target="#supportfundraises" tabindex="0" type="submit">
+                  <span class="jss237 jss231">Support This Fundraiser</span><span class="jss326"></span>
+                </button>
+            </div>
+            {% endif %}
+          <div class="goalDiv">
+            <div class="CDCampGoal position-relative">
+              {% if is_authorised_for_edit %}
+                <i class="fa fa-pencil edit_icon"  data-toggle="modal" data-target="#edit_goal" aria-hidden="true"></i>
+              {% endif %}
+
+            <svg aria-hidden="true" data-prefix="fas" data-icon="rupee-sign"
+                class="svg-inline--fa fa-rupee-sign fa-w-10 " role="img" xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 320 512" style="font-size: 1.4rem; color: rgb(51, 51, 51);">
+                <path fill="currentColor"
+                  d="M308 96c6.627 0 12-5.373 12-12V44c0-6.627-5.373-12-12-12H12C5.373 32 0 37.373 0 44v44.748c0 6.627 5.373 12 12 12h85.28c27.308 0 48.261 9.958 60.97 27.252H12c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h158.757c-6.217 36.086-32.961 58.632-74.757 58.632H12c-6.627 0-12 5.373-12 12v53.012c0 3.349 1.4 6.546 3.861 8.818l165.052 152.356a12.001 12.001 0 0 0 8.139 3.182h82.562c10.924 0 16.166-13.408 8.139-20.818L116.871 319.906c76.499-2.34 131.144-53.395 138.318-127.906H308c6.627 0 12-5.373 12-12v-40c0-6.627-5.373-12-12-12h-58.69c-3.486-11.541-8.28-22.246-14.252-32H308z">
+                </path>
+              </svg> {{ instance_CampaignFundRaiser.campaigntotalamount.total_amount }}<br>
+              <div style="font-size: 1.2rem; font-weight: normal;">raised of<b>
+                  <svg aria-hidden="true" data-prefix="fas" data-icon="rupee-sign"
+                    class="svg-inline--fa fa-rupee-sign fa-w-10 " role="img" xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 320 512" style="font-size: 1.2rem; color: rgb(51, 51, 51);">
+                    <path fill="currentColor"
+                      d="M308 96c6.627 0 12-5.373 12-12V44c0-6.627-5.373-12-12-12H12C5.373 32 0 37.373 0 44v44.748c0 6.627 5.373 12 12 12h85.28c27.308 0 48.261 9.958 60.97 27.252H12c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h158.757c-6.217 36.086-32.961 58.632-74.757 58.632H12c-6.627 0-12 5.373-12 12v53.012c0 3.349 1.4 6.546 3.861 8.818l165.052 152.356a12.001 12.001 0 0 0 8.139 3.182h82.562c10.924 0 16.166-13.408 8.139-20.818L116.871 319.906c76.499-2.34 131.144-53.395 138.318-127.906H308c6.627 0 12-5.373 12-12v-40c0-6.627-5.373-12-12-12h-58.69c-3.486-11.541-8.28-22.246-14.252-32H308z">
+                    </path>
+                  </svg> {{ instance_CampaignFundRaiser.goal }} </b> goal</div>
+            </div>
+          </div>
+          <div class="CDCompletionDiv">
+            <div class="completionLineDiv">
+              <div class="filled" style="width: {{ instance_CampaignFundRaiser.totalfund_in_percentage}}%;"></div>
+            </div>
+            <p class="CDCompletionText">{{ instance_CampaignFundRaiser.totalfund_in_percentage}} %</p>
+          </div>
+          <div class="dateDiv" style="margin-top: 5px;">
+            <div class="CDCampEdate">
+              <div class="jss13"><b style="font-size: 2rem;">{{ instance_CampaignFundRaiser.campaigntotalamount.total_supporters }}</b>Supporters</div>
+              <div class="jss13" style="margin-left: 20px;"><b style="font-size: 2rem;">{{ instance_CampaignFundRaiser.available_days}}</b> Days Left</div>
+            </div>
+          </div>
+          <div class="CDPeopleContainerSP">
+            <div class="CDPeopleImage"
+              style="align-items: center; width: fit-content; margin: 0px 16px 0px 0px; padding: 0px;"><img src="/media/{{instance_CampaignFundRaiser.user.profile}}" class="imgPeople2" alt="">
+            </div>
+            <div class="CDPeopleDetail">
+              <p class="CDPeopleTitle" style="margin: 0px;">Campaigner</p>
+              <p class="CDPeopleName">{{ instance_CampaignFundRaiser.user.name }}</p>
+              {% if instance_CampaignFundRaiser.user.is_indian %}
+              <p class="CDPeopleLocation"><svg aria-hidden="true" data-prefix="fas" data-icon="map-marker"
+                  class="svg-inline--fa fa-map-marker fa-w-12 " role="img" xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 384 512" style="background: rgb(255, 255, 255);">
+                  <path fill="currentColor"
+                    d="M172.268 501.67C26.97 291.031 0 269.413 0 192 0 85.961 85.961 0 192 0s192 85.961 192 192c0 77.413-26.97 99.031-172.268 309.67-9.535 13.774-29.93 13.773-39.464 0z">
+                  </path>
+                </svg> India</p>
+                {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="belowImage">
+        <div class="descriptionsDiv">
+          <div class="CDBtnsDiv ">
+            <ul class="nav nav-tabs" role="tablist">
+              <li class="nav-item">
+                <a class="CDBtn nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
+                  aria-controls="home" aria-selected="true">
+                  <svg aria-hidden="true" data-prefix="fas" data-icon="globe" class="svg-inline--fa fa-globe fa-w-16 "
+                    role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" style="margin-right: 2px;">
+                    <path fill="currentColor"
+                      d="M336.5 160C322 70.7 287.8 8 248 8s-74 62.7-88.5 152h177zM152 256c0 22.2 1.2 43.5 3.3 64h185.3c2.1-20.5 3.3-41.8 3.3-64s-1.2-43.5-3.3-64H155.3c-2.1 20.5-3.3 41.8-3.3 64zm324.7-96c-28.6-67.9-86.5-120.4-158-141.6 24.4 33.8 41.2 84.7 50 141.6h108zM177.2 18.4C105.8 39.6 47.8 92.1 19.3 160h108c8.7-56.9 25.5-107.8 49.9-141.6zM487.4 192H372.7c2.1 21 3.3 42.5 3.3 64s-1.2 43-3.3 64h114.6c5.5-20.5 8.6-41.8 8.6-64s-3.1-43.5-8.5-64zM120 256c0-21.5 1.2-43 3.3-64H8.6C3.2 212.5 0 233.8 0 256s3.2 43.5 8.6 64h114.6c-2-21-3.2-42.5-3.2-64zm39.5 96c14.5 89.3 48.7 152 88.5 152s74-62.7 88.5-152h-177zm159.3 141.6c71.4-21.2 129.4-73.7 158-141.6h-108c-8.8 56.9-25.6 107.8-50 141.6zM19.3 352c28.6 67.9 86.5 120.4 158 141.6-24.4-33.8-41.2-84.7-50-141.6h-108z">
+                    </path>
+                  </svg>Story</a>
+              </li>
+              <li class="nav-item">
+                <a class="CDBtn nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
+                  aria-controls="profile" aria-selected="false">
+                  <svg aria-hidden="true" data-prefix="fas" data-icon="comments"
+                    class="svg-inline--fa fa-comments fa-w-18 " role="img" xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 576 512" style="margin-right: 2px;">
+                    <path fill="currentColor"
+                      d="M416 192c0-88.4-93.1-160-208-160S0 103.6 0 192c0 34.3 14.1 65.9 38 92-13.4 30.2-35.5 54.2-35.8 54.5-2.2 2.3-2.8 5.7-1.5 8.7S4.8 352 8 352c36.6 0 66.9-12.3 88.7-25 32.2 15.7 70.3 25 111.3 25 114.9 0 208-71.6 208-160zm122 220c23.9-26 38-57.7 38-92 0-66.9-53.5-124.2-129.3-148.1.9 6.6 1.3 13.3 1.3 20.1 0 105.9-107.7 192-240 192-10.8 0-21.3-.8-31.7-1.9C207.8 439.6 281.8 480 368 480c41 0 79.1-9.2 111.3-25 21.8 12.7 52.1 25 88.7 25 3.2 0 6.1-1.9 7.3-4.8 1.3-2.9.7-6.3-1.5-8.7-.3-.3-22.4-24.2-35.8-54.5z">
+                    </path>
+                  </svg>Comments</a>
+              </li>
+              <li class="nav-item">
+                <a class="CDBtn nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab"
+                  aria-controls="contact" aria-selected="false">
+                  <svg aria-hidden="true" data-prefix="fas" data-icon="history"
+                    class="svg-inline--fa fa-history fa-w-16 " role="img" xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 512 512" style="margin-right: 2px;">
+                    <path fill="currentColor"
+                      d="M504 255.531c.253 136.64-111.18 248.372-247.82 248.468-59.015.042-113.223-20.53-155.822-54.911-11.077-8.94-11.905-25.541-1.839-35.607l11.267-11.267c8.609-8.609 22.353-9.551 31.891-1.984C173.062 425.135 212.781 440 256 440c101.705 0 184-82.311 184-184 0-101.705-82.311-184-184-184-48.814 0-93.149 18.969-126.068 49.932l50.754 50.754c10.08 10.08 2.941 27.314-11.313 27.314H24c-8.837 0-16-7.163-16-16V38.627c0-14.254 17.234-21.393 27.314-11.314l49.372 49.372C129.209 34.136 189.552 8 256 8c136.81 0 247.747 110.78 248 247.531zm-180.912 78.784l9.823-12.63c8.138-10.463 6.253-25.542-4.21-33.679L288 256.349V152c0-13.255-10.745-24-24-24h-16c-13.255 0-24 10.745-24 24v135.651l65.409 50.874c10.463 8.137 25.541 6.253 33.679-4.21z">
+                    </path>
+                  </svg>Updates</a>
+              </li>
+              <li class="nav-item">
+                <a class="CDBtn nav-link" id="abtcam-tab" data-toggle="tab" href="#abtcam" role="tab"
+                  aria-controls="abtcam" aria-selected="false">
+                  <svg aria-hidden="true" data-prefix="fas" data-icon="bolt" class="svg-inline--fa fa-bolt fa-w-10 "
+                    role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="margin-right: 2px;">
+                    <path fill="currentColor"
+                      d="M296 160H180.6l42.6-129.8C227.2 15 215.7 0 200 0H56C44 0 33.8 8.9 32.2 20.8l-32 240C-1.7 275.2 9.5 288 24 288h118.7L96.6 482.5c-3.6 15.2 8 29.5 23.3 29.5 8.4 0 16.4-4.4 20.8-12l176-304c9.3-15.9-2.2-36-20.7-36z">
+                    </path>
+                  </svg>Buzz About The Campaign</a>
+              </li>
+            </ul>
+
+          </div>
+          <div id="navbar">
+            <div class="CDBtnsDivNIV" style="display: none;">
+              <div class="CDBtnsDivNIVLeft">
+                <ul class="nav nav-tabs" role="tablist">
+                  <li class="nav-item">
+                    <a class="CDBtn  nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
+                      aria-controls="home" aria-selected="true">
+                      <svg aria-hidden="true" data-prefix="fas" data-icon="globe"
+                        class="svg-inline--fa fa-globe fa-w-16 " role="img" xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 496 512" style="margin-right: 2px;">
+                        <path fill="currentColor"
+                          d="M336.5 160C322 70.7 287.8 8 248 8s-74 62.7-88.5 152h177zM152 256c0 22.2 1.2 43.5 3.3 64h185.3c2.1-20.5 3.3-41.8 3.3-64s-1.2-43.5-3.3-64H155.3c-2.1 20.5-3.3 41.8-3.3 64zm324.7-96c-28.6-67.9-86.5-120.4-158-141.6 24.4 33.8 41.2 84.7 50 141.6h108zM177.2 18.4C105.8 39.6 47.8 92.1 19.3 160h108c8.7-56.9 25.5-107.8 49.9-141.6zM487.4 192H372.7c2.1 21 3.3 42.5 3.3 64s-1.2 43-3.3 64h114.6c5.5-20.5 8.6-41.8 8.6-64s-3.1-43.5-8.5-64zM120 256c0-21.5 1.2-43 3.3-64H8.6C3.2 212.5 0 233.8 0 256s3.2 43.5 8.6 64h114.6c-2-21-3.2-42.5-3.2-64zm39.5 96c14.5 89.3 48.7 152 88.5 152s74-62.7 88.5-152h-177zm159.3 141.6c71.4-21.2 129.4-73.7 158-141.6h-108c-8.8 56.9-25.6 107.8-50 141.6zM19.3 352c28.6 67.9 86.5 120.4 158 141.6-24.4-33.8-41.2-84.7-50-141.6h-108z">
+                        </path>
+                      </svg>Story</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="CDBtn nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
+                      aria-controls="profile" aria-selected="false">
+                      <svg aria-hidden="true" data-prefix="fas" data-icon="comments"
+                        class="svg-inline--fa fa-comments fa-w-18 " role="img" xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 576 512" style="margin-right: 2px;">
+                        <path fill="currentColor"
+                          d="M416 192c0-88.4-93.1-160-208-160S0 103.6 0 192c0 34.3 14.1 65.9 38 92-13.4 30.2-35.5 54.2-35.8 54.5-2.2 2.3-2.8 5.7-1.5 8.7S4.8 352 8 352c36.6 0 66.9-12.3 88.7-25 32.2 15.7 70.3 25 111.3 25 114.9 0 208-71.6 208-160zm122 220c23.9-26 38-57.7 38-92 0-66.9-53.5-124.2-129.3-148.1.9 6.6 1.3 13.3 1.3 20.1 0 105.9-107.7 192-240 192-10.8 0-21.3-.8-31.7-1.9C207.8 439.6 281.8 480 368 480c41 0 79.1-9.2 111.3-25 21.8 12.7 52.1 25 88.7 25 3.2 0 6.1-1.9 7.3-4.8 1.3-2.9.7-6.3-1.5-8.7-.3-.3-22.4-24.2-35.8-54.5z">
+                        </path>
+                      </svg>Comments</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="CDBtn nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab"
+                      aria-controls="contact" aria-selected="false">
+                      <svg aria-hidden="true" data-prefix="fas" data-icon="history"
+                        class="svg-inline--fa fa-history fa-w-16 " role="img" xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 512 512" style="margin-right: 2px;">
+                        <path fill="currentColor"
+                          d="M504 255.531c.253 136.64-111.18 248.372-247.82 248.468-59.015.042-113.223-20.53-155.822-54.911-11.077-8.94-11.905-25.541-1.839-35.607l11.267-11.267c8.609-8.609 22.353-9.551 31.891-1.984C173.062 425.135 212.781 440 256 440c101.705 0 184-82.311 184-184 0-101.705-82.311-184-184-184-48.814 0-93.149 18.969-126.068 49.932l50.754 50.754c10.08 10.08 2.941 27.314-11.313 27.314H24c-8.837 0-16-7.163-16-16V38.627c0-14.254 17.234-21.393 27.314-11.314l49.372 49.372C129.209 34.136 189.552 8 256 8c136.81 0 247.747 110.78 248 247.531zm-180.912 78.784l9.823-12.63c8.138-10.463 6.253-25.542-4.21-33.679L288 256.349V152c0-13.255-10.745-24-24-24h-16c-13.255 0-24 10.745-24 24v135.651l65.409 50.874c10.463 8.137 25.541 6.253 33.679-4.21z">
+                        </path>
+                      </svg>Updates</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="CDBtn nav-link" id="abtcam-tab" data-toggle="tab" href="#abtcam" role="tab"
+                      aria-controls="abtcam" aria-selected="false">
+                      <svg aria-hidden="true" data-prefix="fas" data-icon="bolt" class="svg-inline--fa fa-bolt fa-w-10 "
+                        role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="margin-right: 2px;">
+                        <path fill="currentColor"
+                          d="M296 160H180.6l42.6-129.8C227.2 15 215.7 0 200 0H56C44 0 33.8 8.9 32.2 20.8l-32 240C-1.7 275.2 9.5 288 24 288h118.7L96.6 482.5c-3.6 15.2 8 29.5 23.3 29.5 8.4 0 16.4-4.4 20.8-12l176-304c9.3-15.9-2.2-36-20.7-36z">
+                        </path>
+                      </svg>Buzz About The Campaign</a>
+                  </li>
+                </ul>
+
+              </div>
+              <div class="CDBtnsDivNIVRight">
+                <div class="CDShareBtnDiv">
+                  <p class="CDShareBtnFB">
+                    <a href="https://www.facebook.com/sharer/sharer.php?u={% if request.is_secure %}https{% else %}http{% endif %}://{{domain}}{{request.path}}" target="_blank">
+                      <svg aria-hidden="true" data-prefix="fab" data-icon="facebook-f"
+                        class="svg-inline--fa fa-facebook-f fa-w-9 " role="img" xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 264 512">
+                        <path fill="currentColor"
+                          d="M76.7 512V283H0v-91h76.7v-71.7C76.7 42.4 124.3 0 193.8 0c33.3 0 61.9 2.5 70.2 3.6V85h-48.2c-37.8 0-45.1 18-45.1 44.3V192H256l-11.7 91h-73.6v229">
+                        </path>
+                      </svg>
+                    </a>
+                  </p>
+
+
+                  <p class="CDShareBtnTW"> 
+                    <a href="https://twitter.com/intent/tweet?text={{ instance_CampaignFundRaiser.title }} {% if request.is_secure %}https{% else %}http{% endif %}://{{domain}}{{request.path}}" target="_blank">
+                    <svg aria-hidden="true" data-prefix="fab" data-icon="twitter"
+                      class="svg-inline--fa fa-twitter fa-w-16 " role="img" xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 512 512">
+                      <path fill="currentColor"
+                        d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z">
+                      </path>
+                    </svg>
+                  </a>
+                  </p>
+
+                  <a href="https://api.whatsapp.com/send?text={% if request.is_secure %}https{% else %}http{% endif %}://{{domain}}{{request.path}}" data-action="share/whatsapp/share" target="_blank">
+                  <p class="CDShareBtnWH"> <svg aria-hidden="true" data-prefix="fab" data-icon="whatsapp"
+                      class="svg-inline--fa fa-whatsapp fa-w-14 " role="img" xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 448 512">
+                      <path fill="currentColor"
+                        d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z">
+                      </path>
+                    </svg></p>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+              <div>
+                <div class="CDAboutCampDiv">
+                  <p class="CDAboutTitle position-relative">
+                    {% if is_authorised_for_edit %}
+                    <i class="fa fa-pencil edit_icon right-0"  data-toggle="modal" data-target="#edit_About_The_Campaign" aria-hidden="true"></i>
+                    {% endif %}
+                    About The Campaign
+                  </p>
+                  <p class="CDAboutText">
+                      {% autoescape off %}
+                          {{ instance_CampaignFundRaiser.about|linebreaks }}
+                      {% endautoescape %}
+                  </p>
+                </div>
+
+                <div class="CDCommentsDiv">
+                  <p class="CDCommentHeading"><svg aria-hidden="true" data-prefix="fas" data-icon="comments"
+                      class="svg-inline--fa fa-comments fa-w-18 " role="img" xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 576 512" style="font-size: 1.1rem; color: #EC156E;">
+                      <path fill="currentColor"
+                        d="M416 192c0-88.4-93.1-160-208-160S0 103.6 0 192c0 34.3 14.1 65.9 38 92-13.4 30.2-35.5 54.2-35.8 54.5-2.2 2.3-2.8 5.7-1.5 8.7S4.8 352 8 352c36.6 0 66.9-12.3 88.7-25 32.2 15.7 70.3 25 111.3 25 114.9 0 208-71.6 208-160zm122 220c23.9-26 38-57.7 38-92 0-66.9-53.5-124.2-129.3-148.1.9 6.6 1.3 13.3 1.3 20.1 0 105.9-107.7 192-240 192-10.8 0-21.3-.8-31.7-1.9C207.8 439.6 281.8 480 368 480c41 0 79.1-9.2 111.3-25 21.8 12.7 52.1 25 88.7 25 3.2 0 6.1-1.9 7.3-4.8 1.3-2.9.7-6.3-1.5-8.7-.3-.3-22.4-24.2-35.8-54.5z">
+                      </path>
+                    </svg> Comments</p>
+                  <div class="CDCommentHeadingLine"></div>
+                  {% if user.is_authenticated %}
+                      {% if group_member or is_authorised_for_edit %}
+                        <form method="POST">
+                            {% csrf_token %}
+                          <div class="CDCommentNewDiv">
+                            <img src="/media/{{request.user.profile}}" class="CDCommentNewImage" alt="">
+                              {{ Campaign_Comments_Form.comment }}
+                            <button  class="CDCommentPost border-0" name="form_type" value="comment" type="submit">Post</button>
+                          </div>
+                        </form>
+                      {% else %}
+                      <div class="CDCommentNewDiv">
+                          <img src="/media/{{request.user.profile}}" class="CDCommentNewImage" alt="">
+                              {{ Campaign_Comments_Form.comment }}
+                          <button  class="CDCommentPost border-0 GroupMemberRequired" type="button">Post</button>
+                        </div>
+                      {% endif %}
+                  {% endif %}
+                  <div id="comment_table_con">  
+                      {% if instance_CampaignComments|length != 0 %} 
+                        <table class="table text-left comment_table">
+                            <thead style="height: 0px;">
+                              <tr>
+                                <td style="width: 30px;"></td>
+                                <td></td>
+                              </tr>
+                            </thead>
+                            <tbody>  
+                              {% for comments in instance_CampaignComments %}                                     
+                              <tr class="CDCommentsDiv">
+                                <td class="ml-auto" style="width: 30px;">
+                                    <img src="/media/{{comments.comment_user.profile}}" class="CDCommentImage" alt="">
+                                </td>
+                                <td>
+                                    <div class="CDCommentDetails ml-0">
+                                        <div class="CDCommentUser"><b>{{ comments.comment_user.name }}</b>
+                                          <div style="color: rgb(68, 68, 68); margin-left: 20px;">
+                                            {% if comments.created_date == Today %}
+                                              Today 
+                                             {% else %} 
+                                              {{ comments.created_date|timesince:Today }} ago 
+                                             {% endif %} </div>
+                                          <div></div>
+                                        </div>
+                                        <div class="CDCommentText">
+                                            <p class="CDCommentTextarea">{% autoescape off %}{{ comments.comment|linebreaks }}{% endautoescape %}</p>
+                                        </div>
+                                      </div>
+                                </td>
+                              </tr>  
+                              {% endfor %}                                            
+                            </tbody>
+                          </table>
+                      {% endif %}
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+              <div class="CDCommentsDiv">
+                <p class="CDCommentHeading">
+                  <svg aria-hidden="true" data-prefix="fas" data-icon="comments"
+                    class="svg-inline--fa fa-comments fa-w-18 " role="img" xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 576 512" style="font-size: 1.1rem; color: #EC156E;">
+                    <path fill="currentColor"
+                      d="M416 192c0-88.4-93.1-160-208-160S0 103.6 0 192c0 34.3 14.1 65.9 38 92-13.4 30.2-35.5 54.2-35.8 54.5-2.2 2.3-2.8 5.7-1.5 8.7S4.8 352 8 352c36.6 0 66.9-12.3 88.7-25 32.2 15.7 70.3 25 111.3 25 114.9 0 208-71.6 208-160zm122 220c23.9-26 38-57.7 38-92 0-66.9-53.5-124.2-129.3-148.1.9 6.6 1.3 13.3 1.3 20.1 0 105.9-107.7 192-240 192-10.8 0-21.3-.8-31.7-1.9C207.8 439.6 281.8 480 368 480c41 0 79.1-9.2 111.3-25 21.8 12.7 52.1 25 88.7 25 3.2 0 6.1-1.9 7.3-4.8 1.3-2.9.7-6.3-1.5-8.7-.3-.3-22.4-24.2-35.8-54.5z">
+                    </path>
+                  </svg> Comments</p>
+                <div class="CDCommentHeadingLine"></div>
+                {% if user.is_authenticated %}
+                    {% if group_member or is_authorised_for_edit %}
+                      <form method="POST">
+                          {% csrf_token %}
+                        <div class="CDCommentNewDiv">
+                          <img src="/media/{{request.user.profile}}" class="CDCommentNewImage" alt="">
+                            {{ Campaign_Comments_Form.comment }}
+                          <button  class="CDCommentPost border-0" name="form_type" value="comment" type="submit">Post</button>
+                        </div>
+                      </form>
+                    {% else %}
+                    <div class="CDCommentNewDiv">
+                        <img src="/media/{{request.user.profile}}" class="CDCommentNewImage" alt="">
+                            {{ Campaign_Comments_Form.comment }}
+                        <button  class="CDCommentPost border-0 GroupMemberRequired" type="button">Post</button>
+                      </div>
+                    {% endif %}
+                {% endif %}
+                <div id="comment_table_con">   
+                  {% if instance_CampaignComments|length != 0 %}
+                        <table class="table text-left comment_table">
+                            <thead style="height: 0px;">
+                              <tr>
+                                <td style="width: 30px;"></td>
+                                <td></td>
+                              </tr>
+                            </thead>
+                            <tbody>  
+                              {% for comments in instance_CampaignComments %}                                     
+                              <tr class="CDCommentsDiv">
+                                <td class="ml-auto" style="width: 30px;">
+                                    <img src="/media/{{comments.comment_user.profile}}" class="CDCommentImage" alt="">
+                                </td>
+                                <td>
+                                    <div class="CDCommentDetails ml-0">
+                                        <div class="CDCommentUser"><b>{{ comments.comment_user.name }}</b>
+                                          <div style="color: rgb(68, 68, 68); margin-left: 20px;"> 
+                                              {% if comments.created_date == Today %}
+                                              Today 
+                                             {% else %} 
+                                              {{ comments.created_date|timesince:Today }} ago 
+                                             {% endif %}
+                                          </div>
+                                          <div></div>
+                                        </div>
+                                        <div class="CDCommentText">
+                                            <p class="CDCommentTextarea">{% autoescape off %}{{ comments.comment|linebreaks }}{% endautoescape %}</p>
+                                        </div>
+                                      </div>
+                                </td>
+                              </tr>  
+                              {% endfor %}                                            
+                            </tbody>
+                          </table>
+                          {% endif %}
+                  </div>
+              </div>
+            </div>
+            <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+              <div class="CDUpdatesDiv">
+                {% if user.is_authenticated %}
+                {% if request.user.id != instance_CampaignFundRaiser.user.id %}
+                <div class="CDAskUpdateDiv">
+                  <p class="CDAskUpdateText">Feel free to ask <b>{{ instance_CampaignFundRaiser.user.name }}</b> for a new update on this Fundraiser.
+                  </p>
+                  <div class="jss59">
+                    <a class="jss167 jss141 jss149 jss150 jss57" tabindex="0" role="button" href="{% url 'ask_update_campaign_selected' instance_CampaignFundRaiser.id %}">
+                      <span class="jss142 jss58">Ask for Update</span>
+                      <span class="jss339"></span></a></div>
+                </div>
+                {% endif %}
+                {% endif %}
+                <div class="position-relative mt-3">
+                    {% if is_authorised_for_edit %}
+                    <i class="fa fa-pencil edit_icon right-0"  data-toggle="modal" data-target="#edit_Updates" aria-hidden="true"></i>  
+                    {% endif %}  
+                    <p class="CDUpdatesHeading">Latest Updates</p>
+                </div>
+
+                {% for update in instance_CampaignUpdates %}
+                <div class="CDUpdateDiv">
+                  <p class="CDUpdateBoltText"><svg aria-hidden="true" data-prefix="fas" data-icon="bolt"
+                      class="svg-inline--fa fa-bolt fa-w-10 " role="img" xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 320 512">
+                      <path fill="currentColor"
+                        d="M296 160H180.6l42.6-129.8C227.2 15 215.7 0 200 0H56C44 0 33.8 8.9 32.2 20.8l-32 240C-1.7 275.2 9.5 288 24 288h118.7L96.6 482.5c-3.6 15.2 8 29.5 23.3 29.5 8.4 0 16.4-4.4 20.8-12l176-304c9.3-15.9-2.2-36-20.7-36z">
+                      </path>
+                    </svg> Here's a quick update</p>
+                  <div class="CDUpdateHeadDiv">
+                    <p class="CDUpdateHeading">{{update.title}}</p>
+                    <p class="CDUpdateNo">#{{ forloop.counter }}</p>
+                  </div>
+                  <div class="CDUpdateByDiv"><img
+                      src="/media/{{ instance_CampaignFundRaiser.user.profile }}"
+                      class="imgUpdateBy" alt="">
+                    <p class="CDUpdateByText"> by {{ instance_CampaignFundRaiser.user.name }} on {{update.created_at}} IST</p>
+                  </div>
+                  <div class="CDUpdateByLineDiv"></div>
+                  <div class="CDUpdateText">
+                      {% autoescape off %}
+                    {{update.about|linebreaks}}
+                    {% endautoescape %}
+                  </div>
+                </div>
+                {% endfor %}
+              </div>
+            </div>
+            <div class="tab-pane fade" id="abtcam" role="tabpanel" aria-labelledby="abtcam-tab">
+                <div class="CDUpdatesDiv position-relative">
+                  {% if instance_CampaignBuzz|length == 0 %}
+                      <p class="CDUpdatesHeading position-relative">No new articles
+                        {% if is_authorised_for_edit %}
+                        <i class="fa fa-pencil edit_icon right-0"  data-toggle="modal" data-target="#edit_Buzz" aria-hidden="true"></i> 
+                        {% endif %}
+                      </p>
+                  {% else %}
+                  <div class="d-flex justify-content-end">
+                    {% if is_authorised_for_edit %}
+                    <i class="fa fa-pencil  " style=" color: #EC156E;   font-size: 24px !important; "  data-toggle="modal" data-target="#edit_Buzz" aria-hidden="true"></i>
+                    {% endif %}
+                  </div>
+                    {% for Buzz in instance_CampaignBuzz %}  
+                    <div class="media-item p-0 align-items-start ">
+                      <div class="media-item_img-box"><img class="media-item__img" src="/media/{{Buzz.picture}}" alt=""></div>
+                      <div>
+                        <a rel="noopener" target="_blank" href="{{Buzz.article_link}}">
+                          <h3 class="media-item__heading">{{Buzz.title}}</h3>
+                        </a>
+                        <div class="media-item__details">
+                          <span>{{Buzz.created_at}}</span>
+                          <span class="separator">|</span>
+                          <span>{{Buzz.publisher}}</span>
+                        </div>
+
+                        <p class="media-item__intro">
+                            {% autoescape off %}
+                            {{Buzz.buzz|linebreaks}}
+                            {% endautoescape %}
+                        </p>
+                        
+                        {% if Buzz.article_link %}
+                          <a class="media-item__read-more mb-3" href="{{Buzz.article_link}}">Read More</a>
+                        {% endif %}
+                      </div>
+                    </div>
+                    <div class="pb-4"></div>
+                    {% endfor %}
+                  {% endif %}
+                    
+                </div>
+             
+            </div>
+
+          </div>
+        </div>
+        <div class="CDPeopleDiv">
+          <div class="CDPeopleMain">
+            <div class="CDPeopleContainer"
+              style="margin-top: 0px; margin-bottom: 0px; padding: 10px 0px; border-radius: 0px; border-top: 0px;">
+              <!-- <div class="CDPeopleImage" style="margin-left: 0px; margin-right: 20px; width: auto;"><img src="/media/{{instance_CampaignFundRaiser.user.profile}}" class="imgPeople" alt="" style="width: 50px; height: 50px;"></div> -->
+              <div class="CDPeopleDetail">
+                <p class="CDPeopleTitle" style="margin: 0px;">Beneficiary</p>
+                <div class="beneNameDiv">
+                  <div class="headtextben">
+                    <p class="CDCampBeneName">{{ instance_CampaignFundRaiser.user.beneficiary.name }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="CDPeopleDonors">
+            <p class="CDCommentHeading"><svg aria-hidden="true" data-prefix="fas" data-icon="medal"
+                class="svg-inline--fa fa-medal fa-w-16 " role="img" xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 512 512">
+                <path fill="currentColor"
+                  d="M223.75 130.75L154.62 15.54A31.997 31.997 0 0 0 127.18 0H16.03C3.08 0-4.5 14.57 2.92 25.18l111.27 158.96c29.72-27.77 67.52-46.83 109.56-53.39zM495.97 0H384.82c-11.24 0-21.66 5.9-27.44 15.54l-69.13 115.21c42.04 6.56 79.84 25.62 109.56 53.38L509.08 25.18C516.5 14.57 508.92 0 495.97 0zM256 160c-97.2 0-176 78.8-176 176s78.8 176 176 176 176-78.8 176-176-78.8-176-176-176zm92.52 157.26l-37.93 36.96 8.97 52.22c1.6 9.36-8.26 16.51-16.65 12.09L256 393.88l-46.9 24.65c-8.4 4.45-18.25-2.74-16.65-12.09l8.97-52.22-37.93-36.96c-6.82-6.64-3.05-18.23 6.35-19.59l52.43-7.64 23.43-47.52c2.11-4.28 6.19-6.39 10.28-6.39 4.11 0 8.22 2.14 10.33 6.39l23.43 47.52 52.43 7.64c9.4 1.36 13.17 12.95 6.35 19.59z">
+                </path>
+              </svg> Top Donors</p>
+            <div class="CDCommentHeadingLine"></div>
+            {% for topdoner in instance_top_five_campaigndoners %}
+            <div class="CDPeopleContainer">
+              <div class="CDPeopleImage">
+                <div class=" sb-avatar sb-avatar--text"
+                  style="display: inline-block; vertical-align: middle; width: 36px; height: 36px; border-radius: 100%; font-family: Helvetica, Arial, sans-serif; font-weight: bold;">
+                  <div class=" sb-avatar__text"
+                    style="width: 36px; height: 36px; line-height: initial; text-align: center; text-transform: uppercase; color: #EC156E; background: rgb(238, 238, 238); border-radius: 100%;">
+                    <div style="display: table; table-layout: fixed; width: 100%; height: 100%; font-size: 0px;"><span
+                        style="display: table-cell; vertical-align: middle; white-space: nowrap;"><span>{{ topdoner.name|get_short_name:topdoner.is_hide_me }}</span></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <p class="CDPeopleTitle CDPeople1" style="width: 100%;">{% if topdoner.is_hide_me %} Anonymous {% else %} {{ topdoner.name }} {% endif %}</p>
+              <p class="CDPeopleTitle CDPeople2 "
+                style="color: #EC156E; text-align: right; margin-right: 20px; min-width: fit-content;"><b><svg
+                    aria-hidden="true" data-prefix="fas" data-icon="rupee-sign"
+                    class="svg-inline--fa fa-rupee-sign fa-w-10 " role="img" xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 320 512">
+                    <path fill="currentColor"
+                      d="M308 96c6.627 0 12-5.373 12-12V44c0-6.627-5.373-12-12-12H12C5.373 32 0 37.373 0 44v44.748c0 6.627 5.373 12 12 12h85.28c27.308 0 48.261 9.958 60.97 27.252H12c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h158.757c-6.217 36.086-32.961 58.632-74.757 58.632H12c-6.627 0-12 5.373-12 12v53.012c0 3.349 1.4 6.546 3.861 8.818l165.052 152.356a12.001 12.001 0 0 0 8.139 3.182h82.562c10.924 0 16.166-13.408 8.139-20.818L116.871 319.906c76.499-2.34 131.144-53.395 138.318-127.906H308c6.627 0 12-5.373 12-12v-40c0-6.627-5.373-12-12-12h-58.69c-3.486-11.541-8.28-22.246-14.252-32H308z">
+                    </path>
+                  </svg> {{ topdoner.total }}</b></p>
+            </div>
+            {% endfor %}
+          </div>
+          <div class="CDPeopleSupporters">
+            <p class="CDCommentHeading"><svg aria-hidden="true" data-prefix="fas" data-icon="users"
+                class="svg-inline--fa fa-users fa-w-20 " role="img" xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 640 512">
+                <path fill="currentColor"
+                  d="M96 224c35.3 0 64-28.7 64-64s-28.7-64-64-64-64 28.7-64 64 28.7 64 64 64zm448 0c35.3 0 64-28.7 64-64s-28.7-64-64-64-64 28.7-64 64 28.7 64 64 64zm32 32h-64c-17.6 0-33.5 7.1-45.1 18.6 40.3 22.1 68.9 62 75.1 109.4h66c17.7 0 32-14.3 32-32v-32c0-35.3-28.7-64-64-64zm-256 0c61.9 0 112-50.1 112-112S381.9 32 320 32 208 82.1 208 144s50.1 112 112 112zm76.8 32h-8.3c-20.8 10-43.9 16-68.5 16s-47.6-6-68.5-16h-8.3C179.6 288 128 339.6 128 403.2V432c0 26.5 21.5 48 48 48h288c26.5 0 48-21.5 48-48v-28.8c0-63.6-51.6-115.2-115.2-115.2zm-223.7-13.4C161.5 263.1 145.6 256 128 256H64c-35.3 0-64 28.7-64 64v32c0 17.7 14.3 32 32 32h65.9c6.3-47.4 34.9-87.3 75.2-109.4z">
+                </path>
+              </svg> Supporters</p>
+            <div class="CDCommentHeadingLine"></div>
+            <div id="supporters_table_conn">
+              {% if instance_CampaignDoners|length != 0 %}
+              <table class="table text-left supporters_table">
+                <thead style="height: 0px;">
+                  <tr>
+                    <td style="width: 140px;"></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for doner in instance_CampaignDoners %}
+                    <tr class="CDPeopleContainer">
+                      <td style="width: 140px;">
+                        <div class="CDPeopleImage">
+                          <div class=" sb-avatar sb-avatar--text">
+                            <div class=" sb-avatar__text">
+                              <div class=" sb-avatar__text_con ">
+                                <span class=" sb-avatar__text_con_span "><span>{{doner.short_name}}</span></span></div>
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <p class="CDPeopleTitle CDPeople1 w-100"> 
+                            {% if doner.is_hide_me %} Anonymous {% else %} {{ doner.name }} {% endif %}
+                        </p>
+                      </td>
+                      <td>
+                        <p class="CDPeopleTitle CDPeople2 width_200"><b>
+                            <svg aria-hidden="true" data-prefix="fas" data-icon="rupee-sign"
+                              class="svg-inline--fa fa-rupee-sign fa-w-10 " role="img" xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 320 512">
+                              <path fill="currentColor"
+                                d="M308 96c6.627 0 12-5.373 12-12V44c0-6.627-5.373-12-12-12H12C5.373 32 0 37.373 0 44v44.748c0 6.627 5.373 12 12 12h85.28c27.308 0 48.261 9.958 60.97 27.252H12c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h158.757c-6.217 36.086-32.961 58.632-74.757 58.632H12c-6.627 0-12 5.373-12 12v53.012c0 3.349 1.4 6.546 3.861 8.818l165.052 152.356a12.001 12.001 0 0 0 8.139 3.182h82.562c10.924 0 16.166-13.408 8.139-20.818L116.871 319.906c76.499-2.34 131.144-53.395 138.318-127.906H308c6.627 0 12-5.373 12-12v-40c0-6.627-5.373-12-12-12h-58.69c-3.486-11.541-8.28-22.246-14.252-32H308z">
+                              </path>
+                            </svg> {{doner.amount}}</b>
+                        </p>
+                      </td>
+                      <td style="width: 20px;"></td>
+                    </tr>
+                    {% endfor %}
+
+                  </tbody>
+              </table>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+      <div class="CDReportDiv">
+        <p class="CDReportText">Have a question? If the info above doesn't help. You can check out our <b><a
+              href="javascript:void(0);"><u style="color: #EC156E;">FAQs</u></a></b> page</p>
+
+        {% if user.is_authenticated %}
+        {% if request.user.id != instance_CampaignFundRaiser.user.id %}
+        <div class="jss59">
+          <a class="jss167 jss141 jss149 jss150 jss57" tabindex="0" role="button" href="{% url 'report_event_selected' instance_CampaignFundRaiser.id %};">
+            <span class="jss142 jss58">Report this Campaign</span>
+            <span class="jss339"></span></a>
+        </div>
+        {% endif %}
+        {% if request.user.user_type == 'Admin' or request.user.user_type == 'Backend User' %}
+        <a href="{% url 'public_personas' %}?Category=FundRaiser&ID={{instance_CampaignFundRaiser.id}}" class="ml-3" target="_blank">
+          <u style="color: #EC156E;">"email the concerned authorities to support the campaign"</u>
+        </a>
+        {% endif %}
+        {% endif %}
+      </div>
+    </div>
+    <div class="CDStartCampDiv">
+      <p class="CDStartCampText">Do you have a cause in mind you strongly feel for?</p>
+      <div class="jss59"><a class="jss167 jss141 jss149 jss150 jss57" tabindex="0" role="button"
+          href="{% url 'start_campaign' %}"><span class="jss142 jss58">Start a Campaign</span><span class="jss339"></span></a>
+      </div>
+    </div>
+  </div>
+</main>
+{% endblock %}    
+
+{% block model_popup %}
+<div class="modal fade" id="supportfundraises" tabindex="-1" role="dialog" aria-labelledby="supportfundraisesTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable  modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header  pl-4  pb-3">
+          <h5 class="modal-title" id="supportfundraisesTitle">Contribute</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+        </div>
+        <div class="modal-body pt-0 pb-0">
+            <form method="POST" class="jss632">
+              {% csrf_token %}
+                <div class="jss833 jss834 jss836">
+                    <p class="jss798 jss807">Amount</p>
+                    <div class="jss833" style="flex-direction: unset;display: flex;">
+                        <div class="jss567 jss554 jss558 jss568 jss555 select2_con " style="width: 15%;">
+                            <select class="= select2_modal"  disabled>
+                              <option value="" selected>INR</option>
+                            </select>
+                          </div>
+
+                        <div class="jss850 jss837 jss841 jss851 jss838" style="    width: 85%;">
+                          <!-- <input name="is_hide_me" aria-invalid="false" class="jss860 jss845 integer_value" required  type="text" value=""> -->
+                          {{Campaign_Doners_Forms.amount}}
+                        </div>                       
+                    </div>
+                     <span class="error">{{Campaign_Doners_Forms.errors.amount}}</span>
+                </div>
+                <label class="jss867 mb-0">
+                    <span class="jss892 jss886 jss882 jss895 jss899">
+                    <span class="jss891">
+                      <svg class="jss789 svg_show" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="presentation">
+                          <path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z">
+                          </path>
+                      </svg>
+                      <svg class="jss789 svg_hide" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="presentation">
+                          <path
+                            d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z">
+                          </path>
+                        </svg>
+                      <!-- <input class="jss885 " type="checkbox" id="donation_anonymous_checkbox"   ></span><span class="jss934" > -->
+                      {{Campaign_Doners_Forms.is_hide_me}}
+                      </span>
+                    </span>
+                    <span class="jss798 jss807 jss872">
+                          <p style="font-size: 0.75rem; width: 100%; margin: 10px 0px;">  Make my donation anonymous </p>
+                      </span>
+                </label>
+
+
+                <div class="jss833 jss834 jss836">
+                    <p class="jss798 jss807">Your Name</p>
+                    <div class="jss833">
+                        <div class="jss850 jss837 jss841 jss851 jss838">
+                          <!-- <input aria-invalid="false" class="jss860 jss845" required type="text" value=""> -->
+                          {{Campaign_Doners_Forms.name}}
+                        </div>     
+                        <span class="error">{{Campaign_Doners_Forms.errors.name}}</span>                   
+                    </div>
+                </div>
+                  
+                <div class="jss833 jss834 jss836">
+                    <p class="jss798 jss807">Email Address</p>
+                    <div class="jss833">
+                        <div class="jss850 jss837 jss841 jss851 jss838">
+                          <!-- <input aria-invalid="false" autocomplete="email" class="jss860 jss845" required type="email" value=""> -->
+                          {{Campaign_Doners_Forms.email}}
+                        </div>
+                        <span class="error"> {{Campaign_Doners_Forms.errors.email}}</span>
+                    </div>
+                </div>
+                <div class="jss833 jss834 jss836">                                    
+                    <p class="jss798 jss807">Mobile No</p>
+                    <div>
+                        <!-- <input type="tel" id="mobile-number" required placeholder="e.g. +1 702 123 4567"> -->
+                        {{Campaign_Doners_Forms.phone}}
+                    </div>
+                    <span class="error">{{Campaign_Doners_Forms.errors.phone}}</span>
+                </div>
+                <div class="jss833 jss834 jss836">
+                    <p class="jss798 jss807">Full Address </p>
+                    <div class="jss833">
+                        <div class="jss850 jss837 jss841 jss851 jss838">
+                          <!-- <input aria-invalid="false" class="jss860 jss845"  required type="text" value=""> -->
+                          {{Campaign_Doners_Forms.address}}
+                        </div>
+                        <span class="error">{{Campaign_Doners_Forms.errors.address}}</span>
+                    </div>
+                </div>
+                <div class="jss833 jss834 jss836">
+                    <p class="jss798 jss807">Pincode </p>
+                    <div class="jss833">
+                        <div class="jss850 jss837 jss841 jss851 jss838">
+                            {{Campaign_Doners_Forms.pincode}}
+                          <!-- <input aria-invalid="false" class="jss860 jss845" required  type="text" value=""> -->
+                        </div>
+                        <span class="error"> {{Campaign_Doners_Forms.errors.pincode}}</span>
+                    </div>
+                </div>
+                <div>
+                  <p class="mb-1 mt-2" style="font-weight: 500; font-size: 0.8rem;">Social Media Handles *(optional, but very useful)</p>
+                </div>
+                <div class="jss370_c">
+                  <div class="jss405_c">
+                    <div class="jss422_c ">
+                      <div> <svg aria-hidden="true" data-prefix="fab" data-icon="facebook-f"
+                          class="svg-inline--fa fa-facebook-f fa-w-9 " role="img" xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 264 512">
+                          <path fill="currentColor"
+                            d="M76.7 512V283H0v-91h76.7v-71.7C76.7 42.4 124.3 0 193.8 0c33.3 0 61.9 2.5 70.2 3.6V85h-48.2c-37.8 0-45.1 18-45.1 44.3V192H256l-11.7 91h-73.6v229">
+                          </path>
+                        </svg> </div>
+                    </div>
+                    <!-- <input aria-invalid="false" class="jss860 jss845" type="text" value=""> -->
+                    {{Campaign_Doners_Forms.facbook}}
+                  </div>
+                </div>
+                <div class="jss370_c mt-3 mb-3">
+                    <div class="jss405_c">
+                      <div class="jss422_c ">
+                        <div> 
+                          <svg aria-hidden="true" data-prefix="fab" data-icon="twitter" class="svg-inline--fa fa-twitter fa-w-16 " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"></path></svg>
+                        </div>
+                      </div>
+                      <!-- <input aria-invalid="false" class="jss860 jss845" type="text" value=""> -->
+                      {{Campaign_Doners_Forms.twitter}}
+                    </div>
+                  </div>
+                <label class="jss867 mb-0">
+                    <span class="jss892 jss886 jss882 jss895 jss899">
+                    <span class="jss891">
+                      <svg class="jss789 svg_show" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="presentation">
+                          <path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z">
+                          </path>
+                      </svg>
+                      <svg class="jss789 svg_hide" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="presentation">
+                          <path
+                            d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z">
+                          </path>
+                        </svg>
+                      <input class="jss885" name="indian_citizen" type="checkbox" id="citizen_voluntary">
+                    </span><span class="jss934" ></span>
+                    </span>
+                    <span class="jss798 jss807 jss872">
+                          <p style="font-size: 0.75rem; width: 100%; margin: 10px 0px;"> I confirm that I am a citizen of India and this is a voluntary contribution.</p>
+                      </span></label>
+
+                <label class="jss867">
+                  <span class="jss892 jss886 jss882 jss895 jss899">
+                  <span class="jss891">
+                    <svg class="jss789 svg_show" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="presentation">
+                        <path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z">
+                        </path>
+                    </svg>
+                    <svg class="jss789 svg_hide" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="presentation">
+                        <path
+                          d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z">
+                        </path>
+                      </svg>
+                    <input class="jss885" type="checkbox" id="termsCheck_box" required="required" ></span><span class="jss934" ></span>
+                  </span>
+                  <span class="jss798 jss807 jss872">
+                        <p style="font-size: 0.75rem; width: 100%; margin: 10px 0px;"> I agree to
+                            the<a href="{% url 'terms_conditions' %}" target="_blank" class="link1"
+                                style="font-size: 0.8rem;"> Terms and Conditions </a> and<a
+                                href="{% url 'privacy_policy' %}" target="_blank" class="link1"
+                                style="font-size: 0.8rem;"> Privacy Policy</a></p>
+                    </span></label>
+
+                    <button class="jss892 jss901 jss912 jss913 jss915 jss916 jss926 jss633" name="form_type" value="Doners" tabindex="0" id="support_fund" type="submit">
+                        <span class="jss902">Proceed <svg aria-hidden="true" data-prefix="fas" data-icon="arrow-right" class=" ml-3 svg-inline--fa fa-arrow-right fa-w-14 " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M190.5 66.9l22.2-22.2c9.4-9.4 24.6-9.4 33.9 0L441 239c9.4 9.4 9.4 24.6 0 33.9L246.6 467.3c-9.4 9.4-24.6 9.4-33.9 0l-22.2-22.2c-9.5-9.5-9.3-25 .4-34.3L311.4 296H24c-13.3 0-24-10.7-24-24v-32c0-13.3 10.7-24 24-24h287.4L190.9 101.2c-9.8-9.3-10-24.8-.4-34.3z"></path></svg></span>
+                        <span class="jss934"></span>
+                    </button>
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="toast_con" >
+      <div class="Group_Member_Required toast" data-autohide="false">
+    
+          <div class="toast-body">
+              <button type="button" class="ml-2 mb-1 close" data-dismiss="toast">&times;</button>
+              <strong class="mr-auto text-primary"><i class="fa fa-exclamation-triangle fa-5" aria-hidden="true"></i></strong>
+              Please Support the Fundraiser.
+          </div>
+        </div>
+  </div>
+
+  {% if is_authorised_for_edit %}
+  <div class="modal fade" id="edit_title" role="dialog" aria-labelledby="edit_titleTittle" aria-hidden="false"
+    data-backdrop="static">
+    <div class="modal-dialog modal-dialog-scrollable  modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header border-0 pl-4  pb-1">
+          <h5 class="modal-title" id="edit_titleTittle">Edit Tittle </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body pt-0 pb-0">
+          <form class="jss632" method="POST">
+            {% csrf_token %}
+            <div class="jss833 jss834 jss836">
+              <p class="jss798 jss807">Edit Your Tittle</p>
+              <div class="jss833">
+                <div class="jss850 jss837 jss841 jss851 jss838 edit_title_class" >
+                  <!-- <input aria-invalid="false" class="jss860 jss845" type="text" value=""> -->
+                  {{CampaignFundRaiserTitleForm.title}}
+                </div>
+                <span class="error edit_title_error" >{{CampaignFundRaiserTitleForm.errors.title}}</span>
+              </div>
+            </div>
+            <button name="form_type" value="Title" class="jss892 jss901 jss912 jss913 jss915 jss916 jss926 jss633" id="edit_title_btn" type="submit">
+              <span class="jss902">Submit</span>
+              <span class="jss934"></span>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="edit_image" role="dialog" aria-labelledby="edit_imageTittle" aria-hidden="false"
+    data-backdrop="static">
+    <div class="modal-dialog modal-dialog-scrollable  modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header border-0 pl-4  pb-1">
+          <h5 class="modal-title" id="edit_imageTittle">Edit Image </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body pt-0 pb-0">
+          <form class="jss632" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="jss550 jss551 jss553">
+              <p class="jss515 jss524">Upload Image</p>
+              <div class="jss550">
+                <div class="jss567 jss554 jss558 jss568 jss555">
+                  <span class="js">
+                    <span class="box">
+                      <input type="file" name="picture" onchange="Validateimgupload(this);" id="id_picture" class="inputfile inputfile-1">
+                      <label id="lblfile-1" for="id_picture"><svg xmlns="http://www.w3.org/2000/svg" width="20"
+                          height="17" viewBox="0 0 20 17">
+                          <path
+                            d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z">
+                          </path>
+                        </svg> <span>Upload Image</span></label>
+                    </span>
+                  </span>
+                </div>
+                <span class="error" id="id_picture_error"></span>
+              </div>
+            </div>
+            <button name="form_type" value="Picture" class="jss892 jss901 jss912 jss913 jss915 jss916 jss926 jss633" id="id_picture_btn" type="submit">
+              <span class="jss902">Submit</span>
+              <span class="jss934"></span>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+    
+
+  <div class="modal fade" id="edit_goal" role="dialog" aria-labelledby="edit_goalTittle" aria-hidden="false" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-scrollable  modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header border-0 pl-4  pb-1">
+          <h5 class="modal-title" id="edit_goalTittle">Edit Goal </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body pt-0 pb-0">
+          <form class="jss632" method="POST">
+            {% csrf_token %}
+            <div class="jss550 jss551 jss553">
+              <p class="jss515 jss524">Goal</p>
+              <div class="jss550">
+                <div class="jss567 jss554 jss558 jss568 jss555 edit_goal">
+                    {{CampaignFundRaiserGoalForm.goal}}
+                  <!-- <input class="jss577 jss562 integer_value" type="text" value="" required="required"> -->
+                </div>
+              </div>
+              <span class="error edit_goal_error">{{CampaignFundRaiserGoalForm.errors.goal}}</span>
+            </div>
+            <button name="form_type" value="Goal" class="jss892 jss901 jss912 jss913 jss915 jss916 jss926 jss633" id="edit_goal_btn" type="submit">
+              <span class="jss902">Submit</span>
+              <span class="jss934"></span>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="edit_About_The_Campaign" role="dialog" aria-labelledby="edit_About_The_CampaignTittle"
+  aria-hidden="false" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg  modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header pl-4  pb-1">
+          <h5 class="modal-title" id="edit_About_The_CampaignTittle">Edit About the Campaign </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body pt-0 pb-0">
+          <form class="jss632" method="POST">
+            {% csrf_token %}
+            <div class="jss550 jss551 jss553">
+              <div class="jss550">
+                <div class="jss567 jss554 jss568 jss555" id="id_about_cam">
+                  <textarea class="jss577 jss562 jqte-test w-100" id="id_about" name="about" value="{{CampaignFundRaiserAboutForm.about.value}}">{{CampaignFundRaiserAboutForm.about.value}}</textarea>
+                  
+                </div>
+              </div>
+              <span class="error" id="id_about_error"></span>
+            </div>
+            <button name="form_type" value="About" class="jss892 jss901 jss912 jss913 jss915 jss916 jss926 jss633"  type="submit" id="abt_capm_group">
+              <span class="jss902">Submit</span>
+              <span class="jss934"></span>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="edit_Updates" role="dialog" aria-labelledby="edit_UpdatesTittle" aria-hidden="false" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg  modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header pl-4  pb-1">
+          <h5 class="modal-title" id="edit_UpdatesTittle">Edit Updates </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body pt-0 pb-0">
+          <form class="jss632" method="POST">
+            {% csrf_token %}
+            <div class="jss550 jss551 jss553">
+              <p class="jss515 jss524">Title</p>
+              <div class="jss550">
+                <div class="jss567 jss554 jss558 jss568 jss555 class_tittle mb-1">
+                  {{CampaignUpdates_Form.title}}
+                  <!-- <input  class="jss577 jss562"  type="text" value="" required="required">                         -->
+                </div>
+                <span class="error" id="id_tittle_error">{{CampaignUpdates_Form.errors.title}}</span>
+              </div>
+            </div>
+            <div class="jss550 jss553 mt-0 mb-0">
+              <div class="jss550">
+                <div class="jss567 jss554 jss568 jss555" id="id_about_update">
+                  <textarea class="jss577 jss562 jqte-test w-100" id="id_about" name="about" value=""></textarea>
+                </div>
+                <span class="error" id="id_update_error"></span>
+              </div>
+            </div>
+            <button name="form_type" value="Updates" class="jss892 jss901 jss912 jss913 jss915 jss916 jss926 jss633" id="Edit_Updates" type="submit">
+              <span class="jss902">Submit</span>
+              <span class="jss934"></span>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="edit_Buzz" role="dialog" aria-labelledby="edit_BuzzTittle"
+  aria-hidden="false" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg  modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header pl-4  pb-1">
+          <h5 class="modal-title" id="edit_BuzzTittle">Edit Buzz </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body pt-0 pb-0">
+          <form class="jss632" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="jss550 jss551 jss553">
+              <p class="jss515 jss524">Title</p>
+              <div class="jss550">
+                <div class="jss567 jss554 jss558 jss568 jss555 class_tittle_one">
+                  {{CampaignBuzz_Form.title}}                        
+                </div>
+                <span class="error" id="id_tittle_one_error">{{CampaignBuzz_Form.errors.title}}</span>
+              </div>
+            </div>
+            <div class="jss550 jss551 jss553">
+                <p class="jss515 jss524">Buzz </p>
+              <div class="jss550">
+                <div class="jss567 jss554 jss568 jss555" id="id_about_buzz">
+                  <textarea class="jss577 jss562 jqte-test w-100" id="id_about" name="buzz" value=""></textarea>
+                </div>
+                <span class="error" id="id_buzz_error"></span>
+              </div>
+            </div>
+            <div class="jss550 jss551 jss553">
+                <p class="jss515 jss524">Article Link</p>
+                <div class="jss550">
+                    <div class="jss567 jss554 jss558 jss568 jss555">
+                        {{CampaignBuzz_Form.article_link}}
+                    </div>
+                </div>
+                <span class="error" id="article_error">{{CampaignBuzz_Form.errors.article_link}}</span>
+            </div>
+            <div class="jss550 jss551 jss553">
+                <p class="jss515 jss524">Publisher</p>
+                <div class="jss550">
+                    <div class="jss567 jss554 jss558 jss568 jss555">
+                        {{CampaignBuzz_Form.publisher}}
+                    </div>
+                </div>
+                <span class="error" id="publisher_error">{{CampaignBuzz_Form.errors.publisher}}</span>
+            </div>
+            <div class="jss550 jss551 jss553">
+                <p class="jss515 jss524">Upload Image</p>
+                <div class="jss550">
+                  <div class="jss567 jss554 jss558 jss568 jss555">
+                      <span class="js">
+                          <span class="box">
+                              <input type="file" name="picture" onchange="Validateimgupload_two(this);" id="id_picture_two" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" required="required" >
+                              <label id="lblfile-1" for="id_picture_two"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"></path></svg> <span>Upload Image</span></label>
+                          </span>
+                      </span>  
+                  </div>
+                  <span class="error id_picture_two_error"></span>
+                </div>
+              </div>  
+            <button name="form_type" value="Buzz" class="jss892 jss901 jss912 jss913 jss915 jss916 jss926 jss633" id="Edit_buzz" type="submit">
+              <span class="jss902">Submit</span>
+              <span class="jss934"></span>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+{% endblock %}
+
+{% block extra_script %}
+  <script type="text/javascript" src="/static/js/jquery.dataTables.min.js"></script>
+
+  <script>
+      $(".GroupMemberRequired").click(function() {
+  
+        $('.Group_Member_Required').toast('show');
+      });
+    </script>
+
+
+<script>
+  window.onscroll = function() {myFunction()};
+  
+  var navbar = document.getElementById("navbar");
+  var sticky = navbar.offsetTop - 50;
+
+  function myFunction() {
+    if (window.pageYOffset >= sticky) {
+      navbar.classList.add("sticky");
+    } else {
+      navbar.classList.remove("sticky");
+    }
+  }
+</script>
+<script type="text/javascript">
+   $(document).ready( function () {
+        $('.supporters_table').DataTable({
+        "ordering": false,
+        "info":     false,
+        "searching" : false,
+        "lengthChange": false,
+        "pageLength": 5
+        });
+
+        $('.comment_table').DataTable({
+        "ordering": false,
+        "info":     false,
+        "searching" : false,
+        "lengthChange": false,
+        "pageLength": 5
+        });
+    } );
+</script>
+<link href="/static/css/jquery-te-1.4.0.css" rel="stylesheet">
+<script type="text/javascript" src="/static/js/jquery-te-1.4.0.min.js"></script>
+<script type="text/javascript" src="/static/js/custom-file-input.js"></script>
+<script>
+  $(document).ready(function() {
+      $('.jqte-test').jqte();
+  });
+</script>
+{% endblock %}

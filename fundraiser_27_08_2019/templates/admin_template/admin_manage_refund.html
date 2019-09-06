@@ -1,0 +1,344 @@
+
+{% extends 'admin_template/admin_dashboard.html' %}
+
+{% block title %}
+  <title>Crowd Funding Admin | Donors </title>
+{% endblock %}
+
+
+{% block meta_tag %}
+  <meta name="description" content="" />
+  <meta property="og:title" content="" />
+  <meta property="og:url" content="web page path" />
+  <meta property="og:description" content="">
+  <meta property="og:image" content="image PATH">
+{% endblock %}
+
+{% block extra_style %}
+<link href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.dataTables.min.css" rel="stylesheet">
+{% endblock %}
+
+
+{% block body %} 
+<main>
+    <div class="container">
+      
+
+      <div class="row mt-3 mb-3 justify-content-center align-items-center  position-relative">
+          <div class="col-md-6">
+              <h4 class="mb-0">Donations & Refunds </h4>
+          </div>
+      <div class="col-md-6 text-right position_unset">
+        <div class="navbar justify-content-end position_unset">
+          <ul class="Campaign_action_right  navbar-nav position_unset">
+            <li class="nav-item"><a href="#" class="nav-link"><i class="fa fa-cloud-download" aria-hidden="true"></i></a></li>
+            <li class="nav-item"><a href="#" class="nav-link"><i data-toggle="modal" data-target="#view_grid"
+                  aria-hidden="true" class="fa fa-th" aria-hidden="true"></i></a></li>
+            <li class="nav-item"><a href="#" class="nav-link"><i class="fa fa-print" aria-hidden="true"></i></a></li>                                
+            <li class="nav-item dropdown mr-4 right_zero position_unset">
+              <a class="nav-link dropdown-toggle " href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                  x="0px" y="0px" width="18px" height="18px" viewBox="0 0 459 459" style="enable-background:new 0 0 459 459;"
+                  xml:space="preserve">
+                  <g>
+                    <g id="filter">
+                      <path d="M178.5,382.5h102v-51h-102V382.5z M0,76.5v51h459v-51H0z M76.5,255h306v-51h-306V255z" />
+                    </g>
+                  </g>
+                  <g>
+                  </g>
+                  <g>
+                  </g>
+                  <g>
+                  </g>
+                  <g>
+                  </g>
+                  <g>
+                  </g>
+                  <g>
+                  </g>
+                  <g>
+                  </g>
+                  <g>
+                  </g>
+                  <g>
+                  </g>
+                  <g>
+                  </g>
+                  <g>
+                  </g>
+                  <g>
+                  </g>
+                  <g>
+                  </g>
+                  <g>
+                  </g>
+                  <g>
+                  </g>
+                </svg>
+              </a>
+              <div class="dropdown-menu dropdown-menu-right w-100" aria-labelledby="navbarDropdown">
+                <div class="container-fluid">
+                  <form class="row">
+                    <div class="col-sm-12">
+                      <h5 class="mb-0">Filters <span><button type="clear" class="colr_yellow btn_none"><span
+                              class="jss237 jss231" style="font-size: 15px;">Reset</span></button></span></h5>
+      
+                    </div>
+      
+                    <div class="col-sm-12 ">
+                      <div class="jss550 jss551 jss553">
+                        <div class="jss550">
+                          <div class="">
+                            <p class="jss798 jss807 mb-2">Fund Raiser</p>
+                            {% for fundraiser in instance_CampaignFundRaiser %}
+                            <div>
+                              <input type="checkbox" class="styled-checkbox" checked id="fundraiser_{{fundraiser.id}}" name="FundRaiser"
+                                onchange="checkboxchange()" value="{{fundraiser.id}}" class="mr-2" />
+                              <label for="fundraiser_{{fundraiser.id}}">{{fundraiser.title}}</label>
+                            </div>
+                            {% endfor %}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+      
+                  </form>
+                </div>
+      
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      </div>
+
+
+      <div id="campaign_data">
+        
+      </div>
+  
+        
+    </div>
+</main>
+{% endblock %}      
+{% block model_popup %}
+<div class="modal fade pr-0" id="view_grid" role="dialog" aria-labelledby="view_gridTittle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-md  modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header border-0 pl-4  pb-1">
+          <h5 class="modal-title" id="view_gridTittle">Show Columns </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body pt-0 pb-0">
+          <form class="jss632">
+            <div class="jss550 jss551 jss553">
+              <div class="jss550">
+                <div class="">
+                  <div>
+                    <input type="checkbox" class="styled-checkbox" id="ID_Campaign" name="colume_name" checked onchange="checkboxchange()" value="Campaign" class="mr-2" />
+                    <label for="ID_Campaign">Campaign</label>
+                  </div>
+                  <div>
+                      <input type="checkbox" class="styled-checkbox" id="ID_Date" name="colume_name" checked onchange="checkboxchange()" value="Date"  class="mr-2" />
+                      <label for="ID_Date">Date</label>
+                  </div>
+                  <div>
+                      <input type="checkbox" class="styled-checkbox" id="ID_Time" name="colume_name" checked onchange="checkboxchange()" value="Time"  class="mr-2" />
+                      <label for="ID_Time">Time</label>
+                  </div>
+                  <div>
+                      <input type="checkbox" class="styled-checkbox" id="ID_Name" name="colume_name" checked onchange="checkboxchange()" value="Name"  class="mr-2" />
+                      <label for="ID_Name">Name</label>
+                  </div>
+                  <div>
+                      <input type="checkbox" class="styled-checkbox" id="ID_Email" checked name="colume_name" onchange="checkboxchange()" value="Email"  class="mr-2" />
+                      <label for="ID_Email">Email</label>
+                  </div>
+                  <div>
+                    <input type="checkbox" class="styled-checkbox" id="ID_Phone" name="colume_name" checked onchange="checkboxchange()" value="Phone"  class="mr-2" />
+                    <label for="ID_Phone">Phone</label>
+                  </div>
+                  <div>
+                    <input type="checkbox" class="styled-checkbox" id="ID_Amount" name="colume_name" checked onchange="checkboxchange()" value="Amount"  class="mr-2" />
+                    <label for="ID_Amount">Amount</label>
+                  </div>
+                  
+                  
+                </div>
+                <span class="error"></span>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<div id="textDisplay" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+  
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header text-center">
+          <h5 class="modal-title w-100">About</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p id="reason_txt"></p>
+        </div>
+      </div>
+  
+    </div>
+  </div>
+  
+{% endblock %}
+{% block extra_script %} 
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js" ></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.flash.min.js" ></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js" ></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js" ></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js" ></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js" ></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.print.min.js" ></script>
+
+<script type="text/javascript">
+  $('#dismiss, .overlay').on('click', function () {
+      $('#sidebar').removeClass('active');
+      $('.overlay').removeClass('active');
+  });
+  $(document).ready(function () {
+      $('#sidebarCollapse').on('click', function () {
+        $('#sidebar').addClass('active');
+        $('.overlay').addClass('active');
+        $('.collapse.in').toggleClass('in');
+        $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+      });
+  });
+
+  // $(document).ready( function () {
+  //     $('.data_table').DataTable({
+  //     "ordering": false,
+  //     "info":     false
+  //     });
+  // } );
+</script>
+<script>
+function checkboxchange(){
+  var data = {
+    'FundRaiser':[],
+    'Column':[],
+  }
+  $("input:checkbox[name=colume_name]:checked").each(function(){
+    data['Column'].push($(this).val());
+  });
+
+  $("input:checkbox[name=FundRaiser]:checked").each(function(){
+    data['FundRaiser'].push($(this).val());
+  });
+  
+
+  $.get("{% url 'admin_manage_refund' %}", data, function(result){
+    $("#campaign_data").html(result)
+    $('#print-assets').empty();
+    $( '#download' ).empty();
+    // $('.data_table').DataTable({
+    //   "ordering": false,
+    //   "info":false ,
+    //   dom:'Bfrtip',
+    //   buttons: [
+    //       'copy', 'csv', 'excel', 'pdf', 'print'
+    //     ]
+    // });
+
+    var dt = $('#donor_table').DataTable({
+      "ordering": false,
+      "info":false 
+    });
+    
+    new $.fn.dataTable.Buttons( dt, {
+        buttons: [
+            {
+                text: '<i class="fa fa-cloud-download"></i>',
+                extend: 'excel',
+                extension: '.xls'
+            }
+        ]
+    } );
+     
+    // Add the Export buttons to the toolbox
+    dt.buttons( 0, null ).container().appendTo( '#download' );
+     
+     
+    // Configure Print Button
+    new $.fn.dataTable.Buttons( dt, {
+        buttons: [
+            {
+                text: '<i class="fa fa-print"></i>',
+                extend: 'print'
+            }
+        ]
+    } );
+     
+    // Add the Print button to the toolbox
+    dt.buttons( 1, null ).container().appendTo( '#print-assets' );
+
+  });
+}
+
+function reaon_req(e){
+    $("#reason_txt").html($(e).parent().find(".reaon_req_text").html());
+  }
+
+
+
+
+  function allCheckboxtocheck(e){  
+
+    var parent_checkbox = document.getElementById('checkbox_parent');
+
+    var child_checkbox = document.getElementsByClassName("child");
+
+       if (parent_checkbox.checked) {
+         for (var i = 0; i < child_checkbox.length; i++) { 
+           child_checkbox[i].checked = true;
+         }
+       } else {
+         for (var i = 0; i < child_checkbox.length; i++) {
+           child_checkbox[i].checked = false;
+         }
+       }
+  }
+
+ function childCheckboxtocheck(e){
+
+    var parent_checkbox = document.getElementById('checkbox_parent');
+
+    var child_checkbox = document.getElementsByClassName("child");
+
+    if( child_checkbox.length == $(".child:checked").length){
+        parent_checkbox.checked = true;
+    }
+    else{
+      parent_checkbox.checked = false;
+    }
+
+
+ }
+  
+
+</script>
+<script>
+  $( document ).ready(function() {
+    checkboxchange();
+    allCheckboxtocheck();
+  })
+</script>
+
+{% endblock %} 
+    

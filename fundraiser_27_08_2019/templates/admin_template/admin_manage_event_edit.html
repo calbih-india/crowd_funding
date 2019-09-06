@@ -1,0 +1,193 @@
+{% extends 'admin_template/admin_dashboard.html' %}
+
+{% block title %}
+<title>Crowd Funding Admin | Authorize Event </title>
+{% endblock %}
+
+
+{% block meta_tag %}
+<meta name="description" content="" />
+<meta property="og:title" content="" />
+<meta property="og:url" content="web page path" />
+<meta property="og:description" content="">
+<meta property="og:image" content="image PATH">
+{% endblock %}
+
+{% block extra_style %}
+  <link href="/static/css/jquery-te-1.4.0.css" rel="stylesheet">
+{% endblock %}
+
+
+{% block body %}
+<main class="jss346 js800_c">
+    <div style="display: block;">
+        <div class="row align-items-center">
+            <div class="col-md-12 text-center">
+                <h4 class="mb-0">Authorize Event</h4>
+            </div>
+        </div>
+        <div class="jss476 jss480 jss477 jss347 mt-4">
+
+            <form class="jss349 row" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="col-sm-12 col-md-6">
+                    <img src="/media/{{ Admin_Event_Form.image.value }}" id="blah" class="img-fluid">
+                </div>
+                <div class="col-sm-12 col-md-6">
+                    <div class="jss550 jss551 jss553">
+                        <p class="jss515 jss524">Upload Image</p>
+                        <div class="jss550">
+                            <div class="jss567 jss554  jss568 jss555">
+                                <span class="js">
+                                    <span class="box">
+                                        <input type="file" name="image" onchange="uploadphoto(this);" id="id_image" class="inputfile inputfile-1">
+                                        <label id="lblfile-1" for="id_image"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17">
+                                        <path
+                                            d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z">
+                                        </path>
+                                        </svg> <span>Upload Image</span></label>
+                                    </span>
+                                </span>
+                            </div>
+                            <span class="error" id="img_val">{{Admin_Event_Form.errors.image}}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-md-12">
+                    <div class="jss550 jss551 jss553">
+                        <p class="jss515 jss524">Event Name​</p>
+                        <div class="jss550">
+                            <div class="jss567 jss554 jss558 jss568 jss555">
+                                {{Admin_Event_Form.name}}
+                            </div>
+                            <span class="error">{{Admin_Event_Form.errors.name}}</span>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div class="col-sm-12 col-md-6">
+                    <div class="jss550 jss551 jss553">
+                        <p class="jss515 jss524">Where​</p>
+                        <div class="jss550">
+                            <div class="jss567 jss554 jss558 jss568 jss555">
+                                {{Admin_Event_Form.place}}
+                            </div>
+                        </div>
+                        <span class="error">{{Admin_Event_Form.errors.place}}</span>
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-md-6">
+                    <div class="jss550 jss551 jss553">
+                        <p class="jss515 jss524">When</p>
+                        <div class="jss550">
+                            <div class="jss567 jss554 jss558 jss568 jss555">
+                                {{Admin_Event_Form.date}}
+                            </div>
+                        </div>
+                        <span class="error" id="date_error">{{Admin_Event_Form.errors.date}}</span>
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-md-12">
+                    <div class="jss550 jss551 jss553">
+                        <p class="jss515 jss524">By tickets</p>
+                        <div class="jss550">
+                            <div class="jss567 jss554 jss558 jss568 jss555 select2_con">
+                                {{Admin_Event_Form.ticket}}
+                            </div>
+                        </div>
+                        <span class="error">{{Admin_Event_Form.errors.ticket}}</span>
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-md-12">
+                    <div class="jss550 jss551 jss553">
+                        <p class="jss515 jss524 d-flex justify-content-between"><span>About</span> <span class="cursor_pointer" data-toggle="modal" data-target="#text_editor" id="id_about_edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></span></p>
+                        <div class="jss550">
+                          <div class="jss567 jss554 jss568 jss555" id="id_about_div">
+                            <textarea class="jss577 jss562 jqte-test w-100" id="id_about" name="about" value="{{ Admin_Event_Form.about.value }}" required="required">{{ Admin_Event_Form.about.value }}</textarea>
+                          </div>
+                        </div>
+                        <span class="error" id="about_error">{{Admin_Event_Form.errors.about}}</span>
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-md-6">
+                    <div class="jss550 jss551 jss553">
+                        <p class="jss515 jss524">Cause</p>
+                        <div class="jss550">
+                            <div class="jss567 jss554 jss558 jss568 jss555 select2_con">
+                                {{Admin_Event_Form.cause}}
+                            </div>
+                        </div>
+                        <span class="error" id="select_cause_error">{{Admin_Event_Form.errors.cause}}</span>
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-md-6">
+                    <div class="jss550 jss551 jss553">
+                        <p class="jss515 jss524">Sensitivity​</p>
+                        <div class="jss550">
+                            <div class="jss567 jss554 jss558 jss568 jss555 select2_con">
+                                {{Admin_Event_Form.sensitivity}}
+                            </div>
+                        </div>
+                        <span class="error" id="select_sensitivity_error">{{Admin_Event_Form.errors.sensitivity}}</span>
+                    </div>
+                </div>
+       
+                <div class="col-sm-12 col-md-6">
+                    <div class="jss550 jss551 jss553">
+                        <p class="jss515 jss524">Authorize Event</p>
+                        <div class="jss550">
+                            <div class="jss567 jss554  jss568 jss555 mt-4">
+                                {{ Admin_Event_Form.is_active }}
+                                
+                            </div>
+                        </div>
+                        <span class="error">{{ Admin_Event_Form.errors.is_active }}</span>
+                    </div>
+                </div>
+
+                <button class="jss610 jss584 jss595 jss596 jss598 jss599 jss609 jss350" id="manage_event_edit" type="submit"><span
+                        class="jss585"> Authorize Event ​</span><span class="jss636"></span></button>
+
+            </form>
+        </div>
+    </div>
+</main>
+{% endblock %}
+
+  
+
+{% block model_popup %}
+<div class="modal fade " id="text_editor" tabindex="-1" role="dialog" aria-labelledby="text_editorLabel" aria-hidden="false" data-backdrop="static">
+      <div class="modal-dialog modal-dialog-centered modal-lg  " role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="text_editorLabel">About</h5>
+            <button type="button" class="close" id="about_textarea_modal_close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body" id="about_textarea_modal">
+                  <textarea  class="jqte-test" style="min-height: 475px"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock %}
+
+
+{% block extra_script %}
+ <script type="text/javascript" src="/static/js/jquery-te-1.4.0.min.js"></script>
+  <script>
+    $(document).ready(function() {
+        $('.jqte-test').jqte();
+    });
+
+  </script>
+{% endblock %}

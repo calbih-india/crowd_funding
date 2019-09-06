@@ -1,0 +1,153 @@
+{% extends 'admin_template/admin_dashboard.html' %}
+
+{% block title %}
+<title>Crowd Funding Admin | Manage Cause </title>
+{% endblock %}
+
+
+{% block meta_tag %}
+<meta name="description" content="" />
+<meta property="og:title" content="" />
+<meta property="og:url" content="web page path" />
+<meta property="og:description" content="">
+<meta property="og:image" content="image PATH">
+{% endblock %}
+
+{% block extra_style %}
+
+{% endblock %}
+
+
+{% block body %}
+    <main>
+        <div class="container">
+            <div class="row mt-3 mb-3 align-items-center">
+                <div class="col-md-6">
+                    <h4 class="mb-0">Create New Cause</h4>
+                </div>
+                <div class="col-md-6 text-right">
+                    <button type="button" class="custom_btn" data-toggle="modal" data-target="#createCampaign">Add Cause</button>
+                </div>
+            </div>
+            <div class="table_parent">
+              <table class="table text-center  data_table">
+                  <thead class="thead-light">
+                      <tr>
+                          <th scope="col">Cause ID</th>
+                          <th scope="col">Cause</th>
+                          <th scope="col">Description</th>
+                          <th scope="col">Action</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      {% for CauseCategory in instance_CauseCategory %}
+                      <tr>
+                          <td>{{ CauseCategory.id }}</td>
+                          <td>{{ CauseCategory.cause }}</td>
+                          <td>
+                              <div class="text_ecllipse reaon_req"  data-toggle="modal" data-target="#textDisplay"><i class="fa fa-eye cursor_pointer" aria-hidden="true"></i>
+                              <div class=" reaon_req_text d-none">{% autoescape off %}{{CauseCategory.description|linebreaks }}{% endautoescape %}</div></div>
+                          </td>
+                          <td class="width_150">
+                              <a href="{% url 'admin_manage_cause_edit' CauseCategory.id %}"><i class="fa fa-edit warning" aria-hidden="true"></i></a>
+                              <!-- <a href="#"><i class="fa fa-trash danger" aria-hidden="true"></i></a> -->
+                              {% if CauseCategory.is_active %}
+                                  <a href="{% url 'admin_manage_cause_status' CauseCategory.id 'False'  %}"><i class="fa fa-times-circle-o warning" aria-hidden="true"></i></a>
+                              {% else %}
+                                  <a href="{% url 'admin_manage_cause_status' CauseCategory.id 'True'  %}"><i class="fa fa-check sucess" aria-hidden="true"></i></a>
+                              {% endif %}
+                          </td>
+                      </tr>
+                      {% endfor %}
+                  </tbody>
+              </table>  
+            </div>
+        </div>
+    </main>
+
+
+
+{% endblock %}
+
+
+{% block model_popup %}
+<div id="textDisplay" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h5 class="modal-title w-100">About</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p id="reason_txt"></p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+
+<div class="modal fade" id="createCampaign" tabindex="-1" role="dialog" aria-labelledby="createCampaignTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable  modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header border-0 pl-4  pb-1">
+              <h5 class="modal-title" id="exampleModalScrollableTitle">Create New Cause </h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body pt-0 pb-0">
+                <form method="POST" class="jss349">
+                  {% csrf_token %}
+                    <div class="jss550 jss551 jss553">
+                      <p class="jss515 jss524">Cause</p>
+                      <div class="jss550">
+                        <div class="jss567 jss554 jss558 jss568 jss555">
+                          {{ Cause_Category_Form.cause }}
+                          <!-- <input  class="jss577 jss562"  type="text" value="" required="required">                         -->
+                        </div>
+                        <span class="error">{{ Cause_Category_Form.errors.cause }}</span>
+                      </div>
+                    </div>
+
+                    <div class="jss550 jss551 jss553">
+                      <p class="jss515 jss524">About Cause </p>
+                      <div class="jss550">
+                        <div class="jss567 jss554 jss558 jss568 jss555">
+                            {{Cause_Category_Form.description}}
+                        </div>
+                      </div>
+                      <span class="error">{{Cause_Category_Form.errors.description}}</span>
+                    </div>
+                    
+                    <button class="jss610 jss584 jss595 jss596 jss598 jss599 jss609 jss350"  type="submit"><span
+                        class="jss585">Submit</span><span class="jss636"></span></button>
+                  </form>
+            </div>
+          </div>
+        </div>
+      </div>
+  {% endblock %}
+
+
+
+{% block extra_script %}
+<script type="text/javascript">
+	$(".reaon_req").click(function(){
+		$("#reason_txt").html($(this).find(".reaon_req_text").html());
+	});
+</script>
+
+
+{% if form_error %}
+      <script>
+        $("#createCampaign").modal('show');
+      </script>
+{% endif %}
+{% endblock %}

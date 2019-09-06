@@ -1,0 +1,160 @@
+{% extends 'registration/login.html' %}
+
+  {% block title %}
+  <title>Crowd Funding | Registration</title>
+  {% endblock %}
+
+  {% block meta_tag %}
+    <meta name="description"
+      content="Crowd Funding is about raising awarness and a platform to bring change by the people for the people">
+    <meta name="og:title" content="Crowd Funding">
+    <meta name="og:description"
+      content="Crowd Funding is about raising awarness and a platform to bring change by the people for the people">
+    <meta name="og:image" content="https://www.ourdemocracy.in/src/assets/images/check/static/Home_2.jpg">
+    <meta name="og:url" content="https://www.ourdemocracy.in/">
+  {% endblock %}
+  
+  {% block extra_style %}
+  <link href="/static/css/intlTelInput.css" rel="stylesheet">
+  <link href="/static/css/demo.css" rel="stylesheet">
+  <link href="/static/css/jquerysctipttop.css" rel="stylesheet">
+  {% endblock %}
+
+
+  {% block body %}
+  <main class="jss629">
+      <div class="loader_global_div" style="display: none; width: 100%; padding: 1.5em;"></div>
+      <div style="display: block;">
+          <div class="jss759 jss763 jss760 jss630">
+              <div class="jss786 jss787 jss631"><svg class="jss789" focusable="false" viewBox="0 0 24 24"
+                      aria-hidden="true" role="presentation">
+                      <g fill="none">
+                          <path d="M0 0h24v24H0V0z"></path>
+                          <path d="M0 0h24v24H0V0z" opacity=".87"></path>
+                      </g>
+                      <path
+                          d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM9 6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9V6zm9 14H6V10h12v10zm-6-3c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z">
+                      </path>
+                  </svg></div>
+              <h5 class="jss798 jss814">Register</h5>
+              <div>
+                  <div style="display: flex; justify-content: center; margin-top: 1em;">
+                    <ul class="social_icon">
+                      <li><a href="{% url 'social:begin' 'facebook' %}" class="facebook"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                      <li><a href="{% url 'social:begin' 'google-oauth2' %}" class="google"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>                      
+                    </ul>
+                    </div>
+                  <div style="display: flex; justify-content: center; margin-top: 1em;">
+                      <p style="margin: 0px;">OR</p>
+                  </div>
+                  <form method="POST" class="jss632">
+                    {% csrf_token %}
+                      <div class="jss833 jss834 jss836">
+                          <p class="jss798 jss807">Your Name</p>
+                          <div class="jss833">
+                              <div class="jss850 jss837 jss841 jss851 jss838">
+                                {{ userform.name }}
+                              </div>
+                              <span class="error">{{ userform.errors.name }}</span>
+                          </div>
+                      </div>
+                      <div class="jss833 jss834 jss836">
+                          <p class="jss798 jss807">Email Address</p>
+                          <div class="jss833">
+                              <div class="jss850 jss837 jss841 jss851 jss838">
+                                  {{ userform.email }}
+                              </div>
+                              <span class="error">{{ userform.errors.email }}</span>
+                          </div>
+                      </div>
+                      <div style="text-align: center;">
+                          <label class="jss867">
+                            <span class="jss873">
+                              <span class="jss892 jss886 jss882 jss876 jss883 jss878 jss877">
+                                <span class="jss891">
+                                  <span class="jss874 jss875"></span>
+                                  <input name="is_indian" class="jss885" id="user_citizen_id" type="checkbox" value="user_citizen" checked="">
+                                </span>
+                                <span class="jss934"></span>
+                              </span>
+                              <span class="jss881"></span>
+                            </span>
+                            <span id="user_citizen_id_text" class="jss798 jss807 jss872">I am an Indian citizen</span></label>
+                      </div>
+                      <div class="jss833 jss834 jss836">                                    
+                          <p class="jss798 jss807">Mobile No</p>
+                          <div>
+                              {{userform.mobile_no}}
+                          </div>
+                          <span class="error">{{ userform.errors.mobile_no }}</span>
+                      </div>
+                      <div class="jss833 jss834 jss836">
+                          <p class="jss798 jss807">Password</p>
+                          <div class="jss833">
+                              <div class="jss850 jss837 jss841 jss851 jss838">
+                                <input name="password1" aria-invalid="false" autocomplete="current-password" class="jss860 jss845 jss863 jss848" id="reg_pass" name="reg_pass" type="password">
+                                </div>
+                                <span class="error">{{ userform.errors.password1 }}</span>
+                          </div>
+                      </div><label class="jss867">
+                        <span class="jss892 jss886 jss882 jss895 jss899">
+                        <span class="jss891">
+                          <svg class="jss789 svg_show" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="presentation">
+                              <path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z">
+                              </path>
+                          </svg>
+                          <svg class="jss789 svg_hide" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="presentation">
+                              <path
+                                d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z">
+                              </path>
+                            </svg>
+                          <input name="i_agree" class="jss885" type="checkbox" id="termsCheck_box" value="termsCheck" required></span><span class="jss934"
+                          ></span>
+                        </span>
+                        <span class="jss798 jss807 jss872">
+                              <p style="font-size: 0.8rem; width: 100%; margin: 10px 0px;"> I agree to
+                                  the<a href="{% url 'terms_conditions' %}" target="_blank" class="link1"
+                                      style="font-size: 0.8rem;"> Terms and Conditions </a> and<a
+                                      href="{% url 'privacy_policy' %}" target="_blank" class="link1"
+                                      style="font-size: 0.8rem;"> Privacy Policy</a></p>
+                          </span></label>
+                          <button class="jss892 jss901 jss912 jss913 jss915 jss916 jss926 jss633" id="register_btn" tabindex="0" type="submit">
+                              <span class="jss902">Register</span>
+                              <span class="jss934"></span>
+                          </button>
+                  </form>
+                  <div style="display: flex; flex-direction: column; align-items: center; text-align: center; width: 100%;">
+                      <div
+                          style="margin: 0px; width: 100%; border-top: 1px solid rgb(221, 221, 221); padding-top: 10px; display: flex;">
+                          Already a Member?<p class="link1" style="margin-left: 5px;"><a href="{% url 'login' %}" class="colr_yellow">Login</a></p>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </main>
+  {% endblock %}
+
+  {% block model_popup %}
+  <div class="toast_con" >
+      <div class="toast terms_error" data-autohide="false">    
+          <div class="toast-body">
+              <button type="button" class="ml-2 mb-1 close" data-dismiss="toast">&times;</button>
+              <strong class="mr-auto text-primary"><i class="fa fa-exclamation-triangle fa-5" aria-hidden="true"></i></strong> You must agree to the terms and conditions
+          </div>
+        </div>
+  </div>
+  {% endblock %}
+        
+  {% block extra_script %}
+    <script type="text/javascript" src="/static/js/intlTelInput.js" ></script>
+
+    <script>
+        $("#mobile-number").intlTelInput();
+    </script>
+
+  {% endblock %}
+
+  
+</body>
+</html>

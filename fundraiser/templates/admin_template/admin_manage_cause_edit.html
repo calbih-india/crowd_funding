@@ -1,0 +1,97 @@
+{% extends 'admin_template/admin_dashboard.html' %}
+
+{% block title %}
+<title>Crowd Funding Admin | Modify Cause </title>
+{% endblock %}
+
+
+{% block meta_tag %}
+<meta name="description" content="" />
+<meta property="og:title" content="" />
+<meta property="og:url" content="web page path" />
+<meta property="og:description" content="">
+<meta property="og:image" content="image PATH">
+{% endblock %}
+
+{% block extra_style %}
+  <link href="/static/css/jquery-te-1.4.0.css" rel="stylesheet">
+{% endblock %}
+
+
+
+{% block body %}
+<main class="jss346 jss346">
+    <div style="">
+        <div class="row align-items-center">
+            <div class="col-md-12 text-center">
+                <h4 class="mb-0">Modify Cause</h4>
+            </div>
+        </div>
+        <div class="jss476 jss480 jss477 jss347 mt-4">
+
+            <form class="jss349 row" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="col-sm-12 col-md-12">
+                    <div class="jss550 jss551 jss553">
+                        <p class="jss515 jss524">Cause</p>
+                        <div class="jss550">
+                            <div class="jss567 jss554 jss558 jss568 jss555">
+                                {{Cause_Category_Form.cause}}
+                            </div>
+                            <span class="error">{{Cause_Category_Form.errors.cause}}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-md-12">
+                    <div class="jss550 jss551 jss553">
+                        <p class="jss515 jss524  d-flex justify-content-between">Description <span class="cursor_pointer" data-toggle="modal" data-target="#text_editor" id="id_about_edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></span></p>
+                        <div class="jss550">
+                            <div class="jss567 jss554 jss568 jss555" id="id_about_div">
+                                <textarea class="jss577 jss562 jqte-test w-100" id="id_about" name="description" value="{{ Cause_Category_Form.description.value }}" required="required">{{ Cause_Category_Form.description.value }}</textarea>
+                            </div>
+                        </div>
+                        <span class="error" id="description_error">{{Cause_Category_Form.errors.description}}</span>
+                    </div>
+                </div>
+
+                
+
+                <button class="jss610 jss584 jss595 jss596 jss598 jss599 jss609 jss350" id="id_edit_cause" type="submit"><span class="jss585"> Submit ​</span><span class="jss636"></span></button>
+
+            </form>
+        </div>
+    </div>
+</main>
+{% endblock %}
+
+{% block model_popup %}
+<div class="modal fade " id="text_editor" tabindex="-1" role="dialog" aria-labelledby="text_editorLabel" aria-hidden="false" data-backdrop="static">
+      <div class="modal-dialog modal-dialog-centered modal-lg  " role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="text_editorLabel">About</h5>
+            <button type="button" class="close" id="about_textarea_modal_close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body" id="about_textarea_modal">
+                  <textarea  class="jqte-test" style="min-height: 475px"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock %}
+
+  
+
+
+{% block extra_script %}
+<script type="text/javascript" src="/static/js/jquery-te-1.4.0.min.js"></script>
+  <script>
+    $(document).ready(function() {
+        $('.jqte-test').jqte();
+    });
+
+  </script>
+{% endblock %}

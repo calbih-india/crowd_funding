@@ -1,0 +1,173 @@
+{% extends 'admin_template/admin_dashboard.html' %}
+
+{% block title %}
+<title>Crowd Funding Admin | Manage Category </title>
+{% endblock %}
+
+
+{% block meta_tag %}
+<meta name="description" content="" />
+<meta property="og:title" content="" />
+<meta property="og:url" content="web page path" />
+<meta property="og:description" content="">
+<meta property="og:image" content="image PATH">
+{% endblock %}
+
+{% block extra_style %}
+
+{% endblock %}
+
+
+{% block body %}
+    <main>
+        <div class="container">
+            <div class="row mt-3 mb-3 align-items-center">
+                <div class="col-md-6">
+                    <h4 class="mb-0">Create New Category​</h4>
+                </div>
+                <div class="col-md-6 text-right">
+                    <button type="button" class="custom_btn" data-toggle="modal" data-target="#createCampaign">Add
+                      Category​</button>
+                </div>
+            </div>
+            <div class="table_parent">
+              <table class="table text-center  data_table">
+                  <thead class="thead-light">
+                      <tr>
+                          <th scope="col">Category​ ID</th>
+                          <th scope="col">Category</th>
+                          <!-- <th scope="col">Image</th>
+                          <th scope="col">Description</th> -->
+                          <th scope="col">Action</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      {% for Category in instance_CampaignCategory %}
+                      <tr>
+                          <td>{{ Category.id }}</td>
+                          <td>{{ Category.category }}</td>
+                          <!-- <td><a class="color_blue" href="javascript:void(0);" NAME="My Window Name"  title=" My title here " onClick=window.open("/media/{{ Category.image}}","Ratting","width=550,height=500,0,left=50%,top=50%,toolbar=0,status=0,");>Attachments</a></td>
+                          <td>
+                            <div class="text_ecllipse reaon_req"  data-toggle="modal" data-target="#textDisplay"><i class="fa fa-eye cursor_pointer" aria-hidden="true"></i>
+                            <div class=" reaon_req_text d-none">{% autoescape off %}{{ Category.description|linebreaks }}{% endautoescape %}</div></div>
+                          </td> -->
+                          <td class="width_150">
+                              <a href="{% url 'admin_manage_category_edit' Category.id %}"><i class="fa fa-edit warning"
+                                      aria-hidden="true"></i></a>
+                              <!-- <a href="#"><i class="fa fa-trash danger" aria-hidden="true"></i></a> -->
+                              {% if Category.is_active %}
+                                  <a href="{% url 'admin_manage_category_status' Category.id 'False'  %}"><i class="fa fa-times-circle-o warning" aria-hidden="true"></i></a>
+                              {% else %}
+                                  <a href="{% url 'admin_manage_category_status' Category.id 'True'  %}"><i class="fa fa-check sucess" aria-hidden="true"></i></a>
+                              {% endif %}
+                          </td>
+                      </tr>
+                      {% endfor %}
+                  </tbody>
+              </table>
+            </div>
+        </div>
+    </main>
+
+
+
+{% endblock %}
+
+
+{% block model_popup %}
+<div id="textDisplay" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+  
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header text-center">
+          <h5 class="modal-title w-100">Description</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p id="reason_txt"></p>
+        </div>
+      </div>
+  
+    </div>
+  </div>
+
+
+
+<div class="modal fade" id="createCampaign" tabindex="-1" role="dialog" aria-labelledby="createCampaignTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable  modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header border-0 pl-4  pb-1">
+              <h5 class="modal-title" id="exampleModalScrollableTitle">Create New Category </h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body pt-0 pb-0">
+                <form method="POST" class="jss349" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  <!-- <div class="jss550 jss551 jss553">
+                      <p class="jss515 jss524">Upload Image</p>
+                      <div class="jss550">
+                        <div class="jss567 jss554 jss558 jss568 jss555">
+                          <span class="js">
+                            <span class="box">
+                              <input type="file" name="image" onchange="Validateimgupload(this);" id="id_resume"
+                                class="inputfile inputfile-1" data-multiple-caption="{count} files selected" required="required">
+                              <label id="lblfile-1" for="id_resume"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17"
+                                  viewBox="0 0 20 17">
+                                  <path
+                                    d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z">
+                                  </path>
+                                </svg> <span>Upload Image</span></label>
+                            </span>
+                          </span>
+                        </div>
+                        <span class="error" id="img_val">{{Banner_Images_Form.errors.image}}</span>
+                      </div>
+                    </div> -->
+                    <div class="jss550 jss551 jss553">
+                      <p class="jss515 jss524">Category​</p>
+                      <div class="jss550">
+                        <div class="jss567 jss554 jss558 jss568 jss555">
+                          {{ Campaign_Category_Form.category }}
+                        </div>
+                        <span class="error">{{ Campaign_Category_Form.errors.category }}</span>
+                      </div>
+                    </div>
+                    <!-- <div class="jss550 jss551 jss553">
+                        <p class="jss515 jss524">Description</p>
+                        <div class="jss550">
+                          <div class="jss567 jss554 jss558 jss568 jss555">
+                            {{ Campaign_Category_Form.description }}
+                          </div>
+                          <span class="error">{{ Campaign_Category_Form.errors.description }}</span>
+                        </div>
+                      </div> -->
+                    
+                    <button class="jss610 jss584 jss595 jss596 jss598 jss599 jss609 jss350"  type="submit"><span
+                        class="jss585">Submit</span><span class="jss636"></span></button>
+                  </form>
+            </div>
+          </div>
+        </div>
+      </div>
+  {% endblock %}
+
+
+
+{% block extra_script %}
+<script type="text/javascript">
+	$(".reaon_req").click(function(){
+		$("#reason_txt").html($(this).find(".reaon_req_text").html());
+	});
+</script>
+
+{% if form_error %}
+      <script>
+        $("#createCampaign").modal('show');
+      </script>
+{% endif %}
+{% endblock %}

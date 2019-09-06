@@ -1,0 +1,14 @@
+{% autoescape off %}
+<h2><b>Hi admin,</b></h2><br>
+<div><b>{{Contact_US_Form.name}}</b> raise a contact request.</div><br><br>
+
+<b>Name :</b> {{Contact_US_Form.name}} <br>
+<b>Email :</b> {{Contact_US_Form.email}} <br>
+<b>Subject : </b> {{Contact_US_Form.subject}}<br>
+<b>Message : </b> {{Contact_US_Form.message|linebreaks}}<br><br>
+
+
+Thanks,<br>
+Team Ourdemocracy
+
+{% endautoescape %}

@@ -1,0 +1,209 @@
+{% extends 'admin_template/admin_dashboard.html' %}
+
+{% block title %}
+<title>Crowd Funding Admin | Withdrawl Request </title>
+{% endblock %}
+
+
+{% block meta_tag %}
+<meta name="description" content="" />
+<meta property="og:title" content="" />
+<meta property="og:url" content="web page path" />
+<meta property="og:description" content="">
+<meta property="og:image" content="image PATH">
+{% endblock %}
+
+{% block extra_style %}
+<link href="/static/css/intlTelInput.css" rel="stylesheet">
+  <link href="/static/css/demo.css" rel="stylesheet">
+  <link href="/static/css/jquerysctipttop.css" rel="stylesheet">
+{% endblock %}
+
+
+{% block body %}
+<main>
+  <div class="container">
+    <div class="row mt-3 mb-3 align-items-center">
+      <div class="col-md-6">
+        <h4 class="mb-0">Withdrawl Request</h4>
+      </div>
+      <div class="col-md-6 text-right">
+        <!-- <button type="button" class="custom_btn" data-toggle="modal" data-target="#createMediaArticle">Create User</button> -->
+      </div>
+    </div>
+    <div class="table_parent">
+      <table class="table text-center   data_table">
+        <thead class="thead-light">
+          <tr>
+            <th scope="col">Email</th>
+            <th scope="col" style="min-width: 250px">Campaign</th>
+            <th scope="col">Total Amount</th>
+            <th scope="col">Total Withdrawal​</th>
+            <th scope="col">Available Amount</th>
+            <th scope="col">Request Amount​</th>
+            <th scope="col">Commission​</th>
+            <th scope="col">Status</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for WithdrawalRequest in instance_WithdrawalRequest %}
+          <tr>
+              <td>{{ WithdrawalRequest.campaign.user.email }}</td>
+              <td>{{ WithdrawalRequest.campaign.title }}</td>
+              <td>{{ WithdrawalRequest.campaign.campaigntotalamount.total_amount }}</td>
+              <td>{{ WithdrawalRequest.campaign.total_withdrawl_fund }}</td>
+              <td>{{ WithdrawalRequest.campaign.available_withdrawl_fund }}</td>
+              <td>{{ WithdrawalRequest.amount }}</td>
+              <td>{{ WithdrawalRequest.campaign.commission }} %</td>
+              <td>{{ WithdrawalRequest.status }}</td>
+              <td class="width_150">
+                  <a href="{% url 'admin_withdrawl_request_edit' WithdrawalRequest.id %}"><i class="fa fa-edit warning" aria-hidden="true"></i></a>
+              </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</main>
+{% endblock %}
+
+{% block model_popup %}
+<div class="modal fade" id="createMediaArticle" tabindex="-1" role="dialog" aria-labelledby="createCampaignTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable  modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header border-0 pl-4  pb-1">
+                <h5 class="modal-title" id="exampleModalScrollableTitle">Create New User </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body pt-0 pb-0">
+                <form method="POST" enctype="multipart/form-data" class="jss349">
+                    {% csrf_token %}
+                    <div class="jss833 jss834 jss836">
+                        <p class="jss798 jss807">Your Name</p>
+                        <div class="jss833">
+                            <div class="jss850 jss837 jss841 jss851 jss838">
+                                    {{Admin_User_Signup_Form.name}}
+                            </div>
+                            <span class="error"> {{Admin_User_Signup_Form.errors.name}}</span>
+                        </div>
+                    </div>
+                    <div class="jss833 jss834 jss836">
+                        <p class="jss798 jss807">Email Address</p>
+                        <div class="jss833">
+                            <div class="jss850 jss837 jss841 jss851 jss838">
+                                    {{Admin_User_Signup_Form.email}}
+                            </div>
+                            <span class="error">{{Admin_User_Signup_Form.errors.email}}</span>
+                        </div>
+                    </div>
+                    <div style="text-align: center;">
+                        <label class="jss867">
+                            <span class="jss873">
+                                <span class="jss892 jss886 jss882 jss876 jss883 jss878 jss877">
+                                    <span class="jss891">
+                                        <span class="jss874 jss875"></span>
+                                        {{Admin_User_Signup_Form.is_indian}}
+                                    </span>
+                                    <span class="jss934"></span>
+                                </span>
+                                <span class="jss881"></span>
+                            </span>
+                            <span id="user_citizen_id_text" class="jss798 jss807 jss872">I am an Indian
+                                citizen</span></label>
+                    </div>
+                    <div class="jss833 jss834 jss836">
+                        <p class="jss798 jss807">Mobile No</p>
+                        <div>
+                                {{Admin_User_Signup_Form.mobile_no}}
+                        </div>
+                        <span class="error"></span>
+                        <span style="color: red">{{ Admin_User_Signup_Form.errors.mobile_no }}</span>
+                    </div>
+                    <div class="jss833 jss834 jss836">
+                        <p class="jss798 jss807">Password</p>
+                        <div class="jss833">
+                            <div class="jss850 jss837 jss841 jss851 jss838">
+                                    <input aria-invalid="false" autocomplete="current-password" class="jss860 jss845 jss863 jss848" id="reg_pass" name="password1" type="password" value="">
+                            </div>
+                            <span class="error">{{Admin_User_Signup_Form.errors.password1}}</span>
+                        </div>
+                    </div>
+                    <div class="jss550 jss551 jss553">
+                        <p class="jss515 jss524">User Type​</p>
+                        <div class="jss550">
+                            <div class="jss567 jss554 jss558 jss568 jss555 select2_con">
+                                    {{Admin_User_Signup_Form.user_type}}
+                            </div>
+                        </div>
+                        <span class="error">{{Admin_User_Signup_Form.errors.user_type}}</span>
+                    </div>
+
+                    <label class="jss867">
+                      <span class="jss892 jss886 jss882 jss895 jss899">
+                          <span class="jss891">
+                              <svg class="jss789 svg_show" focusable="false" viewBox="0 0 24 24" aria-hidden="true"
+                                  role="presentation">
+                                  <path
+                                      d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z">
+                                  </path>
+                              </svg>
+                              <svg class="jss789 svg_hide" focusable="false" viewBox="0 0 24 24" aria-hidden="true"
+                                  role="presentation">
+                                  <path
+                                      d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z">
+                                  </path>
+                              </svg>
+                              {{ Admin_User_Signup_Form.i_agree }}</span><span class="jss934"></span>
+                      </span>
+                      <span class="jss798 jss807 jss872">
+                          <p style="font-size: 0.8rem; width: 100%; margin: 10px 0px;"> 
+                            I agree to the
+                            <a href="/Terms-And-Conditions" target="_blank" class="link1"
+                                  style="font-size: 0.8rem;"> Terms and Conditions </a> and<a href="/Privacy-Policy"
+                                  target="_blank" class="link1" style="font-size: 0.8rem;"> Privacy Policy</a>
+                          </p>
+                      </span>
+                    </label>
+
+
+
+                    <button class="jss892 jss901 jss912 jss913 jss915 jss916 jss926 jss633" id="register_btn"
+                        tabindex="0" type="submit">
+                        <span class="jss902">Register</span>
+                        <span class="jss934"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+
+{% block extra_script %}
+<script type="text/javascript" src="/static/js/intlTelInput.js" ></script>
+
+  <script>
+    $(document).ready(function() {
+      $("#mobile-number").intlTelInput();    
+      $('.select2_modal').select2({
+            dropdownParent: $('.modal')
+        });
+    });
+     
+</script>
+
+
+
+{% if form_error %}
+<script>
+  $("#createMediaArticle").modal('show');
+</script>
+{% endif %}
+{% endblock %}

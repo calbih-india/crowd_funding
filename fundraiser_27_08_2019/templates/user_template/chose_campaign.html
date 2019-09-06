@@ -1,0 +1,62 @@
+{% extends 'user_template/dashboard.html' %}
+
+{% block title %}
+<title>Crowd Funding | Start Campaign </title>
+{% endblock %}
+
+
+{% block meta_tag %}
+<meta name="description" content="" />
+<meta property="og:title" content="" />
+<meta property="og:url" content="web page path" />
+<meta property="og:description" content="">
+<meta property="og:image" content="image PATH">
+{% endblock %}
+
+{% block extra_style %}
+{% endblock %}
+
+
+{% block body %}
+<div class="row1-heading how-heading w-100">
+        <h2 style="margin-top: 0px; font-size: 1.5rem;">What kind of Campaign are you starting ?</h2>
+         <div class="headerborder"></div>
+      </div>
+      <div class="j3_c w-100">
+      <div class="sc0_campTypesDiv">
+          <div class="sc0_campTypeDiv">
+              <a class="jss211_c" href="{% url 'start_campaign' %}"><img src="/static/images/fundraiser.a9787eab.png"  alt=" "></a>                                                 
+          </div>
+          <div class="sc0_campTypeDiv tooltip_con">
+              <a class="jss211_c" href="{% url 'start_support_group' %}">
+                <img src="/static/images/supportgroup.e09757d3.png" alt=" ">
+                <span id="tooltip-span">
+                    <p class="mb-1">Why create a campaign community?</p>
+                    <ul class="tooltip-span_ul" ><li>Create a community of supporters you could mobilise for a cause</li><li>Communicate with your community through email and sms</li><li>Bypass social media algorithms and chaos</li><li>Have direct access to your community</li></ul>
+                </span>
+              </a>
+          </div>
+          <div class="sc0_campTypeDiv">
+            <a class="jss211_c" href="{% url 'start_event' %}"><img src="/static/images/Event_F.png"  alt=" "></a>                                                 
+        </div>
+      </div>
+                                    
+      </div>
+{% endblock %}
+
+{% block model_popup %}
+{% endblock %}
+
+
+{% block extra_script %}
+<script>
+    var tooltipSpan = document.getElementById('tooltip-span');
+
+    window.onmousemove = function (e) {
+        var x = e.clientX,
+            y = e.clientY;
+        tooltipSpan.style.top = (y + 20) + 'px';
+        tooltipSpan.style.left = (x + 20) + 'px';
+    };
+</script>
+{% endblock %}

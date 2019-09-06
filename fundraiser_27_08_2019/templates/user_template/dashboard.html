@@ -1,0 +1,481 @@
+{% load template_filter %}
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+  <meta name="theme-color" content="#000000">
+ 
+  <link rel="shortcut icon" href="https://www.ourdemocracy.in/favicon.ico">
+  <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,400,700&display=swap" rel="stylesheet">
+  <meta property="og:site_name" content="Crowd Funding">
+
+  {% block title %}
+  <title>Crowd Funding | Dashboard </title>
+  {% endblock %}
+
+  {% block meta_tag %}
+    <meta name="description"
+      content="Crowd Funding is about raising awarness and a platform to bring change by the people for the people">
+    <meta name="og:title" content="Crowd Funding">
+    <meta name="og:description"
+      content="Crowd Funding is about raising awarness and a platform to bring change by the people for the people">
+    <meta name="og:image" content="https://www.ourdemocracy.in/src/assets/images/check/static/Home_2.jpg">
+    <meta name="og:url" content="https://www.ourdemocracy.in/">
+  {% endblock %}
+  
+  <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/static/css/style.css" rel="stylesheet">
+  <link href="/static/css/style3.css" rel="stylesheet">
+  <link href="/static/css/jquery.dataTables.min.css" rel="stylesheet">
+  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link href="/static/css/select2.min.css" rel="stylesheet">
+  <link href="/static/css/component.css" rel="stylesheet">  
+
+  <link href="/static/css/flexslider.css" rel="stylesheet">
+
+  <link href="/static/css/jquery-te-1.4.0.css" rel="stylesheet">
+  <link href="/static/css/bootstrap-datetimepicker.css" rel="stylesheet">
+
+
+  {% block extra_style %}
+  {% endblock %}
+
+</head>
+
+<body>
+  <div id="root">
+      <div class="jss49 bg_fff" id="mainNav">
+          <header class="jss71 jss77 jss62 jss66">
+            <nav class="navbar navbar-expand-xl navbar-light bg-light">
+            
+              <div id="page-wrap w-100">
+                <a class="navbar-brand" href="/">
+                  <div class="jss47"><img src="/static/images/logo.png" class="jss48" alt=""></div>
+                </a>
+                
+              </div>   
+              
+              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#links" aria-controls="links" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div  class="collapse navbar-collapse jss61" id="links">
+                    <div id="search">
+                        <div class="jss50"></div>
+                        <div class="jss53">
+                          <div class="jss54">
+                            <svg class="jss102" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="presentation">
+                              <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"> </path>
+                              <path fill="none" d="M0 0h24v24H0z"></path>
+                            </svg>
+                          </div>
+                          <form action="{% url 'discover' %}" method="POST" class="jss124 jss111 jss55 mb-0">                        
+                              {% csrf_token %}
+                              <input class="jss134 jss119 jss56" name="title" placeholder="Search campaigns..." type="text" value="">                            
+                         </form>
+                        </div>
+                      </div>
+                  <ul class="navbar-nav ml-auto">
+                    <li class="nav-item jss59 {% if 'discover' in request.path %}active{% endif %}">
+                      <a class="nav-link jss167 jss141 jss143 jss146 jss162" href="{% url 'discover' %}"><span class="jss142 jss58">Discover</span><span class="jss339"></span> {% if 'discover' in request.path %}<span class="sr-only">(current)</span>{% endif %} </a>
+                    </li>
+                    <li class="nav-item jss59 {% if 'how-it-works' in request.path %}active{% endif %}">
+                      <a class="nav-link jss167 jss141 jss143 jss146 jss162" href="{% url 'how_it_works' %}"><span class="jss142 jss58">How it works</span><span class="jss339"></span></a>
+                    </li>
+                    <li class="nav-item jss59 {% if 'services' in request.path %}active{% endif %}">
+                      <a class="nav-link jss167 jss141 jss143 jss146 jss162" href="{% url 'services' %}" ><span class="jss142 jss58">Services</span><span class="jss339"></span></a>
+                    </li>
+                    <li class="nav-item jss59 {% if 'tips' in request.path %}active{% endif %}">
+                      <a class="nav-link jss167 jss141 jss143 jss146 jss162" href="{% url 'tips' %}" ><span class="jss142 jss58">Tips</span><span class="jss339"></span></a>
+                    </li>
+                    <li class="nav-item jss59 {% if 'Medias' in request.path %}active{% endif %}">
+                      <a class="nav-link jss167 jss141 jss143 jss146 jss162" href="{% url 'media' %}" ><span class="jss142 jss58">Media</span><span class="jss339"></span></a>
+                    </li>
+                    {% if request.user.is_anonymous %}
+                    <li class="nav-item jss59">
+                        <a class="nav-link jss167 jss141 jss143 jss146 jss162" href="{% url 'login' %}" ><span class="jss142 jss170">Login</span><span class="jss339"></span></a>
+                      </li>
+                      {% endif %}
+                      {% if not request.user.is_anonymous %}
+                    {% if request.user.user_type == 'End User' %}
+                        <li class="nav-item jss59">
+                      <a class="nav-link jss167 jss141 jss143 jss146 jss162" href="{% url 'dashboard' %}" ><span class="jss142 jss58">Dashboard</span><span class="jss339"></span></a>
+                    </li>
+                    <li class="nav-item dropdown text-center mr-4 right_zero">
+                        <a class="nav-link dropdown-toggle  icon_navbar" href="#" id="navbarDropdown" role="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-user-circle-o" aria-hidden="true"></i> 
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                          <a class="dropdown-item" href="{% url 'my_profile' %}"><i class="fa fa-user mr-2" aria-hidden="true"></i> Profile</a>
+                          {% if request.user.id|check_support_group %}
+                          <a class="dropdown-item" href="{% url 'my_analytics' %}"><i class="fa fa-line-chart mr-1"></i> Analytics</a>
+                          {% endif %}
+                          <div class="dropdown-divider"></div>
+                          <a class="dropdown-item" href="{% url 'logout' %}"><i class="fa fa-sign-out mr-2" aria-hidden="true"></i> Logout</a>
+                        </div>
+                      </li>
+                    {% else %}
+                    <li class="nav-item jss59">
+                        <a class="nav-link jss167 jss141 jss143 jss146 jss162" href="{% url 'admin_dashboard' %}" ><span class="jss142 jss58">Dashboard</span><span class="jss339"></span></a>
+                      </li>
+                      <li class="nav-item text-center dropdown mr-4 right_zero">
+                          <a class="nav-link dropdown-toggle  icon_navbar" href="#" id="navbarDropdown" role="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              <i class="fa fa-user-circle-o" aria-hidden="true"></i> 
+                          </a>
+                          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{% url 'my_profile' %}"><i class="fa fa-user mr-2" aria-hidden="true"></i> Profile</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{% url 'logout' %}"><i class="fa fa-sign-out mr-2" aria-hidden="true"></i> Logout</a>
+                          </div>
+                        </li>
+                    {% endif %}
+                  {% endif %}
+                  
+                  
+                  </ul>
+                  <div class="jss59"><a class="jss167 jss141 jss149 jss150 jss57" tabindex="0" role="button"
+                    href="{% url 'chose_campaign' %}"><span class="jss142 jss58">Start a Campaign</span><span
+                      class="jss339"></span></a></div>
+                </div>
+            </nav>
+          </header>
+      </div>
+      <div class="wrapper">
+         
+          <!-- Sidebar  -->
+          
+  
+          <!-- Page Content  -->
+          <div id="content" class="margin_top_80">
+            {% block body %}
+            <main>
+              <div class="container">
+                <div class="DMainFiltersDiv first_setion_list mt-3" >
+                  <p onclick="change_sub_category(this)" class="btn btnActive"><a href="javasript:void(0)">Fundraiser</a></p>
+                  <p onclick="change_sub_category(this)" class="btn"><a href="javasript:void(0)">Mobilisation Campaign</a></p>
+                  <p onclick="change_sub_category(this)" class="btn"><a href="javasript:void(0)">Event</a></p>
+                </div>
+                <div class="DMainFiltersDiv sec_setion_list mt-3">
+                  <p  onclick="change_sec_sub_category(this)" class="btn "><a href="javasript:void(0)">Approval Request</a></p>
+                  <p  onclick="change_sec_sub_category(this)" class="btn btnActive" id="need_active"><a href="javasript:void(0)">Active</a></p>
+                  <p  onclick="change_sec_sub_category(this)" id="Completed_hide" class="btn"><a href="javasript:void(0)">Completed</a></p>
+                </div>
+                <div id="main_data">
+                  
+                </div>
+              </div>
+            <main>
+            {% endblock %}
+          </div>
+      </div>
+  </div>
+
+
+    {% if messages %}
+    <div class="toast_con">
+        <div class="toast" data-autohide="false">
+
+            <div class="toast-body">
+                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast">&times;</button>
+
+                {% for message in messages %}
+                {% if 'error' in message.tags %}
+                <strong class="mr-auto text-primary"><i class="fa fa-exclamation-triangle fa-5"
+                        aria-hidden="true"></i></strong>
+                {% autoescape off %}{{ message }}{% endautoescape %}
+                {% else %}
+                <strong class="mr-auto text-primary"><i class="fa fa-exclamation-triangle fa-5"
+                        aria-hidden="true"></i></strong>
+                {% autoescape off %}{{ message }}{% endautoescape %}
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    {% block model_popup %}
+    <div class="modal fade" id="fundraiser_summary" role="dialog" aria-labelledby="fundraiser_summaryTittle"
+      aria-hidden="false" data-backdrop="static">
+      <div class="modal-dialog modal-dialog-scrollable  modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header border-0 pl-4  pb-1">
+            <h5 class="modal-title" id="fundraiser_summaryTittle">Funds Summary</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body funds-summary-modal-body pt-0 pb-0">
+            
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="edit_withdrawal" role="dialog" aria-labelledby="edit_withdrawalTittle" aria-hidden="false"
+      data-backdrop="static">
+      <div class="modal-dialog modal-dialog-scrollable  modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header border-0 pl-4  pb-1">
+            <h5 class="modal-title" id="edit_withdrawalTittle">Withdrawal Request</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body withdrawal-modal-body pt-0 pb-0">
+            
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="modal fade " id="support_user" role="dialog" aria-labelledby="support_userTittle"
+      aria-hidden="false" data-backdrop="static">
+      <div class="modal-dialog modal-dialog-scrollable  modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header border-0 pl-4  pb-1">
+            <h5 class="modal-title" id="support_userTittle">Support User</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body support-user-modal-body pt-0 pb-0 mt-4 mb-4">
+              
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endblock %}
+
+  <div class="overlay"></div>
+
+
+  <script type="text/javascript" src="/static/js/jquery.min.js" ></script>
+  <script type="text/javascript" src="/static/js/bootstrap.min.js" ></script>  
+  <script type="text/javascript" src="/static/js/script.js"></script>
+  <script type="text/javascript" src="/static/js/select2.full.min.js"></script>
+  <script type="text/javascript" src="/static/js/jquery.dataTables.min.js"></script>
+  <script type="text/javascript" src="/static/js/jquery.flexslider.js"></script>
+  <script type="text/javascript" src="/static/js/custom-file-input.js"></script>
+
+  <script type="text/javascript" src="/static/js/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="/static/js/bootstrap-datetimepicker.fr.js"></script>
+
+  <script type="text/javascript">
+    $('#dismiss, .overlay').on('click', function () {
+        $('#sidebar').removeClass('active');
+        $('.overlay').removeClass('active');
+    });
+
+    $(document).ready(function () {
+        $('#sidebarCollapse').on('click', function () {
+          $('#sidebar').addClass('active');
+          $('.overlay').addClass('active');
+          $('.collapse.in').toggleClass('in');
+          $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+        });
+    });
+
+    $(document).ready( function () {
+        $('.data_table').DataTable({
+        "ordering": false,
+        "info":     false
+        });
+    } );
+
+    $(document).ready(function() {
+        $('.select2').select2();
+    });
+</script>
+
+<script type="text/javascript">
+    (function() {
+     
+      // store the slider in a local variable
+      var $window = $(window),
+          flexslider = { vars:{} };
+     
+      // tiny helper function to add breakpoints
+      function getGridSize() {
+        return (window.innerWidth < 600) ? 1 :
+               (window.innerWidth < 900) ? 2 : 3;
+      }
+     
+      $(function() {
+        SyntaxHighlighter.all();
+      });
+     
+      $( document ).ready(function() {
+        $('.flexslider').flexslider({
+          animation: "slide",
+          animationLoop: false,
+          itemWidth: 210,
+        move: 1,
+          itemMargin: 5,
+          minItems: getGridSize(), // use function to pull in initial value
+          maxItems: getGridSize() // use function to pull in initial value
+      
+        });
+      });
+     
+      // check grid size on resize event
+      $window.resize(function() {
+        var gridSize = getGridSize();
+     
+        flexslider.vars.minItems = gridSize;
+        flexslider.vars.maxItems = gridSize;
+      });
+    }());
+      
+    </script>
+
+<script type="text/javascript">
+  $(function () {
+      $('#datetimepicker1').datetimepicker({
+            todayBtn: 1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            forceParse: 0,
+            Default: true
+      });
+  });
+</script>
+{% if messages %}
+<script>
+    $('.toast').toast('show');
+</script>
+{% endif %}
+
+{% block extra_script %}
+<script>
+    function change_sub_category(e){
+        var sub_category = $(e).text();
+        $(".first_setion_list").find('.btn').removeClass("btnActive");
+        $(e).addClass("btnActive")
+        $(".sec_setion_list").find('.btn').removeClass("btnActive");
+        $("#need_active").addClass("btnActive");
+        var category = $(".first_setion_list p.btnActive").text();
+
+      //  if(sub_category == 'Event') {
+      //     $('#Completed_hide').hide();
+      //  }
+      //  else{
+      //   $('#Completed_hide').show();
+      //  }
+
+        $.get("{% url 'dashboard' %}", {'category':category}, function(result){
+            $('#main_data').html(result);                                     
+        })
+    };
+
+    function change_sec_sub_category(e) {
+      var status = $(e).text();
+      $(".sec_setion_list").find('.btn').removeClass("btnActive");
+      $(e).addClass("btnActive");
+      var category = $(".first_setion_list p.btnActive").text();
+      
+      
+      $.get("{% url 'dashboard' %}", {'category':category, 'status':status}, function(result){
+          $('#main_data').html(result);                                     
+      })
+    }
+
+    function changepage(page){
+      var category = $(".first_setion_list p.btnActive").text();
+      var status = $(".sec_setion_list p.btnActive").text();
+      
+      $.get("{% url 'dashboard' %}", {'category':category, 'status':status, 'page':page}, function(result){
+          $('#main_data').html(result);                                     
+      })
+    };
+
+    $( document ).ready(function() {
+      $.get("{% url 'dashboard' %}", function(result){
+          $('#main_data').html(result);                                     
+      })
+    });
+    </script>
+
+
+<!-- Withdrawal Request -->
+<script>
+  function withdrawal_request(url){
+    $.get(url, function(result){
+        $('.withdrawal-modal-body').html(result); 
+        $("#edit_withdrawal").modal('show');                             
+    })
+  }
+
+  function campaign_withdrawal(e, url){
+    e.preventDefault();
+    var form = new FormData()
+    form.append("csrfmiddlewaretoken", $("input[name='csrfmiddlewaretoken']").val()),
+    form.append("amount", $("input[name='amount']").val()),
+    form.append("document", $("input[name='document']").prop('files')[0]),
+    form.append("campaign", $("input[name='campaign']").val()),
+    form.append("summary", $("input[name='summary']").val()),
+
+    $.ajax({
+        url: url,
+        type: 'POST',
+        data: form,
+        async: true,
+        cache: false,
+        contentType: false,
+        enctype: 'multipart/form-data',
+        processData: false,
+        success: function (response) {
+          $('.withdrawal-modal-body').html(response);         
+        },
+        error: function(response) {
+          $('.withdrawal-modal-body').html(response);         
+        }
+    });
+  }
+</script>
+
+<!-- Funds Summary -->
+<script>
+    function funds_summary(url){
+      $.get(url, function(result){
+          $('.funds-summary-modal-body').html(result); 
+          $("#fundraiser_summary").modal('show');                               
+      })
+    }
+</script>
+
+
+<!-- Support Group User -->
+<script>
+  function SupportUser(url) {
+    $.ajax({
+        url: url,
+        type: 'GET',
+        async: true,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (response) {
+          $('.support-user-modal-body').html(response); 
+          $('#support_group_datatable').DataTable({
+            "ordering": false,
+            "info":     false
+          });        
+        },
+        error: function(response) {
+          $('.support-user-modal-body').html(response);  
+          $('#support_group_datatable').DataTable({
+            "ordering": false,
+            "info":     false
+          });         
+        }
+    });
+  }
+</script>
+
+{% endblock %}
+</body>
+</html>

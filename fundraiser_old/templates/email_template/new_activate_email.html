@@ -1,0 +1,14 @@
+{% autoescape off %}
+<h2><b>Hi {{ user.name|title }},</b></h2><br>
+<div>Please click below to Activate your account.</div><br><br>
+
+
+<a href="http://{{domain}}/activate/{{uid}}/{{token}}">http://{{domain}}/activate/{{uid}}/{{token}}</a>
+
+<br>
+<br>
+
+Regards,<br>
+Team CrowdFunding
+
+{% endautoescape %}

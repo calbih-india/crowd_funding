@@ -1,0 +1,858 @@
+{% extends 'user_template/dashboard.html' %}
+
+{% load social_share %}
+
+{% block title %}
+<title>Crowd Funding | My Profile </title>
+{% endblock %}
+
+
+{% block meta_tag %}
+    <meta name="description" content="Crowd Funding is about raising awarness and a platform to bring change by the people for the people">
+    <meta name="og:title" content="Crowd Funding | {{ request.user.name|title }} ">
+    <meta name="og:description" content="Crowd Funding is about raising awarness and a platform to bring change by the people for the people">
+    <meta name="og:image" content="{% if request.is_secure %}https{% else %}http{% endif %}://{{domain}}/media/{{request.user.profile}}">
+    <meta name="og:url" content="{% if request.is_secure %}https{% else %}http{% endif %}://{{domain}}{{request.path}}">
+
+    <meta property="og:title" content="{{ request.user.name|title }}">
+    <meta property="og:image" content="{% if request.is_secure %}https{% else %}http{% endif %}://{{domain}}/media/{{request.user.profile}}">
+
+    <meta name="twitter:image:src" content="{% if request.is_secure %}https{% else %}http{% endif %}://{{domain}}/media/{{request.user.profile}}">
+{% endblock %}
+
+{% block extra_style %}
+<link href="/static/css/intlTelInput.css" rel="stylesheet">
+<link href="/static/css/demo.css" rel="stylesheet">
+<link href="/static/css/jquerysctipttop.css" rel="stylesheet">
+{% endblock %}
+
+
+{% block body %}
+    <main class="profile_contanier">
+        <div class="profile_innercontanier">
+            <div class="profile-row1-part">
+                <div class="profile-row1-img">
+                    <img src="/media/{{request.user.profile}}" alt="" class="profile-iconImg">
+                </div>
+                <div class="profile-row1-name">
+                    <ul class="profile-row1-details">
+                        <li class="profile-row1-nameHeading">
+                            <p class="jss1060 jss1069 jss898">{{request.user.name}}</p>
+                            <div data-toggle="modal" data-target="#profile_edit">
+                                <svg aria-hidden="true" data-prefix="fas" data-icon="pencil-alt"
+                                    class="svg-inline--fa fa-pencil-alt fa-w-16 jss899" role="img"
+                                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                    <path fill="currentColor"
+                                        d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z">
+                                    </path>
+                                </svg>
+                            </div>
+                        </li>
+                        {% if request.user.is_indian %}
+                        <li class="profile-row1-normalDetails">
+                            <p class="jss1060 jss1069 jss900_c">Location:</p>
+                            <p class="jss1060 jss1069 jss901_c">India</p>
+                        </li>
+                        {% endif %}
+                        <li class="profile-row1-normalDetails">
+                            <p class="jss1060 jss1069 jss900_c">Mobile:</p>
+                            <p class="jss1060 jss1069 jss901_c">{{request.user.mobile_no}}</p>
+                        </li>
+                        <li class="profile-row1-normalDetails">
+                            <p class="jss1060 jss1069 jss900_c">Email:</p>
+                            <p class="jss1060 jss1069 jss901_c">{{request.user.email}}</p>
+                        </li>
+                        {% if request.user.address %}
+                        <li class="profile-row1-normalDetails">
+                            <p class="jss1060 jss1069 jss900_c">Address:</p>
+                            <p class="jss1060 jss1069 jss901_c">{{request.user.address}}</p>
+                        </li>
+                        {% endif %}
+                        {% if request.user.pincode %}
+                        <li class="profile-row1-normalDetails">
+                            <p class="jss1060 jss1069 jss900_c">Pincode:</p>
+                            <p class="jss1060 jss1069 jss901_c">{{request.user.pincode}}</p>
+                        </li>
+                        {% endif %}
+                        <li class="profile-row1-normalDetails">
+                            <p class="jss1060 jss1069 jss900_c" style="min-width: 113px;">Share Profile:</p>
+                            <p class="jss1060 jss1069 jss902 mb-0">
+
+                                <a href="https://www.facebook.com/sharer/sharer.php?u={% if request.is_secure %}https{% else %}http{% endif %}://{{domain}}{% url 'view_user_profile' request.user.useruniquetoken.unique_token %}" target="_blank">
+                                    <span class="profile-social-icons facebookicon">
+                                        <svg aria-hidden="true" data-prefix="fab" data-icon="facebook-f" class="svg-inline--fa fa-facebook-f fa-w-9 " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 264 512">
+                                            <path fill="currentColor" d="M76.7 512V283H0v-91h76.7v-71.7C76.7 42.4 124.3 0 193.8 0c33.3 0 61.9 2.5 70.2 3.6V85h-48.2c-37.8 0-45.1 18-45.1 44.3V192H256l-11.7 91h-73.6v229">
+                                            </path>
+                                        </svg>
+                                    </span>
+                                </a>
+
+                                <a href="https://twitter.com/intent/tweet?text={{ request.user.name }} {% if request.is_secure %}https{% else %}http{% endif %}://{{domain}}{% url 'view_user_profile' request.user.useruniquetoken.unique_token %}" target="_blank">
+                                    <span class="profile-social-icons twittericon">
+                                        <svg aria-hidden="true" data-prefix="fab" data-icon="twitter" class="svg-inline--fa fa-twitter fa-w-16 " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                            <path fill="currentColor" d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z">
+                                            </path>
+                                        </svg>
+                                    </span>
+                                </a>
+
+                                <a href="https://api.whatsapp.com/send?text={% if request.is_secure %}https{% else %}http{% endif %}://{{domain}}{% url 'view_user_profile' request.user.useruniquetoken.unique_token %}" data-action="share/whatsapp/share" target="_blank">
+                                    <span class="profile-social-icons whatsappicon">
+                                        <svg aria-hidden="true" data-prefix="fab" data-icon="whatsapp" class="svg-inline--fa fa-whatsapp fa-w-14 " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                                            <path fill="currentColor" d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z">
+                                            </path>
+                                        </svg>
+                                    </span>
+                                </a>
+
+                            </p>
+                        </li>
+                        <li class="profile-row1-normalDetails">
+                            <div>
+                                <div>
+                                    <button class="Campaigner_Verification_btn" data-toggle="modal"
+                                        data-target="#Campaigner_Payout_ver" tabindex="0" type="button"><span
+                                            class="jss1104">Campaigner Verification</span><span
+                                            class="jss1164"></span></button>
+                                    <p style="font-size: 0.8rem; margin: 5px 0px;">(Provide your Bank Account details here)
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="profile-line"></div>
+            <div class="profile-row2-part">
+                <div class="profile-row2-container">
+                    <p class="jss1060 jss1069 jss905">Fundraisers</p>
+                    <div class="profile-row2-bottom">
+                        <div class="profile-row2-stats">
+                            <p class="jss1060 jss1069 jss903">Started:</p>
+                            <p class="jss1060 jss1069 jss904">{{ instance_CampaignFundRaiser|length }}</p>
+                        </div>
+                        <div class="profile-row2-stats">
+                            <p class="jss1060 jss1069 jss903">Supported:</p>
+                            <p class="jss1060 jss1069 jss904">{{ instance_supported_CampaignFundRaiser|length }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="profile-line2"></div>
+                <div class="profile-row2-container">
+                    <p class="jss1060 jss1069 jss905">Mobilisation Campaign</p>
+                    <div class="profile-row2-bottom">
+                        <div class="profile-row2-stats">
+                            <p class="jss1060 jss1069 jss903">Started:</p>
+                            <p class="jss1060 jss1069 jss904">{{ instance_SupportGroup|length }}</p>
+                        </div>
+                        <div class="profile-row2-stats">
+                            <p class="jss1060 jss1069 jss903">Supported:</p>
+                            <p class="jss1060 jss1069 jss904">{{ instance_joined_SupportGroup|length }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- User Profile Second section start here -->
+
+        <section class="jss2_c user_profile_sec">
+            <div class="d-flex">
+                <div class="mt-2  jss377_c ">
+                    <ul class="nav flex-column jss1148 jss1149 category_ul " id="myTab" role="tablist" aria-orientation="vertical">
+                        <li class="nav-item pl-0 mb-2  colr_yellow " role="menuitem"
+                            style="border-bottom: 2px solid #c1c0c0;font-size: 22px;">Campaigns</li>
+
+                        <li class="nav-item category_ul_list  " role="menuitem"><a class="nav-link active " id="my-Campaigns-tab"
+                                data-toggle="tab" href="#my-Campaigns" role="tab" aria-controls="my-Campaigns" aria-selected="true">My
+                                Campaigns<span class="jss1167"></span></a></li>
+
+                        <li class="nav-item category_ul_list" role="menuitem"><a class="nav-link" id="Supported-tab" data-toggle="tab"
+                                href="#Supported" role="tab" aria-controls="Supported" aria-selected="false">Supported<span
+                                    class="jss1167"></span></a></li>
+                        
+
+                        <li class="nav-item pl-0 mb-2 colr_yellow  " role="menuitem"
+                            style="border-bottom: 2px solid #c1c0c0;font-size: 22px;">Mobilisation Campaign</li>
+
+                        <li class="nav-item category_ul_list" role="menuitem"><a class="nav-link" id="my-Supported-grp-tab"
+                                data-toggle="tab" href="#My-Supported-grp" role="tab" aria-controls="my-Supported-grp"
+                                aria-selected="false">My Mobilisation Campaign<span class="jss1167"></span></a></li>
+
+                        <li class="nav-item category_ul_list" role="menuitem"><a class="nav-link " id="Supported-Support-grp-tab"
+                            data-toggle="tab" href="#Supported-Support-grp" role="tab" aria-controls="Supported-Support-grp"
+                            aria-selected="false">Supported Mobilisation Campaign<span class="jss1167"></span></a></li>
+
+                        <li class="nav-item pl-0 mb-2 colr_yellow  " role="menuitem"
+                            style="border-bottom: 2px solid #c1c0c0;font-size: 22px;">Event</li>
+
+                        <li class="nav-item category_ul_list" role="menuitem"><a class="nav-link" id="Event-tab" data-toggle="tab"
+                                href="#My-Event" role="tab" aria-controls="Event" aria-selected="false">My Event<span
+                                    class="jss1167"></span></a></li>
+
+                        <li class="nav-item category_ul_list" role="menuitem"><a class="nav-link" id="Participant-tab" data-toggle="tab"
+                                href="#Joined-Event" role="tab" aria-controls="Participant" aria-selected="false">Participant<span
+                                    class="jss1167"></span></a></li>
+
+                        <!-- <li class="nav-item pl-0 mb-2 colr_yellow  " role="menuitem"
+                        style="border-bottom: 2px solid #c1c0c0;font-size: 22px;">Events</li>
+
+                        <li class="nav-item category_ul_list" role="menuitem"><a class="nav-link" id="my-Supported-grp-tab"
+                                data-toggle="tab" href="#My-Event" role="tab" aria-controls="my-Supported-grp"
+                                aria-selected="false">My Events<span class="jss1167"></span></a></li>
+
+                        <li class="nav-item category_ul_list" role="menuitem"><a class="nav-link " id="Supported-Support-grp-tab"
+                                data-toggle="tab" href="#Joined-Event" role="tab" aria-controls="Supported-Support-grp"
+                                aria-selected="false">Join Events<span class="jss1167"></span></a></li> -->
+
+                    </ul>
+                </div>
+            </div>
+            <div class="jss11_c">
+                <div class="tab-content" id="myTab-tabContent">
+
+                    <div class="tab-pane fade show active" id="my-Campaigns" role="tabpanel"
+                        aria-labelledby="my-Campaigns-tab">
+                        <div class="DItemsDiv">
+                            {% for fundraiser in instance_CampaignFundRaiser %}
+                            <a href="{% url 'campaign_selected' fundraiser.id fundraiser.title %}" class="DItemDiv">
+                                <img src="/media/{{ fundraiser.picture }}" class="DItemImage" alt="">
+                                <div class="DItemIconDiv">
+                                    <img src="data:image/png;base64,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"
+                                        class="DItemIcon" alt=""></div>
+                                <div class="DItemDetailsDiv">
+                                    <p class="DItemTitle"> {{ fundraiser.title }} </p>
+                                    <div class="DItemByDiv"><img src="/media/{{fundraiser.user.profile}}" class="DItemByImg" alt="">
+                                        <p class="DItemByText">by {{ fundraiser.user.name }}</p>
+                                    </div>
+                                    <p class="DItemDescp" style="max-height: 33px;">{{ fundraiser.short_description }}</p>
+                                </div>
+                                <div class="DItemNumLineDiv">
+                                    <div class="DItemNumbersDiv">
+                                        <div class="DItemDeadlineDiv" style="">
+                                            <p class="DItemDeadline"> {{ fundraiser.available_days }} <br>DAYS LEFT</p>
+                                        </div>
+                                        <div class="DItemGoalDiv">
+                                            <p class="DItemGoal"><svg aria-hidden="true" data-prefix="fas"
+                                                    data-icon="rupee-sign" class="svg-inline--fa fa-rupee-sign fa-w-10 "
+                                                    role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+                                                    <path fill="currentColor"
+                                                        d="M308 96c6.627 0 12-5.373 12-12V44c0-6.627-5.373-12-12-12H12C5.373 32 0 37.373 0 44v44.748c0 6.627 5.373 12 12 12h85.28c27.308 0 48.261 9.958 60.97 27.252H12c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h158.757c-6.217 36.086-32.961 58.632-74.757 58.632H12c-6.627 0-12 5.373-12 12v53.012c0 3.349 1.4 6.546 3.861 8.818l165.052 152.356a12.001 12.001 0 0 0 8.139 3.182h82.562c10.924 0 16.166-13.408 8.139-20.818L116.871 319.906c76.499-2.34 131.144-53.395 138.318-127.906H308c6.627 0 12-5.373 12-12v-40c0-6.627-5.373-12-12-12h-58.69c-3.486-11.541-8.28-22.246-14.252-32H308z">
+                                                    </path>
+                                                </svg> {{ fundraiser.campaigntotalamount.total_amount}} <br>RAISED</p>
+                                        </div>
+                                    </div>
+                                    <div class="DItemCompletionDiv">
+                                        <div class="DItemCompletionLineDiv">
+                                            <div class="filled" style="width: {{ fundraiser.totalfund_in_percentage }}%;"></div>
+                                        </div>
+                                        <p class="DItemCompletionText">{{ fundraiser.totalfund_in_percentage }} %</p>
+                                    </div>
+                                </div>
+                            </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade " id="Supported" role="tabpanel" aria-labelledby="Supported-tab">
+                        <div class="DItemsDiv">
+                            {% for fundraiser in instance_supported_CampaignFundRaiser %}
+                            <div class="DItemDiv">
+
+                                <img src="/media/{{ fundraiser.picture }}" class="DItemImage" alt="">
+                                <div class="DItemIconDiv">
+                                    <img src="data:image/png;base64,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"
+                                        class="DItemIcon" alt=""></div>
+                                <div class="DItemDetailsDiv">
+                                    <p class="DItemTitle"> {{ fundraiser.title }} </p>
+                                    <div class="DItemByDiv"><img src="/media/{{fundraiser.user.profile}}" class="DItemByImg" alt="">
+                                        <p class="DItemByText">by {{ fundraiser.user.name }}</p>
+                                    </div>
+                                    <p class="DItemDescp" style="max-height: 33px;">{{ fundraiser.short_description }}</p>
+                                </div>
+                                <div class="DItemNumLineDiv">
+                                    <div class="DItemNumbersDiv">
+                                        <div class="DItemDeadlineDiv" style="">
+                                            <p class="DItemDeadline"> {{ fundraiser.available_days }} <br>DAYS LEFT</p>
+                                        </div>
+                                        <div class="DItemGoalDiv">
+                                            <p class="DItemGoal"><svg aria-hidden="true" data-prefix="fas"
+                                                    data-icon="rupee-sign" class="svg-inline--fa fa-rupee-sign fa-w-10 "
+                                                    role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+                                                    <path fill="currentColor"
+                                                        d="M308 96c6.627 0 12-5.373 12-12V44c0-6.627-5.373-12-12-12H12C5.373 32 0 37.373 0 44v44.748c0 6.627 5.373 12 12 12h85.28c27.308 0 48.261 9.958 60.97 27.252H12c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h158.757c-6.217 36.086-32.961 58.632-74.757 58.632H12c-6.627 0-12 5.373-12 12v53.012c0 3.349 1.4 6.546 3.861 8.818l165.052 152.356a12.001 12.001 0 0 0 8.139 3.182h82.562c10.924 0 16.166-13.408 8.139-20.818L116.871 319.906c76.499-2.34 131.144-53.395 138.318-127.906H308c6.627 0 12-5.373 12-12v-40c0-6.627-5.373-12-12-12h-58.69c-3.486-11.541-8.28-22.246-14.252-32H308z">
+                                                    </path>
+                                                </svg> {{ fundraiser.campaigntotalamount.total_amount}} <br>RAISED</p>
+                                        </div>
+                                    </div>
+                                    <div class="DItemCompletionDiv">
+                                        <div class="DItemCompletionLineDiv">
+                                            <div class="filled" style="width: {{ fundraiser.totalfund_in_percentage }}%;"></div>
+                                        </div>
+                                        <p class="DItemCompletionText">{{ fundraiser.totalfund_in_percentage }} %</p>
+                                    </div>
+                                </div>
+                                <div class="DItemActionDiv">
+                                    <ul class="DItemActionDiv_con campaignAction_div">
+                                        <li>
+                                            <a href="{% url 'campaign_selected' fundraiser.id fundraiser.title %}"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                        </li>
+                                        <li>
+                                            <button class="btn_icon" onclick="viewDetalis('{% url 'my_supported_fundraise_history' fundraiser.id %}')" ><i class="fa fa-money" aria-hidden="true"></i></button>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade " id="My-Supported-grp" role="tabpanel"
+                        aria-labelledby="my-Supported-grp-tab">
+                        <div class="DItemsDiv">
+                            {% for supportgroup in instance_SupportGroup %}
+                            <a href="{% url 'support_group_selected' supportgroup.id supportgroup.title %}" class="DItemDiv">
+                                <img src="/media/{{supportgroup.picture}}"
+                                    class="DItemImage" alt="">
+                                <div class="DItemDetailsDiv">
+                                    <p class="DItemTitle"> {{supportgroup.title}} </p>
+                                    <div class="DItemByDiv"><img
+                                            src="/media/{{supportgroup.group_leader.profile}}"
+                                            class="DItemByImg" alt="">
+                                        <p class="DItemByText">by {{ supportgroup.group_leader.name }}</p>
+                                    </div>
+                                    <p class="DItemDescp" style="max-height: 33px;"> {{ supportgroup.short_description }} </p>
+                                </div>
+                                <div class="DItemNumLineDiv">
+                                    <div class="DItemNumbersDiv">
+                                        <div class="DItemGoalDiv" style="border: 0px;">
+                                            <p class="DItemGoal"><svg aria-hidden="true" data-prefix="fas" data-icon="users"
+                                                    class="svg-inline--fa fa-users fa-w-20 " role="img"
+                                                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
+                                                    <path fill="currentColor"
+                                                        d="M96 224c35.3 0 64-28.7 64-64s-28.7-64-64-64-64 28.7-64 64 28.7 64 64 64zm448 0c35.3 0 64-28.7 64-64s-28.7-64-64-64-64 28.7-64 64 28.7 64 64 64zm32 32h-64c-17.6 0-33.5 7.1-45.1 18.6 40.3 22.1 68.9 62 75.1 109.4h66c17.7 0 32-14.3 32-32v-32c0-35.3-28.7-64-64-64zm-256 0c61.9 0 112-50.1 112-112S381.9 32 320 32 208 82.1 208 144s50.1 112 112 112zm76.8 32h-8.3c-20.8 10-43.9 16-68.5 16s-47.6-6-68.5-16h-8.3C179.6 288 128 339.6 128 403.2V432c0 26.5 21.5 48 48 48h288c26.5 0 48-21.5 48-48v-28.8c0-63.6-51.6-115.2-115.2-115.2zm-223.7-13.4C161.5 263.1 145.6 256 128 256H64c-35.3 0-64 28.7-64 64v32c0 17.7 14.3 32 32 32h65.9c6.3-47.4 34.9-87.3 75.2-109.4z">
+                                                    </path>
+                                                </svg> {{ supportgroup.group_member_count}} <br>MEMBERS</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade  " id="Supported-Support-grp" role="tabpanel"
+                        aria-labelledby="Supported-Support-grp-tab">
+                        <div class="DItemsDiv">
+                            {% for supportgroup in instance_joined_SupportGroup %}
+                            <a href="{% url 'support_group_selected' supportgroup.id supportgroup.title %}" class="DItemDiv">
+                                <img src="/media/{{supportgroup.picture}}"
+                                    class="DItemImage" alt="">
+                                <div class="DItemDetailsDiv">
+                                    <p class="DItemTitle"> {{supportgroup.title}} </p>
+                                    <div class="DItemByDiv"><img
+                                            src="/media/{{supportgroup.group_leader.profile}}"
+                                            class="DItemByImg" alt="">
+                                        <p class="DItemByText">by {{ supportgroup.group_leader.name }}</p>
+                                    </div>
+                                    <p class="DItemDescp" style="max-height: 33px;"> {{ supportgroup.short_description }} </p>
+                                </div>
+                                <div class="DItemNumLineDiv">
+                                    <div class="DItemNumbersDiv">
+                                        <div class="DItemGoalDiv" style="border: 0px;">
+                                            <p class="DItemGoal"><svg aria-hidden="true" data-prefix="fas" data-icon="users"
+                                                    class="svg-inline--fa fa-users fa-w-20 " role="img"
+                                                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
+                                                    <path fill="currentColor"
+                                                        d="M96 224c35.3 0 64-28.7 64-64s-28.7-64-64-64-64 28.7-64 64 28.7 64 64 64zm448 0c35.3 0 64-28.7 64-64s-28.7-64-64-64-64 28.7-64 64 28.7 64 64 64zm32 32h-64c-17.6 0-33.5 7.1-45.1 18.6 40.3 22.1 68.9 62 75.1 109.4h66c17.7 0 32-14.3 32-32v-32c0-35.3-28.7-64-64-64zm-256 0c61.9 0 112-50.1 112-112S381.9 32 320 32 208 82.1 208 144s50.1 112 112 112zm76.8 32h-8.3c-20.8 10-43.9 16-68.5 16s-47.6-6-68.5-16h-8.3C179.6 288 128 339.6 128 403.2V432c0 26.5 21.5 48 48 48h288c26.5 0 48-21.5 48-48v-28.8c0-63.6-51.6-115.2-115.2-115.2zm-223.7-13.4C161.5 263.1 145.6 256 128 256H64c-35.3 0-64 28.7-64 64v32c0 17.7 14.3 32 32 32h65.9c6.3-47.4 34.9-87.3 75.2-109.4z">
+                                                    </path>
+                                                </svg> {{ supportgroup.group_member_count}} <br>MEMBERS</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+
+                    <div class="tab-pane fade " id="My-Event" role="tabpanel"
+                        aria-labelledby="my-Supported-grp-tab">
+                        <div class="DItemsDiv">
+                            {% for Event in instance_Event %}
+                            <a href="{% url 'event_selected' Event.id Event.name %}" class="DItemDiv">
+                                <img src="/media/{{Event.image}}"
+                                    class="DItemImage" alt="">
+                                <div class="DItemDetailsDiv">
+                                    <p class="DItemTitle"> {{Event.name}} </p>
+                                    <div class="DItemByDiv"><img
+                                            src="/media/{{Event.user.profile}}"
+                                            class="DItemByImg" alt="">
+                                        <p class="DItemByText">by {{ Event.user.name }}</p>
+                                    </div>
+                                    <p class="DItemDescp" style="max-height: 33px;"> {{ supportgroup.short_description }} </p>
+                                </div>
+                                <!-- <div class="DItemNumLineDiv">
+                                    <div class="DItemNumbersDiv">
+                                        <div class="DItemGoalDiv" style="border: 0px;">
+                                            <p class="DItemGoal"><svg aria-hidden="true" data-prefix="fas" data-icon="users"
+                                                    class="svg-inline--fa fa-users fa-w-20 " role="img"
+                                                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
+                                                    <path fill="currentColor"
+                                                        d="M96 224c35.3 0 64-28.7 64-64s-28.7-64-64-64-64 28.7-64 64 28.7 64 64 64zm448 0c35.3 0 64-28.7 64-64s-28.7-64-64-64-64 28.7-64 64 28.7 64 64 64zm32 32h-64c-17.6 0-33.5 7.1-45.1 18.6 40.3 22.1 68.9 62 75.1 109.4h66c17.7 0 32-14.3 32-32v-32c0-35.3-28.7-64-64-64zm-256 0c61.9 0 112-50.1 112-112S381.9 32 320 32 208 82.1 208 144s50.1 112 112 112zm76.8 32h-8.3c-20.8 10-43.9 16-68.5 16s-47.6-6-68.5-16h-8.3C179.6 288 128 339.6 128 403.2V432c0 26.5 21.5 48 48 48h288c26.5 0 48-21.5 48-48v-28.8c0-63.6-51.6-115.2-115.2-115.2zm-223.7-13.4C161.5 263.1 145.6 256 128 256H64c-35.3 0-64 28.7-64 64v32c0 17.7 14.3 32 32 32h65.9c6.3-47.4 34.9-87.3 75.2-109.4z">
+                                                    </path>
+                                                </svg> {{ supportgroup.group_member_count}} <br>MEMBERS</p>
+                                        </div>
+                                    </div>
+                                </div> -->
+                            </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade  " id="Joined-Event" role="tabpanel"
+                        aria-labelledby="Supported-Support-grp-tab">
+                        <div class="DItemsDiv">
+                            {% for Event in instance_joined_EventGroup %}
+                            <a href="{% url 'event_selected' Event.id Event.name %}" class="DItemDiv">
+                                <img src="/media/{{Event.image}}"
+                                    class="DItemImage" alt="">
+                                <div class="DItemDetailsDiv">
+                                    <p class="DItemTitle"> {{Event.name}} </p>
+                                    <div class="DItemByDiv"><img
+                                            src="/media/{{Event.user.profile}}"
+                                            class="DItemByImg" alt="">
+                                        <p class="DItemByText">by {{ Event.user.name }}</p>
+                                    </div>
+                                    <p class="DItemDescp" style="max-height: 33px;"> {{ supportgroup.short_description }} </p>
+                                </div>
+                                <!-- <div class="DItemNumLineDiv">
+                                    <div class="DItemNumbersDiv">
+                                        <div class="DItemGoalDiv" style="border: 0px;">
+                                            <p class="DItemGoal"><svg aria-hidden="true" data-prefix="fas" data-icon="users"
+                                                    class="svg-inline--fa fa-users fa-w-20 " role="img"
+                                                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
+                                                    <path fill="currentColor"
+                                                        d="M96 224c35.3 0 64-28.7 64-64s-28.7-64-64-64-64 28.7-64 64 28.7 64 64 64zm448 0c35.3 0 64-28.7 64-64s-28.7-64-64-64-64 28.7-64 64 28.7 64 64 64zm32 32h-64c-17.6 0-33.5 7.1-45.1 18.6 40.3 22.1 68.9 62 75.1 109.4h66c17.7 0 32-14.3 32-32v-32c0-35.3-28.7-64-64-64zm-256 0c61.9 0 112-50.1 112-112S381.9 32 320 32 208 82.1 208 144s50.1 112 112 112zm76.8 32h-8.3c-20.8 10-43.9 16-68.5 16s-47.6-6-68.5-16h-8.3C179.6 288 128 339.6 128 403.2V432c0 26.5 21.5 48 48 48h288c26.5 0 48-21.5 48-48v-28.8c0-63.6-51.6-115.2-115.2-115.2zm-223.7-13.4C161.5 263.1 145.6 256 128 256H64c-35.3 0-64 28.7-64 64v32c0 17.7 14.3 32 32 32h65.9c6.3-47.4 34.9-87.3 75.2-109.4z">
+                                                    </path>
+                                                </svg> {{ supportgroup.group_member_count}} <br>MEMBERS</p>
+                                        </div>
+                                    </div>
+                                </div> -->
+                            </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+        <!-- User Profile Second section end here -->
+    </main>
+{% endblock %}
+
+{% block model_popup %}
+<div class="modal fade" id="Campaigner_Payout_ver" tabindex="-1" role="dialog" aria-labelledby="Campaigner_Payout_verTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable  modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header  pl-4  pb-3">
+              <h5 class="modal-title" id="Campaigner_Payout_verTitle">Campaigner Payout Verification</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+            </div>
+            <div class="modal-body pt-0 pb-0">
+                <form class="jss632" method="POST">
+                    {% csrf_token %}     
+                    <div class="jss833 jss834 jss836">
+                        <p class="jss798 jss807">Name</p>
+                        <div class="jss833">
+                            <div class="jss850 jss837 jss841 jss851 jss838">
+                              <!-- <input aria-invalid="false" class="jss860 jss845" required type="text" value=""> -->
+                              {{Beneficiary_Form.name}}
+                            </div>
+                            <span class="error">{{Beneficiary_Form.errors.name}}</span>
+                        </div>
+                    </div>
+                    <div class="jss833 jss834 jss836">
+                        <p class="jss798 jss807">Email Address</p>
+                        <div class="jss833">
+                            <div class="jss850 jss837 jss841 jss851 jss838">
+                              <!-- <input aria-invalid="false" autocomplete="email" class="jss860 jss845" required type="email" value=""> -->
+                                {{Beneficiary_Form.email}}
+                            </div>
+                            <span class="error">{{Beneficiary_Form.errors.email}}</span>
+                        </div>
+                    </div>
+                    <div class="jss833 jss834 jss836">                                    
+                        <p class="jss798 jss807">Mobile No</p>
+                        <div>
+                            <!-- <input type="tel" id="mobile-number" required placeholder="e.g. +1 702 123 4567"> -->
+                            {{Beneficiary_Form.mobile_no}}
+                        </div>
+                        <span class="error">{{Beneficiary_Form.errors.mobile_no}}</span>
+                    </div>
+                    <div class="jss833 jss834 jss836">
+                        <p class="jss798 jss807">Bank Account </p>
+                        <div class="jss833">
+                            <div class="jss850 jss837 jss841 jss851 jss838">
+                              <!-- <input aria-invalid="false" class="jss860 jss845"  required type="text" value=""> -->
+                              {{Beneficiary_Form.bank_account}}
+                            </div>
+                            <span class="error">{{Beneficiary_Form.errors.bank_account}}</span>
+                        </div>
+                    </div>
+                    <div class="jss833 jss834 jss836">
+                        <p class="jss798 jss807">Account Holder </p>
+                        <div class="jss833">
+                            <div class="jss850 jss837 jss841 jss851 jss838">
+                              <!-- <input aria-invalid="false" class="jss860 jss845"  required type="text" value=""> -->
+                              {{Beneficiary_Form.account_holder}}
+                            </div>
+                            <span class="error">{{Beneficiary_Form.errors.account_holder}}</span>
+                        </div>
+                    </div>                  
+                    <div class="jss833 jss834 jss836">
+                        <p class="jss798 jss807">IFSC </p>
+                        <div class="jss833">
+                            <div class="jss850 jss837 jss841 jss851 jss838">
+                              <!-- <input aria-invalid="false" class="jss860 jss845" required  type="text" value=""> -->
+                              {{Beneficiary_Form.ifsc}}
+                            </div>
+                            <span class="error">{{Beneficiary_Form.errors.ifsc}}</span>
+                        </div>
+                    </div>
+                    <div class="jss833 jss834 jss836">
+                        <p class="jss798 jss807">Address 1 </p>
+                        <div class="jss833">
+                            <div class="jss850 jss837 jss841 jss851 jss838">
+                              <!-- <input aria-invalid="false" class="jss860 jss845"  required type="text" value=""> -->
+                              {{Beneficiary_Form.primary_address}}
+                            </div>
+                            <span class="error">{{Beneficiary_Form.errors.primary_address}}</span>
+                        </div>
+                    </div>
+                    <div class="jss833 jss834 jss836">
+                        <p class="jss798 jss807">Address 2 </p>
+                        <div class="jss833">
+                            <div class="jss850 jss837 jss841 jss851 jss838">
+                              <!-- <input aria-invalid="false" class="jss860 jss845"  required type="text" value=""> -->
+                              {{Beneficiary_Form.secondry_address}}
+                            </div>
+                            <span class="error">{{Beneficiary_Form.errors.secondry_address}}</span>
+                        </div>
+                    </div>
+                    <div class="jss833 jss834 jss836">
+                        <p class="jss798 jss807">Pincode </p>
+                        <div class="jss833">
+                            <div class="jss850 jss837 jss841 jss851 jss838">
+                              <!-- <input aria-invalid="false" class="jss860 jss845" required  type="text" value=""> -->
+                              {{Beneficiary_Form.pincode}}
+                            </div>
+                            <span class="error">{{Beneficiary_Form.errors.pincode}}</span>
+                        </div>
+                    </div>
+                    <div class="jss833 jss834 jss836">
+                        <p class="jss798 jss807">State </p>
+                        <div class="jss833">
+                            <div class="jss850 jss837 jss841 jss851 jss838">
+                              <!-- <input aria-invalid="false" class="jss860 jss845" required  type="text" value=""> -->
+                              {{Beneficiary_Form.state}}
+                            </div>
+                            <span class="error">{{Beneficiary_Form.errors.state}}</span>
+                        </div>
+                    </div>
+                    <div class="jss833 jss834 jss836">
+                        <p class="jss798 jss807">City </p>
+                        <div class="jss833">
+                            <div class="jss850 jss837 jss841 jss851 jss838">
+                              <!-- <input aria-invalid="false" class="jss860 jss845" required  type="text" value=""> -->
+                              {{Beneficiary_Form.city}}
+                            </div>
+                            <span class="error">{{Beneficiary_Form.errors.city}}</span>
+                        </div>
+                    </div>
+                    <div class="jss833 jss834 jss836">
+                        <p class="jss798 jss807">Pan Card No. </p>
+                        <div class="jss833">
+                            <div class="jss850 jss837 jss841 jss851 jss838">
+                              <!-- <input aria-invalid="false" class="jss860 jss845" required  type="text" value=""> -->
+                              {{Beneficiary_Form.pan_card_no}}
+                            </div>
+                            <span class="error">{{Beneficiary_Form.errors.pan_card_no}}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex align-items-center justify-content-between mt-5  ">
+                        <button type="button" data-dismiss="modal" aria-label="Close" class="a_222222 btn_none">close</button>
+<!--                         <button type="submit" name="form_type" value="beneficiary">Submit</button> -->
+                        <button type="submit" name="form_type" id="accout_submit" value="beneficiary" class="colr_yellow btn_none" ><span class="jss237 jss231">Submit</span></button>
+                    </div>
+                </form>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      
+  
+      <div class="modal fade" id="profile_edit" tabindex="-1" role="dialog" aria-labelledby="profile_editTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-scrollable  modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header  pl-4  pb-3">
+                <h5 class="modal-title" id="profile_editTitle">Update Profile</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+              </div>
+              <div class="modal-body pt-0 pb-0">
+                  <form class="jss632" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div>
+                      <div class="editp_image_profile_div">
+                        <img src="/media/{{request.user.profile}}" alt="" id="blah" class="editp_image_profile">
+                        <input name="profile" type="file" accept="image/*" id="profImg" onchange="uploadphoto(this);" style="display: none;">
+                        <label for="profImg" style="align-self: flex-start;">
+                            <svg aria-hidden="true" data-prefix="fas" data-icon="pencil-alt" class="svg-inline--fa fa-pencil-alt fa-w-16 editp_eicon" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                            <path fill="currentColor" d="M497.9 142.1l-46.1 46.1c-4.7 4.7-12.3 4.7-17 0l-111-111c-4.7-4.7-4.7-12.3 0-17l46.1-46.1c18.7-18.7 49.1-18.7 67.9 0l60.1 60.1c18.8 18.7 18.8 49.1 0 67.9zM284.2 99.8L21.6 362.4.4 483.9c-2.9 16.4 11.4 30.6 27.8 27.8l121.5-21.3 262.6-262.6c4.7-4.7 4.7-12.3 0-17l-111-111c-4.8-4.7-12.4-4.7-17.1 0zM124.1 339.9c-5.5-5.5-5.5-14.3 0-19.8l154-154c5.5-5.5 14.3-5.5 19.8 0s5.5 14.3 0 19.8l-154 154c-5.5 5.5-14.3 5.5-19.8 0zM88 424h48v36.3l-64.5 11.3-31.1-31.1L51.7 376H88v48z">
+                            </path>
+                          </svg>
+                        </label>
+                      </div>
+                      <div class="error text-center" id="editp_image_profile_error"></div>
+                    </div>
+                      <div class="jss833 jss834 jss836">
+                          <p class="jss798 jss807">Name</p>
+                          <div class="jss833">
+                              <div class="jss850 jss837 jss841 jss851 jss838">
+                                <!-- <input aria-invalid="false" class="jss860 jss845" required type="text" value=""> -->
+                                {{My_User_Edit_Form.name}}
+                              </div>
+                              <span class="error">{{My_User_Edit_Form.errors.name}}</span>
+                          </div>
+                      </div>
+                      <div class="jss833 jss834 jss836">
+                          <p class="jss798 jss807">Email Address</p>
+                          <div class="jss833">
+                              <div class="jss850 jss837 jss841 jss851 jss838">
+                                <!-- <input aria-invalid="false" autocomplete="email" class="jss860 jss845" required type="email" value=""> -->
+                                {{My_User_Edit_Form.email}}
+                              </div>
+                              <span class="error">{{My_User_Edit_Form.errors.email}}</span>
+                          </div>
+                      </div>
+                      <div class="jss833 jss834 jss836">                                    
+                          <p class="jss798 jss807">Mobile No</p>
+                          <div>
+                              <!-- <input type="tel" class="mobile-number-2" id="mobile-number-2" required placeholder="e.g. +1 702 123 4567"> -->
+                              {{My_User_Edit_Form.mobile_no}}
+                          </div>
+                          <span class="error">{{My_User_Edit_Form.errors.mobile_no}}</span>
+                      </div>
+                      <div style="text-align: center;">
+                          <label class="jss867">
+                            <span class="jss873">
+                              <span class="jss892 jss886 jss882 jss876 jss883 jss878 jss877">
+                                <span class="jss891">
+                                  <span class="jss874 jss875"></span>
+                                  <!-- <input class="jss885" id="user_citizen_id" type="checkbox" value="user_citizen" checked=""> -->
+                                  {{My_User_Edit_Form.is_indian}}
+                                </span>
+                                <span class="jss934"></span>
+                              </span>
+                              <span class="jss881"></span>
+                            </span>
+                            <span id="user_citizen_id_text" class="jss798 jss807 jss872">I am an Indian citizen</span></label>
+                      </div>
+                      <div class="jss833 jss834 jss836">
+                          <p class="jss798 jss807">Address </p>
+                          <div class="jss833">
+                              <div class="jss850 jss837 jss841 jss851 jss838">
+                                <!-- <input aria-invalid="false" class="jss860 jss845"  required type="text" value=""> -->
+                                {{My_User_Edit_Form.address}}
+                              </div>
+                              <span class="error">{{My_User_Edit_Form.errors.address}}</span>
+                          </div>
+                      </div>
+                      <div class="jss833 jss834 jss836">
+                          <p class="jss798 jss807">Pincode </p>
+                          <div class="jss833">
+                              <div class="jss850 jss837 jss841 jss851 jss838">
+                                <!-- <input aria-invalid="false" class="jss860 jss845" required  type="text" value=""> -->
+                                {{My_User_Edit_Form.pincode}}
+                              </div>
+                              <span class="error">{{My_User_Edit_Form.errors.pincode}}</span>
+                          </div>
+                      </div>
+                      <div>
+                        <p class="mb-1 mt-2" style="font-weight: 500; font-size: 0.8rem;">* Attaching Social Media Profiles makes your campaign more credible to the potential donor</p>
+                      </div>
+                      <div class="jss370_c">
+                        <div class="jss405_c">
+                          <div class="jss422_c ">
+                            <div> 
+                                <svg aria-hidden="true" data-prefix="fab" data-icon="facebook-f" class="svg-inline--fa fa-facebook-f fa-w-9 " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 264 512">
+                                <path fill="currentColor" d="M76.7 512V283H0v-91h76.7v-71.7C76.7 42.4 124.3 0 193.8 0c33.3 0 61.9 2.5 70.2 3.6V85h-48.2c-37.8 0-45.1 18-45.1 44.3V192H256l-11.7 91h-73.6v229">
+                                </path>
+                              </svg> </div>
+                          </div>
+                          <!-- <input aria-invalid="false" class="jss860 jss845" type="text" value=""> -->
+                          {{My_User_Edit_Form.facebook}}
+                        </div>
+                      </div>
+                      <div class="jss370_c mt-3 mb-3">
+                          <div class="jss405_c">
+                            <div class="jss422_c ">
+                              <div> 
+                                <svg aria-hidden="true" data-prefix="fab" data-icon="twitter" class="svg-inline--fa fa-twitter fa-w-16 " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"></path></svg>
+                              </div>
+                            </div>
+                            <!-- <input aria-invalid="false" class="jss860 jss845" type="text" value=""> -->
+                            {{My_User_Edit_Form.twitter}}
+                          </div>
+                        </div>
+    
+                        <div class="d-flex align-items-center justify-content-between mt-5  ">
+                            <button type="button" data-toggle="modal" data-target="#changepassword"  class="a_222222 btn_none">Change Password</button>
+                            <div class="donateBtnDiv">
+                                    <!-- <button type="submit" name="form_type" >Submit</button> -->
+                                <button type="submit" name="form_type"  value="profile" id="Update_Details"  class="jss262_c"><span class="jss237 jss231">Update Details</span></button>
+                            </div>                      
+                        </div>
+                        <div class="d-flex align-items-center justify-content-center mt-3  ">
+                            <button type="button" data-dismiss="modal" aria-label="Close" class="a_222222 btn_none">close</button>
+                        </div>
+                  </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal fade" id="view_withdrawal" role="dialog" aria-labelledby="edit_withdrawalTittle"
+  aria-hidden="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable  modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header border-0 pl-4  pb-1">
+          <h5 class="modal-title" id="edit_fundraiser_summaryTittle">Funds Summary</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body pt-0 pb-0">         
+         <div class="supported_tansection_history">
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+        <div class="modal fade " id="changepassword" tabindex="-1" role="dialog" aria-labelledby="changepasswordTitle" aria-hidden="true">
+            <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="changepasswordLabel">Password Reset Request</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" action="/password_reset/">
+
+                    {% csrf_token %}
+                    <input type="hidden" name="email" value="{{request.user.email}}">
+                        <p class="jss515 jss524 mt-3 mb-3">You will be logged out and a password reset link will be sent to your email id</p>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <button type="button" data-dismiss="modal" aria-label="Close" class="a_222222 btn_none">Close</button>
+                            <button type="submit" class="colr_yellow btn_none">ok</button>
+                        </div>
+                    </form>
+                </div>
+              </div>
+            </div>
+          </div>
+{% endblock %}
+
+
+{% block extra_script %}
+<script type="text/javascript" src="/static/js/intlTelInput.js" ></script>
+<script>
+        $("#mobile-number").intlTelInput();  
+        $(".mobile-number-2").intlTelInput();
+  </script>
+
+<script>
+    $(document).ready(function() {
+
+        $('.select2_modal').select2({
+            dropdownParent: $('.modal')
+        });
+
+        
+    });
+</script>
+
+<script>
+	
+    var _validFileExtensions_img = [".png", ".jpg", "jpeg"];
+
+        function uploadphoto(oInputimg) {
+
+            if (oInputimg.type == "file") {
+
+                var sFileName = oInputimg.value;
+
+
+
+                if (sFileName.length > 0) {
+                    var blnValid = false;
+                    for (var j = 0; j < _validFileExtensions_img.length; j++) {
+                        var sCurExtension = _validFileExtensions_img[j];
+                        if (sFileName.substr(sFileName.length - sCurExtension.length, sCurExtension.length).toLowerCase() == sCurExtension.toLowerCase()) {
+                            blnValid = true;
+                            break;
+                        }
+                    }
+
+                    if (!blnValid) {
+                        document.getElementById('blah').src = 'https://www.ourdemocracy.in/src/assets/images/static/people_avatar.png'
+                        oInputimg.value = "";
+                        $("#editp_image_profile_error").text("Please Select file type of .jpg / .jpeg or .png only.");
+                        return false;
+                    }
+
+                    if (blnValid) {
+                        if (oInputimg.files && oInputimg.files[0]) {
+                            var reader = new FileReader();
+
+                            reader.onload = function (e) {
+
+                            //Initiate the JavaScript Image object.
+                                var image = new Image();
+                
+                                //Set the Base64 string return from FileReader as source.
+                                image.src = e.target.result;   
+                                $('#blah')
+                                    .attr('src', e.target.result)
+                                    .width(100)
+                                    .height(100);
+                                    $("#editp_image_profile_error").text("");
+                            };  
+                            reader.readAsDataURL(oInputimg.files[0]);
+                        }
+                    }
+
+                }
+            }
+            return true;
+        }
+
+
+</script>
+<script type="text/javascript">
+    function viewDetalis(url){
+        $.get(url, function(result){
+            $('.supported_tansection_history').html(result); 
+            $('#view_withdrawal').modal('show');                              
+        })
+    }
+</script>
+{% endblock %}
