@@ -2797,7 +2797,7 @@ def admin_manage_fundraiser_member(request):
             else:
                 pass
 
-        table = render_to_string('admin_template/admin_crm_fundraiser_ajax.html',{
+        table = render_to_string('admin_template/admin_manage_fundraiser_member_ajax.html',{
             'instance_CampaignDoners':instance_CampaignDoners,
         })
 
