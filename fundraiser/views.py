@@ -3451,26 +3451,26 @@ def admin_manage_banner_images_status(request, ID, status):
     return redirect('admin_manage_banner_images')
 
 
-@login_required
-@admin_or_backend_user_required
-def platform_generic_user_view(request):
-    if request.method == 'POST':
-        Generic_Emails_Form = GenericEmailsForm(request.POST)
-        if Generic_Emails_Form.is_valid():
-            Generic_Emails_Form = Generic_Emails_Form.save()
+# @login_required
+# @admin_or_backend_user_required
+# def platform_generic_user_view(request):
+#     if request.method == 'POST':
+#         Generic_Emails_Form = GenericEmailsForm(request.POST)
+#         if Generic_Emails_Form.is_valid():
+#             Generic_Emails_Form = Generic_Emails_Form.save()
 
-            messages.add_message(request,messages.SUCCESS,'Generic user "%s" added successfully' %(Generic_Emails_Form.name))
+#             messages.add_message(request,messages.SUCCESS,'Generic user "%s" added successfully' %(Generic_Emails_Form.name))
 
-            return redirect('platform_generic_user_view')
+#             return redirect('platform_generic_user_view')
 
-    else:
-        Generic_Emails_Form = GenericEmailsForm()
-    instance_user = User.objects.all().order_by('-id')
-    context = {
-        'Generic_Emails_Form':Generic_Emails_Form,
-        'instance_user':instance_user,
-    }
-    return render(request, 'admin_template/platform_generic_user_view.html', context)
+#     else:
+#         Generic_Emails_Form = GenericEmailsForm()
+#     instance_user = User.objects.all().order_by('-id')
+#     context = {
+#         'Generic_Emails_Form':Generic_Emails_Form,
+#         'instance_user':instance_user,
+#     }
+#     return render(request, 'admin_template/platform_generic_user_view.html', context)
 
 
 
