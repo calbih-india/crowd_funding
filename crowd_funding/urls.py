@@ -108,7 +108,7 @@ urlpatterns = [
     #re_path('admin/manage/(?P<ID>[0-9]+)/generic-user/(?P<status>[a-z,A-Z]+)/', views.admin_manage_generic_user_status, name='admin_manage_generic_user_status'),
     #re_path('admin/manage/generic-user/(?P<ID>[0-9]+)/delete/', views.admin_manage_generic_user_delete, name='admin_manage_generic_user_delete'),
     #re_path('admin/manage/generic-user/(?P<ID>[0-9]+)/edit/', views.admin_manage_generic_user_edit, name='admin_manage_generic_user_edit'),
-    path('platform-generic-user/', views.platform_generic_user_view, name='platform_generic_user_view'),
+    # path('platform-generic-user/', views.platform_generic_user_view, name='platform_generic_user_view'),
 
     path('public-personas/get-department-user', views.public_personas_get_department_user, name='public_personas_get_department_user'),
     path('public-personas/', views.public_personas, name='public_personas'),
