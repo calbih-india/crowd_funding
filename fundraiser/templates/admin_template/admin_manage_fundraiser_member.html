@@ -803,7 +803,8 @@
 {% block extra_script %} 
 <script>
   function campaign_change(){
-    var campaign = $("select[name='campaign']").val()
+    //var campaign = $("select[name='campaign']").val()
+    var campaign = 'Fund Raiser'
 
     if(campaign == 'Fund Raiser'){
       $("select[name='amount']").prop('disabled', false);
@@ -860,7 +861,8 @@
   }
 
   function list_change(){
-    var campaign = $("select[name='campaign']").val()
+    //var campaign = $("select[name='campaign']").val()
+    var campaign = 'Fund Raiser'
     var instance_query = $("select[name='instance_query']").val()
     
 
@@ -900,7 +902,8 @@
   }
 
   function amount_change(){
-    var campaign = $("select[name='campaign']").val()
+    //var campaign = $("select[name='campaign']").val()
+    var campaign = 'Fund Raiser'
     var instance_query = $("select[name='instance_query']").val()
     var amount = $("select[name='amount']").val()
 
@@ -929,7 +932,8 @@
   }
 
   function city_change(){
-    var campaign = $("select[name='campaign']").val()
+    //var campaign = $("select[name='campaign']").val()
+    var campaign = 'Fund Raiser'
     var instance_query = $("select[name='instance_query']").val()
     var amount = $("select[name='amount']").val()
     var city = $("select[name='city']").val()
@@ -949,7 +953,8 @@
   }
 
   function state_change(){
-    var campaign = $("select[name='campaign']").val()
+    //var campaign = $("select[name='campaign']").val()
+    var campaign = 'Fund Raiser'
     var instance_query = $("select[name='instance_query']").val()
     var amount = $("select[name='amount']").val()
     var city = $("select[name='city']").val()
