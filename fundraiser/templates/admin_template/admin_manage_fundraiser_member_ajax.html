@@ -9,7 +9,6 @@
         <th>Date</th>
         <th>City</th>
         <th>State</th>
-        <th>Country</th>
         <th>Action <input type="checkbox" id="checkbox_parent" onchange="allCheckboxtocheck()" ></th>
     </thead>
     <tbody>
@@ -23,7 +22,6 @@
             <td>{{CampaignDoners.created_at}}</td>
             <td>{{CampaignDoners.city}}</td>
             <td>{{CampaignDoners.state}}</td>
-            <td>{{CampaignDoners.country}}</td>
             <td><input type="checkbox" value="{{CampaignDoners.email}}"  name="email_id" onchange="childCheckboxtocheck()" class="child"> </td>
         </tr>
         {% endfor %}
