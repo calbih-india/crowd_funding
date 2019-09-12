@@ -238,8 +238,8 @@
 {% block extra_script %} 
 <script>
   function campaign_change(){
-    var campaign = $("select[name='campaign']").val()
-
+    //var campaign = $("select[name='campaign']").val()
+    var campaign = 'Fund Raiser'
     if(campaign == 'Fund Raiser'){
       $("select[name='amount']").prop('disabled', false);
     }
@@ -309,7 +309,7 @@
     var instance_query = $("select[name='instance_query']").val()
     
 
-    $.get("{% url 'admin_crm' %}", {'campaign':campaign, 'instance_query':instance_query}, function(result){
+    $.get("{% url 'admin_crm' %}", {'instance_query':instance_query}, function(result){
         $("#SupporterList").html(result['table'])
         var city_list = result['city_list'];
         var state_list = result['state_list']; 
@@ -358,7 +358,7 @@
     var instance_query = $("select[name='instance_query']").val()
     var amount = $("select[name='amount']").val()
 
-    $.get("{% url 'admin_crm' %}", {'campaign':campaign, 'instance_query':instance_query, 'amount':amount}, function(result){
+    $.get("{% url 'admin_crm' %}", {'instance_query':instance_query, 'amount':amount}, function(result){
       $("#SupporterList").html(result['table'])  
 
       var city_list = result['city_list'];
@@ -397,7 +397,7 @@
     var amount = $("select[name='amount']").val()
     var city = $("select[name='city']").val()
 
-    $.get("{% url 'admin_crm' %}", {'campaign':campaign, 'instance_query':instance_query, 'amount':amount, 'city':city}, function(result){
+    $.get("{% url 'admin_crm' %}", {'instance_query':instance_query, 'amount':amount, 'city':city}, function(result){
       $("#SupporterList").html(result['table'])
       var state_list = result['state_list'];  
       var country_list = result['country_list'];     
@@ -427,7 +427,7 @@
     var city = $("select[name='city']").val()
     var state = $("select[name='state']").val()
 
-    $.get("{% url 'admin_crm' %}", {'campaign':campaign, 'instance_query':instance_query, 'amount':amount, 'city':city, 'state':state}, function(result){
+    $.get("{% url 'admin_crm' %}", {'instance_query':instance_query, 'amount':amount, 'city':city, 'state':state}, function(result){
       $("#SupporterList").html(result['table'])
       var country_list = result['country_list'];
 
@@ -449,7 +449,7 @@
     var state = $("select[name='state']").val()
     var country = $("select[name='country']").val()
 
-    $.get("{% url 'admin_crm' %}", {'campaign':campaign, 'instance_query':instance_query, 'amount':amount, 'city':city, 'state':state, 'country':country}, function(result){
+    $.get("{% url 'admin_crm' %}", {'instance_query':instance_query, 'amount':amount, 'city':city, 'state':state, 'country':country}, function(result){
       $("#SupporterList").html(result['table'])   
     })
   }

@@ -2754,7 +2754,7 @@ def admin_manage_support_group_member(request):
 @admin_or_backend_user_required
 def admin_manage_fundraiser_member(request):
     if request.is_ajax():
-        campaign = request.GET.get('campaign', None)
+        # campaign = request.GET.get('campaign', None)
         instance_query = request.GET.get('instance_query', None) 
         amount = request.GET.get('amount', None)
         city = request.GET.get('city', None)
