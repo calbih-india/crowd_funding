@@ -2893,6 +2893,7 @@ def admin_manage_fundraiser_member(request):
         amount = request.GET.get('amount', None)
         city = request.GET.get('city', None)
         state = request.GET.get('state', None)
+        country = request.GET.get('country', None)
 
         if campaign == 'Event':
             instance_Event = Event.objects.all()
@@ -3061,32 +3062,51 @@ def admin_manage_fundraiser_member(request):
                 else:
                     pass
 
+            if country:
+                if country != 'all':
+                    instance_CampaignDoners = instance_CampaignDoners.filter(country__iexact=country)
+                else:
+                    pass
+
             table = render_to_string('admin_template/admin_manage_fundraiser_member_ajax.html',{
                 'instance_CampaignDoners':instance_CampaignDoners,
             })
 
             # writing response
-            if state:
+
+            if country:
                 context = {
                     'table':table,
                 }
                 return JsonResponse(context)
 
+            if state:
+                campaign_country_list = instance_CampaignDoners.values_list('country', flat=True).distinct().order_by('country')
+                context = {
+                    'table':table,
+                    'country_list' : list(campaign_country_list),
+                }
+                return JsonResponse(context)
+
             if city:
                 campaign_state_list = instance_CampaignDoners.values_list('state', flat=True).distinct().order_by('state')
+                campaign_country_list = instance_CampaignDoners.values_list('country', flat=True).distinct().order_by('country')
                 context = {
                     'table':table,
                     'state_list' : list(campaign_state_list),
+                    'country_list' : list(campaign_country_list),
                 }
                 return JsonResponse(context)
 
             if amount:
                 campaign_city_list = instance_CampaignDoners.values_list('city', flat=True).distinct().order_by('city')
                 campaign_state_list = instance_CampaignDoners.values_list('state', flat=True).distinct().order_by('state')
+                campaign_country_list = instance_CampaignDoners.values_list('country', flat=True).distinct().order_by('country')
                 context = {
                     'table':table,
                     'city_list' : list(campaign_city_list),
                     'state_list' : list(campaign_state_list),
+                    'country_list' : list(campaign_country_list),
                 }
                 return JsonResponse(context)
 
@@ -3094,10 +3114,12 @@ def admin_manage_fundraiser_member(request):
                 campaign_amount_list = instance_CampaignDoners.values_list('amount', flat=True).distinct().order_by('amount')
                 campaign_city_list = instance_CampaignDoners.values_list('city', flat=True).distinct().order_by('city')
                 campaign_state_list = instance_CampaignDoners.values_list('state', flat=True).distinct().order_by('state')
+                campaign_country_list = instance_CampaignDoners.values_list('country', flat=True).distinct().order_by('country')
                 context = {
                     'campaign_amount_list' : list(campaign_amount_list),
                     'city_list' : list(campaign_city_list),
                     'state_list' : list(campaign_state_list),
+                    'country_list' : list(campaign_country_list),
                     'table':table,
                 }
                 return JsonResponse(context)
@@ -3107,12 +3129,14 @@ def admin_manage_fundraiser_member(request):
                 campaign_amount_list = instance_CampaignDoners.values_list('amount', flat=True).distinct().order_by('amount')
                 campaign_city_list = instance_CampaignDoners.values_list('city', flat=True).distinct().order_by('city')
                 campaign_state_list = instance_CampaignDoners.values_list('state', flat=True).distinct().order_by('state')
+                campaign_country_list = instance_CampaignDoners.values_list('country', flat=True).distinct().order_by('country')
 
                 context = {
                     'instance_query_list' : list(instance_query_list),
                     'campaign_amount_list' : list(campaign_amount_list),
                     'city_list' : list(campaign_city_list),
                     'state_list' : list(campaign_state_list),
+                    'country_list' : list(campaign_country_list),
                     'table':table,
                 }
                 return JsonResponse(context)
@@ -3122,12 +3146,14 @@ def admin_manage_fundraiser_member(request):
         campaign_amount_list = CampaignDoners.objects.filter(payment_status='captured').values_list('amount', flat=True).distinct().order_by('amount')
         campaign_city_list = CampaignDoners.objects.filter(payment_status='captured').values_list('city', flat=True).distinct().order_by('city')
         campaign_state_list = CampaignDoners.objects.filter(payment_status='captured').values_list('state', flat=True).distinct().order_by('state')
+        campaign_country_list = CampaignDoners.objects.filter(payment_status='captured').values_list('country', flat=True).distinct().order_by('country')
         instance_CampaignDoners = CampaignDoners.objects.filter(payment_status='captured')
         context ={
             'instance_query_list':instance_query_list,
             'campaign_amount_list':campaign_amount_list,
             'campaign_city_list':campaign_city_list,
             'campaign_state_list':campaign_state_list,
+            'campaign_country_list':campaign_country_list,
             'instance_CampaignDoners':instance_CampaignDoners,
         }
         return render(request, 'admin_template/admin_manage_fundraiser_member.html', context)

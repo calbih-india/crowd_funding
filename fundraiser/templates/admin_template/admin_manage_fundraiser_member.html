@@ -696,6 +696,22 @@
           </div>
           <div class="col-md-2">
             <div class="jss550 jss551 jss553">
+              <p class="jss515 jss524">Country</p>
+              <div class="jss550">
+                <div class="jss567 jss554 jss558 jss568 jss555 select2_con">
+                  <select class="select2" name="country" onchange="country_change()">
+                    <option value="all">Select the option</option>
+                    {% for value in campaign_country_list  %}
+                    <option value="{{value}}">{{value}}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+              <span class="error"></span>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="jss550 jss551 jss553">
               <p class="d-block mb-1">Select one</p>
               <div>
                 <div class="custom_icons_radio">
@@ -727,6 +743,7 @@
                     <th>Date</th>
                     <th>City</th>
                     <th>State</th>
+                    <th>Country</th>
                     <th>Action <input type="checkbox" id="checkbox_parent" onchange="allCheckboxtocheck()" ></th>
                 </thead>
                 <tbody>
@@ -740,6 +757,7 @@
                         <td>{{CampaignDoners.created_at}}</td>
                         <td>{{CampaignDoners.city}}</td>
                         <td>{{CampaignDoners.state}}</td>
+                        <td>{{CampaignDoners.country}}</td>
                         <td><input type="checkbox"  value="{{CampaignDoners.email}}" name="email_id" onchange="childCheckboxtocheck()" class="child"> </td>
                     </tr>
                     {% endfor %}
@@ -815,10 +833,11 @@
       $("select[name='amount']").prop('disabled', 'disabled');
     }
 
-    $.get("{% url 'admin_crm' %}", {'campaign':campaign}, function(result){
+    $.get("{% url 'admin_manage_fundraiser_member' %}", {'campaign':campaign}, function(result){
       var instance_query_list = result['instance_query_list'];
       var city_list = result['city_list'];
-      var state_list = result['state_list']; 
+      var state_list = result['state_list'];
+      var country_list = result['country_list']; 
       
       $("#SupporterList").html(result['table'])
 
@@ -855,7 +874,15 @@
       for (i = 0; i < state_list.length; i++) {
         $("select[name='state']").append($("<option value='"+state_list[i]+"'>"+state_list[i]+"</option>"));
       }
-      $("select[name='state']").select2(); 
+      $("select[name='state']").select2();
+
+      //for country
+      $("select[name='country']").empty();
+      $("select[name='country']").append($("<option value='all'>Select the option</option>"));
+      for (i = 0; i < country_list.length; i++) {
+        $("select[name='country']").append($("<option value='"+country_list[i]+"'>"+country_list[i]+"</option>"));
+      }
+      $("select[name='country']").select2();  
            
     });
   }
@@ -866,10 +893,11 @@
     var instance_query = $("select[name='instance_query']").val()
     
 
-    $.get("{% url 'admin_crm' %}", {'campaign':campaign, 'instance_query':instance_query}, function(result){
+    $.get("{% url 'admin_manage_fundraiser_member' %}", {'campaign':campaign, 'instance_query':instance_query}, function(result){
         $("#SupporterList").html(result['table'])
         var city_list = result['city_list'];
         var state_list = result['state_list']; 
+        var country_list = result['country_list'];
 
         //for city
         $("select[name='city']").empty();
@@ -885,7 +913,15 @@
         for (i = 0; i < state_list.length; i++) {
           $("select[name='state']").append($("<option value='"+state_list[i]+"'>"+state_list[i]+"</option>"));
         }
-        $("select[name='state']").select2(); 
+        $("select[name='state']").select2();
+
+        //for country
+        $("select[name='country']").empty();
+        $("select[name='country']").append($("<option value='all'>Select the option</option>"));
+        for (i = 0; i < country_list.length; i++) {
+          $("select[name='country']").append($("<option value='"+country_list[i]+"'>"+country_list[i]+"</option>"));
+        }
+        $("select[name='country']").select2(); 
 
         if(campaign == 'Fund Raiser'){
           var instance_amount = result['campaign_amount_list'];
@@ -907,11 +943,12 @@
     var instance_query = $("select[name='instance_query']").val()
     var amount = $("select[name='amount']").val()
 
-    $.get("{% url 'admin_crm' %}", {'campaign':campaign, 'instance_query':instance_query, 'amount':amount}, function(result){
+    $.get("{% url 'admin_manage_fundraiser_member' %}", {'campaign':campaign, 'instance_query':instance_query, 'amount':amount}, function(result){
       $("#SupporterList").html(result['table'])  
 
       var city_list = result['city_list'];
-      var state_list = result['state_list']; 
+      var state_list = result['state_list'];
+      var country_list = result['country_list']; 
 
       //for city
       $("select[name='city']").empty();
@@ -927,7 +964,15 @@
       for (i = 0; i < state_list.length; i++) {
         $("select[name='state']").append($("<option value='"+state_list[i]+"'>"+state_list[i]+"</option>"));
       }
-      $("select[name='state']").select2();  
+      $("select[name='state']").select2();
+
+      //for country
+      $("select[name='country']").empty();
+      $("select[name='country']").append($("<option value='all'>Select the option</option>"));
+      for (i = 0; i < country_list.length; i++) {
+        $("select[name='country']").append($("<option value='"+country_list[i]+"'>"+country_list[i]+"</option>"));
+      }
+      $("select[name='country']").select2();  
     })
   }
 
@@ -938,9 +983,10 @@
     var amount = $("select[name='amount']").val()
     var city = $("select[name='city']").val()
 
-    $.get("{% url 'admin_crm' %}", {'campaign':campaign, 'instance_query':instance_query, 'amount':amount, 'city':city}, function(result){
+    $.get("{% url 'admin_manage_fundraiser_member' %}", {'campaign':campaign, 'instance_query':instance_query, 'amount':amount, 'city':city}, function(result){
       $("#SupporterList").html(result['table'])
-      var state_list = result['state_list'];     
+      var state_list = result['state_list'];
+      var country_list = result['country_list'];     
 
       //for state
       $("select[name='state']").empty();
@@ -948,7 +994,17 @@
       for (i = 0; i < state_list.length; i++) {
         $("select[name='state']").append($("<option value='"+state_list[i]+"'>"+state_list[i]+"</option>"));
       }
-      $("select[name='state']").select2(); 
+      $("select[name='state']").select2();
+
+      //for country
+      $("select[name='country']").empty();
+      $("select[name='country']").append($("<option value='all'>Select the option</option>"));
+      for (i = 0; i < country_list.length; i++) {
+        $("select[name='country']").append($("<option value='"+country_list[i]+"'>"+country_list[i]+"</option>"));
+      }
+      $("select[name='country']").select2();
+
+
     })
   }
 
@@ -960,7 +1016,30 @@
     var city = $("select[name='city']").val()
     var state = $("select[name='state']").val()
 
-    $.get("{% url 'admin_crm' %}", {'campaign':campaign, 'instance_query':instance_query, 'amount':amount, 'city':city, 'state':state}, function(result){
+    $.get("{% url 'admin_manage_fundraiser_member' %}", {'campaign':campaign, 'instance_query':instance_query, 'amount':amount, 'city':city, 'state':state}, function(result){
+      $("#SupporterList").html(result['table']) 
+      var country_list = result['country_list'];
+
+      //for country
+      $("select[name='country']").empty();
+      $("select[name='country']").append($("<option value='all'>Select the option</option>"));
+      for (i = 0; i < country_list.length; i++) {
+        $("select[name='country']").append($("<option value='"+country_list[i]+"'>"+country_list[i]+"</option>"));
+      }
+      $("select[name='country']").select2();  
+    })
+  }
+
+  function country_change(){
+    //var campaign = $("select[name='campaign']").val()
+    var campaign = 'Fund Raiser'
+    var instance_query = $("select[name='instance_query']").val()
+    var amount = $("select[name='amount']").val()
+    var city = $("select[name='city']").val()
+    var state = $("select[name='state']").val()
+    var country = $("select[name='country']").val()
+
+    $.get("{% url 'admin_manage_fundraiser_member' %}", {'campaign':campaign, 'instance_query':instance_query, 'amount':amount, 'city':city, 'state':state, 'country':country}, function(result){
       $("#SupporterList").html(result['table'])   
     })
   }
