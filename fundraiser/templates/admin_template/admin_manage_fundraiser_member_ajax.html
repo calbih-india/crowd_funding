@@ -10,7 +10,7 @@
         <th>City</th>
         <th>State</th>
         <th>Country</th>
-        <th>Action <input type="checkbox" id="checkbox_parent" onchange="allCheckboxtocheck()" ></th>
+        {% comment %} <th>Action <input type="checkbox" id="checkbox_parent" onchange="allCheckboxtocheck()" ></th> {% endcomment %}
     </thead>
     <tbody>
         {% for CampaignDoners in instance_CampaignDoners %}
@@ -24,7 +24,7 @@
             <td>{{CampaignDoners.city}}</td>
             <td>{{CampaignDoners.state}}</td>
             <td>{{CampaignDoners.country}}</td>
-            <td><input type="checkbox" value="{{CampaignDoners.email}}"  name="email_id" onchange="childCheckboxtocheck()" class="child"> </td>
+            {% comment %} <td><input type="checkbox" value="{{CampaignDoners.email}}"  name="email_id" onchange="childCheckboxtocheck()" class="child"> </td> {% endcomment %}
         </tr>
         {% endfor %}
     </tbody>

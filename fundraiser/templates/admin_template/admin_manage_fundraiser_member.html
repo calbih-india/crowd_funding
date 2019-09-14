@@ -603,7 +603,7 @@
   <main>
     <div class="how-it-works-row types-of-funds bg_fafafa">
       <div class="row1-heading how-heading">
-        <h2 style="margin-top: 0px; font-size: 1.5rem;">Mail Support Journey</h2>
+        <h2 style="margin-top: 0px; font-size: 1.5rem;">Fundraiser Campaign Members</h2>
         <div class="row1-dash">
           <div class="row1-big-dash"></div>
           <div class="row1-small-dash"></div>
@@ -630,7 +630,7 @@
 
           <div class="col-md-2">
             <div class="jss550 jss551 jss553">
-              <p class="jss515 jss524">List</p>
+              <p class="jss515 jss524">Fundraiser</p>
               <div class="jss550">
                 <div class="jss567 jss554 jss558 jss568 jss555 select2_con">
                   <select class="select2" name="instance_query" onchange="list_change()">
@@ -712,8 +712,8 @@
           </div>
           <div class="col-md-2">
             <div class="jss550 jss551 jss553">
-              <p class="d-block mb-1">Select one</p>
-              <div>
+              {% comment %}<p class="d-block mb-1">Select one</p>
+               <div>
                 <div class="custom_icons_radio">
                   <input type="radio" name="Socialicon" class="custom_icons_btn" value="google">
                   <span>
@@ -726,7 +726,7 @@
                     <i class="fa fa-facebook" aria-hidden="true"></i>
                   </span>
                 </div>
-              </div>
+              </div> {% endcomment %}
             </div>
           </div>
         </div>
@@ -744,7 +744,7 @@
                     <th>City</th>
                     <th>State</th>
                     <th>Country</th>
-                    <th>Action <input type="checkbox" id="checkbox_parent" onchange="allCheckboxtocheck()" ></th>
+                    {% comment %} <th>Action <input type="checkbox" id="checkbox_parent" onchange="allCheckboxtocheck()" ></th> {% endcomment %}
                 </thead>
                 <tbody>
                     {% for CampaignDoners in instance_CampaignDoners %}
@@ -758,7 +758,7 @@
                         <td>{{CampaignDoners.city}}</td>
                         <td>{{CampaignDoners.state}}</td>
                         <td>{{CampaignDoners.country}}</td>
-                        <td><input type="checkbox"  value="{{CampaignDoners.email}}" name="email_id" onchange="childCheckboxtocheck()" class="child"> </td>
+                        {% comment %} <td><input type="checkbox"  value="{{CampaignDoners.email}}" name="email_id" onchange="childCheckboxtocheck()" class="child"> </td> {% endcomment %}
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -770,8 +770,8 @@
             <p class="error mb-0" id="checkbox_error"></p>
         </div>
         <div class="row justify-content-center ">
-          <button class="jss610 jss584 jss595 jss596 jss598 jss599 jss350" onclick="getEmailValue()" type="button"><span
-              class="jss585">Send Email</span><span class="jss636"></span></button>
+          {% comment %} <button class="jss610 jss584 jss595 jss596 jss598 jss599 jss350" onclick="getEmailValue()" type="button"><span
+              class="jss585">Send Email</span><span class="jss636"></span></button> {% endcomment %}
         </div>
       </div>
     </div>
