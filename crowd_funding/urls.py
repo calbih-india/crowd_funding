@@ -116,6 +116,7 @@ urlpatterns = [
     re_path('admin/manage/(?P<ID>[0-9]+)/banner-images/(?P<status>[a-z,A-Z]+)/', views.admin_manage_banner_images_status, name='admin_manage_banner_images_status'),
     re_path('admin/manage/banner-images/(?P<ID>[0-9]+)/edit/', views.admin_manage_banner_images_edit, name='admin_manage_banner_images_edit'),
     path('admin/manage/banner-images/', views.admin_manage_banner_images, name='admin_manage_banner_images'),
+    
 
     re_path('admin/withdrawl-request/(?P<ID>[0-9]+)/edit/', views.admin_withdrawl_request_edit, name='admin_withdrawl_request_edit'),
     path('admin/withdrawl-request/', views.admin_withdrawl_request, name='admin_withdrawl_request'),
