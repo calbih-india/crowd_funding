@@ -267,9 +267,9 @@
 <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js" ></script>
 <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.print.min.js" ></script>
 <script>
-$(document).ready(function(){
+$( document ).ready(function() {
     var table = $('#fundraiser_member_details').DataTable();
-    var buttons = new $.fn.dataTable.Buttons(table, {
+      var buttons = new $.fn.dataTable.Buttons(table, {
         buttons: [
                   
                   {
@@ -280,7 +280,7 @@ $(document).ready(function(){
                   
               ]
        }).container().appendTo($('#download'));
-  });
+  })
   function campaign_change(){
     //var campaign = $("select[name='campaign']").val()
     var campaign = 'Fund Raiser'
@@ -343,7 +343,21 @@ $(document).ready(function(){
       for (i = 0; i < country_list.length; i++) {
         $("select[name='country']").append($("<option value='"+country_list[i]+"'>"+country_list[i]+"</option>"));
       }
-      $("select[name='country']").select2();  
+      $("select[name='country']").select2();
+
+      $( '#download' ).empty();
+      var table = $('#fundraiser_member_details').DataTable();
+      var buttons = new $.fn.dataTable.Buttons(table, {
+        buttons: [
+                  
+                  {
+                      extend:    'excelHtml5',
+                      text:      '<i class="fa fa-cloud-download"></i>',
+                      titleAttr: 'Excel'
+                  }
+                  
+              ]
+       }).container().appendTo($('#download'));  
            
     });
   }
@@ -395,6 +409,20 @@ $(document).ready(function(){
           }
           $("select[name='amount']").select2();   
         }
+        
+        $( '#download' ).empty();
+        var table = $('#fundraiser_member_details').DataTable();
+        var buttons = new $.fn.dataTable.Buttons(table, {
+        buttons: [
+                  
+                  {
+                      extend:    'excelHtml5',
+                      text:      '<i class="fa fa-cloud-download"></i>',
+                      titleAttr: 'Excel'
+                  }
+                  
+              ]
+       }).container().appendTo($('#download'));
     });
   }
 
@@ -434,6 +462,20 @@ $(document).ready(function(){
         $("select[name='country']").append($("<option value='"+country_list[i]+"'>"+country_list[i]+"</option>"));
       }
       $("select[name='country']").select2();  
+
+      $( '#download' ).empty();
+        var table = $('#fundraiser_member_details').DataTable();
+        var buttons = new $.fn.dataTable.Buttons(table, {
+        buttons: [
+                  
+                  {
+                      extend:    'excelHtml5',
+                      text:      '<i class="fa fa-cloud-download"></i>',
+                      titleAttr: 'Excel'
+                  }
+                  
+              ]
+       }).container().appendTo($('#download'));
     })
   }
 
@@ -465,6 +507,20 @@ $(document).ready(function(){
       }
       $("select[name='country']").select2();
 
+      $( '#download' ).empty();
+        var table = $('#fundraiser_member_details').DataTable();
+        var buttons = new $.fn.dataTable.Buttons(table, {
+        buttons: [
+                  
+                  {
+                      extend:    'excelHtml5',
+                      text:      '<i class="fa fa-cloud-download"></i>',
+                      titleAttr: 'Excel'
+                  }
+                  
+              ]
+       }).container().appendTo($('#download'));
+
 
     })
   }
@@ -488,6 +544,20 @@ $(document).ready(function(){
         $("select[name='country']").append($("<option value='"+country_list[i]+"'>"+country_list[i]+"</option>"));
       }
       $("select[name='country']").select2();  
+
+      $( '#download' ).empty();
+        var table = $('#fundraiser_member_details').DataTable();
+        var buttons = new $.fn.dataTable.Buttons(table, {
+        buttons: [
+                  
+                  {
+                      extend:    'excelHtml5',
+                      text:      '<i class="fa fa-cloud-download"></i>',
+                      titleAttr: 'Excel'
+                  }
+                  
+              ]
+       }).container().appendTo($('#download'));
     })
   }
 
@@ -501,7 +571,21 @@ $(document).ready(function(){
     var country = $("select[name='country']").val()
 
     $.get("{% url 'admin_manage_fundraiser_member' %}", {'campaign':campaign, 'instance_query':instance_query, 'amount':amount, 'city':city, 'state':state, 'country':country}, function(result){
-      $("#SupporterList").html(result['table'])   
+      $("#SupporterList").html(result['table']) 
+
+      $( '#download' ).empty();
+        var table = $('#fundraiser_member_details').DataTable();
+        var buttons = new $.fn.dataTable.Buttons(table, {
+        buttons: [
+                  
+                  {
+                      extend:    'excelHtml5',
+                      text:      '<i class="fa fa-cloud-download"></i>',
+                      titleAttr: 'Excel'
+                  }
+                  
+              ]
+       }).container().appendTo($('#download'));  
     })
   }
 
