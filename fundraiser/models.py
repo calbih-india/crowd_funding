@@ -304,7 +304,7 @@ class CampaignDoners(models.Model):
     address = models.CharField(max_length=250)
     city = models.CharField(max_length=50)
     state = models.CharField(max_length=50)
-    country = models.CharField(max_length=50,default="India")
+    #country = models.CharField(max_length=50,default="India")
     pincode = models.CharField(max_length=20)
     facbook = models.CharField(max_length=100,blank=True, null=True)
     twitter = models.CharField(max_length=100,blank=True, null=True)
