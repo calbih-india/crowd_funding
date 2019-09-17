@@ -1,0 +1,590 @@
+{% extends 'admin_template/admin_dashboard.html' %}
+
+{% block title %}
+  <title>Crowd Funding Admin | Manage Mobilisation Members </title>
+{% endblock %}
+
+
+{% block meta_tag %}
+  <meta name="description" content="" />
+  <meta property="og:title" content="" />
+  <meta property="og:url" content="web page path" />
+  <meta property="og:description" content="">
+  <meta property="og:image" content="image PATH">
+{% endblock %}
+
+{% block extra_style %}
+<link href="/static/css/intlTelInput.css" rel="stylesheet">
+  <link href="/static/css/demo.css" rel="stylesheet">
+  <link href="/static/css/jquerysctipttop.css" rel="stylesheet">
+<link href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.dataTables.min.css" rel="stylesheet">
+<style>
+    .download_icon div.dt-buttons{
+      float: none;
+    }
+    .download_icon button.dt-button{
+      background: transparent;
+      border: 0;
+      margin: 0;
+      padding: 0;
+    }
+    .download_icon .button.dt-button:hover:not(.disabled) {
+      background: transparent;
+      border: 0 !important;
+      margin: 0;
+      padding: 0;
+    }
+</style>
+{% endblock %}
+
+
+{% block body %}        
+  <main>
+    <div class="how-it-works-row types-of-funds bg_fafafa">
+      <div class="row1-heading how-heading">
+        <h2 style="margin-top: 0px; font-size: 1.5rem;">Mobilisation Members</h2>
+        <div class="row1-dash">
+          <div class="row1-big-dash"></div>
+          <div class="row1-small-dash"></div>
+        </div>
+      </div>
+      <div class="container_con">
+        <div class="row">
+
+          {% comment %} <div class="col-md-2">
+            <div class="jss550 jss551 jss553">
+              <p class="jss515 jss524">Campaign</p>
+              <div class="jss550">
+                <div class="jss567 jss554 jss558 jss568 jss555 select2_con">
+                  <select class="select2" name="campaign" onchange="campaign_change()">
+                    <option value="Fund Raiser">Fund Raiser</option>
+                    <option value="Mobilisation Campaign">Mobilisation Campaign</option>
+                    <option value="Event">Event</option>
+                  </select>
+                </div>
+              </div>
+              <span class="error"></span>
+            </div>
+          </div> {% endcomment %}
+
+          <div class="col-md-2">
+            <div class="jss550 jss551 jss553">
+              <p class="jss515 jss524">Mobilisation Campaign</p>
+              <div class="jss550">
+                <div class="jss567 jss554 jss558 jss568 jss555 select2_con">
+                  <select class="select2" name="instance_query" onchange="list_change()">
+                    <option value="all">Select the option</option>
+                    {% for value,key in instance_query_list  %}
+                    <option value="{{value}}">{{key}}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+              <span class="error"></span>
+            </div>
+          </div>
+
+          {% comment %} <div class="col-md-2">
+            <div class="jss550 jss551 jss553">
+              <p class="jss515 jss524">Amount</p>
+              <div class="jss550">
+                <div class="jss567 jss554 jss558 jss568 jss555 select2_con">
+                  <select class="select2" name="amount" onchange="amount_change()">
+                    <option value="all">Select the option</option>
+                    {% for amount in campaign_amount_list %}
+                    <option value="{{amount}}">{{amount}}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+              <span class="error"></span>
+            </div>
+          </div> {% endcomment %}
+
+          <div class="col-md-2">
+            <div class="jss550 jss551 jss553">
+              <p class="jss515 jss524">City</p>
+              <div class="jss550">
+                <div class="jss567 jss554 jss558 jss568 jss555 select2_con">
+                  <select class="select2" name="city" onchange="city_change()">
+                    <option value="all">Select the option</option>
+                    {% for value in campaign_city_list  %}
+                    <option value="{{value}}">{{value}}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+              <span class="error"></span>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="jss550 jss551 jss553">
+              <p class="jss515 jss524">State</p>
+              <div class="jss550">
+                <div class="jss567 jss554 jss558 jss568 jss555 select2_con">
+                  <select class="select2" name="state" onchange="state_change()">
+                    <option value="all">Select the option</option>
+                    {% for value in campaign_state_list  %}
+                    <option value="{{value}}">{{value}}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+              <span class="error"></span>
+            </div>
+          </div>
+          {% comment %} <div class="col-md-2">
+            <div class="jss550 jss551 jss553">
+              <p class="jss515 jss524">Country</p>
+              <div class="jss550">
+                <div class="jss567 jss554 jss558 jss568 jss555 select2_con">
+                  <select class="select2" name="country" onchange="country_change()">
+                    <option value="all">Select the option</option>
+                    {% for value in campaign_country_list  %}
+                    <option value="{{value}}">{{value}}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+              <span class="error"></span>
+            </div>
+          </div> {% endcomment %}
+
+          <div class="col-md-2">
+            <div class="jss550 jss551 jss553">
+            <button type="button" class="custom_btn download_icon " style="min-height: 40px;" id="download" ></button>
+              {% comment %}<p class="d-block mb-1">Select one</p>
+               <div>
+                <div class="custom_icons_radio">
+                  <input type="radio" name="Socialicon" class="custom_icons_btn" value="google">
+                  <span>
+                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                  </span>
+                </div>
+                <div class="custom_icons_radio">
+                  <input type="radio" name="Socialicon" class="custom_icons_btn" value="fb">
+                  <span>
+                    <i class="fa fa-facebook" aria-hidden="true"></i>
+                  </span>
+                </div>
+              </div> {% endcomment %}
+            </div>
+          </div>
+        </div>
+        <div class="row mt-5">
+          <div class="col-md-12" id="MobilisationSupporterList">
+          <div class="table_parent">
+            <table class="table text-center"  id="mobilisation_member_details">
+                <thead>
+                    <th>Campaign</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Joining Date</th>
+                    <th>City</th>
+                    <th>State</th>
+                    {% comment %} <th>Action <input type="checkbox" id="checkbox_parent" onchange="allCheckboxtocheck()" ></th> {% endcomment %}
+                </thead>
+                <tbody>
+                    {%  for GroupMembers in instance_SupportGroupMembers %}
+                    <tr>
+                        <td>{{GroupMembers.support_group}}</td>
+                        <td>{{GroupMembers.name}}</td>
+                        <td>{{GroupMembers.email}}</td>
+                        <td>{{GroupMembers.phone}}</td>
+                        <td>{{GroupMembers.created_at}}</td>
+                        <td>{{GroupMembers.city}}</td>
+                        <td>{{GroupMembers.state}}</td>
+                        {% comment %} <td><input type="checkbox"  value="{{CampaignDoners.email}}" name="email_id" onchange="childCheckboxtocheck()" class="child"> </td> {% endcomment %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            </div>
+          </div>
+        </div>
+        <div class="row justify-content-center mt-3">
+            <p class="error mb-0" id="checkbox_error"></p>
+        </div>
+        <div class="row justify-content-center ">
+          {% comment %} <button class="jss610 jss584 jss595 jss596 jss598 jss599 jss350" onclick="getEmailValue()" type="button"><span
+              class="jss585">Send Email</span><span class="jss636"></span></button> {% endcomment %}
+        </div>
+      </div>
+    </div>
+  </main>
+{% endblock %}      
+{% block model_popup %}
+<div class="modal fade" id="send_Email" role="dialog" aria-labelledby="send_EmailTittle"
+      aria-hidden="false" data-backdrop="static">
+      <div class="modal-dialog modal-dialog-scrollable  modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header  pl-4  pb-1">
+            <h5 class="modal-title" id="send_EmailTittle">Send Email</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body  ">
+           
+            <div class="jss550 jss551 jss553">
+              <p class="jss515 jss524">Title</p>
+              <div class="jss550">
+                <div class="jss567 jss554 jss558 jss568 jss555">
+                  <input type="text" name="title" class="jss577 jss562" maxlength="250" required id="email_subject" />
+                  <!-- <input  class="jss577 jss562"  type="text" value="" required="required">                         -->
+                </div>
+                <span class="error"></span>
+              </div>
+            </div>
+            <div class="jss550 jss551 jss553">
+               <p class="jss515 jss524">Message</p>
+              <div class="jss550">
+                <div class="jss567 jss554 jss558 jss568 jss555">
+                  <textarea class="jss577 jss562 " id="email_message" required="required"></textarea>
+                </div>
+                <span class="error"></span>
+              </div>
+            </div>
+            <button class="jss892 jss901 jss912 jss913 jss915 jss916 jss926 jss633" onclick="sendEmailFun()" type="submit">
+              <span class="jss902">Submit</span>
+              <span class="jss934"></span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock %}
+{% block extra_script %} 
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js" ></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.flash.min.js" ></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js" ></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js" ></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js" ></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js" ></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.print.min.js" ></script>
+<script>
+$( document ).ready(function() {
+    var table = $('#mobilisation_member_details').DataTable();
+      var buttons = new $.fn.dataTable.Buttons(table, {
+        buttons: [
+                  
+                  {
+                      extend:    'excelHtml5',
+                      text:      '<i class="fa fa-cloud-download"></i>',
+                      titleAttr: 'Excel'
+                  }
+                  
+              ]
+       }).container().appendTo($('#download'));
+  })
+  function campaign_change(){
+    //var campaign = $("select[name='campaign']").val()
+    var campaign = 'Mobilisation Campaign'
+
+    if(campaign == 'Fund Raiser'){
+      $("select[name='amount']").prop('disabled', false);
+    }
+    else{
+      $("select[name='amount']").val("all")
+      $("select[name='amount']").select2();
+      $("select[name='amount']").prop('disabled', 'disabled');
+    }
+
+    $.get("{% url 'admin_manage_mobilisation_member' %}", {'campaign':campaign}, function(result){
+      var instance_query_list = result['instance_query_list'];
+      var city_list = result['city_list'];
+      var state_list = result['state_list'];
+      var country_list = result['country_list']; 
+      
+      $("#MobilisationSupporterList").html(result['table'])
+
+      //for amount
+      $("select[name='instance_query']").empty();
+      $("select[name='instance_query']").append($("<option value='all'>Select the option</option>"));
+      for (i = 0; i < instance_query_list.length; i++) {
+        $("select[name='instance_query']").append($("<option value='"+instance_query_list[i][0]+"'>"+instance_query_list[i][1]+"</option>"));
+      }
+      $("select[name='instance_query']").select2(); 
+      
+      if(campaign == 'Fund Raiser'){
+        var instance_amount = result['campaign_amount_list'];
+          //for amount
+        $("select[name='amount']").empty();
+        $("select[name='amount']").append($("<option value='all'>Select the option</option>"));
+        for (i = 0; i < instance_amount.length; i++) {
+          $("select[name='amount']").append($("<option value='"+instance_amount[i]+"'>"+instance_amount[i]+"</option>"));
+        }
+        $("select[name='amount']").select2();   
+      }
+
+      //for city
+      $("select[name='city']").empty();
+      $("select[name='city']").append($("<option value='all'>Select the option</option>"));
+      for (i = 0; i < city_list.length; i++) {
+        $("select[name='city']").append($("<option value='"+city_list[i]+"'>"+city_list[i]+"</option>"));
+      }
+      $("select[name='city']").select2(); 
+
+      //for state
+      $("select[name='state']").empty();
+      $("select[name='state']").append($("<option value='all'>Select the option</option>"));
+      for (i = 0; i < state_list.length; i++) {
+        $("select[name='state']").append($("<option value='"+state_list[i]+"'>"+state_list[i]+"</option>"));
+      }
+      $("select[name='state']").select2();
+
+      //for country
+      $("select[name='country']").empty();
+      $("select[name='country']").append($("<option value='all'>Select the option</option>"));
+      for (i = 0; i < country_list.length; i++) {
+        $("select[name='country']").append($("<option value='"+country_list[i]+"'>"+country_list[i]+"</option>"));
+      }
+      $("select[name='country']").select2();
+
+      $( '#download' ).empty();
+      var table = $('#mobilisation_member_details').DataTable();
+      var buttons = new $.fn.dataTable.Buttons(table, {
+        buttons: [
+                  
+                  {
+                      extend:    'excelHtml5',
+                      text:      '<i class="fa fa-cloud-download"></i>',
+                      titleAttr: 'Excel'
+                  }
+                  
+              ]
+       }).container().appendTo($('#download'));  
+           
+    });
+  }
+
+  function list_change(){
+    //var campaign = $("select[name='campaign']").val()
+    var campaign = 'Mobilisation Campaign'
+    var instance_query = $("select[name='instance_query']").val()
+    
+
+    $.get("{% url 'admin_manage_mobilisation_member' %}", {'campaign':campaign, 'instance_query':instance_query}, function(result){
+        $("#MobilisationSupporterList").html(result['table'])
+        var city_list = result['city_list'];
+        var state_list = result['state_list']; 
+
+        //for city
+        $("select[name='city']").empty();
+        $("select[name='city']").append($("<option value='all'>Select the option</option>"));
+        for (i = 0; i < city_list.length; i++) {
+          $("select[name='city']").append($("<option value='"+city_list[i]+"'>"+city_list[i]+"</option>"));
+        }
+        $("select[name='city']").select2(); 
+
+        //for state
+        $("select[name='state']").empty();
+        $("select[name='state']").append($("<option value='all'>Select the option</option>"));
+        for (i = 0; i < state_list.length; i++) {
+          $("select[name='state']").append($("<option value='"+state_list[i]+"'>"+state_list[i]+"</option>"));
+        }
+        $("select[name='state']").select2();
+
+        
+        $( '#download' ).empty();
+        var table = $('#mobilisation_member_details').DataTable();
+        var buttons = new $.fn.dataTable.Buttons(table, {
+        buttons: [
+                  
+                  {
+                      extend:    'excelHtml5',
+                      text:      '<i class="fa fa-cloud-download"></i>',
+                      titleAttr: 'Excel'
+                  }
+                  
+              ]
+       }).container().appendTo($('#download'));
+    });
+  }
+
+
+  function city_change(){
+    //var campaign = $("select[name='campaign']").val()
+    var campaign = 'Mobilisation Campaign'
+    var instance_query = $("select[name='instance_query']").val()
+    var amount = $("select[name='amount']").val()
+    var city = $("select[name='city']").val()
+
+    $.get("{% url 'admin_manage_mobilisation_member' %}", {'campaign':campaign, 'instance_query':instance_query, 'amount':amount, 'city':city}, function(result){
+      $("#MobilisationSupporterList").html(result['table'])
+      var state_list = result['state_list'];
+      var country_list = result['country_list'];     
+
+      //for state
+      $("select[name='state']").empty();
+      $("select[name='state']").append($("<option value='all'>Select the option</option>"));
+      for (i = 0; i < state_list.length; i++) {
+        $("select[name='state']").append($("<option value='"+state_list[i]+"'>"+state_list[i]+"</option>"));
+      }
+      $("select[name='state']").select2();
+
+
+      $( '#download' ).empty();
+        var table = $('#mobilisation_member_details').DataTable();
+        var buttons = new $.fn.dataTable.Buttons(table, {
+        buttons: [
+                  
+                  {
+                      extend:    'excelHtml5',
+                      text:      '<i class="fa fa-cloud-download"></i>',
+                      titleAttr: 'Excel'
+                  }
+                  
+              ]
+       }).container().appendTo($('#download'));
+
+
+    })
+  }
+
+  function state_change(){
+    //var campaign = $("select[name='campaign']").val()
+    var campaign = 'Mobilisation Campaign'
+    var instance_query = $("select[name='instance_query']").val()
+    var amount = $("select[name='amount']").val()
+    var city = $("select[name='city']").val()
+    var state = $("select[name='state']").val()
+
+    $.get("{% url 'admin_manage_mobilisation_member' %}", {'campaign':campaign, 'instance_query':instance_query, 'amount':amount, 'city':city, 'state':state}, function(result){
+      $("#MobilisationSupporterList").html(result['table'])   
+
+      $( '#download' ).empty();
+        var table = $('#mobilisation_member_details').DataTable();
+        var buttons = new $.fn.dataTable.Buttons(table, {
+        buttons: [
+                  
+                  {
+                      extend:    'excelHtml5',
+                      text:      '<i class="fa fa-cloud-download"></i>',
+                      titleAttr: 'Excel'
+                  }
+                  
+              ]
+       }).container().appendTo($('#download'));
+    })
+  }
+
+
+</script>
+<script type="text/javascript">
+
+    function getEmailValue(){
+        
+        if($("input:checkbox[name=email_id]:checked").length<=0){
+            $("#checkbox_error").text("Please select any one of the checkbox");
+            return false;
+        }
+        else{
+           $("#checkbox_error").text("");
+           setTimeout(function () { $('#send_Email').modal('show'); }, 100);
+            $('#send_Email').modal({ backdrop: 'static', keyboard: false });            
+          }
+        
+      }
+
+       $("#email_subject").keyup(function(){
+        if($(this).val().trim() != ""){
+            $(this).parent().parent().find(".error").text("");
+        }
+        else {
+            $(this).parent().parent().find(".error").text("Please enter a Title");
+        }
+      });
+
+       $("#email_message").keyup(function(){
+        if($(this).val().trim() != ""){
+            $(this).parent().parent().find(".error").text("");
+        }
+        else {
+            $(this).parent().parent().find(".error").text("Please enter a Message");
+        }
+    });
+
+      function sendEmailFun() {
+        var email_subject = email_message = 0;
+           if($("#email_subject").val().trim() != ""){
+            $("#email_subject").parent().parent().find(".error").text("");
+              email_subject = 0;
+            }
+            else {
+                $("#email_subject").parent().parent().find(".error").text("Please enter a Title");
+                email_subject = 1;
+            } 
+
+            if($("#email_message").val().trim() != ""){
+
+              $("#email_message").parent().parent().find(".error").text("");
+                email_message = 0;
+            }
+            else {
+                $("#email_message").parent().parent().find(".error").text("Please enter a Title");
+                email_message = 1;
+            }
+
+          if(email_subject == 1 || email_message == 1  ){
+              return false
+          }
+          else {
+              var data = {
+              'subject':$("#email_subject").val(),
+              'message':$("#email_message").val(),
+              'id':[],
+              }
+
+              $("input:checkbox[name=email_id]:checked").each(function(){
+                data['id'].push($(this).val());
+              });
+              
+              if($("#email_subject").val() && $("#email_message").val()){
+                $.get("{% url 'admin_crm_email' %}", data, function(result){
+                  alert(result['message']) 
+                });
+              }
+              else{
+                alert('Please add value')
+              }
+
+          }
+        
+      }
+</script>
+<script type="text/javascript">
+  function allCheckboxtocheck(e){  
+
+    var parent_checkbox = document.getElementById('checkbox_parent');
+
+    var child_checkbox = document.getElementsByClassName("child");
+
+       if (parent_checkbox.checked) {
+         for (var i = 0; i < child_checkbox.length; i++) {
+           child_checkbox[i].checked = true;
+         }
+       } else {
+         for (var i = 0; i < child_checkbox.length; i++) {
+           child_checkbox[i].checked = false;
+         }
+       }
+  }
+
+ function childCheckboxtocheck(e){
+
+    var parent_checkbox = document.getElementById('checkbox_parent');
+
+    var child_checkbox = document.getElementsByClassName("child");
+
+    if( child_checkbox.length == $(".child:checked").length){
+        parent_checkbox.checked = true;
+    }
+    else{
+      parent_checkbox.checked = false;
+    }
+ }
+</script>
+{% endblock %} 
+    

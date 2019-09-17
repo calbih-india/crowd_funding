@@ -130,15 +130,25 @@
                       <a href="{% url 'admin_manage_event' %}">​Authorize/Edit event ({{ 'test'|get_unauthorized_event }})</a>
                   </li>
 
+                  {% comment %} <li>
+                      <a href="{% url 'admin_manage_support_group_member' %}">Mobilisation Campaign Members​</a>
+                  </li> {% endcomment %}
+
                   <li>
-                      <a href="{% url 'admin_manage_support_group_member' %}">Mobilisation Campaign Member​</a>
+                      <a href="{% url 'admin_manage_mobilisation_member' %}">Mobilisation Campaign Member​</a>
                   </li>
+
                   <li>
-                      <a href="{% url 'admin_manage_fundraiser_member' %}">Fundraiser Campaign Member​</a>
+                      <a href="{% url 'admin_manage_fundraiser_member' %}">Fundraiser Campaign Members​</a>
                   </li>
                   {% comment %} <li>
                       <a href="{% url 'admin_manage_contributors' %}">Contributors</a>
                   </li> {% endcomment %}
+
+                  <li>
+                      <a href="{% url 'admin_manage_event_member' %}">Event Member​s</a>
+                  </li>
+
                   <li>
                       <a href="{% url 'admin_manage_donors' %}">Donors/Contributors</a>
                   </li>

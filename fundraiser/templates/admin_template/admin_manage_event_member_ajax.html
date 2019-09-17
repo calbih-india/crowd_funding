@@ -1,0 +1,26 @@
+<div class="table_parent">
+<table class="table text-center" id="event_member_details">
+    <thead>
+        <th>Event</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Joining Date</th>
+        <th>City</th>
+        <th>State</th>
+        {% comment %} <th>Action <input type="checkbox" id="checkbox_parent" onchange="allCheckboxtocheck()" ></th> {% endcomment %}
+    </thead>
+    <tbody>
+        {% for member in instance_EventGroupMembers %}
+        <tr>
+            <td>{{member.event}}</td>
+            <td>{{member.name}}</td>
+            <td>{{member.email}}</td>
+            <td>{{member.created_at}}</td>
+            <td>{{member.city}}</td>
+            <td>{{member.state}}</td>
+            {% comment %} <td><input type="checkbox" value="{{CampaignDoners.email}}"  name="email_id" onchange="childCheckboxtocheck()" class="child"> </td> {% endcomment %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
