@@ -3967,26 +3967,37 @@ def admin_manage_banner_images_status(request, ID, status):
     return redirect('admin_manage_banner_images')
 
 
-# @login_required
-# @admin_or_backend_user_required
-# def platform_generic_user_view(request):
-#     if request.method == 'POST':
-#         Generic_Emails_Form = GenericEmailsForm(request.POST)
-#         if Generic_Emails_Form.is_valid():
-#             Generic_Emails_Form = Generic_Emails_Form.save()
+@login_required
+@admin_or_backend_user_required
+def platform_generic_user(request):
+    if request.is_ajax():
+        Column = request.GET.getlist('Column[]')
+        Fund_Raiser = request.GET.getlist('FundRaiser[]')
+        Support_Group = request.GET.getlist('SupportGroup[]')
+        Event_Event = request.GET.getlist('Event[]')
 
-#             messages.add_message(request,messages.SUCCESS,'Generic user "%s" added successfully' %(Generic_Emails_Form.name))
+        instance_CampaignFundRaiser = CampaignFundRaiser.objects.filter(id__in=Fund_Raiser,is_active='True').order_by("-id")
+        instance_SupportGroup = SupportGroup.objects.filter(id__in=Support_Group,is_active='True').order_by("-id")
+        instance_Event = Event.objects.filter(id__in=Event_Event,is_active='True').order_by("-id")
 
-#             return redirect('platform_generic_user_view')
+        context = {
+            'instance_CampaignFundRaiser':instance_CampaignFundRaiser,
+            'instance_SupportGroup':instance_SupportGroup,
+            'instance_Event':instance_Event,
+            'Column':Column,
+        }
+        return render(request, 'admin_template/admin_manage_platform_generic_user_ajax.html', context)
+    else:
+        instance_CampaignFundRaiser = CampaignFundRaiser.objects.all().order_by("-id")
+        instance_SupportGroup = SupportGroup.objects.all().order_by("-id")
+        instance_Event = Event.objects.all().order_by("-id")
 
-#     else:
-#         Generic_Emails_Form = GenericEmailsForm()
-#     instance_user = User.objects.all().order_by('-id')
-#     context = {
-#         'Generic_Emails_Form':Generic_Emails_Form,
-#         'instance_user':instance_user,
-#     }
-#     return render(request, 'admin_template/platform_generic_user_view.html', context)
+        context = {
+            'instance_CampaignFundRaiser':instance_CampaignFundRaiser,
+            'instance_SupportGroup':instance_SupportGroup,
+            'instance_Event':instance_Event,
+        }
+        return render(request, 'admin_template/admin_manage_platform_generic_user.html', context)
 
 
 
