@@ -133,7 +133,7 @@
               <span class="error"></span>
             </div>
           </div>
-          {% comment %} <div class="col-md-2">
+          <div class="col-md-2">
             <div class="jss550 jss551 jss553">
               <p class="jss515 jss524">Country</p>
               <div class="jss550">
@@ -148,7 +148,7 @@
               </div>
               <span class="error"></span>
             </div>
-          </div> {% endcomment %}
+          </div>
 
           <div class="col-md-2">
             <div class="jss550 jss551 jss553">
@@ -182,6 +182,7 @@
                     <th>Joining Date</th>
                     <th>City</th>
                     <th>State</th>
+                    <th>Country</th>
                     {% comment %} <th>Action <input type="checkbox" id="checkbox_parent" onchange="allCheckboxtocheck()" ></th> {% endcomment %}
                 </thead>
                 <tbody>
@@ -193,6 +194,7 @@
                         <td>{{member.created_at}}</td>
                         <td>{{member.city}}</td>
                         <td>{{member.state}}</td>
+                        <td>{{member.country}}</td>
                         {% comment %} <td><input type="checkbox"  value="{{CampaignDoners.email}}" name="email_id" onchange="childCheckboxtocheck()" class="child"> </td> {% endcomment %}
                     </tr>
                     {% endfor %}
@@ -367,6 +369,7 @@ $( document ).ready(function() {
         $("#EventSupporterList").html(result['table'])
         var city_list = result['city_list'];
         var state_list = result['state_list']; 
+        var country_list = result['country_list'];
 
         //for city
         $("select[name='city']").empty();
@@ -384,6 +387,13 @@ $( document ).ready(function() {
         }
         $("select[name='state']").select2();
 
+        //for country
+        $("select[name='country']").empty();
+        $("select[name='country']").append($("<option value='all'>Select the option</option>"));
+        for (i = 0; i < country_list.length; i++) {
+          $("select[name='country']").append($("<option value='"+country_list[i]+"'>"+country_list[i]+"</option>"));
+        }
+        $("select[name='country']").select2();
         
         $( '#download' ).empty();
         var table = $('#event_member_details').DataTable();
@@ -422,6 +432,14 @@ $( document ).ready(function() {
       }
       $("select[name='state']").select2();
 
+      //for country
+        $("select[name='country']").empty();
+        $("select[name='country']").append($("<option value='all'>Select the option</option>"));
+        for (i = 0; i < country_list.length; i++) {
+          $("select[name='country']").append($("<option value='"+country_list[i]+"'>"+country_list[i]+"</option>"));
+        }
+        $("select[name='country']").select2();
+
 
       $( '#download' ).empty();
         var table = $('#event_member_details').DataTable();
@@ -450,6 +468,43 @@ $( document ).ready(function() {
     var state = $("select[name='state']").val()
 
     $.get("{% url 'admin_manage_event_member' %}", {'campaign':campaign, 'instance_query':instance_query, 'amount':amount, 'city':city, 'state':state}, function(result){
+      $("#EventSupporterList").html(result['table'])
+      var country_list = result['country_list'];
+
+      //for country
+        $("select[name='country']").empty();
+        $("select[name='country']").append($("<option value='all'>Select the option</option>"));
+        for (i = 0; i < country_list.length; i++) {
+          $("select[name='country']").append($("<option value='"+country_list[i]+"'>"+country_list[i]+"</option>"));
+        }
+        $("select[name='country']").select2();   
+
+      $( '#download' ).empty();
+        var table = $('#event_member_details').DataTable();
+        var buttons = new $.fn.dataTable.Buttons(table, {
+        buttons: [
+                  
+                  {
+                      extend:    'excelHtml5',
+                      text:      '<i class="fa fa-cloud-download"></i>',
+                      titleAttr: 'Excel'
+                  }
+                  
+              ]
+       }).container().appendTo($('#download'));
+    })
+  }
+
+  function country_change(){
+    //var campaign = $("select[name='campaign']").val()
+    var campaign = 'Event'
+    var instance_query = $("select[name='instance_query']").val()
+    var amount = $("select[name='amount']").val()
+    var city = $("select[name='city']").val()
+    var state = $("select[name='state']").val()
+    var country = $("select[name='country']").val()
+
+    $.get("{% url 'admin_manage_event_member' %}", {'campaign':campaign, 'instance_query':instance_query, 'amount':amount, 'city':city, 'state':state, 'country':country}, function(result){
       $("#EventSupporterList").html(result['table'])   
 
       $( '#download' ).empty();

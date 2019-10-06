@@ -3127,35 +3127,54 @@ def admin_manage_mobilisation_member(request):
                 else:
                     pass
 
+            if country:
+                if state != 'all':
+                    instance_SupportGroupMembers = instance_SupportGroupMembers.filter(country__iexact=country)
+                else:
+                    pass
+
 
             table = render_to_string('admin_template/admin_manage_mobilisation_member_ajax.html',{
                 'instance_SupportGroupMembers':instance_SupportGroupMembers,
             })
 
-            if state:
+            if country:
                 # writing respons
                 context = {
                     'table':table,
                 }
                 return JsonResponse(context)
 
+            if state:
+                country_list = instance_SupportGroupMembers.values_list('country', flat=True).distinct().order_by('country')
+                # writing respons
+                context = {
+                    'table':table,
+                    'country_list':list(country_list),
+                }
+                return JsonResponse(context)
+
             elif city:
                 state_list = instance_SupportGroupMembers.values_list('state', flat=True).distinct().order_by('state')
+                country_list = instance_SupportGroupMembers.values_list('country', flat=True).distinct().order_by('country')
                 # writing respons
                 context = {
                     'table':table,
                     'state_list' : list(state_list),
+                    'country_list':list(country_list),
                 }
                 return JsonResponse(context)
 
             elif instance_query:
                 state_list = instance_SupportGroupMembers.values_list('state', flat=True).distinct().order_by('state')
                 city_list = instance_SupportGroupMembers.values_list('city', flat=True).distinct().order_by('city')
+                country_list = instance_SupportGroupMembers.values_list('country', flat=True).distinct().order_by('country')
                 # writing respons
                 context = {
                     'table':table,
                     'state_list' : list(state_list),
                     'city_list':list(city_list),
+                    'country_list':list(country_list),
                 }
                 return JsonResponse(context)
 
@@ -3163,12 +3182,14 @@ def admin_manage_mobilisation_member(request):
                 instance_query_list = instance_SupportGroup.values_list('id','title').distinct().order_by('title')
                 state_list = instance_SupportGroupMembers.values_list('state', flat=True).distinct().order_by('state')
                 city_list = instance_SupportGroupMembers.values_list('city', flat=True).distinct().order_by('city')
+                country_list = instance_SupportGroupMembers.values_list('country', flat=True).distinct().order_by('country')
                 # writing respons
                 context = {
                     'table':table,
                     'instance_query_list' : list(instance_query_list),
                     'state_list' : list(state_list),
                     'city_list':list(city_list),
+                    'country_list':list(country_list),
                 }
                 return JsonResponse(context)
 
@@ -3288,11 +3309,13 @@ def admin_manage_mobilisation_member(request):
         instance_query_list = instance_SupportGroup.values_list('id','title').distinct().order_by('title')
         campaign_state_list = instance_SupportGroupMembers.values_list('state', flat=True).distinct().order_by('state')
         campaign_city_list = instance_SupportGroupMembers.values_list('city', flat=True).distinct().order_by('city')
+        campaign_country_list = instance_SupportGroupMembers.values_list('country', flat=True).distinct().order_by('country')
         # writing respons
         context = {
             'instance_query_list' : instance_query_list,
             'campaign_state_list' : campaign_state_list,
             'campaign_city_list':campaign_city_list,
+            'campaign_country_list':campaign_country_list,
             'instance_SupportGroupMembers':instance_SupportGroupMembers
         }
         # instance_query_list = CampaignFundRaiser.objects.values_list('id','title').distinct().order_by('title')
@@ -3320,6 +3343,7 @@ def admin_manage_event_member(request):
         instance_query = request.GET.get('instance_query', None) 
         city = request.GET.get('city', None)
         state = request.GET.get('state', None)
+        country = request.GET.get('country', None)
         
         instance_Event = Event.objects.all()
         instance_EventGroupMembers = EventGroupMembers.objects.all()
@@ -3343,34 +3367,53 @@ def admin_manage_event_member(request):
             else:
                 pass
 
+        if country:
+            if country != 'all':
+                instance_EventGroupMembers = instance_EventGroupMembers.filter(country__iexact=country)
+            else:
+                pass
+
         table = render_to_string('admin_template/admin_manage_event_member_ajax.html',{
             'instance_EventGroupMembers':instance_EventGroupMembers,
         })
 
-        if state:
+        if country:
             # writing respons
             context = {
                 'table':table,
             }
             return JsonResponse(context)
 
+        if state:
+            country_list = instance_EventGroupMembers.values_list('country', flat=True).distinct().order_by('country')
+            # writing respons
+            context = {
+                'table':table,
+                'country_list' : list(country_list),
+            }
+            return JsonResponse(context)
+
         elif city:
             state_list = instance_EventGroupMembers.values_list('state', flat=True).distinct().order_by('state')
+            country_list = instance_EventGroupMembers.values_list('country', flat=True).distinct().order_by('country')
             # writing respons
             context = {
                 'table':table,
                 'state_list' : list(state_list),
+                'country_list' : list(country_list),
             }
             return JsonResponse(context)
 
         elif instance_query:
             state_list = instance_EventGroupMembers.values_list('state', flat=True).distinct().order_by('state')
             city_list = instance_EventGroupMembers.values_list('city', flat=True).distinct().order_by('city')
+            country_list = instance_EventGroupMembers.values_list('country', flat=True).distinct().order_by('country')
             # writing respons
             context = {
                 'table':table,
                 'state_list' : list(state_list),
                 'city_list':list(city_list),
+                'country_list':list(country_list),
             }
             return JsonResponse(context)
 
@@ -3378,12 +3421,14 @@ def admin_manage_event_member(request):
             instance_query_list = instance_Event.values_list('id','name').distinct().order_by('name')
             state_list = instance_EventGroupMembers.values_list('state', flat=True).distinct().order_by('state')
             city_list = instance_EventGroupMembers.values_list('city', flat=True).distinct().order_by('city')
+            country_list = instance_EventGroupMembers.values_list('country', flat=True).distinct().order_by('country')
             # writing response
             context = {
                 'table':table,
                 'instance_query_list' : list(instance_query_list),
                 'state_list' : list(state_list),
                 'city_list':list(city_list),
+                'country_list':list(country_list),
             }
             return JsonResponse(context)
 
@@ -3393,11 +3438,13 @@ def admin_manage_event_member(request):
         instance_query_list = Event.objects.values_list('id','name').distinct().order_by('name')
         campaign_state_list = instance_EventGroupMembers.values_list('state', flat=True).distinct().order_by('state')
         campaign_city_list = instance_EventGroupMembers.values_list('city', flat=True).distinct().order_by('city')
+        campaign_country_list = instance_EventGroupMembers.values_list('country', flat=True).distinct().order_by('country')
         # writing response
         context = {
             'instance_query_list' : instance_query_list,
             'campaign_state_list' : campaign_state_list,
             'campaign_city_list':campaign_city_list,
+            'campaign_country_list':campaign_country_list,
             'instance_EventGroupMembers':instance_EventGroupMembers
         }
         

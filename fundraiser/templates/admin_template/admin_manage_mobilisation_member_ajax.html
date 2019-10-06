@@ -8,6 +8,7 @@
         <th>Joining Date</th>
         <th>City</th>
         <th>State</th>
+        <th>Country</th>
         {% comment %} <th>Action <input type="checkbox" id="checkbox_parent" onchange="allCheckboxtocheck()" ></th> {% endcomment %}
     </thead>
     <tbody>
@@ -20,6 +21,7 @@
             <td>{{GroupMembers.created_at}}</td>
             <td>{{GroupMembers.city}}</td>
             <td>{{GroupMembers.state}}</td>
+            <td>{{GroupMembers.country}}</td>
             {% comment %} <td><input type="checkbox" value="{{GroupMembers.email}}"  name="email_id" onchange="childCheckboxtocheck()" class="child"> </td> {% endcomment %}
         </tr>
         {% endfor %}
