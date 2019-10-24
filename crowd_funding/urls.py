@@ -79,7 +79,7 @@ urlpatterns = [
     path('admin/manage/campaign-action/', views.admin_manage_campaign_action, name='admin_manage_campaign_action'),
     path('admin/manage/mobilisation-campaign-member/', views.admin_manage_support_group_member, name='admin_manage_support_group_member'),
     path('admin/manage/fundraiser-campaign-member/', views.admin_fundraiser_campaign_member, name='admin_fundraiser_campaign_member'),
-    path('admin/manage/event-member/', views.admin_event_member, name='admin_event_member'),
+    path('admin/manage/event-members/', views.admin_event_member, name='admin_event_member'),
     path('admin/manage/contributors/', views.admin_manage_contributors, name='admin_manage_contributors'),
     path('admin/manage/donors/', views.admin_manage_donors, name='admin_manage_donors'),
     path('admin/manage/(?P<ID>[0-9]+)/refund/(?P<status>[a-z,A-Z]+)/', views.admin_manage_refund_status, name='admin_manage_refund_status'),
@@ -112,6 +112,7 @@ urlpatterns = [
     re_path('admin/manage/generic-user/(?P<ID>[0-9]+)/delete/', views.admin_manage_generic_user_delete, name='admin_manage_generic_user_delete'),
     re_path('admin/manage/generic-user/(?P<ID>[0-9]+)/edit/', views.admin_manage_generic_user_edit, name='admin_manage_generic_user_edit'),
     path('generic-user/', views.generic_user_view, name='generic_user_view'),
+    path('platform-generic-user/', views.platform_generic_user, name='platform_generic_user'),
 
     path('public-personas/get-department-user', views.public_personas_get_department_user, name='public_personas_get_department_user'),
     path('public-personas/', views.public_personas, name='public_personas'),
@@ -125,6 +126,10 @@ urlpatterns = [
 
     path('admin/manage/cashfree/credential/', views.admin_manage_cashfree_credential, name='admin_manage_cashfree_credential'),
     path('admin/manage/commission/', views.admin_manage_commission, name='admin_manage_commission'),
+
+    path('admin/manage/fundraiser-member/', views.admin_manage_fundraiser_member, name='admin_manage_fundraiser_member'),
+    path('admin/manage/mobilisation-member/', views.admin_manage_mobilisation_member, name='admin_manage_mobilisation_member'),
+    path('admin/manage/event-member/', views.admin_manage_event_member, name='admin_manage_event_member'),
     #------------------- admin ----------------------------#
 
     #--------------- login user ----------------------------#

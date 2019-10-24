@@ -108,8 +108,11 @@
                   <li>
                       <a href="{% url 'admin_manage_cause' %}">Create New Cause</a>                      
                   </li>
-                  <li>
+                  {% comment %} <li>
                       <a href="{% url 'generic_user_view' %}">Manage Generic User</a>                      
+                  </li> {% endcomment %}
+                  <li>
+                      <a href="{% url 'platform_generic_user' %}">Manage Generic User</a>
                   </li>
                   <li>
                       <a href="{% url 'admin_manage_media' %}">Media Article</a>                      
@@ -133,20 +136,29 @@
                       <a href="{% url 'admin_manage_event' %}">​Authorize/Edit event ({{ 'test'|get_unauthorized_event }})</a>
                   </li>
 
-                  <li>
+                  {% comment %} <li>
                       <a href="{% url 'admin_manage_support_group_member' %}">Mobilisation Campaign Member​</a>
-                  </li>
+                  </li> {% endcomment %}
                   <li>
+                      <a href="{% url 'admin_manage_mobilisation_member' %}">Mobilisation Campaign Member​</a>
+                  </li>
+                  {% comment %} <li>
                       <a href="{% url 'admin_fundraiser_campaign_member' %}">Fundraiser Campaign Member​</a>
-                  </li>
+                  </li> {% endcomment %}
                   <li>
+                      <a href="{% url 'admin_manage_fundraiser_member' %}">Fundraiser Campaign Members​</a>
+                  </li>
+                  {% comment %} <li>
                       <a href="{% url 'admin_event_member' %}">Event Member​</a>
-                  </li>
+                  </li> {% endcomment %}
                   <li>
+                      <a href="{% url 'admin_manage_event_member' %}">Event Member​s</a>
+                  </li>
+                  {% comment %} <li>
                       <a href="{% url 'admin_manage_contributors' %}">Contributors</a>
-                  </li>
+                  </li> {% endcomment %}
                   <li>
-                      <a href="{% url 'admin_manage_donors' %}">Donors</a>
+                      <a href="{% url 'admin_manage_donors' %}">Donors/Contributors</a>
                   </li>
                   <li>
                       <a href="{% url 'admin_manage_refund' %}">Refund</a>
