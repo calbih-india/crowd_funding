@@ -180,7 +180,7 @@
                         aria-labelledby="my-Campaigns-tab">
                         <div class="DItemsDiv">
                             {% for fundraiser in instance_CampaignFundRaiser %}
-                            <a href="{% url 'campaign_selected' fundraiser.id fundraiser.title %}" class="DItemDiv">
+                            <a href="{% url 'campaign_selected' fundraiser.url_text %}" class="DItemDiv">
                                 <img src="/media/{{ fundraiser.picture }}" class="DItemImage" alt="">
                                 <div class="DItemIconDiv">
                                     <img src="data:image/png;base64,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"
@@ -222,7 +222,7 @@
                     <div class="tab-pane fade " id="Supported" role="tabpanel" aria-labelledby="Supported-tab">
                         <div class="DItemsDiv">
                             {% for fundraiser in instance_supported_CampaignFundRaiser %}
-                            <a href="{% url 'campaign_selected' fundraiser.id fundraiser.title %}" class="DItemDiv">
+                            <a href="{% url 'campaign_selected' fundraiser.url_text %}" class="DItemDiv">
                                 <img src="/media/{{ fundraiser.picture }}" class="DItemImage" alt="">
                                 <div class="DItemIconDiv">
                                     <img src="data:image/png;base64,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"
@@ -265,7 +265,7 @@
                         aria-labelledby="my-Supported-grp-tab">
                         <div class="DItemsDiv">
                             {% for supportgroup in instance_SupportGroup %}
-                            <a href="{% url 'support_group_selected' supportgroup.id supportgroup.title %}" class="DItemDiv">
+                            <a href="{% url 'support_group_selected' supportgroup.url_text %}" class="DItemDiv">
                                 <img src="/media/{{supportgroup.picture}}"
                                     class="DItemImage" alt="">
                                 <div class="DItemDetailsDiv">
@@ -299,7 +299,7 @@
                         aria-labelledby="Supported-Support-grp-tab">
                         <div class="DItemsDiv">
                             {% for supportgroup in instance_joined_SupportGroup %}
-                            <a href="{% url 'support_group_selected' supportgroup.id supportgroup.title %}" class="DItemDiv">
+                            <a href="{% url 'support_group_selected' supportgroup.url_text %}" class="DItemDiv">
                                 <img src="/media/{{supportgroup.picture}}"
                                     class="DItemImage" alt="">
                                 <div class="DItemDetailsDiv">
@@ -333,7 +333,7 @@
                         aria-labelledby="my-Supported-grp-tab">
                         <div class="DItemsDiv">
                             {% for Event in instance_Event %}
-                            <a href="{% url 'event_selected' Event.id Event.name %}" class="DItemDiv">
+                            <a href="{% url 'event_selected' Event.url_text %}" class="DItemDiv">
                                 <img src="/media/{{Event.image}}"
                                     class="DItemImage" alt="">
                                 <div class="DItemDetailsDiv">
@@ -367,7 +367,7 @@
                         aria-labelledby="Supported-Support-grp-tab">
                         <div class="DItemsDiv">
                             {% for Event in instance_joined_EventGroup %}
-                            <a href="{% url 'event_selected' Event.id Event.name %}" class="DItemDiv">
+                            <a href="{% url 'event_selected' Event.url_text %}" class="DItemDiv">
                                 <img src="/media/{{Event.image}}"
                                     class="DItemImage" alt="">
                                 <div class="DItemDetailsDiv">

@@ -2,7 +2,7 @@
     <div class="DItemsDiv">
         {% for event in instance_Event %}
         <div class="DItemDiv">
-            <a class="w-100" href="{% url 'event_selected' event.id event.name %}" target="_blank">
+            <a class="w-100" href="{% url 'my_event_dashboard' event.url_text %}">
                 <img src="/media/{{event.image}}" class="DItemImage" alt="" draggable="false">
                 <div class="DItemDetailsDiv ml-auto mr-auto">
                     <p class="DItemTitle">{{event.name}}</p>
@@ -35,9 +35,9 @@
             </a>
             <div class="DItemActionDiv">
                 <ul class="DItemActionDiv_con campaignAction_div">
-                    <li>
+                    <!-- <li>
                         <span style=" text-align: center;">Edit</span>
-                        <a href="{% url 'event_selected' event.id event.name %}" target="_blank"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                        <a href="{% url 'event_selected' event.url_text %}" target="_blank"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                     </li>
                     <li>
 
@@ -45,7 +45,64 @@
                         <a href="javascript:void(0)" data-toggle="modal" data-target="#support_user" aria-hidden="true" onclick="SupportUser('{% url 'my_event_user' event.id %}')">
                             <i class="fa fa-users" aria-hidden="true"></i>
                         </a>
-                    </li>
+                    </li> -->
+                    <!-- <li>
+                        <span style="     width: 125%; text-align: center;">Dashboard</span>
+                        <a href="{% url 'my_event_dashboard' event.url_text %}" target="_blank">
+                                <svg version="1.1" fill="#ec156e" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                width="20px" height="20px" viewBox="0 0 93.802 93.802" style="enable-background:new 0 0 93.802 93.802;"
+                                xml:space="preserve">
+                           <g>
+                               <g>
+                                   <polygon points="46.746,93.802 54.7,77.1 39.102,77.123 		"/>
+                                   <path d="M2.167,0v73.199h89.468V0H2.167z M85.825,67.391H7.977V5.81h77.848V67.391z"/>
+                                   <path d="M27.607,34.385l-10.45,10.874v18.349c0,0.516,0.419,0.936,0.936,0.936h12.688c0.517,0,0.936-0.419,0.936-0.936V35.461
+                                       l-2.926-1.076H27.607z"/>
+                                   <path d="M53.45,42.913H40.763c-0.518,0-0.937,0.419-0.937,0.936v19.758c0,0.517,0.419,0.937,0.937,0.937H53.45
+                                       c0.517,0,0.936-0.419,0.936-0.937V43.848C54.386,43.332,53.967,42.913,53.45,42.913z"/>
+                                   <path d="M71.892,22.785l-2.305-1.926l-8.339,9.097v33.651c0,0.516,0.419,0.936,0.937,0.936h12.688
+                                       c0.517,0,0.936-0.419,0.936-0.936V23.095c-0.052,0.03-0.099,0.067-0.152,0.094c-0.485,0.254-1.03,0.388-1.578,0.388
+                                       C73.278,23.578,72.504,23.297,71.892,22.785z"/>
+                                   <path d="M14.057,43.857c0.491,0,0.982-0.193,1.35-0.575L27.35,30.854l20.897,7.689c0.714,0.261,1.512,0.068,2.027-0.492
+                                       L69.517,17.06l4.502,3.764c0.221,0.184,0.528,0.216,0.782,0.084c0.253-0.133,0.403-0.404,0.377-0.691L74.202,9.305
+                                       c-0.034-0.39-0.379-0.677-0.768-0.642L62.521,9.637c-0.285,0.025-0.527,0.221-0.613,0.494c-0.027,0.09-0.036,0.183-0.028,0.274
+                                       c0.017,0.184,0.104,0.358,0.251,0.48l4.512,3.771l-18.279,19.94l-20.866-7.678c-0.699-0.255-1.481-0.075-1.997,0.459
+                                       L12.708,40.688c-0.716,0.746-0.693,1.93,0.053,2.646C13.123,43.683,13.59,43.857,14.057,43.857z"/>
+                               </g>
+                           </g>
+                           <g>
+                           </g>
+                           <g>
+                           </g>
+                           <g>
+                           </g>
+                           <g>
+                           </g>
+                           <g>
+                           </g>
+                           <g>
+                           </g>
+                           <g>
+                           </g>
+                           <g>
+                           </g>
+                           <g>
+                           </g>
+                           <g>
+                           </g>
+                           <g>
+                           </g>
+                           <g>
+                           </g>
+                           <g>
+                           </g>
+                           <g>
+                           </g>
+                           <g>
+                           </g>
+                           </svg>
+                        </a>
+                    </li> -->
                 </ul>
             </div>
         </div>
@@ -76,7 +133,7 @@
     <div class="DItemsDiv">
         {% for supportgroup in instance_SupportGroup %}
             <div class="DItemDiv">
-                <a class="w-100" href="{% url 'support_group_selected' supportgroup.id supportgroup.title %}" target="_blank">
+                <a class="w-100" href="{% url 'my_mobilisation_campaign_dashboard' supportgroup.url_text %}">
                     <img src="/media/{{ supportgroup.picture }}" class="DItemImage" alt="" draggable="false">
                     <div class="DItemDetailsDiv ml-auto mr-auto">
                         <p class="DItemTitle"> {{ supportgroup.title }}</p>
@@ -104,16 +161,73 @@
                 </a>
                 <div class="DItemActionDiv">
                     <ul class="DItemActionDiv_con campaignAction_div">
-                        <li>
+                        <!-- <li>
                             <span style=" text-align: center;">Edit</span>
-                            <a href="{% url 'support_group_selected' supportgroup.id supportgroup.title %}" target="_blank"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                            <a href="{% url 'support_group_selected' supportgroup.url_text %}" target="_blank"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                         </li>
                         <li>                        
                             <span style=" text-align: center;">Support User</span>
                             <a href="javascript:void(0)" data-toggle="modal" data-target="#support_user" aria-hidden="true" onclick="SupportUser('{% url 'my_support_group_user' supportgroup.id %}')">
                                 <i class="fa fa-users" aria-hidden="true"></i>
                             </a>
-                        </li>
+                        </li> -->
+                        <!-- <li>                        
+                            <span style="     width: 125%; text-align: center;">Dashboard</span>
+                            <a href="{% url 'my_mobilisation_campaign_dashboard' supportgroup.url_text %}">
+                                    <svg version="1.1" fill="#ec156e" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                    width="20px" height="20px" viewBox="0 0 93.802 93.802" style="enable-background:new 0 0 93.802 93.802;"
+                                    xml:space="preserve">
+                               <g>
+                                   <g>
+                                       <polygon points="46.746,93.802 54.7,77.1 39.102,77.123 		"/>
+                                       <path d="M2.167,0v73.199h89.468V0H2.167z M85.825,67.391H7.977V5.81h77.848V67.391z"/>
+                                       <path d="M27.607,34.385l-10.45,10.874v18.349c0,0.516,0.419,0.936,0.936,0.936h12.688c0.517,0,0.936-0.419,0.936-0.936V35.461
+                                           l-2.926-1.076H27.607z"/>
+                                       <path d="M53.45,42.913H40.763c-0.518,0-0.937,0.419-0.937,0.936v19.758c0,0.517,0.419,0.937,0.937,0.937H53.45
+                                           c0.517,0,0.936-0.419,0.936-0.937V43.848C54.386,43.332,53.967,42.913,53.45,42.913z"/>
+                                       <path d="M71.892,22.785l-2.305-1.926l-8.339,9.097v33.651c0,0.516,0.419,0.936,0.937,0.936h12.688
+                                           c0.517,0,0.936-0.419,0.936-0.936V23.095c-0.052,0.03-0.099,0.067-0.152,0.094c-0.485,0.254-1.03,0.388-1.578,0.388
+                                           C73.278,23.578,72.504,23.297,71.892,22.785z"/>
+                                       <path d="M14.057,43.857c0.491,0,0.982-0.193,1.35-0.575L27.35,30.854l20.897,7.689c0.714,0.261,1.512,0.068,2.027-0.492
+                                           L69.517,17.06l4.502,3.764c0.221,0.184,0.528,0.216,0.782,0.084c0.253-0.133,0.403-0.404,0.377-0.691L74.202,9.305
+                                           c-0.034-0.39-0.379-0.677-0.768-0.642L62.521,9.637c-0.285,0.025-0.527,0.221-0.613,0.494c-0.027,0.09-0.036,0.183-0.028,0.274
+                                           c0.017,0.184,0.104,0.358,0.251,0.48l4.512,3.771l-18.279,19.94l-20.866-7.678c-0.699-0.255-1.481-0.075-1.997,0.459
+                                           L12.708,40.688c-0.716,0.746-0.693,1.93,0.053,2.646C13.123,43.683,13.59,43.857,14.057,43.857z"/>
+                                   </g>
+                               </g>
+                               <g>
+                               </g>
+                               <g>
+                               </g>
+                               <g>
+                               </g>
+                               <g>
+                               </g>
+                               <g>
+                               </g>
+                               <g>
+                               </g>
+                               <g>
+                               </g>
+                               <g>
+                               </g>
+                               <g>
+                               </g>
+                               <g>
+                               </g>
+                               <g>
+                               </g>
+                               <g>
+                               </g>
+                               <g>
+                               </g>
+                               <g>
+                               </g>
+                               <g>
+                               </g>
+                               </svg>
+                            </a>
+                        </li> -->
         
                     </ul>
                 </div>
@@ -146,7 +260,7 @@
         <div class="DItemsDiv">
             {% for fundraiser in instance_CampaignFundRaiser %}
                 <div class="DItemDiv">
-                 <a class="w-100" href="{% url 'campaign_selected' fundraiser.id fundraiser.title %}" target="_blank" >
+                 <a class="w-100" href="{% url 'my_fundraiser_campaign_dashboard' fundraiser.url_text %}">
                     <img src="/media/{{ fundraiser.picture }}" class="DItemImage" alt="" draggable="false">
                     <div class="DItemDetailsDiv ml-auto mr-auto">
                         <p class="DItemTitle"> {{ fundraiser.title }}</p>
@@ -184,28 +298,79 @@
                   </a>
                     <div class="DItemActionDiv">
                         <ul class="DItemActionDiv_con campaignAction_div">
-                            <li>
+                            <!-- <li>
                                 <span style=" text-align: center;">Edit</span>
-                                <a href="{% url 'campaign_selected' fundraiser.id fundraiser.title %}" target="_blank"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                            </li>
-                            <li>
-                                <span style="    width: 125%; text-align: center;">Funds Summary</span>
-                                <a href="javascript:void(0)" aria-hidden="true" onclick="funds_summary('{% url 'campaign_funds_summary' fundraiser.id %}')">
-                                    <i class="fa fa-files-o" aria-hidden="true"></i>
+                                <a href="{% url 'campaign_selected' fundraiser.url_text %}" target="_blank"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                            </li> -->
+                            <!-- <li>
+                                <span style="    width: 125%; text-align: center;">Dashboard</span>
+                                <a href="{% url 'my_fundraiser_campaign_dashboard' fundraiser.url_text %}">
+                                        <svg version="1.1" fill="#ec156e" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                        width="20px" height="20px" viewBox="0 0 93.802 93.802" style="enable-background:new 0 0 93.802 93.802;"
+                                        xml:space="preserve">
+                                   <g>
+                                       <g>
+                                           <polygon points="46.746,93.802 54.7,77.1 39.102,77.123 		"/>
+                                           <path d="M2.167,0v73.199h89.468V0H2.167z M85.825,67.391H7.977V5.81h77.848V67.391z"/>
+                                           <path d="M27.607,34.385l-10.45,10.874v18.349c0,0.516,0.419,0.936,0.936,0.936h12.688c0.517,0,0.936-0.419,0.936-0.936V35.461
+                                               l-2.926-1.076H27.607z"/>
+                                           <path d="M53.45,42.913H40.763c-0.518,0-0.937,0.419-0.937,0.936v19.758c0,0.517,0.419,0.937,0.937,0.937H53.45
+                                               c0.517,0,0.936-0.419,0.936-0.937V43.848C54.386,43.332,53.967,42.913,53.45,42.913z"/>
+                                           <path d="M71.892,22.785l-2.305-1.926l-8.339,9.097v33.651c0,0.516,0.419,0.936,0.937,0.936h12.688
+                                               c0.517,0,0.936-0.419,0.936-0.936V23.095c-0.052,0.03-0.099,0.067-0.152,0.094c-0.485,0.254-1.03,0.388-1.578,0.388
+                                               C73.278,23.578,72.504,23.297,71.892,22.785z"/>
+                                           <path d="M14.057,43.857c0.491,0,0.982-0.193,1.35-0.575L27.35,30.854l20.897,7.689c0.714,0.261,1.512,0.068,2.027-0.492
+                                               L69.517,17.06l4.502,3.764c0.221,0.184,0.528,0.216,0.782,0.084c0.253-0.133,0.403-0.404,0.377-0.691L74.202,9.305
+                                               c-0.034-0.39-0.379-0.677-0.768-0.642L62.521,9.637c-0.285,0.025-0.527,0.221-0.613,0.494c-0.027,0.09-0.036,0.183-0.028,0.274
+                                               c0.017,0.184,0.104,0.358,0.251,0.48l4.512,3.771l-18.279,19.94l-20.866-7.678c-0.699-0.255-1.481-0.075-1.997,0.459
+                                               L12.708,40.688c-0.716,0.746-0.693,1.93,0.053,2.646C13.123,43.683,13.59,43.857,14.057,43.857z"/>
+                                       </g>
+                                   </g>
+                                   <g>
+                                   </g>
+                                   <g>
+                                   </g>
+                                   <g>
+                                   </g>
+                                   <g>
+                                   </g>
+                                   <g>
+                                   </g>
+                                   <g>
+                                   </g>
+                                   <g>
+                                   </g>
+                                   <g>
+                                   </g>
+                                   <g>
+                                   </g>
+                                   <g>
+                                   </g>
+                                   <g>
+                                   </g>
+                                   <g>
+                                   </g>
+                                   <g>
+                                   </g>
+                                   <g>
+                                   </g>
+                                   <g>
+                                   </g>
+                                   </svg>
                                 </a>
-                            </li>
-                            <li>
-                                 <span style="    width: 125%; text-align: center;">Withdrawal Request</span>
-                                <a href="javascript:void(0)" onclick="withdrawal_request('{% url 'campaign_withdrawal' fundraiser.id  %}')" aria-hidden="true">
-                                    <i class="fa fa-money" aria-hidden="true"></i>
-                                </a>
-                            </li>
-                            <li>
-                                <span style=" text-align: center;">Support User</span>
-                                <a href="javascript:void(0)" data-toggle="modal" data-target="#support_user" aria-hidden="true" onclick="SupportUser('{% url 'campaign_user' fundraiser.id %}')">
-                                    <i class="fa fa-users" aria-hidden="true"></i>
-                                </a>
-                            </li>
+                            </li> -->
+                            <!-- <li>
+                                    <span style="    width: 125%; text-align: center;">Funds Summary</span>
+                                    <a href="javascript:void(0)" aria-hidden="true" onclick="funds_summary('{% url 'campaign_funds_summary' fundraiser.id %}')">
+                                        <i class="fa fa-files-o" aria-hidden="true"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                     <span style="    width: 125%; text-align: center;">Withdrawal Request</span>
+                                    <a href="javascript:void(0)" onclick="withdrawal_request('{% url 'campaign_withdrawal' fundraiser.id  %}')" aria-hidden="true">
+                                        <i class="fa fa-money" aria-hidden="true"></i>
+                                    </a>
+                                </li> -->
             
                         </ul>
                     </div>

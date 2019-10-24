@@ -1,0 +1,1446 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+  <meta name="theme-color" content="#000000">
+ 
+  <link rel="shortcut icon" href="https://www.ourdemocracy.in/favicon.ico">
+  <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,400,700&display=swap" rel="stylesheet">
+  <meta property="og:site_name" content="Crowd Funding">
+
+  {% block title %}
+  <title>Crowd Funding | Dashboard </title>
+  {% endblock %}
+
+  {% block meta_tag %}
+    <meta name="description"
+      content="Crowd Funding is about raising awarness and a platform to bring change by the people for the people">
+    <meta name="og:title" content="Crowd Funding">
+    <meta name="og:description"
+      content="Crowd Funding is about raising awarness and a platform to bring change by the people for the people">
+    <meta name="og:image" content="https://www.ourdemocracy.in/src/assets/images/check/static/Home_2.jpg">
+    <meta name="og:url" content="https://www.ourdemocracy.in/">
+  {% endblock %}
+  
+  <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/static/css/select2.min.css" rel="stylesheet">
+  
+  <link href="/static/css/style2.css" rel="stylesheet">
+  <link href="/static/css/component.css" rel="stylesheet">
+  <link href="/static/css/jquery.dataTables.min.css" rel="stylesheet">
+  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="/static/css/jquery-te-1.4.0.css" rel="stylesheet">
+
+
+  {% block extra_style %}
+  {% endblock %}
+  <link href="/static/css/style.css" rel="stylesheet">
+
+</head>
+
+<body>
+  <div id="root">
+      <div class="jss49 bg_fff" id="mainNav">
+          <header class="jss71 jss77 jss62 jss66">
+              <nav class="navbar navbar-expand-xl navbar-light bg-light">
+              
+                <div id="page-wrap w-100">
+                  <a class="navbar-brand" href="/">
+                    <div class="jss47"><img src="/static/images/logo.png" class="jss48" alt=""></div>
+                  </a>
+                  <!-- <button type="button" id="sidebarCollapse" class="btn btn-info">
+                      <i class="fa fa-bars" aria-hidden="true"></i>
+                  </button> -->
+                  
+                </div>   
+                
+                <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#links" aria-controls="links" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                  </button> -->
+
+                <button type="button" id="sidebarCollapse" class="btn btn-info navbar-toggler">
+                    <i class="fa fa-bars" aria-hidden="true"></i>
+                </button>
+  
+                  <div  class="collapse navbar-collapse jss61" id="links">
+                      <div id="search">
+                          <div class="jss50"></div>
+                          <div class="jss53">
+                            <div class="jss54">
+                              <svg class="jss102" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="presentation">
+                                <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"> </path>
+                                <path fill="none" d="M0 0h24v24H0z"></path>
+                              </svg>
+                            </div>
+                            <form action="{% url 'discover' %}" method="POST" class="jss124 jss111 jss55 mb-0">                        
+                                {% csrf_token %}
+                                <input class="jss134 jss119 jss56" name="title" placeholder="Search campaigns..." type="text" value="">                            
+                           </form>
+                          </div>
+                        </div>
+                    <ul class="navbar-nav ml-auto">
+                      <li class="nav-item jss59 {% if 'discover' in request.path %}active{% endif %}">
+                        <a class="nav-link jss167 jss141 jss143 jss146 jss162" href="{% url 'discover' %}"><span class="jss142 jss58">Discover</span><span class="jss339"></span> {% if 'discover' in request.path %}<span class="sr-only">(current)</span>{% endif %} </a>
+                      </li>
+                      <li class="nav-item jss59 {% if 'how-it-works' in request.path %}active{% endif %}">
+                        <a class="nav-link jss167 jss141 jss143 jss146 jss162" href="{% url 'how_it_works' %}"><span class="jss142 jss58">How it works</span><span class="jss339"></span></a>
+                      </li>
+                      <li class="nav-item jss59 {% if 'services' in request.path %}active{% endif %}">
+                        <a class="nav-link jss167 jss141 jss143 jss146 jss162" href="{% url 'services' %}" ><span class="jss142 jss58">Services</span><span class="jss339"></span></a>
+                      </li>
+                      <li class="nav-item jss59 {% if 'tips' in request.path %}active{% endif %}">
+                        <a class="nav-link jss167 jss141 jss143 jss146 jss162" href="{% url 'tips' %}" ><span class="jss142 jss58">Tips</span><span class="jss339"></span></a>
+                      </li>
+                      <li class="nav-item jss59 {% if 'Medias' in request.path %}active{% endif %}">
+                        <a class="nav-link jss167 jss141 jss143 jss146 jss162" href="{% url 'media' %}" ><span class="jss142 jss58">Media</span><span class="jss339"></span></a>
+                      </li>
+                      {% if request.user.is_anonymous %}
+                      <li class="nav-item jss59">
+                          <a class="nav-link jss167 jss141 jss143 jss146 jss162" href="{% url 'login' %}" ><span class="jss142 jss170">Login</span><span class="jss339"></span></a>
+                        </li>
+                        {% endif %}
+                        {% if not request.user.is_anonymous %}
+                      {% if request.user.user_type == 'End User' %}
+                          <li class="nav-item jss59">
+                        <a class="nav-link jss167 jss141 jss143 jss146 jss162" href="{% url 'dashboard' %}" ><span class="jss142 jss58">Dashboard</span><span class="jss339"></span></a>
+                      </li>
+                      <li class="nav-item dropdown text-center mr-4 right_zero">
+                          <a class="nav-link dropdown-toggle  icon_navbar" href="#" id="navbarDropdown" role="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              <i class="fa fa-user-circle-o" aria-hidden="true"></i> 
+                          </a>
+                          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{% url 'my_profile' %}"><i class="fa fa-user mr-2" aria-hidden="true"></i> Profile</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{% url 'logout' %}"><i class="fa fa-sign-out mr-2" aria-hidden="true"></i> Logout</a>
+                          </div>
+                        </li>
+                      {% else %}
+                      <li class="nav-item jss59">
+                          <a class="nav-link jss167 jss141 jss143 jss146 jss162" href="{% url 'admin_dashboard' %}" ><span class="jss142 jss58">Dashboard</span><span class="jss339"></span></a>
+                        </li>
+                        <li class="nav-item text-center dropdown mr-4 right_zero">
+                            <a class="nav-link dropdown-toggle  icon_navbar" href="#" id="navbarDropdown" role="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-user-circle-o" aria-hidden="true"></i> 
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                              <a class="dropdown-item" href="{% url 'my_profile' %}"><i class="fa fa-user mr-2" aria-hidden="true"></i> Profile</a>
+                              <div class="dropdown-divider"></div>
+                              <a class="dropdown-item" href="{% url 'logout' %}"><i class="fa fa-sign-out mr-2" aria-hidden="true"></i> Logout</a>
+                            </div>
+                          </li>
+                      {% endif %}
+                    {% endif %}
+                    
+                    
+                    </ul>
+                    <div class="jss59"><a class="jss167 jss141 jss149 jss150 jss57" tabindex="0" role="button"
+                      href="{% url 'chose_campaign' %}"><span class="jss142 jss58">Start a Campaign</span><span
+                        class="jss339"></span></a></div>
+                  </div>
+              </nav>
+            </header>
+      </div>
+      <div class="wrapper">
+           <!-- Sidebar  -->
+          <nav id="sidebar">
+            <div class="mobile_mode_sidebar">
+              <div class="sidebar-header">
+                <a class="navbar-brand" href="/">
+                  <div class="w-100"><img src="/static/images/logo.png" class="w-100" alt=""></div>
+                </a>
+              </div>
+              <div class="w-100">
+                <div class="mt-3" style="display: flex; width: 100%;justify-content:center;align-items: center;cursor: pointer;"
+                  data-toggle="modal" data-target="#dashboard_modal">
+                  <div
+                    style="color: rgb(0, 227, 154);width: 15px;height: 15px;line-height:15px;border-radius: 50%;background:rgb(0, 227, 154)">
+                  </div>
+                  <p class="ml-2 mb-0"
+                    style="text-transform: none; font-weight: bold;width: 110px;text-overflow: ellipsis; white-space: nowrap;overflow: hidden;">
+                    {{instance_SupportGroup.title}}</p>
+                </div>
+              </div>
+            </div>
+          
+            <ul class="list-unstyled components">
+              <div class="mobile_mode_sidebar">
+                <li>
+                  <a href="{% url 'chose_campaign' %}">
+                    <span class="sidebar_icon">
+          
+                      <svg class="jss655" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="presentation">
+                        <path fill="none" d="M0 0h24v24H0z"></path>
+                        <path
+                          d="M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4V7zm-1-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z">
+                        </path>
+                      </svg>
+                    </span>
+                    <span class="js3214">New Campaign</span>
+                  </a>
+          
+                </li>
+                <li class="submenu">
+                  <a class="collapsed dropdown-toggle" aria-expanded="false" data-toggle="collapse" href="#profile">
+                    <span class="sidebar_icon">
+                      <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+                    </span>
+          
+                    <span class="js3214 d-inline-block " style="cursor:pointer">Profile</span>
+                  </a>
+                  <ul id="profile" class="collapse " data-parent="#sidebar">
+                    <li>
+                      <a href="{% url 'my_profile' %}">Profile</a>
+                    </li>
+                    <li class="active">
+                      <a href="{% url 'logout' %}">Log Out</a>
+                    </li>
+                  </ul>
+                </li>
+              </div>
+          
+          
+              <li {% if 'dashboard' in request.path %}class="active" {% endif %}>
+                <a href="{% url 'my_mobilisation_campaign_dashboard' instance_SupportGroup.url_text %}">
+                  <span class="sidebar_icon"><svg focusable="false" class="jss655" viewBox="0 0 24 24" aria-hidden="true"
+                      role="presentation">
+                      <path fill="none" d="M0 0h24v24H0z"></path>
+                      <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"></path>
+                    </svg></span>
+                  <span class="js3214">Dashboard</span>
+                </a>
+          
+              </li>
+              <li {% if 'modify' in request.path %}class="active" {% endif %}>
+                <a href="{% url 'my_mobilisation_campaign_modify' instance_SupportGroup.url_text %}">
+                  <span class="sidebar_icon">
+                    <svg class="jss655" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="presentation">
+                      <path
+                        d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34a.9959.9959 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z">
+                      </path>
+                      <path fill="none" d="M0 0h24v24H0z"></path>
+                    </svg>
+                  </span>
+                  <span class="js3214 " style="cursor:pointer">Edit Mobilisation Campaign</span>
+                </a>
+          
+              </li>
+          
+              <li {% if 'updates' in request.path or 'buzz' in request.path or 'Custome-Note' in request.path %}class="active submenu"{% else %} class="submenu" {% endif %} >
+                <a class="collapsed dropdown-toggle" aria-expanded="{% if 'updates' in request.path or 'buzz' in request.path or 'Custome-Note' in request.path %}true{% else %}false{% endif %}" data-toggle="collapse" href="#PromoteFund">
+                  <span class="sidebar_icon">
+                    <svg aria-hidden="true" focusable="false" class="jss655" data-prefix="fas" data-icon="bullhorn" role="img"
+                      xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+                      <path
+                        d="M576 240c0-23.63-12.95-44.04-32-55.12V32.01C544 23.26 537.02 0 512 0c-7.12 0-14.19 2.38-19.98 7.02l-85.03 68.03C364.28 109.19 310.66 128 256 128H64c-35.35 0-64 28.65-64 64v96c0 35.35 28.65 64 64 64h33.7c-1.39 10.48-2.18 21.14-2.18 32 0 39.77 9.26 77.35 25.56 110.94 5.19 10.69 16.52 17.06 28.4 17.06h74.28c26.05 0 41.69-29.84 25.9-50.56-16.4-21.52-26.15-48.36-26.15-77.44 0-11.11 1.62-21.79 4.41-32H256c54.66 0 108.28 18.81 150.98 52.95l85.03 68.03a32.023 32.023 0 0 0 19.98 7.02c24.92 0 32-22.78 32-32V295.13C563.05 284.04 576 263.63 576 240zm-96 141.42l-33.05-26.44C392.95 311.78 325.12 288 256 288v-96c69.12 0 136.95-23.78 190.95-66.98L480 98.58v282.84z">
+                      </path>
+                    </svg>
+                  </span>
+          
+                  <span class="js3214 d-inline-block " style="cursor:pointer">Promote Mobilisation Campaign</span>
+                </a>
+                <ul id="PromoteFund" class="collapse {% if 'updates' in request.path or 'buzz' in request.path or 'Custome-Note' in request.path %}show{% endif %}" data-parent="#sidebar">
+                  <li {% if 'updates' in request.path %}class="active" {% endif %}>
+                    <a href="{% url 'my_mobilisation_campaign_updates' instance_SupportGroup.url_text %}">Post An Update</a>
+                  </li>
+                  <li {% if 'buzz' in request.path %}class="active" {% endif %}>
+                    <a href="{% url 'my_mobilisation_campaign_buzz' instance_SupportGroup.url_text %}">Buzz About The Mobilisation Campaign</a>
+                  </li>
+                  <li {% if 'Custome-Note' in request.path %}class="active" {% endif %}>
+                    <a href="{% url 'my_mobilisation_campaign_custome_note' instance_SupportGroup.url_text %}">Customize Thank You Note</a>
+                  </li>
+                </ul>
+              </li>
+              <li {% if 'comment' in request.path or 'donor-info' in request.path %}class="active submenu"{% else %} class="submenu" {% endif %}>
+                <a class="collapsed dropdown-toggle" aria-expanded="{% if 'comment' in request.path or 'donor-info' in request.path %}true{% else %}false{% endif %}" data-toggle="collapse" href="#activity">
+                  <span class="sidebar_icon">
+                    <svg aria-hidden="true" class="jss655" data-prefix="fas" data-icon="history" role="img"
+                      xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                      <path
+                        d="M504 255.531c.253 136.64-111.18 248.372-247.82 248.468-59.015.042-113.223-20.53-155.822-54.911-11.077-8.94-11.905-25.541-1.839-35.607l11.267-11.267c8.609-8.609 22.353-9.551 31.891-1.984C173.062 425.135 212.781 440 256 440c101.705 0 184-82.311 184-184 0-101.705-82.311-184-184-184-48.814 0-93.149 18.969-126.068 49.932l50.754 50.754c10.08 10.08 2.941 27.314-11.313 27.314H24c-8.837 0-16-7.163-16-16V38.627c0-14.254 17.234-21.393 27.314-11.314l49.372 49.372C129.209 34.136 189.552 8 256 8c136.81 0 247.747 110.78 248 247.531zm-180.912 78.784l9.823-12.63c8.138-10.463 6.253-25.542-4.21-33.679L288 256.349V152c0-13.255-10.745-24-24-24h-16c-13.255 0-24 10.745-24 24v135.651l65.409 50.874c10.463 8.137 25.541 6.253 33.679-4.21z">
+                      </path>
+                    </svg>
+                  </span>
+                  <span class="js3214 d-inline-block" style="cursor:pointer">Activity</span>
+                </a>
+                <ul id="activity" class="collapse {% if 'comment' in request.path or 'donor-info' in request.path %}show{% endif %}" data-parent="#sidebar">
+                  <li {% if 'comment' in request.path %}class="active" {% endif %}>
+                    <a href="{% url 'my_mobilisation_campaign_comment' instance_SupportGroup.url_text %}">Comments</a>
+                  </li>
+                  <li {% if 'donor-info' in request.path %}class="active" {% endif %}>
+                    <a href="{% url 'my_mobilisation_campaign_supporter_donor_info' instance_SupportGroup.url_text %}">Mobilisation Campaign Member Information</a>
+                  </li>
+                </ul>
+              </li>
+              
+              <li {% if 'Premium-Services' in request.path %}class="active" {% endif %}>
+                <a href="{% url 'my_mobilisation_campaign_premium_services' instance_SupportGroup.url_text %}">
+                  <span class="sidebar_icon">
+                    <svg aria-hidden="true" class="jss655" data-prefix="fas" data-icon="trophy" role="img"
+                      xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+                      <path
+                        d="M552 64H448V24c0-13.3-10.7-24-24-24H152c-13.3 0-24 10.7-24 24v40H24C10.7 64 0 74.7 0 88v56c0 35.7 22.5 72.4 61.9 100.7 31.5 22.7 69.8 37.1 110 41.7C203.3 338.5 240 360 240 360v72h-48c-35.3 0-64 20.7-64 56v12c0 6.6 5.4 12 12 12h296c6.6 0 12-5.4 12-12v-12c0-35.3-28.7-56-64-56h-48v-72s36.7-21.5 68.1-73.6c40.3-4.6 78.6-19 110-41.7 39.3-28.3 61.9-65 61.9-100.7V88c0-13.3-10.7-24-24-24zM99.3 192.8C74.9 175.2 64 155.6 64 144v-16h64.2c1 32.6 5.8 61.2 12.8 86.2-15.1-5.2-29.2-12.4-41.7-21.4zM512 144c0 16.1-17.7 36.1-35.3 48.8-12.5 9-26.7 16.2-41.8 21.4 7-25 11.8-53.6 12.8-86.2H512v16z">
+                      </path>
+                    </svg>
+                  </span>
+                  <span class="js3214 " style="cursor:pointer">Services Offerred</span>
+                </a>
+          
+              </li>
+            </ul>
+          </nav>  
+
+  
+          <!-- Page Content  -->
+          <div id="content" class="margin_top_80 pb-0">
+              <div class="container">
+              <div class="row">
+                  <div class="col-sm-12 col-md-6">
+                      <div class="row1-heading mt-0">
+                        <h2 style="margin-top: 0px; font-size: 1.5rem;">{{instance_SupportGroup.title}} </h2>
+                        <div class="row1-dash">
+                          <div class="row1-big-dash"></div>
+                          <div class="row1-small-dash"></div>
+                        </div>
+                      </div>
+                  </div>
+                  <div class="col-sm-12 col-md-6 text-right">
+                        <div style="display: flex; width: 100%;justify-content:flex-end;align-items: center;cursor: pointer;" data-toggle="modal" data-target="#dashboard_modal">
+                        
+                        <p class="ml-2 mb-0" style="text-transform: none; font-weight: bold;width: 110px;    text-overflow: ellipsis; white-space: nowrap;overflow: hidden;"><div style="color: rgb(0, 227, 154);width: 15px;height: 15px;line-height:15px;border-radius: 50%;background:rgb(0, 227, 154)"></div> {{instance_SupportGroup.title}}</p>
+                        </div>
+                  </div>
+              </div>
+          </div>
+            {% block body %}
+            <!-- <div class="container">
+                  <div class="row">
+                    <div class="col-md-12 text-center">
+                      <h4 class="mt-3 mb-3">Mobilisation Campaign</h4>
+                    </div>
+                  </div>
+              </div> -->
+             
+            <main class="main_min_heg">
+              <div class="container">
+                <div class="row">
+                  <div class="col-md-12 text-center">
+                    <h4 class="mt-3 mb-3">Dashboard</h4>
+                  </div>
+                </div>
+                <div class="row justify-content-center">
+                  <div class="col-sm-12 col-md-4">
+                    <div class="card">
+                      <div class="card-body d-flex justify-content-between align-items-center jss78  ">
+                        <div>
+                          <p class="font-weight-bold">{{today_visit}}</p>
+                          <p class="text-uppercase">Visits Today</p>
+                        </div>
+                        <div style="color: #EC156E">
+                          <svg fill="currentColor" width="30px" height="30px" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                            xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 486.742 486.742"
+                            style="enable-background:new 0 0 486.742 486.742;" xml:space="preserve">
+                            <g>
+                              <g>
+                                <path d="M33,362.371v78.9c0,4.8,3.9,8.8,8.8,8.8h61c4.8,0,8.8-3.9,8.8-8.8v-138.8l-44.3,44.3
+                                                          C57.9,356.071,45.9,361.471,33,362.371z" />
+                                <path
+                                  d="M142,301.471v139.8c0,4.8,3.9,8.8,8.8,8.8h61c4.8,0,8.8-3.9,8.8-8.8v-82.3c-13.9-0.3-26.9-5.8-36.7-15.6L142,301.471z" />
+                                <path d="M251,350.271v91c0,4.8,3.9,8.8,8.8,8.8h61c4.8,0,8.8-3.9,8.8-8.8v-167.9l-69.9,69.9
+                                                          C257,345.971,254.1,348.271,251,350.271z" />
+                                <path d="M432.7,170.171l-72.7,72.7v198.4c0,4.8,3.9,8.8,8.8,8.8h61c4.8,0,8.8-3.9,8.8-8.8v-265.6c-2-1.7-3.5-3.2-4.6-4.2
+                                                          L432.7,170.171z" />
+                                <path d="M482.6,41.371c-2.9-3.1-7.3-4.7-12.9-4.7c-0.5,0-1.1,0-1.6,0c-28.4,1.3-56.7,2.7-85.1,4c-3.8,0.2-9,0.4-13.1,4.5
+                                                          c-1.3,1.3-2.3,2.8-3.1,4.6c-4.2,9.1,1.7,15,4.5,17.8l7.1,7.2c4.9,5,9.9,10,14.9,14.9l-171.6,171.7l-77.1-77.1
+                                                          c-4.6-4.6-10.8-7.2-17.4-7.2c-6.6,0-12.7,2.6-17.3,7.2L7.2,286.871c-9.6,9.6-9.6,25.1,0,34.7l4.6,4.6c4.6,4.6,10.8,7.2,17.4,7.2
+                                                          s12.7-2.6,17.3-7.2l80.7-80.7l77.1,77.1c4.6,4.6,10.8,7.2,17.4,7.2c6.6,0,12.7-2.6,17.4-7.2l193.6-193.6l21.9,21.8
+                                                          c2.6,2.6,6.2,6.2,11.7,6.2c2.3,0,4.6-0.6,7-1.9c1.6-0.9,3-1.9,4.2-3.1c4.3-4.3,5.1-9.8,5.3-14.1c0.8-18.4,1.7-36.8,2.6-55.3
+                                                          l1.3-27.7C487,49.071,485.7,44.571,482.6,41.371z" />
+                              </g>
+                            </g>
+                            <g>
+                            </g>
+                            <g>
+                            </g>
+                            <g>
+                            </g>
+                            <g>
+                            </g>
+                            <g>
+                            </g>
+                            <g>
+                            </g>
+                            <g>
+                            </g>
+                            <g>
+                            </g>
+                            <g>
+                            </g>
+                            <g>
+                            </g>
+                            <g>
+                            </g>
+                            <g>
+                            </g>
+                            <g>
+                            </g>
+                            <g>
+                            </g>
+                            <g>
+                            </g>
+                          </svg>
+            
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-12 col-md-4">
+                      <div class="card">
+                        <div class="card-body d-flex justify-content-between align-items-center jss78  ">
+                          <div>
+                            <p class="font-weight-bold">{{today_supporters}}</p>
+                            <p class="text-uppercase">Supporters Today</p>
+                          </div>
+                          <div style="color: #EC156E">
+                            <svg fill="currentColor" width="30px" height="30px" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                              xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="548.169px" height="548.169px"
+                              viewBox="0 0 548.169 548.169" style="enable-background:new 0 0 548.169 548.169;" xml:space="preserve">
+                              <g>
+                                <g>
+                                  <path d="M109.634,164.452c20.179,0,37.402-7.135,51.674-21.411c14.277-14.275,21.416-31.503,21.416-51.678
+                                                           c0-20.173-7.139-37.401-21.416-51.678c-14.272-14.275-31.496-21.414-51.674-21.414c-20.177,0-37.401,7.139-51.676,21.414
+                                                           C43.684,53.962,36.545,71.186,36.545,91.363c0,20.179,7.139,37.403,21.413,51.678C72.233,157.313,89.457,164.452,109.634,164.452z
+                                                           " />
+                                  <path
+                                    d="M196.569,278.519c21.413,21.406,47.248,32.114,77.516,32.114c30.269,0,56.103-10.708,77.515-32.114
+                                                           c21.409-21.42,32.117-47.258,32.117-77.52c0-30.264-10.708-56.101-32.117-77.515c-21.412-21.414-47.246-32.121-77.515-32.121
+                                                           c-30.268,0-56.105,10.709-77.516,32.121c-21.411,21.411-32.12,47.248-32.12,77.515S175.158,257.102,196.569,278.519z" />
+                                  <path d="M438.543,164.452c20.17,0,37.397-7.135,51.671-21.411c14.274-14.275,21.409-31.503,21.409-51.678
+                                                           c0-20.173-7.135-37.401-21.409-51.678c-14.273-14.275-31.501-21.414-51.671-21.414c-20.184,0-37.407,7.139-51.682,21.414
+                                                           c-14.271,14.277-21.409,31.501-21.409,51.678c0,20.179,7.139,37.403,21.409,51.678
+                                                           C401.136,157.313,418.359,164.452,438.543,164.452z" />
+                                  <path
+                                    d="M512.763,164.456c-1.136,0-5.276,1.999-12.415,5.996c-7.132,3.999-16.416,8.044-27.833,12.137
+                                                           c-11.416,4.089-22.747,6.136-33.972,6.136c-12.758,0-25.406-2.187-37.973-6.567c0.945,7.039,1.424,13.322,1.424,18.842
+                                                           c0,26.457-7.71,50.819-23.134,73.089c30.841,0.955,56.056,13.134,75.668,36.552h38.256c15.605,0,28.739-3.863,39.396-11.57
+                                                           c10.657-7.703,15.989-18.986,15.989-33.83C548.172,198.047,536.376,164.452,512.763,164.456z" />
+                                  <path d="M470.096,395.284c-1.999-11.136-4.524-21.464-7.57-30.978c-3.046-9.521-7.139-18.794-12.271-27.836
+                                                           c-5.141-9.034-11.044-16.748-17.706-23.127c-6.667-6.379-14.805-11.464-24.414-15.276c-9.609-3.806-20.225-5.708-31.833-5.708
+                                                           c-1.906,0-5.996,2.047-12.278,6.14c-6.283,4.089-13.224,8.665-20.841,13.702c-7.615,5.037-17.789,9.609-30.55,13.702
+                                                           c-12.762,4.093-25.608,6.14-38.544,6.14c-12.941,0-25.791-2.047-38.544-6.14c-12.756-4.093-22.936-8.665-30.55-13.702
+                                                           c-7.616-5.037-14.561-9.613-20.841-13.702c-6.283-4.093-10.373-6.14-12.279-6.14c-11.609,0-22.22,1.902-31.833,5.708
+                                                           c-9.613,3.812-17.749,8.897-24.41,15.276c-6.667,6.372-12.562,14.093-17.705,23.127c-5.137,9.042-9.229,18.315-12.275,27.836
+                                                           c-3.045,9.514-5.564,19.842-7.566,30.978c-2,11.136-3.331,21.505-3.997,31.121c-0.667,9.613-0.999,19.466-0.999,29.554
+                                                           c0,22.836,6.945,40.874,20.839,54.098c13.899,13.223,32.363,19.842,55.389,19.842h249.535c23.028,0,41.49-6.619,55.392-19.842
+                                                           c13.894-13.224,20.841-31.262,20.841-54.098c0-10.088-0.335-19.938-0.992-29.554C473.418,416.789,472.087,406.419,470.096,395.284
+                                                           z" />
+                                  <path
+                                    d="M169.303,274.088c-15.418-22.27-23.125-46.632-23.122-73.089c0-5.52,0.477-11.799,1.427-18.842
+                                                           c-12.564,4.377-25.221,6.567-37.974,6.567c-11.23,0-22.552-2.046-33.974-6.136c-11.417-4.093-20.699-8.138-27.834-12.137
+                                                           c-7.138-3.997-11.281-5.996-12.422-5.996C11.801,164.456,0,198.051,0,265.24c0,14.844,5.33,26.127,15.987,33.83
+                                                           c10.66,7.707,23.794,11.563,39.397,11.563h38.26C113.251,287.222,138.467,275.042,169.303,274.088z" />
+                                </g>
+                              </g>
+                              <g>
+                              </g>
+                              <g>
+                              </g>
+                              <g>
+                              </g>
+                              <g>
+                              </g>
+                              <g>
+                              </g>
+                              <g>
+                              </g>
+                              <g>
+                              </g>
+                              <g>
+                              </g>
+                              <g>
+                              </g>
+                              <g>
+                              </g>
+                              <g>
+                              </g>
+                              <g>
+                              </g>
+                              <g>
+                              </g>
+                              <g>
+                              </g>
+                              <g>
+                              </g>
+                            </svg>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+            
+                <div class="row mt-5 mb-5 justify-content-center">
+                  
+                    <div class="col-sm-12 col-md-4">
+                        <div class="card">
+                          <div class="card-body d-flex justify-content-between align-items-center jss78  ">
+                            <div>
+                              <p class="font-weight-bold">{{total_visit}}</p>
+                              <p class="text-uppercase">Total Visits</p>
+                            </div>
+                            <div style="color: #EC156E">
+                              <?xml version="1.0" encoding="iso-8859-1"?>
+                              <!-- Generator: Adobe Illustrator 19.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+                              <svg fill="currentColor" width="30px" height="30px" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                                xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 486.742 486.742"
+                                style="enable-background:new 0 0 486.742 486.742;" xml:space="preserve">
+                                <g>
+                                  <g>
+                                    <path d="M33,362.371v78.9c0,4.8,3.9,8.8,8.8,8.8h61c4.8,0,8.8-3.9,8.8-8.8v-138.8l-44.3,44.3
+                                                                C57.9,356.071,45.9,361.471,33,362.371z" />
+                                    <path
+                                      d="M142,301.471v139.8c0,4.8,3.9,8.8,8.8,8.8h61c4.8,0,8.8-3.9,8.8-8.8v-82.3c-13.9-0.3-26.9-5.8-36.7-15.6L142,301.471z" />
+                                    <path d="M251,350.271v91c0,4.8,3.9,8.8,8.8,8.8h61c4.8,0,8.8-3.9,8.8-8.8v-167.9l-69.9,69.9
+                                                                C257,345.971,254.1,348.271,251,350.271z" />
+                                    <path d="M432.7,170.171l-72.7,72.7v198.4c0,4.8,3.9,8.8,8.8,8.8h61c4.8,0,8.8-3.9,8.8-8.8v-265.6c-2-1.7-3.5-3.2-4.6-4.2
+                                                                L432.7,170.171z" />
+                                    <path d="M482.6,41.371c-2.9-3.1-7.3-4.7-12.9-4.7c-0.5,0-1.1,0-1.6,0c-28.4,1.3-56.7,2.7-85.1,4c-3.8,0.2-9,0.4-13.1,4.5
+                                                                c-1.3,1.3-2.3,2.8-3.1,4.6c-4.2,9.1,1.7,15,4.5,17.8l7.1,7.2c4.9,5,9.9,10,14.9,14.9l-171.6,171.7l-77.1-77.1
+                                                                c-4.6-4.6-10.8-7.2-17.4-7.2c-6.6,0-12.7,2.6-17.3,7.2L7.2,286.871c-9.6,9.6-9.6,25.1,0,34.7l4.6,4.6c4.6,4.6,10.8,7.2,17.4,7.2
+                                                                s12.7-2.6,17.3-7.2l80.7-80.7l77.1,77.1c4.6,4.6,10.8,7.2,17.4,7.2c6.6,0,12.7-2.6,17.4-7.2l193.6-193.6l21.9,21.8
+                                                                c2.6,2.6,6.2,6.2,11.7,6.2c2.3,0,4.6-0.6,7-1.9c1.6-0.9,3-1.9,4.2-3.1c4.3-4.3,5.1-9.8,5.3-14.1c0.8-18.4,1.7-36.8,2.6-55.3
+                                                                l1.3-27.7C487,49.071,485.7,44.571,482.6,41.371z" />
+                                  </g>
+                                </g>
+                                <g>
+                                </g>
+                                <g>
+                                </g>
+                                <g>
+                                </g>
+                                <g>
+                                </g>
+                                <g>
+                                </g>
+                                <g>
+                                </g>
+                                <g>
+                                </g>
+                                <g>
+                                </g>
+                                <g>
+                                </g>
+                                <g>
+                                </g>
+                                <g>
+                                </g>
+                                <g>
+                                </g>
+                                <g>
+                                </g>
+                                <g>
+                                </g>
+                                <g>
+                                </g>
+                              </svg>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                 
+                  <div class="col-sm-12 col-md-4">
+                    <div class="card">
+                      <div class="card-body d-flex justify-content-between align-items-center jss78  ">
+                        <div>
+                          <p class="font-weight-bold">{{total_supporters}}</p>
+                          <p class="text-uppercase">Total Supporters</p>
+                        </div>
+                        <div style="color: #EC156E">
+                          <svg fill="currentColor" width="30px" height="30px" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                            xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="548.169px" height="548.169px"
+                            viewBox="0 0 548.169 548.169" style="enable-background:new 0 0 548.169 548.169;" xml:space="preserve">
+                            <g>
+                              <g>
+                                <path d="M109.634,164.452c20.179,0,37.402-7.135,51.674-21.411c14.277-14.275,21.416-31.503,21.416-51.678
+                                                           c0-20.173-7.139-37.401-21.416-51.678c-14.272-14.275-31.496-21.414-51.674-21.414c-20.177,0-37.401,7.139-51.676,21.414
+                                                           C43.684,53.962,36.545,71.186,36.545,91.363c0,20.179,7.139,37.403,21.413,51.678C72.233,157.313,89.457,164.452,109.634,164.452z
+                                                           " />
+                                <path
+                                  d="M196.569,278.519c21.413,21.406,47.248,32.114,77.516,32.114c30.269,0,56.103-10.708,77.515-32.114
+                                                           c21.409-21.42,32.117-47.258,32.117-77.52c0-30.264-10.708-56.101-32.117-77.515c-21.412-21.414-47.246-32.121-77.515-32.121
+                                                           c-30.268,0-56.105,10.709-77.516,32.121c-21.411,21.411-32.12,47.248-32.12,77.515S175.158,257.102,196.569,278.519z" />
+                                <path d="M438.543,164.452c20.17,0,37.397-7.135,51.671-21.411c14.274-14.275,21.409-31.503,21.409-51.678
+                                                           c0-20.173-7.135-37.401-21.409-51.678c-14.273-14.275-31.501-21.414-51.671-21.414c-20.184,0-37.407,7.139-51.682,21.414
+                                                           c-14.271,14.277-21.409,31.501-21.409,51.678c0,20.179,7.139,37.403,21.409,51.678
+                                                           C401.136,157.313,418.359,164.452,438.543,164.452z" />
+                                <path
+                                  d="M512.763,164.456c-1.136,0-5.276,1.999-12.415,5.996c-7.132,3.999-16.416,8.044-27.833,12.137
+                                                           c-11.416,4.089-22.747,6.136-33.972,6.136c-12.758,0-25.406-2.187-37.973-6.567c0.945,7.039,1.424,13.322,1.424,18.842
+                                                           c0,26.457-7.71,50.819-23.134,73.089c30.841,0.955,56.056,13.134,75.668,36.552h38.256c15.605,0,28.739-3.863,39.396-11.57
+                                                           c10.657-7.703,15.989-18.986,15.989-33.83C548.172,198.047,536.376,164.452,512.763,164.456z" />
+                                <path d="M470.096,395.284c-1.999-11.136-4.524-21.464-7.57-30.978c-3.046-9.521-7.139-18.794-12.271-27.836
+                                                           c-5.141-9.034-11.044-16.748-17.706-23.127c-6.667-6.379-14.805-11.464-24.414-15.276c-9.609-3.806-20.225-5.708-31.833-5.708
+                                                           c-1.906,0-5.996,2.047-12.278,6.14c-6.283,4.089-13.224,8.665-20.841,13.702c-7.615,5.037-17.789,9.609-30.55,13.702
+                                                           c-12.762,4.093-25.608,6.14-38.544,6.14c-12.941,0-25.791-2.047-38.544-6.14c-12.756-4.093-22.936-8.665-30.55-13.702
+                                                           c-7.616-5.037-14.561-9.613-20.841-13.702c-6.283-4.093-10.373-6.14-12.279-6.14c-11.609,0-22.22,1.902-31.833,5.708
+                                                           c-9.613,3.812-17.749,8.897-24.41,15.276c-6.667,6.372-12.562,14.093-17.705,23.127c-5.137,9.042-9.229,18.315-12.275,27.836
+                                                           c-3.045,9.514-5.564,19.842-7.566,30.978c-2,11.136-3.331,21.505-3.997,31.121c-0.667,9.613-0.999,19.466-0.999,29.554
+                                                           c0,22.836,6.945,40.874,20.839,54.098c13.899,13.223,32.363,19.842,55.389,19.842h249.535c23.028,0,41.49-6.619,55.392-19.842
+                                                           c13.894-13.224,20.841-31.262,20.841-54.098c0-10.088-0.335-19.938-0.992-29.554C473.418,416.789,472.087,406.419,470.096,395.284
+                                                           z" />
+                                <path
+                                  d="M169.303,274.088c-15.418-22.27-23.125-46.632-23.122-73.089c0-5.52,0.477-11.799,1.427-18.842
+                                                           c-12.564,4.377-25.221,6.567-37.974,6.567c-11.23,0-22.552-2.046-33.974-6.136c-11.417-4.093-20.699-8.138-27.834-12.137
+                                                           c-7.138-3.997-11.281-5.996-12.422-5.996C11.801,164.456,0,198.051,0,265.24c0,14.844,5.33,26.127,15.987,33.83
+                                                           c10.66,7.707,23.794,11.563,39.397,11.563h38.26C113.251,287.222,138.467,275.042,169.303,274.088z" />
+                              </g>
+                            </g>
+                            <g>
+                            </g>
+                            <g>
+                            </g>
+                            <g>
+                            </g>
+                            <g>
+                            </g>
+                            <g>
+                            </g>
+                            <g>
+                            </g>
+                            <g>
+                            </g>
+                            <g>
+                            </g>
+                            <g>
+                            </g>
+                            <g>
+                            </g>
+                            <g>
+                            </g>
+                            <g>
+                            </g>
+                            <g>
+                            </g>
+                            <g>
+                            </g>
+                            <g>
+                            </g>
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            
+                <div class="row mt-5 mb-5">
+                  <div class="col-sm-12 col-md-6">
+                    <div class="card">
+            
+                      <div class="chart_div w-100" style="background-color: #d3175e">
+                        <div id="visit_trend" style="height: 200px;width: 100%"></div>
+                      </div>
+                      <div class="card-body jss76 ">
+                          <div class="mt-1">
+                            <p class="font-weight-bold mb-0">Support Group Visit Trend</p>
+                             <p class=" mb-0"><span style="    color: #67e267;"><i class="fa fa-arrow-up" aria-hidden="true"></i> {{today_increases}}%</span> Increases in today Visits</p>
+                          </div>
+                          <div class="mt-3 border-top">
+                             <p class="pt-2 mb-0"><span><i class="fa fa-clock-o" aria-hidden="true"></i></span> Updated {% now "jS F Y H:i" %}</p>
+                          </div>
+                    </div>
+            
+                    </div>
+                  </div>
+                  <div class="col-sm-12 col-md-6">
+                    <div class="card">
+            
+                      <div class="chart_div w-100" style="background-color: #004b6a">
+                        <div id="total_supporters" style="height: 200px;;width: 100%"></div>
+                      </div>
+                      <div class="card-body jss76"> 
+                          <div class="mt-1">
+                            <p class="font-weight-bold mb-0">Total Supporters </p>
+                             <p class=" mb-0">Support Group Performance</p>
+                          </div>
+                         <div class="border-top mt-3">
+                            <p class="pt-2 mb-0"><span><i class="fa fa-clock-o" aria-hidden="true"></i></span> Campaign started {{completed_days}} days ago</p>
+                         </div>
+                      </div>
+                    </div>
+            
+                  </div>
+                </div>
+                <div class="row justify-content-center">
+                  <div class="col-sm-12 col-md-6">
+                    <div class="card jss78">
+                      <div class="card-header" style="background-color: #fff;">
+                        <h5 class="mb-0"> Social Media Visits</h5>
+                      </div>
+                      <div class="card-body d-flex justify-content-between align-items-center   ">
+                        <div>
+                          <p> <span class="mr-1" style="color: #3c5993"><i class="fa fa-square" aria-hidden="true"></i></span> Facebook
+                          </p>
+                          <p> <span class="mr-1" style="color: #49a7f1"><i class="fa fa-square" aria-hidden="true"></i></span> Twitter
+                          </p>
+                          <p> <span class="mr-1" style="color: #3eba48"><i class="fa fa-square" aria-hidden="true"></i></span> Whatsapp
+                          </p>
+                        </div>
+                        <div style="color: #EC156E">
+                          <!-- <p> {{facebook_total_visit}} </p>
+                          <p> {{twitter_total_visit}} </p>
+                          <p> {{whatsapp_total_visit}} </p> -->
+                          {% if facebook_total_visit == 0 and twitter_total_visit == 0 and whatsapp_total_visit == 0 %}
+                            <p>No contributions yet</p>
+                          {% else %}
+                            <div style="height: 150px;" id="total_social_count"></div> 
+                          {% endif %}   
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-12 col-md-6">
+                    <div class="card jss78">
+                      <div class="card-header" style="background-color: #fff;">
+                        <h5 class="mb-0">Social Media Contributors​</h5>
+                      </div>
+                      <div class="card-body d-flex justify-content-between align-items-center   ">
+                        <div>
+                          <p> <span class="mr-1" style="color: #3c5993"><i class="fa fa-square" aria-hidden="true"></i></span> Facebook
+                          </p>
+                          <p> <span class="mr-1" style="color: #49a7f1"><i class="fa fa-square" aria-hidden="true"></i></span> Twitter
+                          </p>
+                          <p> <span class="mr-1" style="color: #3eba48"><i class="fa fa-square" aria-hidden="true"></i></span> Whatsapp
+                          </p>
+                        </div>
+                        <div style="color: #EC156E">
+                          <!-- <p>{{facebook_total_supporters}} </p>
+                          <p> {{twitter_total_supporters}} </p>
+                          <p> {{whatsapp_total_supporters}} </p> -->
+                          {% if facebook_total_supporters == 0 and twitter_total_supporters == 0 and whatsapp_total_supporters == 0 %}
+                            <p>No contributions yet</p>
+                          {% else %}
+                            <div style="height: 150px;" id="total_social__media_contributors"></div> 
+                          {% endif %}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </main>
+
+            {% endblock %}
+            <footer class="footer_jss765">
+            <div class="footer_jss766">
+              <div class="footer_jss763">
+                <ul class="footer_jss638">
+                  <li class="footer_jss642"><a href="/" class="footer_jss762">Home</a></li>
+                  <li class="footer_jss642"><a href="{% url 'how_it_works' %}" class="footer_jss762">About</a></li>
+                  <li class="footer_jss642"><a href="{% url 'contact_us' %}" class="footer_jss762">Contact Us</a></li>
+                </ul>
+              </div>
+              <p class="footer_jss764"><span>© <script>document.write(new Date().getFullYear())</script>
+                   <a href="https://www.ourdemocracy.in" class="footer_jss767">Our Democracy</a></span></p>
+            </div>
+          </footer>
+          </div>
+      </div>
+  </div>
+
+
+  {% if messages %}
+    <div class="toast_con">
+        <div class="toast" data-autohide="false">
+
+            <div class="toast-body">
+                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast">&times;</button>
+
+                {% for message in messages %}
+                {% if 'error' in message.tags %}
+                <strong class="mr-auto text-primary"><i class="fa fa-exclamation-triangle fa-5"
+                        aria-hidden="true"></i></strong>
+                {% autoescape off %}{{ message }}{% endautoescape %}
+                {% else %}
+                <strong class="mr-auto text-primary"><i class="fa fa-exclamation-triangle fa-5"
+                        aria-hidden="true"></i></strong>
+                {% autoescape off %}{{ message }}{% endautoescape %}
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="modal fade" id="dashboard_modal">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+          <div class="modal-content">
+          
+            <!-- Modal Header -->
+            <div class="modal-header p-0 ">
+              <div class="container">
+                <div class="DMainFiltersDiv first_setion_list mt-3" >
+                  <p onclick="change_sub_category(this)" class="btn btnActive"><a href="#">Fundraiser</a></p>
+                  <p onclick="change_sub_category(this)" class="btn"><a href="#">Mobilisation Campaign</a></p>
+                  <p onclick="change_sub_category(this)" class="btn"><a href="#">Event</a></p>
+                </div>
+                <div class="DMainFiltersDiv sec_setion_list mt-3">
+                  <p  onclick="change_sec_sub_category(this)" class="btn "><a href="#">Approval Request</a></p>
+                  <p  onclick="change_sec_sub_category(this)" class="btn btnActive" id="need_active"><a href="#">Active</a></p>
+                  <p  onclick="change_sec_sub_category(this)" id="Completed_hide" class="btn"><a href="#">Completed</a></p>
+                </div>
+                </div>
+            </div>
+            
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="container">
+                    <div id="main_data">
+                  
+                    </div>
+                </div>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+
+    {% block model_popup %}
+       
+    {% endblock %}
+
+  <div class="overlay"></div>
+
+
+  <script type="text/javascript" src="/static/js/jquery.min.js" ></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="/static/js/bootstrap.min.js" ></script>  
+  <script type="text/javascript" src="/static/js/script.js"></script>
+  <script type="text/javascript" src="/static/js/select2.full.min.js"></script>
+  <script type="text/javascript" src="/static/js/jquery.dataTables.min.js"></script>
+  <script type="text/javascript" src="/static/js/custom-file-input.js"></script>
+  <script type="text/javascript" src="/static/js/jquery-te-1.4.0.min.js"></script>
+  <script>
+    function change_sub_category(e){
+        var sub_category = $(e).text();
+        $(".first_setion_list").find('.btn').removeClass("btnActive");
+        $(e).addClass("btnActive")
+        $(".sec_setion_list").find('.btn').removeClass("btnActive");
+        $("#need_active").addClass("btnActive");
+        var category = $(".first_setion_list p.btnActive").text();
+
+      //  if(sub_category == 'Event') {
+      //     $('#Completed_hide').hide();
+      //  }
+      //  else{
+      //   $('#Completed_hide').show();
+      //  }
+
+        $.get("{% url 'dashboard' %}", {'category':category}, function(result){
+            $('#main_data').html(result);                                     
+        })
+    };
+
+    function change_sec_sub_category(e) {
+      var status = $(e).text();
+      $(".sec_setion_list").find('.btn').removeClass("btnActive");
+      $(e).addClass("btnActive");
+      var category = $(".first_setion_list p.btnActive").text();
+      
+      
+      $.get("{% url 'dashboard' %}", {'category':category, 'status':status}, function(result){
+          $('#main_data').html(result);                                     
+      })
+    }
+
+    function changepage(page){
+      var category = $(".first_setion_list p.btnActive").text();
+      var status = $(".sec_setion_list p.btnActive").text();
+      
+      $.get("{% url 'dashboard' %}", {'category':category, 'status':status, 'page':page}, function(result){
+          $('#main_data').html(result);                                     
+      })
+    };
+
+    $( document ).ready(function() {
+      $.get("{% url 'dashboard' %}", function(result){
+          $('#main_data').html(result);                                     
+      })
+    });
+    </script>
+  <script type="text/javascript">
+    $(document).ready(function () {
+          if($( window ).width() >= 1200 ){
+                  $('#sidebarCollapse').on('click', function () {
+                              $('#sidebar, #content').toggleClass('active');
+                              $('.collapse.in').toggleClass('in');
+                              $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+                    });
+                    $('.overlay').removeClass('active')
+
+          }
+          else if($( window ).width() <= 1199 ){
+                  $('.overlay').on('click', function () {
+                      $('#sidebar').removeClass('active');
+                      $('.overlay').removeClass('active');
+                  });
+
+                  $('#sidebarCollapse').on('click', function () {
+                      $('#sidebar').addClass('active');
+                      $('.overlay').addClass('active');
+                      $('.collapse.in').toggleClass('in');
+                      $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+                  });
+          }
+
+          $( window ).resize(function() {
+              if($( window ).width() >= 1200 ){
+                $('.overlay').removeClass('active');
+                $('#sidebar').removeClass('active');
+
+                    $('#sidebarCollapse').on('click', function () {
+                                $('#sidebar, #content').toggleClass('active');
+                              
+                                $('.collapse.in').toggleClass('in');
+                                $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+                      });
+                      
+
+            }
+            else if($( window ).width() <= 1199 ){
+                    $('.overlay').on('click', function () {
+                        $('#sidebar').removeClass('active');
+                        $('.overlay').removeClass('active');
+                    });
+
+                    $('#sidebarCollapse').on('click', function () {
+                        $('#sidebar').addClass('active');
+                        $('.overlay').addClass('active');
+                        $('.collapse.in').toggleClass('in');
+                        $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+                    });
+            }
+          });
+    
+    });
+  </script>
+ <script>
+    $(document).ready(function() {
+        $('.select2').select2();
+        $('.jqte-test').jqte();
+    });
+  </script>
+
+{% if messages %}
+<script>
+    $('.toast').toast('show');
+</script>
+{% endif %}
+
+{% block extra_script %}
+
+  <!-- Amchart -->
+  <script src="https://www.amcharts.com/lib/4/core.js"></script>
+  <script src="https://www.amcharts.com/lib/4/charts.js"></script>
+  <script src="https://www.amcharts.com/lib/4/themes/material.js"></script>
+  <script src="https://www.amcharts.com/lib/4/themes/kelly.js"></script>
+  <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+
+  <script>
+      var sortBy = (function () {
+    var toString = Object.prototype.toString,
+        // default parser function
+        parse = function (x) { return x; },
+        // gets the item to be sorted
+        getItem = function (x) {
+          var isObject = x != null && typeof x === "object";
+          var isProp = isObject && this.prop in x;
+          return this.parser(isProp ? x[this.prop] : x);
+        };
+        
+    /**
+     * Sorts an array of elements.
+     *
+     * @param {Array} array: the collection to sort
+     * @param {Object} cfg: the configuration options
+     * @property {String}   cfg.prop: property name (if it is an Array of objects)
+     * @property {Boolean}  cfg.desc: determines whether the sort is descending
+     * @property {Function} cfg.parser: function to parse the items to expected type
+     * @return {Array}
+     */
+    return function sortby (array, cfg) {
+      if (!(array instanceof Array && array.length)) return [];
+      if (toString.call(cfg) !== "[object Object]") cfg = {};
+      if (typeof cfg.parser !== "function") cfg.parser = parse;
+      cfg.desc = !!cfg.desc ? -1 : 1;
+      return array.sort(function (a, b) {
+        a = getItem.call(cfg, a);
+        b = getItem.call(cfg, b);
+        return cfg.desc * (a < b ? -1 : +(a > b));
+      });
+    };
+    
+  }());
+    </script>
+
+  <script>
+    // Themes begin
+    am4core.useTheme(am4themes_animated);
+    // Themes end
+
+    var chart = am4core.create("visit_trend", am4charts.XYChart);
+
+    var data = [];
+    {% for data in total_visit_graph %}
+      date = new Date({{data.created_at.year}}, {{data.created_at.month}}-1, {{data.created_at.day}}, 0, 0, 0, 0);
+      value = {{data.created_at__count}}
+      data.push({date:date, value: value});
+    {% endfor %}
+
+    data = sortBy(data, {
+      prop: "date",
+      desc: true,
+      parser: function(item) { return new Date(item); }
+    });
+
+    chart.data = data;
+
+    // Create axes
+    var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+    dateAxis.renderer.minGridDistance = 60;
+
+    var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+    valueAxis.min = 0;
+    valueAxis.renderer.labels.template.adapter.add("text", function(text, target) {
+      return text.match(/\./) ? "" : text;
+    });
+    
+    valueAxis.renderer.labels.template.fill = am4core.color("#ffffff");
+    dateAxis.renderer.labels.template.fill = am4core.color("#ffffff");
+    valueAxis.renderer.grid.template.stroke = am4core.color("#ffffff");
+    dateAxis.renderer.grid.template.strokeWidth = 0 ;
+    valueAxis.renderer.grid.template.strokeWidth = 0 ;
+    dateAxis.renderer.baseGrid.disabled = false;
+    valueAxis.strokeDasharray = 10;
+    dateAxis.renderer.baseGrid.stroke = am4core.color("#ffffff"); 
+    valueAxis.renderer.baseGrid.stroke = am4core.color("#ffffff");   
+    valueAxis.title.fontSize = "12px";
+    dateAxis.renderer.minGridDistance = 20;
+    dateAxis.dateFormats.setKey("day", "dd/MM");
+    // Create series
+    var series = chart.series.push(new am4charts.LineSeries());
+    series.dataFields.valueY = "value";
+    series.dataFields.dateX = "date";
+    series.tooltipText = "{value}"
+
+    var bullet = series.bullets.push(new am4charts.CircleBullet());
+    bullet.circle.radius = 3;
+    bullet.circle.fill = am4core.color("#fff");
+    bullet.circle.strokeWidth = 1;
+
+    series.tooltip.pointerOrientation = "vertical";
+    
+    chart.cursor = new am4charts.XYCursor();
+    chart.cursor.snapToSeries = series;
+    chart.cursor.xAxis = dateAxis;
+
+    //chart.scrollbarY = new am4core.Scrollbar();
+    // chart.scrollbarX = new am4core.Scrollbar();
+  </script>
+
+<script>
+  // Themes begin
+  am4core.useTheme(am4themes_animated);
+  // Themes end
+
+  var chart = am4core.create("total_supporters", am4charts.XYChart);
+
+  var data = [];
+  {% for data in total_supporters_graph %}
+    date = new Date({{data.created_at.year}}, {{data.created_at.month}}-1, {{data.created_at.day}}, 0, 0, 0, 0);
+    value = {{data.created_at__count}}
+    data.push({date:date, value: value});
+  {% endfor %}
+
+  data = sortBy(data, {
+      prop: "date",
+      desc: true,
+      parser: function(item) { return new Date(item); }
+    });
+
+  chart.data = data;
+
+  // Create axes
+  var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+  dateAxis.renderer.minGridDistance = 60;
+
+  var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+  valueAxis.min = 0;
+  valueAxis.renderer.labels.template.adapter.add("text", function(text, target) {
+    return text.match(/\./) ? "" : text;
+  });
+
+  valueAxis.renderer.labels.template.fill = am4core.color("#ffffff");
+  dateAxis.renderer.labels.template.fill = am4core.color("#ffffff");
+  valueAxis.renderer.grid.template.stroke = am4core.color("#ffffff");
+  dateAxis.renderer.grid.template.strokeWidth = 0 ;
+  valueAxis.renderer.grid.template.strokeWidth = 0 ;
+  dateAxis.renderer.baseGrid.disabled = false;
+  valueAxis.strokeDasharray = 10;
+  dateAxis.renderer.baseGrid.stroke = am4core.color("#ffffff"); 
+  valueAxis.renderer.baseGrid.stroke = am4core.color("#ffffff");   
+  valueAxis.title.fontSize = "12px";
+  dateAxis.renderer.minGridDistance = 20;
+  dateAxis.dateFormats.setKey("day", "dd/MM");
+
+
+  // Create series
+  var series = chart.series.push(new am4charts.LineSeries());
+  series.dataFields.valueY = "value";
+  series.dataFields.dateX = "date";
+  series.tooltipText = "{value}"
+
+  var bullet = series.bullets.push(new am4charts.CircleBullet());
+  bullet.circle.radius = 3;
+  bullet.circle.fill = am4core.color("#fff");
+  bullet.circle.strokeWidth = 1;
+
+
+  series.tooltip.pointerOrientation = "vertical";
+
+  chart.cursor = new am4charts.XYCursor();
+  chart.cursor.snapToSeries = series;
+  chart.cursor.xAxis = dateAxis;
+
+  //chart.scrollbarY = new am4core.Scrollbar();
+  // chart.scrollbarX = new am4core.Scrollbar();
+</script>
+
+
+
+
+<!-- <script>
+  // Themes begin
+  am4core.useTheme(am4themes_animated);
+  // Themes end
+
+  // Create chart instance
+  var chart = am4core.create("total_social_count", am4charts.PieChart);
+  chart.colors.step = 2;
+  // Add and configure Series
+  var pieSeries = chart.series.push(new am4charts.PieSeries());
+  pieSeries.dataFields.value = "user";
+  pieSeries.dataFields.category = "social_sites";
+
+  // Let's cut a hole in our Pie chart the size of 30% the radius
+  chart.innerRadius = am4core.percent(50);
+
+  // Put a thick white border around each Slice
+  //pieSeries.labels.template.disabled = true;
+  //pieSeries.ticks.template.disabled = true;
+  //pieSeries.labels.template.stroke = am4core.color("#f3f3f3");
+  //pieSeries.ticks.template.stroke = am4core.color("#f3f3f3");
+  pieSeries.labels.template.strokeWidth = 0.7;
+  pieSeries.labels.template.fontSize = 12;
+  //pieSeries.slices.template.stroke = am4core.color("#f3f3f3");
+  pieSeries.slices.template.strokeWidth = 2;
+  pieSeries.slices.template.strokeOpacity = 0;
+  pieSeries.labels.template.disabled = true;
+  pieSeries.ticks.template.disabled = true;
+  pieSeries.slices.template
+      // change the cursor on hover to make it apparent the object can be interacted with
+      .cursorOverStyle = [
+          {
+              "property": "cursor",
+              "value": "pointer"
+          }
+      ];
+
+  // Create a base filter effect (as if it's not there) for the hover to return to
+  var shadow = pieSeries.slices.template.filters.push(new am4core.DropShadowFilter);
+  shadow.opacity = 0;
+
+  // Create hover state
+  var hoverState = pieSeries.slices.template.states.getKey("hover"); // normally we have to create the hover state, in this case it already exists
+
+  // Slightly shift the shadow and make it more prominent on hover
+  var hoverShadow = hoverState.filters.push(new am4core.DropShadowFilter);
+  hoverShadow.opacity = 0.7;
+  hoverShadow.blur = 5;
+  hoverShadow.wrap = true; 
+  hoverShadow.maxWidth = 100;
+
+
+  chart.data = [
+ {
+"social_sites": "Facebook",
+"user": {{facebook_total_visit}}
+},{
+"social_sites": "Twitter",
+"user": {{twitter_total_visit}},
+}, {
+"social_sites": "Whatsapp",
+"user": {{whatsapp_total_visit}},
+}
+  ];
+</script>
+
+
+
+
+
+
+
+<script>
+  // Themes begin
+  am4core.useTheme(am4themes_animated);
+  // Themes end
+
+  // Create chart instance
+  var chart = am4core.create("total_social__media_contributors", am4charts.PieChart);
+  chart.colors.step = 2;
+  // Add and configure Series
+  var pieSeries = chart.series.push(new am4charts.PieSeries());
+  pieSeries.dataFields.value = "user";
+  pieSeries.dataFields.category = "social_sites";
+
+  // Let's cut a hole in our Pie chart the size of 30% the radius
+  chart.innerRadius = am4core.percent(50);
+
+  // Put a thick white border around each Slice
+  //pieSeries.labels.template.disabled = true;
+  //pieSeries.ticks.template.disabled = true;
+  //pieSeries.labels.template.stroke = am4core.color("#f3f3f3");
+  //pieSeries.ticks.template.stroke = am4core.color("#f3f3f3");
+  pieSeries.labels.template.strokeWidth = 0.7;
+  pieSeries.labels.template.fontSize = 12;
+  //pieSeries.slices.template.stroke = am4core.color("#f3f3f3");
+  pieSeries.slices.template.strokeWidth = 2;
+  pieSeries.slices.template.strokeOpacity = 0;
+  pieSeries.labels.template.disabled = true;
+  pieSeries.ticks.template.disabled = true;
+  pieSeries.slices.template
+      // change the cursor on hover to make it apparent the object can be interacted with
+      .cursorOverStyle = [
+          {
+              "property": "cursor",
+              "value": "pointer"
+          }
+      ];
+
+  // Create a base filter effect (as if it's not there) for the hover to return to
+  var shadow = pieSeries.slices.template.filters.push(new am4core.DropShadowFilter);
+  shadow.opacity = 0;
+
+  // Create hover state
+  var hoverState = pieSeries.slices.template.states.getKey("hover"); // normally we have to create the hover state, in this case it already exists
+
+  // Slightly shift the shadow and make it more prominent on hover
+  var hoverShadow = hoverState.filters.push(new am4core.DropShadowFilter);
+  hoverShadow.opacity = 0.7;
+  hoverShadow.blur = 5;
+  hoverShadow.wrap = true; 
+  hoverShadow.maxWidth = 100;
+
+
+  chart.data = [
+  {
+"social_sites": "Facebook",
+"user": {{facebook_total_supporters}}
+},{
+"social_sites": "Twitter",
+"user": {{twitter_total_supporters}}
+}, {
+"social_sites": "Whatsapp",
+"user": {{whatsapp_total_supporters}}
+}
+  ];
+</script> -->
+
+<script>
+  
+    // Themes begin
+    am4core.useTheme(am4themes_kelly);
+    am4core.useTheme(am4themes_animated);
+    // Themes end
+    
+    // Create chart instance
+    var chart = am4core.create("total_social_count", am4charts.PieChart);
+    
+    // Set data
+    var selected;
+    var types_count = [
+     {
+        "social_sites": "Facebook",
+        "user": {{facebook_total_visit}}
+        },{
+        "social_sites": "Twitter",
+        "user": {{twitter_total_visit}},
+        }, {
+        "social_sites": "Whatsapp",
+        "user": {{whatsapp_total_visit}},
+      }
+     ];
+    
+    // Add data
+    chart.data = generateChartData_count();
+    
+    // Add and configure Series
+    var pieSeries = chart.series.push(new am4charts.PieSeries());
+    pieSeries.dataFields.value = "user";
+    pieSeries.dataFields.category = "social_sites";
+    pieSeries.colors.list = [
+    am4core.color("#3c5993"),
+    am4core.color("#49a7f1"),
+    am4core.color("#3eba48")
+  ];
+    pieSeries.slices.template.propertyFields.fill = "color";
+    pieSeries.slices.template.propertyFields.isActive = "pulled";
+    pieSeries.slices.template.strokeWidth = 0;
+    pieSeries.ticks.template.disabled = true;
+    pieSeries.alignLabels = false;
+    pieSeries.labels.template.text = "{value.percent.formatNumber('#.0')}%";
+    pieSeries.labels.template.fontSize = 13;
+    
+  
+    pieSeries.labels.template.radius = am4core.percent(-80);
+    pieSeries.labels.template.fill = am4core.color("white");
+    pieSeries.labels.template.relativeRotation = 90;
+    
+    
+    
+    function generateChartData_count() {
+      var chartData_n = [];
+      for (var i = 0; i < types_count.length; i++) {
+          if (types_count[i].user != "0") {
+            chartData_n.push({
+              social_sites : types_count[i].social_sites,
+              user: types_count[i].user 
+            });
+          }     
+        }
+        
+      return chartData_n;
+      console.log("chartData" , chartData_n);
+    }
+    
+    pieSeries.labels.template.adapter.add("radius", function(radius, target) {
+      if (target.dataItem && (target.dataItem.values.value.percent < 10)) {
+        return 0;
+      }
+      return radius;
+    });
+    
+    pieSeries.labels.template.adapter.add("fill", function(color, target) {
+      if (target.dataItem && (target.dataItem.values.value.percent < 10)) {
+        return am4core.color("#000");
+      }
+      return color;
+    });
+    
+    pieSeries.slices.template.events.on("hit", function(event) {
+      if (event.target.dataItem.dataContext.id != undefined) {
+        selected = event.target.dataItem.dataContext.id;
+      } else {
+        selected = undefined;
+      }
+      chart.data = generateChartData_count();
+    });
+    
+    </script>
+
+
+<script>
+  
+    // Themes begin
+    am4core.useTheme(am4themes_kelly);
+    am4core.useTheme(am4themes_animated);
+    // Themes end
+    
+    // Create chart instance
+    var chart = am4core.create("total_social__media_contributors", am4charts.PieChart);
+    
+    // Set data
+    var selected;
+    var types = [
+    
+     {
+      "social_sites": "Facebook",
+      "user": {{facebook_total_supporters}}
+      },{
+      "social_sites": "Twitter",
+      "user": {{twitter_total_supporters}}
+      }, {
+      "social_sites": "Whatsapp",
+      "user": {{whatsapp_total_supporters}}
+      }
+    ];
+    
+    // Add data
+    chart.data = generateChartData();
+    
+    // Add and configure Series
+    var pieSeries_media = chart.series.push(new am4charts.PieSeries());
+    pieSeries_media.dataFields.value = "user";
+    pieSeries_media.dataFields.category = "social_sites";
+    pieSeries_media.colors.list = [
+    am4core.color("#3c5993"),
+    am4core.color("#49a7f1"),
+    am4core.color("#3eba48")
+  ];
+    pieSeries_media.slices.template.propertyFields.fill = "color";
+    pieSeries_media.slices.template.propertyFields.isActive = "pulled";
+    pieSeries_media.slices.template.strokeWidth = 0;
+    pieSeries_media.ticks.template.disabled = true;
+    pieSeries_media.alignLabels = false;
+    pieSeries_media.labels.template.text = "{value.percent.formatNumber('#.0')}%";
+    pieSeries_media.labels.template.fontSize = 13;
+    
+  
+    pieSeries_media.labels.template.radius = am4core.percent(-80);
+    pieSeries_media.labels.template.fill = am4core.color("white");
+    pieSeries_media.labels.template.relativeRotation = 90;
+    
+
+    
+    
+    function generateChartData() {
+      var chartData_n = [];
+      for (var i = 0; i < types.length; i++) {
+          if (types[i].user != "0") {
+            chartData_n.push({
+              social_sites : types[i].social_sites,
+              user: types[i].user 
+            });
+          }     
+        }
+        
+      return chartData_n;
+      console.log("chartData" , chartData_n);
+    }
+    
+    pieSeries_media.labels.template.adapter.add("radius", function(radius, target) {
+      if (target.dataItem && (target.dataItem.values.value.percent < 10)) {
+        return 0;
+      }
+      return radius;
+    });
+    
+    pieSeries_media.labels.template.adapter.add("fill", function(color, target) {
+      if (target.dataItem && (target.dataItem.values.value.percent < 10)) {
+        return am4core.color("#000");
+      }
+      return color;
+    });
+    
+    pieSeries_media.slices.template.events.on("hit", function(event) {
+      if (event.target.dataItem.dataContext.id != undefined) {
+        selected = event.target.dataItem.dataContext.id;
+      } else {
+        selected = undefined;
+      }
+      chart.data = generateChartData();
+    });
+    
+    </script>
+
+  {% endblock %}
+</body>
+</html>

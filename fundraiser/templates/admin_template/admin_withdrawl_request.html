@@ -41,7 +41,6 @@
             <th scope="col">Total Withdrawal​</th>
             <th scope="col">Available Amount</th>
             <th scope="col">Request Amount​</th>
-            <th scope="col">Commission​</th>
             <th scope="col">Status</th>
             <th scope="col">Action</th>
           </tr>
@@ -55,7 +54,6 @@
               <td>{{ WithdrawalRequest.campaign.total_withdrawl_fund }}</td>
               <td>{{ WithdrawalRequest.campaign.available_withdrawl_fund }}</td>
               <td>{{ WithdrawalRequest.amount }}</td>
-              <td>{{ WithdrawalRequest.campaign.commission }} %</td>
               <td>{{ WithdrawalRequest.status }}</td>
               <td class="width_150">
                   <a href="{% url 'admin_withdrawl_request_edit' WithdrawalRequest.id %}"><i class="fa fa-edit warning" aria-hidden="true"></i></a>

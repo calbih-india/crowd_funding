@@ -139,6 +139,22 @@ var nav_offset_top = $('#mainNav').height() + 20;
         }
     });
 
+    
+    $('#id_send_email').change(function(){
+        if ($('#id_send_email').prop("checked")) {
+            $(this).parent().parent().addClass('jss883 jss896');
+            $('#id_send_email').parent().find('.svg_hide').show();           
+            $('#id_send_email').parent().find('.svg_show').hide();
+        }
+        else{
+            $(this).parent().parent().removeClass('jss883 jss896');
+            $('#id_send_email').parent().find('.svg_hide').hide();
+            $('#id_send_email').parent().find('.svg_show').show(); 
+        }
+    });
+
+    
+
 
     
 
@@ -890,16 +906,26 @@ $("#Edit_Updates").click(function(){
     }
 
 
-    var text_length_2 = $("#id_about_update .jqte_editor").text().length;
-      if(text_length_2<=0){
-        $("#id_update_error").text("Please Update ");
-        update_text = 1
-      }
-      else {
-        // $("textarea[name='buzz']").val($("#id_about_update .jqte_editor").text());
-        $("#id_update_error").text("");
-        update_text = 0; 
-      }
+        // var text_length_2 = $("#id_about_update .jqte_editor").text().length;
+        //   if(text_length_2<=0){
+        //     $("#id_update_error").text("Please Update ");
+        //     update_text = 1
+        //   }
+        //   else {
+        //     // $("textarea[name='buzz']").val($("#id_about_update .jqte_editor").text());
+        //     $("#id_update_error").text("");
+        //     update_text = 0; 
+        //   }
+
+        if($("#id_about_update #id_about").val().trim() != ""){
+            $("#id_update_error").text("");
+            update_text = 0;
+        }
+        else {
+            $("#id_update_error").text("Please Update");
+            update_text = 1;
+        }
+
 
 
       if(update_text == 1 || id_title == 1 ){
@@ -1014,12 +1040,116 @@ $("#Edit_buzz").click(function(){
 
 });
 
+$("#Edit_buzz_fund").click(function(){
+
+
+    var id_tittle_one = buzz_text = id_article_link = id_picture_two =  id_publisher = 0;
+
+    if($(".class_tittle_one #id_title").val().trim() != ""){
+        $("#id_tittle_one_error").text("");
+        id_tittle_one = 0;
+    }
+    else {
+        $("#id_tittle_one_error").text("Please enter a title");
+        id_tittle_one = 1;
+    }
+
+    if($("#id_publisher").val().trim() != ""){
+        $("#publisher_error").text("");
+        id_publisher = 0;
+    }
+    else {
+        $("#publisher_error").text("Please enter a publisher");
+        id_publisher = 1;
+    }
+
+    if($("#id_about_buzz #id_about").val().trim() != ""){
+        $("#id_buzz_error").text("");
+        buzz_text = 0;
+    }
+    else {
+        $("#id_buzz_error").text("Please Update");
+        buzz_text = 1;
+    }
+    
+
+    // var text_length_3 = $("#id_about_buzz .jqte_editor").text().length;
+    //   if(text_length_3<=0){
+    //     $("#id_buzz_error").text("Please Update ");
+    //     buzz_text = 1
+    //   }
+    //   else {
+    //      // $("textarea[name='buzz']").val($("#id_about_update .jqte_editor").text());
+    //     $("#id_buzz_error").text("");
+    //     buzz_text = 0; 
+    //   }
+
+
+     
+
+        if($("#id_article_link").val().trim().match(/^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/) == null || $("#id_article_link").val().trim() == ""){
+            $("#article_error").text("Please Valid a article link");
+            id_article_link = 1;
+        }
+        else{
+            $("#article_error").text("");
+            id_article_link = 0;
+        }
+
+
+
+        if($("#id_picture_two").val() == ""){
+            $(".id_picture_two_error").text("Please Upload Image");
+            id_picture_two = 1;
+        }
+        else{
+             $(".id_picture_two_error").text("");
+            id_picture_two = 0;
+        }
+        
+
+
+      if(buzz_text == 1 || id_tittle_one == 1 || id_article_link == 1 || id_picture_two == 1 || id_publisher == 1){
+        return false
+    }
+
+});
+
+
+
 
 $(".edit_title_class #id_title").keyup(function(){
     if($(this).val().trim() != ""){
         $(".edit_title_error").text("");
     }
     else {
+        $(".edit_title_error").text("Please enter a title");
+    }
+});
+
+charCount = $('#tittle_count #id_title').val().length;   
+     $(".result").text(charCount);
+
+$("#tittle_count #id_title").keyup(function(){
+    if($(this).val().trim() != ""){
+        var maxlength = $(this).attr("maxlength");
+                
+        var currentLength = $(this).val().length;
+
+        if( currentLength >= maxlength ){
+            $('.result').text($(this).attr("maxlength"));
+            $(".edit_title_error").text("Maximum length of tittle is 90 characters");
+            return false;
+        }
+        else{
+            var count =  currentLength % parseInt(maxlength) ;
+            $('.result').text(count);
+            $(".edit_title_error").text("");
+        }
+        $(".edit_title_error").text("");
+    }
+    else {
+        $('.result').text('0');
         $(".edit_title_error").text("Please enter a title");
     }
 });
@@ -1061,6 +1191,19 @@ $("#edit_goal_btn").click(function(){
 
 });
 
+
+$("#edit_url_btn").click(function(){
+
+    if($(".edit_url_div #id_edit_url").val().trim() != ""){
+        $(".edit_url_error").text("");
+        return true
+    }
+    else {
+        $(".edit_url_error").text("Please enter a Url");
+        return false
+    }
+
+});
 
 $("#id_picture_btn").click(function(){
  if($("#id_picture").val() == ""){
@@ -1885,11 +2028,60 @@ $("#id_state").keyup(function(){
     }
 });
 
+$("#id_pan_num").keyup(function(){
+    if($(this).val().trim() != ""){
+        $(this).parent().parent().find(".error").text("");
+    }
+    else {
+        $(this).parent().parent().find(".error").text("Please enter a correct Number");
+    }
+});
+
+$('#want_to_contribute_amount').click(function(){
+        if($(this).prop("checked") == true ){
+        //   $("#want_to_contribute_amount_text").text("Want to Contribute Amount");
+            $(this).parent().parent().addClass("jss878 jss877");  
+            $("#amount_div_sec").show();
+            $("#id_amount").attr("disabled", false);
+            $("#id_pan_num").attr("disabled", false);
+            $("#id_amount_error_class").text("");
+        }
+        else if($(this).prop("checked") == false){
+            // $("#want_to_contribute_amount_text").text("Don`t want to Contribute Amount");
+            $(this).parent().parent().removeClass("jss878 jss877");
+            $("#amount_div_sec").hide();
+            $("#id_amount").attr("disabled", true); 
+            $("#id_pan_num").attr("disabled", true);
+            $("#id_amount_error_class").text("");
+        }
+    });
+
+if($("#want_to_contribute_amount").prop("checked") == true){
+        // $("#want_to_contribute_amount_text").text("Want to Contribute Amount");
+
+        $("#want_to_contribute_amount").parent().parent().addClass("jss878 jss877");
+            
+          $("#amount_div_sec").show();
+          $("#id_amount").attr("disabled", false);
+          $("#id_pan_num").attr("disabled", false);
+          $("#id_amount_error_class").text("");
+
+      }
+      else if($("#want_to_contribute_amount").prop("checked") == false){
+        
+        //   $("#want_to_contribute_amount_text").text("Don`t want to Contribute Amount");
+        $("#want_to_contribute_amount").parent().parent().removeClass("jss878 jss877");
+        $("#id_amount").attr("disabled", true);  
+        $("#id_pan_num").attr("disabled", true);         
+        $("#amount_div_sec").hide();
+        $("#id_amount_error_class").text("");
+      }
+
 
 
 $("#support_fund").click(function(){
 
-        var id_name = id_address = id_pincode  = id_amount = id_city = id_state = reg_number = trem_check = 0;
+        var id_name = want_to_contribute_amount = id_pan_num = id_address = id_pincode  = id_amount = id_city = id_state = reg_number = trem_check = 0;
 
         if($("#id_name").val().trim() != ""){
             $("#id_name").parent().parent().find(".error").text("");
@@ -1900,14 +2092,55 @@ $("#support_fund").click(function(){
             id_name = 1;
         }
 
-        if($("#id_amount").val().trim() != ""){
-            $("#id_amount").parent().parent().parent().find(".error").text("");
-            id_amount = 0;
+
+        if ($('#want_to_contribute_amount').prop("checked")) {
+
+            if($("#id_amount").val() == ""){                
+                $("#id_amount_error_class").text("Please enter a valid value");
+                // $("#id_amount").prop('disabled', false);
+                $("#id_amount").attr("disabled", false);
+                $("#id_pan_num").attr("disabled", false);
+                want_to_contribute_amount = 1
+            }
+            else{
+                $("#id_amount_error_class").text("");
+                // $("#id_amount").prop('disabled', false);
+                $("#id_amount").attr("disabled", false);
+                $("#id_pan_num").attr("disabled", false);
+                want_to_contribute_amount = 0
+            }  
+
+            
         }
-        else {
-            $("#id_amount").parent().parent().parent().find(".error").text("Please enter a correct Amount");
-            id_amount = 1;
+        else{
+            
+            $("#id_amount_error_class").text("");
+            want_to_contribute_amount = 0 
+            $("#id_amount").attr("disabled", true);
+            $("#id_pan_num").attr("disabled", true);
+            // $("#id_amount").prop('disabled', true);
+            
+              
         }
+        
+
+        // if($("#id_pan_num").val().trim() != ""){
+        //     $("#id_pan_num").parent().parent().find(".error").text("");
+        //     id_pan_num = 0;
+        // }
+        // else {
+        //     $("#id_pan_num").parent().parent().find(".error").text("Please enter a correct Number");
+        //     id_pan_num = 1;
+        // }
+
+        // if($("#id_amount").val().trim() != ""){
+        //     $("#id_amount").parent().parent().parent().find(".error").text("");
+        //     id_amount = 0;
+        // }
+        // else {
+        //     $("#id_amount").parent().parent().parent().find(".error").text("Please enter a correct Amount");
+        //     id_amount = 1;
+        // }
 
 
         if($("#id_address").val().trim() != ""){
@@ -1981,7 +2214,7 @@ $("#support_fund").click(function(){
             trem_check = 1
         }
 
-        if( id_email == 1 || id_state == 1 ||  id_name == 1 || id_pincode == 1 || id_city == 1 || id_amount == 1 || trem_check == 1 || reg_number == 1) {
+        if( id_email == 1 || id_state == 1 ||  id_name == 1 || id_pincode == 1 || id_city == 1 || want_to_contribute_amount == 1 || trem_check == 1 || reg_number == 1) {
                 return false
          }
     
@@ -2526,6 +2759,9 @@ $("#full_address").keyup(function(){
     }
 });
 
+
+
+
 $("#has_goal_input").keyup(function(){
     if($(this).val().trim() != ""){
         $("#has_goal_input_error").text("");
@@ -2710,3 +2946,495 @@ $("#start_camp_sg_id").click(function(){
    }
 
 });
+
+
+
+
+// Upolad Documents
+
+var _validFileExtensions_doc_upload = [".pdf" ,".jpeg", ".jpg",".png"];    
+             
+function Validateimgpdfdocupload(oInputimg) {
+    if (oInputimg.type == "file") {
+                
+        var sFileName = oInputimg.value;
+        
+        if (sFileName.length > 0) {
+            var blnValid = false;
+            for (var j = 0; j < _validFileExtensions_doc_upload.length; j++) {
+                var sCurExtension = _validFileExtensions_doc_upload[j];
+                if (sFileName.substr(sFileName.length - sCurExtension.length, sCurExtension.length).toLowerCase() == sCurExtension.toLowerCase()) {
+                    blnValid = true;
+                    if (blnValid) {
+                      var fsize = $('#id_Cancelled_Cheque')[0].files[0].size;
+                        if (oInputimg.files && oInputimg.files[0]) {
+                      var reader = new FileReader();
+
+                        reader.readAsDataURL(oInputimg.files[0]);
+                        reader.onload = function (e) {
+                            //Initiate the JavaScript Image object.
+                            var image = new Image();
+             
+                            //Set the Base64 string return from FileReader as source.
+                            image.src = e.target.result;
+                                   
+                            $("#id_Cancelled_Cheque_error").text("");
+                    }
+                }
+            }
+                    break;
+                }
+            }
+            if (!blnValid) {
+
+             $("#id_Cancelled_Cheque_error").text("Allowed file format : (.pdf/png/jpeg/jpg)");
+                
+                oInputimg.value = "";
+                return false;
+            }
+        }
+        
+         if (blnValid) {
+            var fsize = $('#id_Cancelled_Cheque')[0].files[0].size;
+           
+            if (oInputimg.files && oInputimg.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#blah')
+                        .attr('src', e.target.result);                                    
+                };
+
+                reader.readAsDataURL(oInputimg.files[0]);
+                reader.onload = function (e) {
+                    //Initiate the JavaScript Image object.
+                    var image = new Image();
+     
+                    //Set the Base64 string return from FileReader as source.
+                    image.src = e.target.result;
+                           
+                 
+     
+                }
+            }
+        }
+        
+    }
+}
+
+$("#upload_documents").click(function(){
+    if($("#id_picture").val() == ""){
+           $("#id_Cancelled_Cheque_error").text("Please Cancelled Cheque");
+           return false
+       }
+       else{
+            $("#id_Cancelled_Cheque_error").text("");
+           return true
+       }
+   });
+
+
+   var _validFileExtensions_doc_upload = [".jpeg", ".jpg",".png",".pdf"];    
+             
+   function Validateaddress_proofpdfdocupload(oInputimg) {
+       if (oInputimg.type == "file") {
+                   
+           var sFileName = oInputimg.value;
+           
+           if (sFileName.length > 0) {
+               var blnValid = false;
+               for (var j = 0; j < _validFileExtensions_doc_upload.length; j++) {
+                   var sCurExtension = _validFileExtensions_doc_upload[j];
+                   if (sFileName.substr(sFileName.length - sCurExtension.length, sCurExtension.length).toLowerCase() == sCurExtension.toLowerCase()) {
+                       blnValid = true;
+                       if (blnValid) {
+                         var fsize = $('#id_address_proof_picture')[0].files[0].size;
+                           if (oInputimg.files && oInputimg.files[0]) {
+                         var reader = new FileReader();
+   
+                           reader.readAsDataURL(oInputimg.files[0]);
+                           reader.onload = function (e) {
+                               //Initiate the JavaScript Image object.
+                               var image = new Image();
+                
+                               //Set the Base64 string return from FileReader as source.
+                               image.src = e.target.result;
+                                      
+                               $("#id_address_proof_picture_error").text("");
+                       }
+                   }
+               }
+                       break;
+                   }
+               }
+               if (!blnValid) {
+   
+                $("#id_address_proof_picture_error").text("Allowed file format : (.png/jpeg/jpg/pdf)");
+                   
+                   oInputimg.value = "";
+                   return false;
+               }
+           }
+           
+            if (blnValid) {
+               var fsize = $('#id_doc')[0].files[0].size;
+              
+               if (oInputimg.files && oInputimg.files[0]) {
+                   var reader = new FileReader();
+   
+                   reader.onload = function (e) {
+                       $('#blah')
+                           .attr('src', e.target.result);                                    
+                   };
+   
+                   reader.readAsDataURL(oInputimg.files[0]);
+                   reader.onload = function (e) {
+                       //Initiate the JavaScript Image object.
+                       var image = new Image();
+        
+                       //Set the Base64 string return from FileReader as source.
+                       image.src = e.target.result;
+                              
+                    
+        
+                   }
+               }
+           }
+           
+       }
+   }
+   
+   $("#id_address_proof").click(function(){
+
+        var id_address_proof_picture = id_address_proof_type = 0;
+
+        if($("#id_address_proof_type").val() == ""){
+           $("#id_address_proof_type_error").text("Please select Document type");
+           id_address_proof_type = 1;
+       }
+       else{
+           $("#id_address_proof_type_error").text("");
+           id_address_proof_type = 0;
+       }
+
+       if($("#id_address_proof_picture").val() == ""){
+              $("#id_address_proof_picture_error").text("Please Upload Address Proof");
+              id_address_proof_picture = 1;
+          }
+          else{
+               $("#id_address_proof_picture_error").text("");
+              id_address_proof_picture = 0;
+          }
+
+          if(id_address_proof_picture == 1 || id_address_proof_type == 1 ){
+               return false
+           }
+      });
+
+      $('#comment_id').click(function(){
+        if($(this).prop("checked") == true){
+          $("#comment_id_text").text("Enable comments for this campaign");
+            $(this).parent().parent().addClass("jss878 jss877");
+        }
+        else if($(this).prop("checked") == false){
+            $("#comment_id_text").text("Disable comments for this campaign");
+          $(this).parent().parent().removeClass("jss878 jss877");
+        }
+    });
+
+      var _validFileExtensions_pan_upload = [".pdf" ,".jpeg", ".jpg",".png"];    
+             
+    function Validatepan_numpdfdocupload(oInputimg) {
+        if (oInputimg.type == "file") {
+                    
+            var sFileName = oInputimg.value;
+            
+            if (sFileName.length > 0) {
+                var blnValid = false;
+                for (var j = 0; j < _validFileExtensions_doc_upload.length; j++) {
+                    var sCurExtension = _validFileExtensions_doc_upload[j];
+                    if (sFileName.substr(sFileName.length - sCurExtension.length, sCurExtension.length).toLowerCase() == sCurExtension.toLowerCase()) {
+                        blnValid = true;
+                        if (blnValid) {
+                          var fsize = $('#pancard_image')[0].files[0].size;
+                            if (oInputimg.files && oInputimg.files[0]) {
+                          var reader = new FileReader();
+
+                            reader.readAsDataURL(oInputimg.files[0]);
+                            reader.onload = function (e) {
+                                //Initiate the JavaScript Image object.
+                                var image = new Image();
+                 
+                                //Set the Base64 string return from FileReader as source.
+                                image.src = e.target.result;
+                                       
+                                $("#id_pan_num_picture_error").text("");
+                        }
+                    }
+                }
+                        break;
+                    }
+                }
+                if (!blnValid) {
+
+                 $("#id_pan_num_picture_error").text("Allowed file format : (.pdf/png/jpeg/jpg)");
+                    
+                    oInputimg.value = "";
+                    return false;
+                }
+            }            
+            
+        }
+    }
+
+      $("#id_pancard_no").keyup(function(){
+        if($(this).val().trim() != ""){
+            $(this).parent().parent().find(".error").text("");
+        }
+        else {
+            $(this).parent().parent().find(".error").text("Please enter a valid value");
+        }
+    });
+
+      $("#id_pan_card_btn").click(function(){
+
+        var pancard_image = id_pancard_no = 0;
+
+        if($("#id_pancard_no").val() == ""){
+           $("#id_pancard_no_error").text("Please Enter Pan Card Number");
+           id_pancard_no = 1;
+       }
+       else{
+           $("#id_pancard_no_error").text("");
+           id_pancard_no = 0;
+       }
+
+       if($("#pancard_image").val() == ""){
+              $("#id_pan_num_picture_error").text("Please Upload Address Proof");
+              pancard_image = 1;
+          }
+          else{
+               $("#id_pan_num_picture_error").text("");
+              pancard_image = 0;
+          }
+
+          if(pancard_image == 1 || id_pancard_no == 1 ){
+               return false
+           }
+      });
+
+      $('#comment_id').click(function(){
+        if($(this).prop("checked") == true){
+          $("#comment_id_text").text("Enable comments for this campaign");
+            $(this).parent().parent().addClass("jss878 jss877");
+        }
+        else if($(this).prop("checked") == false){
+            $("#comment_id_text").text("Disable comments for this campaign");
+          $(this).parent().parent().removeClass("jss878 jss877");
+        }
+    });
+
+      if($("#comment_id").prop("checked") == true){
+        $("#comment_id_text").text("Enable comments for this campaign");
+          $("#comment_id").parent().parent().addClass("jss878 jss877");
+      }
+      else if($("#comment_id").prop("checked") == false){
+          $("#comment_id_text").text("Disable comments for this campaign");
+        $("#comment_id").parent().parent().removeClass("jss878 jss877");
+      }
+
+      
+      
+
+      if($("#event_end_goal_id").prop("checked") == true){
+        $("#event_end_goal_id_text").text("Open Ended Campaign");
+        $("#event_end_goal_div").css("display","none");
+          $("#event_end_goal_id").parent().parent().addClass("jss878 jss877");
+      }
+      else if($("#event_end_goal_id").prop("checked") == false){
+          $("#event_end_goal_id_text").text("Has an end goal");
+          $("#event_end_goal_div").css("display","block");
+        $("#event_end_goal_id").parent().parent().removeClass("jss878 jss877");
+      }
+
+      $('#event_end_goal_id').click(function(){
+        if($(this).prop("checked") == true){
+          $("#event_end_goal_id_text").text("Open Ended Campaign");
+          $("#event_end_goal_div").css("display","none");
+            $(this).parent().parent().addClass("jss878 jss877");
+        }
+        else if($(this).prop("checked") == false){
+            $("#event_end_goal_id_text").text("Has an end goal");
+            $("#event_end_goal_div").css("display","block");
+          $(this).parent().parent().removeClass("jss878 jss877");
+        }
+    });
+
+
+      if($("#fundraiser_end_goal_id").prop("checked") == true){ 
+        $("#fundraiser_end_goal_id_text").text("Open Ended Campaign");
+        $("#fundraiser_end_goal_div").css("display","none");
+          $("#fundraiser_end_goal_id").parent().parent().addClass("jss878 jss877");
+      }
+      else if($("#fundraiser_end_goal_id").prop("checked") == false){
+          $("#fundraiser_end_goal_id_text").text("Has an end goal");
+          $("#fundraiser_end_goal_div").css("display","block");
+        $("#fundraiser_end_goal_id").parent().parent().removeClass("jss878 jss877");
+      }
+
+      $('#fundraiser_end_goal_id').click(function(){ 
+        if($(this).prop("checked") == true){
+          $("#fundraiser_end_goal_id_text").text("Open Ended Campaign");
+          $("#fundraiser_end_goal_div").css("display","none");
+            $(this).parent().parent().addClass("jss878 jss877");
+        }
+        else if($(this).prop("checked") == false){
+            $("#fundraiser_end_goal_id_text").text("Has an end goal");
+            $("#fundraiser_end_goal_div").css("display","block");
+          $(this).parent().parent().removeClass("jss878 jss877");
+        }
+    });
+
+      if($("#sg_end_goal_id").prop("checked") == true){
+        $("#sg_end_goal_id_text").text("Open Ended Campaign");
+        $("#sg_end_goal_div").css("display","none");
+          $("#sg_end_goal_id").parent().parent().addClass("jss878 jss877");
+      }
+      else if($("#sg_end_goal_id").prop("checked") == false){
+          $("#sg_end_goal_id_text").text("Has an end goal");
+          $("#sg_end_goal_div").css("display","block");
+        $("#sg_end_goal_id").parent().parent().removeClass("jss878 jss877");
+      }
+
+      $('#sg_end_goal_id').click(function(){
+        if($(this).prop("checked") == true){
+          $("#sg_end_goal_id_text").text("Open Ended Campaign");
+          $("#sg_end_goal_div").css("display","none");
+            $(this).parent().parent().addClass("jss878 jss877");
+        }
+        else if($(this).prop("checked") == false){
+            $("#sg_end_goal_id_text").text("Has an end goal");
+            $("#sg_end_goal_div").css("display","block");
+          $(this).parent().parent().removeClass("jss878 jss877");
+        }
+    });
+
+
+    //   $(".float_value").keypress(function(){       
+
+    //     var re = new RegExp("^[-+]?[0-9]+\.[0-9]+$");
+    //       if ($(this).value.match(re)) {
+           
+    //       } else {
+    //         event.preventDefault();
+    //       }       
+
+    // });
+
+      $('input.float_value').on('input', function() {
+  this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');
+});
+
+      $("#Commission").click(function(){
+            id_our_democracy_commission = id_our_democracy_gst = id_payment_gateway_charges = id_payment_gateway_gst =  0;
+           if($("#id_our_democracy_commission").val().trim() != ""){
+               $("#id_our_democracy_commission").parent().parent().find(".error").text("");
+               id_our_democracy_commission = 0;
+           }
+           else {
+               $("#id_our_democracy_commission").parent().parent().find(".error").text("Please enter a valid value");
+               id_our_democracy_commission = 1;
+           }
+
+           if($("#id_our_democracy_gst").val().trim() != ""){
+               $("#id_our_democracy_gst").parent().parent().find(".error").text("");
+               id_our_democracy_gst = 0;
+           }
+           else {
+               $("#id_our_democracy_gst").parent().parent().find(".error").text("Please enter a valid value");
+               id_our_democracy_gst = 1;
+           }
+
+           if($("#id_payment_gateway_charges").val().trim() != ""){
+               $("#id_payment_gateway_charges").parent().parent().find(".error").text("");
+               id_payment_gateway_charges = 0;
+           }
+           else {
+               $("#id_payment_gateway_charges").parent().parent().find(".error").text("Please enter a valid value");
+               id_payment_gateway_charges = 1;
+           }
+
+           if($("#id_payment_gateway_gst").val().trim() != ""){
+               $("#id_payment_gateway_gst").parent().parent().find(".error").text("");
+               id_payment_gateway_gst = 0;
+           }
+           else {
+               $("#id_payment_gateway_gst").parent().parent().find(".error").text("Please enter a valid value");
+               id_payment_gateway_gst = 1;
+           }
+
+          if(id_our_democracy_commission == 1 || id_our_democracy_gst == 1 || id_payment_gateway_charges == 1 || id_payment_gateway_gst == 1){
+               return false
+           }
+      });
+
+
+      $("#id_our_democracy_commission").keyup(function(){
+        if($(this).val().trim() != ""){
+            $(this).parent().parent().find(".error").text("");
+        }
+        else {
+            $(this).parent().parent().find(".error").text("Please enter a valid value");
+        }
+    });
+
+      $("#id_our_democracy_gst").keyup(function(){
+        if($(this).val().trim() != ""){
+            $(this).parent().parent().find(".error").text("");
+        }
+        else {
+            $(this).parent().parent().find(".error").text("Please enter a valid value");
+        }
+    });
+
+      $("#id_payment_gateway_charges").keyup(function(){
+        if($(this).val().trim() != ""){
+            $(this).parent().parent().find(".error").text("");
+        }
+        else {
+            $(this).parent().parent().find(".error").text("Please enter a valid value");
+        }
+    });
+
+      $("#id_payment_gateway_gst").keyup(function(){
+        if($(this).val().trim() != ""){
+            $(this).parent().parent().find(".error").text("");
+        }
+        else {
+            $(this).parent().parent().find(".error").text("Please enter a valid value");
+        }
+    });
+
+      
+
+      $("#id_email_msg").keyup(function(){
+        if($(this).val().trim() != ""){
+            $(this).parent().parent().find(".error").text("");
+        }
+        else {
+            $(this).parent().parent().find(".error").text("Please enter a Message");
+        }
+    });
+
+
+    $("#email_message_submit").click(function(){
+        if($("#id_email_msg").val().trim() != ""){
+            $(this).parent().parent().find(".error").text("");
+            return true
+        }
+        else {
+            $(this).parent().parent().find(".error").text("Please enter a Message");
+            return false
+        }
+
+    });

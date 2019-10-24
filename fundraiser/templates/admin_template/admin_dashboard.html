@@ -90,6 +90,9 @@
                   <li>
                     <a href="{% url 'admin_manage_cashfree_credential' %}">Manage Cashfree Credential</a>                      
                 </li>
+                <!-- <li>
+                  <a href="{% url 'admin_manage_commission' %}">Modify Our Democracy Commission & Payment Gateway Charges</a>                      
+              </li> -->
                   <!-- <li>
                       <a href="{% url 'admin_analytics' %}"> Analytics </a>                      
                   </li> -->
@@ -100,13 +103,13 @@
                       <a href="{% url 'admin_manage_category' %}">Create New Campaign Category</a>                      
                   </li>
                   <li>
+                      <a href="{% url 'admin_manage_sub_category' %}">Create New Campaign Sub-Category</a>                      
+                  </li>
+                  <li>
                       <a href="{% url 'admin_manage_cause' %}">Create New Cause</a>                      
                   </li>
-                  {% comment %} <li>
-                      <a href="{% url 'generic_user_view' %}">Manage Generic User</a>                      
-                  </li> {% endcomment %}
                   <li>
-                      <a href="{% url 'platform_generic_user' %}">Manage Generic User</a>
+                      <a href="{% url 'generic_user_view' %}">Manage Generic User</a>                      
                   </li>
                   <li>
                       <a href="{% url 'admin_manage_media' %}">Media Article</a>                      
@@ -130,27 +133,20 @@
                       <a href="{% url 'admin_manage_event' %}">​Authorize/Edit event ({{ 'test'|get_unauthorized_event }})</a>
                   </li>
 
-                  {% comment %} <li>
-                      <a href="{% url 'admin_manage_support_group_member' %}">Mobilisation Campaign Members​</a>
-                  </li> {% endcomment %}
-
                   <li>
-                      <a href="{% url 'admin_manage_mobilisation_member' %}">Mobilisation Campaign Member​</a>
+                      <a href="{% url 'admin_manage_support_group_member' %}">Mobilisation Campaign Member​</a>
                   </li>
-
                   <li>
-                      <a href="{% url 'admin_manage_fundraiser_member' %}">Fundraiser Campaign Members​</a>
+                      <a href="{% url 'admin_fundraiser_campaign_member' %}">Fundraiser Campaign Member​</a>
                   </li>
-                  {% comment %} <li>
+                  <li>
+                      <a href="{% url 'admin_event_member' %}">Event Member​</a>
+                  </li>
+                  <li>
                       <a href="{% url 'admin_manage_contributors' %}">Contributors</a>
-                  </li> {% endcomment %}
-
-                  <li>
-                      <a href="{% url 'admin_manage_event_member' %}">Event Member​s</a>
                   </li>
-
                   <li>
-                      <a href="{% url 'admin_manage_donors' %}">Donors/Contributors</a>
+                      <a href="{% url 'admin_manage_donors' %}">Donors</a>
                   </li>
                   <li>
                       <a href="{% url 'admin_manage_refund' %}">Refund</a>

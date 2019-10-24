@@ -48,3 +48,10 @@ cashfreepaymentmode = (
     ('TEST', 'TEST'),
     ('PROD', 'PROD'),
 )
+
+Address_Proof_Type = (
+    ('Adhaar Card', 'Adhaar Card'),
+    ('Passport', 'Passport'),
+    ('Electricity Bill', 'Electricity Bill'),
+    ('Driving License', 'Driving License'),
+)

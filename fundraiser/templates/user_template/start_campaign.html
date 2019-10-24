@@ -46,6 +46,15 @@
             </div>
           </div>
           <div class="jss550 jss551 jss553">
+            <p class="jss515 jss524">Url Text</p>
+            <div class="jss550">
+              <div class="jss567 jss554 jss558 jss568 jss555">
+                  {{ Campaign_FundRaiser_Form.url_text }}
+              </div>
+              <span class="error">{{ Campaign_FundRaiser_Form.errors.url_text }}</span>
+            </div>
+          </div>
+          <div class="jss550 jss551 jss553">
             <p class="jss515 jss524">Category</p>
             <div class="jss550">
               <div class="jss567 jss554 jss558 jss568 jss555 select2_con">
@@ -53,6 +62,17 @@
               </div>
             </div>
             <span class="error" id="id_category_error">{{ Campaign_FundRaiser_Form.errors.category }}</span>
+          </div>
+          <div class="jss550 jss551 jss553">
+            <p class="jss515 jss524">Sub-Category</p>
+            <div class="jss550">
+              <div class="jss567 jss554 jss558 jss568 jss555 select2_con">
+                <select name="sub_category" required="" class='select2'>
+                  <option value="">Select the option</option>
+                </select>
+              </div>
+            </div>
+            <span class="error" id="id_category_error">{{ Campaign_FundRaiser_Form.errors.sub_category }}</span>
           </div>
           <div class="jss550 jss551 jss553">
             <p class="jss515 jss524">Goal</p>
@@ -140,5 +160,22 @@
         $('.jqte-test').jqte();
     });
 
+  </script>
+
+
+  <script>
+  $("select[name='category']").change(function(){
+    $.get("{% url 'get_sub_category' %}", {'category':$("select[name='category']").val()}, function(result){
+      var sub_category_list = result['sub_category'];     
+
+      //for state
+      $("select[name='sub_category']").empty();
+      $("select[name='sub_category']").append($("<option value=''>Select the option</option>"));
+      for (i = 0; i < sub_category_list.length; i++) {
+        $("select[name='sub_category']").append($("<option value='"+sub_category_list[i]['id']+"'>"+sub_category_list[i]["sub_category"]+"</option>"));
+      }
+      $("select[name='sub_category']").select2(); 
+    })
+  })
   </script>
 {% endblock %}

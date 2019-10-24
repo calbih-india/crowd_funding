@@ -115,6 +115,10 @@ admin.site.register(Beneficiary)
 admin.site.register(WithdrawalRequest)
 
 
-class SupportVisitHistoryAdmin(admin.ModelAdmin):
-    list_display = ('path', 'ip','request_type', 'location', 'created_at')
-admin.site.register(SupportVisitHistory, SupportVisitHistoryAdmin)
+admin.site.register(SupportVisitHistory)
+admin.site.register(EventVisitHistory)
+
+
+class CampaignFundRaiserVisitHistoryAdmin(admin.ModelAdmin):
+    list_display = ('ip', 'user', 'source',)
+admin.site.register(CampaignFundRaiserVisitHistory, CampaignFundRaiserVisitHistoryAdmin)

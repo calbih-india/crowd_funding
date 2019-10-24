@@ -7,11 +7,16 @@ from django.contrib.auth.forms  import UserCreationForm
 from fundraiser.models import *
 
 
-
 class LoginForm(forms.Form):
     email = forms.EmailField(widget=forms.EmailInput(attrs={"aria-invalid":"false", "autocomplete":"email", "class":"jss577 jss562", "id":"log_email"}))
     password = forms.CharField(strip=False,widget=forms.PasswordInput(attrs={"aria-invalid":"false", "autocomplete":"current-password", "class":"jss577 jss562 jss580 jss565", "id":"log_pass" }))
-    
+
+class CheckPotentialCampaignDoners(forms.Form):
+    is_donating = forms.BooleanField(widget=forms.CheckboxInput(attrs={"class":"jss885 ", "id":"want_to_contribute_amount"}), required=False) 
+
+
+class ReminderForm(forms.Form):
+    message = forms.CharField(widget=forms.Textarea(attrs={ "class":"jss577 jss562", "maxlength":"250",  "id":"id_email_msg", "spellcheck":"false"})) 
 
 class UserSignupForm(UserCreationForm):
     class Meta:
@@ -208,7 +213,9 @@ class CampaignFundRaiserForm(forms.ModelForm):
         model = CampaignFundRaiser
         fields = (
             "title",
+            "url_text",
             "category",
+            "sub_category",
             "goal",
             "day",
             "short_description",
@@ -218,7 +225,9 @@ class CampaignFundRaiserForm(forms.ModelForm):
 
         widgets = {
             'title' :forms.TextInput(attrs={"class":"jss577 jss562"}),
+            'url_text':forms.TextInput(attrs={"class":"jss577 jss562"}),
             'category' :forms.Select(attrs={"class":"select2"}),
+            'sub_category' : forms.Select(attrs={"class":"select2"}),
             'goal' :forms.TextInput(attrs={"class":"jss577 jss562 integer_value"}),
             'day' :forms.TextInput(attrs={"class":"jss577 jss562 integer_value"}),
             'short_description':forms.TextInput(attrs={"class":"jss577 jss562"}),
@@ -349,6 +358,7 @@ class SupportGroupForm(forms.ModelForm):
         model = SupportGroup
         fields = (
             "title",
+            "url_text",
             "goal",
             "short_description",
             "about",
@@ -357,6 +367,7 @@ class SupportGroupForm(forms.ModelForm):
 
         widgets = {
             'title' :forms.TextInput(attrs={"class":"jss577 jss562"}),
+            'url_text':forms.TextInput(attrs={"class":"jss577 jss562"}),
             'goal' :forms.TextInput(attrs={"class":"jss577 jss562 integer_value"}),
             'short_description':forms.TextInput(attrs={"class":"jss577 jss562"}),
             'about' :forms.Textarea(attrs={"class":"jss577 jss562"}),
@@ -456,6 +467,7 @@ class EventForm(forms.ModelForm):
         model = Event
         fields = (
             "name",
+            "url_text",
             "about",
             "place",
             "date",
@@ -465,6 +477,7 @@ class EventForm(forms.ModelForm):
 
         widgets = {
             "name" :forms.TextInput(attrs={"class":"jss577 jss562"}),
+            'url_text':forms.TextInput(attrs={"class":"jss577 jss562"}),
             "about" :forms.Textarea(attrs={"class":"jss577 jss562"}),
             "place" :forms.TextInput(attrs={"class":"jss577 jss562"}),
             "date" :forms.TextInput(attrs={"class":"jss577 jss562", "autocomplete":"off", "id":'datetimepicker1'}),
@@ -525,14 +538,40 @@ class CampaignCategoryForm(forms.ModelForm):
         model = CampaignCategory
         fields = (
             "category",
-            # "image",
-            # "description",
         )
 
         widgets = {
             'category' :forms.TextInput(attrs={"class":"jss577 jss562"}),
-            # "description" :forms.Textarea(attrs={"class":"jss577 jss562"}),
         }
+
+
+class CampaignSubCategoryForm(forms.ModelForm):
+    class Meta:
+        model = CampaignSubCategory
+        fields = (
+            "sub_category",
+            "category",
+        )
+
+        widgets = {
+            'sub_category' :forms.TextInput(attrs={"class":"jss577 jss562"}),
+            "category" : forms.Select(attrs={"class":"select2_modal", "id":"select_sensitivity"}),
+        }
+
+
+class CampaignSubCategoryEditForm(forms.ModelForm):
+    class Meta:
+        model = CampaignSubCategory
+        fields = (
+            "sub_category",
+            "category",
+        )
+
+        widgets = {
+            'sub_category' :forms.TextInput(attrs={"class":"jss577 jss562"}),
+            "category" : forms.Select(attrs={"class":"select2", "id":"select_sensitivity"}),
+        }
+
 
 
 class CauseCategoryForm(forms.ModelForm):
@@ -686,11 +725,11 @@ class CampaignDonersForms(forms.ModelForm):
             "pincode",
             "city",
             "state",
-            "country",
             "facbook",
             "twitter",
             "indian_citizen",
             "is_hide_me",
+            "pan_no",
         )
 
         widgets = {
@@ -702,9 +741,44 @@ class CampaignDonersForms(forms.ModelForm):
             "pincode":forms.TextInput(attrs={"class":"jss860 jss845 integer_value"}),
             "city":forms.TextInput(attrs={"class":"jss860 jss845"}),
             "state":forms.TextInput(attrs={"class":"jss860 jss845"}),
-            "country":forms.TextInput(attrs={"class":"jss860 jss845"}),
-            "facbook":forms.TextInput(attrs={"class":"jss860 jss845"}),
-            "twitter":forms.TextInput(attrs={"class":"jss860 jss845"}),
+            "facbook":forms.URLInput(attrs={"class":"jss860 jss845"}),
+            "twitter":forms.URLInput(attrs={"class":"jss860 jss845"}),
+            "is_hide_me":forms.CheckboxInput(attrs={"class":"jss885", "id":"donation_anonymous_checkbox"}),
+            "indian_citizen":forms.CheckboxInput(attrs={"class":"jss885", "id":"citizen_voluntary"}),
+            "pan_no":forms.TextInput(attrs={"class":"jss860 jss845", "id":"id_pan_num"}),
+        }
+
+
+
+class PotentialCampaignDonersForms(forms.ModelForm):
+    amount = forms.IntegerField(widget=forms.NumberInput(attrs={"class":"jss885", "id":"want_to_contribute_amount"}), required=False)
+    pan_no = forms.CharField(widget=forms.TextInput(attrs={"class":"jss885", "id":"want_to_contribute_amount"}), required=False)
+    class Meta:
+        model = PotentialCampaignDoners
+        fields = (
+            "name",
+            "email",
+            "phone",
+            'address',
+            "pincode",
+            "city",
+            "state",
+            "facbook",
+            "twitter",
+            "indian_citizen",
+            "is_hide_me",
+        )
+
+        widgets = {
+            "name":forms.TextInput(attrs={"class":"jss860 jss845"}),
+            "email":forms.EmailInput(attrs={"class":"jss860 jss845"}),
+            "phone":forms.TextInput(attrs={"id":'mobile-number'}),
+            'address':forms.TextInput(attrs={"class":"jss860 jss845"}),
+            "pincode":forms.TextInput(attrs={"class":"jss860 jss845 integer_value"}),
+            "city":forms.TextInput(attrs={"class":"jss860 jss845"}),
+            "state":forms.TextInput(attrs={"class":"jss860 jss845"}),
+            "facbook":forms.URLInput(attrs={"class":"jss860 jss845"}),
+            "twitter":forms.URLInput(attrs={"class":"jss860 jss845"}),
             "is_hide_me":forms.CheckboxInput(attrs={"class":"jss885", "id":"donation_anonymous_checkbox"}),
             "indian_citizen":forms.CheckboxInput(attrs={"class":"jss885", "id":"citizen_voluntary"}),
         }
@@ -721,7 +795,6 @@ class SupportGroupMembersForms(forms.ModelForm):
             "pincode",
             "city",
             "state",
-            "country",
             "facbook",
             "twitter",
             "is_share",
@@ -736,9 +809,8 @@ class SupportGroupMembersForms(forms.ModelForm):
             "pincode":forms.TextInput(attrs={"class":"jss860 jss845 integer_value"}),
             "city":forms.TextInput(attrs={"class":"jss860 jss845"}),
             "state":forms.TextInput(attrs={"class":"jss860 jss845"}),
-            "country":forms.TextInput(attrs={"class":"jss860 jss845"}),
-            "facbook":forms.TextInput(attrs={"class":"jss860 jss845"}),
-            "twitter":forms.TextInput(attrs={"class":"jss860 jss845"}),
+            "facbook":forms.URLInput(attrs={"class":"jss860 jss845"}),
+            "twitter":forms.URLInput(attrs={"class":"jss860 jss845"}),
             "is_share":forms.CheckboxInput(attrs={"class":"jss885", "id":"contact_details_private"}),
             "is_hide_me":forms.CheckboxInput(attrs={"class":"jss885", "id":"hide_my_name"}),
         }
@@ -756,7 +828,6 @@ class EventGroupMembersForms(forms.ModelForm):
             "pincode",
             "city",
             "state",
-            "country",
             "facbook",
             "twitter",
             "is_share",
@@ -771,9 +842,8 @@ class EventGroupMembersForms(forms.ModelForm):
             "pincode":forms.TextInput(attrs={"class":"jss860 jss845 integer_value"}),
             "city":forms.TextInput(attrs={"class":"jss860 jss845"}),
             "state":forms.TextInput(attrs={"class":"jss860 jss845"}),
-            "country":forms.TextInput(attrs={"class":"jss860 jss845"}),
-            "facbook":forms.TextInput(attrs={"class":"jss860 jss845"}),
-            "twitter":forms.TextInput(attrs={"class":"jss860 jss845"}),
+            "facbook":forms.URLInput(attrs={"class":"jss860 jss845"}),
+            "twitter":forms.URLInput(attrs={"class":"jss860 jss845"}),
             "is_share":forms.CheckboxInput(attrs={"class":"jss885", "id":"contact_details_private"}),
             "is_hide_me":forms.CheckboxInput(attrs={"class":"jss885", "id":"hide_my_name"}),
         }
@@ -899,8 +969,18 @@ class WithdrawalRequestForm(forms.ModelForm):
 
         instance_campaign = CampaignFundRaiser.objects.get(id=p_campaign.id)
 
+        instance_WithdrawalRequest = WithdrawalRequest.objects.filter(campaign=instance_campaign, status="New").aggregate(Sum('amount'))['amount__sum']
+
+        try:
+            instance_WithdrawalRequest = float(instance_WithdrawalRequest)
+        except:
+            instance_WithdrawalRequest = 0
+
         if instance_campaign.available_withdrawl_fund() < p_amount:
             self.add_error('amount', 'you do not have enough balance to withdraw.')
+
+        elif instance_campaign.available_withdrawl_fund() - instance_WithdrawalRequest < p_amount:
+            self.add_error('amount', 'you have some pending withdraw request. please contact to contact@ourdemocracy.in.')
 
 
 class AdminWithdrawalRequestForm(forms.ModelForm):
@@ -915,6 +995,7 @@ class AdminWithdrawalRequestForm(forms.ModelForm):
             'payment_date':forms.TextInput(attrs={"class":"jss577 jss562", 'required':'required', "id":'datetimepicker3'}),
         }
 
+        
 
 class AdminCampaignFundRaiserCommissionForm(forms.ModelForm):
     class Meta:
@@ -990,3 +1071,257 @@ class CashfreePaymentDetailsForm(forms.ModelForm):
             'secrate_key':forms.TextInput(attrs={"class":"jss577 jss562"}),
             "payment_mode":forms.Select(attrs={"class":"select2"}),
         }
+
+
+
+class CampaignFundRaiserCancelledChequeForm(forms.ModelForm):
+    class Meta:
+        model = CampaignFundRaiser
+        fields = ("cancelled_cheque_image",)
+
+
+class CampaignFundRaiserAddressProofForm(forms.ModelForm):
+    class Meta:
+        model = CampaignFundRaiser
+        fields = ("address_proof_image", 'address_proof_type')
+
+
+        widgets = {
+            'address_proof_type' :forms.Select(attrs={"class":"select2_modal"}),
+        }
+
+
+class CampaignFundRaiserPancardProofForm(forms.ModelForm):
+    class Meta:
+        model = CampaignFundRaiser
+        fields = ("pancard_image", 'pancard_no')
+
+
+        widgets = {
+            'pancard_no' :forms.TextInput(attrs={"class":"jss860 jss845"}),
+        }
+
+
+
+class CampaignFundRaiserCustomeNoteForm(forms.ModelForm):
+    class Meta:
+        model = CampaignFundRaiser
+        fields = ("custome_note",)
+
+        widgets = {
+            'custome_note' :forms.Textarea(attrs={"class":"jss577 jss562", "style":"min-height: 70px;"}),
+        }
+
+
+class SupportGroupCustomeNoteForm(forms.ModelForm):
+    class Meta:
+        model = SupportGroup
+        fields = ("custome_note",)
+
+        widgets = {
+            'custome_note' :forms.Textarea(attrs={"class":"jss577 jss562", "style":"min-height: 70px;"}),
+        }
+
+
+class EventCustomeNoteForm(forms.ModelForm):
+    class Meta:
+        model = Event
+        fields = ("custome_note",)
+
+        widgets = {
+            'custome_note' :forms.Textarea(attrs={"class":"jss577 jss562", "style":"min-height: 70px;"}),
+        }
+
+
+class CampaignFundRaiserEnableCommentForm(forms.ModelForm):
+    class Meta:
+        model = CampaignFundRaiser
+        fields = ("enable_comment",)
+
+        widgets = {
+            'enable_comment' :forms.CheckboxInput(attrs={ "class":"jss885", "id":"comment_id", "onchange":"this.form.submit()"}),
+        }
+
+
+class SupportGroupEnableCommentForm(forms.ModelForm):
+    class Meta:
+        model = SupportGroup
+        fields = ("enable_comment",)
+
+        widgets = {
+            'enable_comment' :forms.CheckboxInput(attrs={ "class":"jss885", "id":"comment_id", "onchange":"this.form.submit()"}),
+        }
+
+class EventEnableCommentForm(forms.ModelForm):
+    class Meta:
+        model = Event
+        fields = ("enable_comment",)
+
+        widgets = {
+            'enable_comment' :forms.CheckboxInput(attrs={ "class":"jss885", "id":"comment_id", "onchange":"this.form.submit()"}),
+        }
+
+
+
+class CampaignFundRaiserUrlTextForm(forms.ModelForm):
+    class Meta:
+        model = CampaignFundRaiser
+        fields = ("url_text",)
+
+        widgets = {
+            'url_text' :forms.TextInput(attrs={"class":"jss577 jss562", "id":"id_edit_url"}),
+        }
+
+
+class SupportGroupUrlTextForm(forms.ModelForm):
+    class Meta:
+        model = SupportGroup
+        fields = ("url_text",)
+
+        widgets = {
+            'url_text' :forms.TextInput(attrs={"class":"jss577 jss562", "id":"id_edit_url"}),
+        }
+
+
+class EventUrlTextForm(forms.ModelForm):
+    class Meta:
+        model = Event
+        fields = ("url_text",)
+
+        widgets = {
+            'url_text' :forms.TextInput(attrs={"class":"jss577 jss562", "id":"id_edit_url"}),
+        }
+
+
+
+class CampaignFundRaiserIsEndGoalForm(forms.ModelForm):
+    class Meta:
+        model = CampaignFundRaiser
+        fields = ("is_end_goal",)
+
+        widgets = {
+            'is_end_goal' :forms.CheckboxInput(attrs={ "class":"jss885", "id":"fundraiser_end_goal_id", "onchange":"this.form.submit()"}),
+        }
+
+
+class SupportGroupIsEndGoalForm(forms.ModelForm):
+    class Meta:
+        model = SupportGroup
+        fields = ("is_end_goal",)
+
+        widgets = {
+            'is_end_goal' :forms.CheckboxInput(attrs={ "class":"jss885", "id":"fundraiser_end_goal_id", "onchange":"this.form.submit()"}),
+        }
+
+class EventIsEndGoalForm(forms.ModelForm):
+    class Meta:
+        model = Event
+        fields = ("is_end_goal",)
+
+        widgets = {
+            'is_end_goal' :forms.CheckboxInput(attrs={ "class":"jss885", "id":"fundraiser_end_goal_id", "onchange":"this.form.submit()"}),
+        }
+
+
+
+
+
+
+
+class CampaignFundRaiserCategoryForm(forms.ModelForm):
+    class Meta:
+        model = CampaignFundRaiser
+        fields = ("category", "sub_category")
+
+        widgets = {
+            'category' :forms.Select(attrs={"class":"select2"}),
+            'sub_category' :forms.Select(attrs={"class":"select2", "onchange":"this.form.submit()"}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(CampaignFundRaiserCategoryForm, self).__init__(*args, **kwargs)
+        self.fields['category']=forms.ModelChoiceField(queryset=CampaignCategory.objects.filter(is_active=True), widget=forms.Select(attrs={"class":"select2"}))
+
+
+    
+    def clean(self):
+        cleaned_data = super().clean()
+        p_category = cleaned_data.get("category")
+        p_sub_category = cleaned_data.get("sub_category")
+        
+        try:
+            a = CampaignSubCategory.objects.get(id=p_sub_category.id, category=p_category)
+        except:
+            self.add_error('sub_category', 'Please select valid sub category.')
+
+
+
+class CommissionForm(forms.ModelForm):
+    class Meta:
+        model = Commission
+        fields = ("our_democracy_commission", "our_democracy_gst", "payment_gateway_charges", "payment_gateway_gst")
+
+        widgets = {
+            'our_democracy_commission' :forms.NumberInput(attrs={"class":"jss577 jss562 float_value", "step":"0.01"}),
+            'our_democracy_gst' :forms.NumberInput(attrs={ "class":"jss577 jss562 float_value", "step":"0.01"}),
+            'payment_gateway_charges' :forms.NumberInput(attrs={ "class":"jss577 jss562 float_value", "step":"0.01"}),
+            'payment_gateway_gst' :forms.NumberInput(attrs={ "class":"jss577 jss562 float_value", "step":"0.01"}),
+        }
+
+                
+
+
+
+# class SupportGroupCategoryForm(forms.ModelForm):
+#     class Meta:
+#         model = SupportGroup
+#         fields = ("category", "sub_category")
+
+#         widgets = {
+#             'category' :forms.Select(attrs={"class":"select2"}),
+#             'sub_category' :forms.Select(attrs={"class":"select2", "onchange":"this.form.submit()"}),
+#         }
+
+#     def __init__(self, *args, **kwargs):
+#         super(SupportGroupCategoryForm, self).__init__(*args, **kwargs)
+#         self.fields['category']=forms.ModelChoiceField(queryset=CampaignCategory.objects.filter(is_active=True), widget=forms.Select(attrs={"class":"select2"}))
+
+
+#     def clean(self):
+#         cleaned_data = super().clean()
+#         p_category = cleaned_data.get("category")
+#         p_sub_category = cleaned_data.get("sub_category")
+
+
+#         try:
+#             a = CampaignSubCategory.objects.get(category=p_sub_category)
+#         except:
+#             self.add_error('p_sub_category', 'Please select valid sub category.')
+
+
+
+# class EventCategoryForm(forms.ModelForm):
+#     class Meta:
+#         model = Event
+#         fields = ("category", "sub_category")
+
+#         widgets = {
+#             'category' :forms.Select(attrs={"class":"select2"}),
+#             'sub_category' :forms.Select(attrs={"class":"select2", "onchange":"this.form.submit()"}),
+#         }
+
+#     def __init__(self, *args, **kwargs):
+#         super(EventCategoryForm, self).__init__(*args, **kwargs)
+#         self.fields['category']=forms.ModelChoiceField(queryset=CampaignCategory.objects.filter(is_active=True), widget=forms.Select(attrs={"class":"select2"}))
+
+
+#     def clean(self):
+#         cleaned_data = super().clean()
+#         p_category = cleaned_data.get("category")
+#         p_sub_category = cleaned_data.get("sub_category")
+
+
+#         try:
+#             a = CampaignSubCategory.objects.get(category=p_sub_category)
+#         except:
+#             self.add_error('p_sub_category', 'Please select valid sub category.')

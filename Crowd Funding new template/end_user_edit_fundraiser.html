@@ -1,0 +1,906 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+  <meta name="theme-color" content="#000000">
+ 
+  <link rel="shortcut icon" href="https://www.ourdemocracy.in/favicon.ico">
+  <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,400,700&display=swap" rel="stylesheet">
+  <meta property="og:site_name" content="Crowd Funding">
+  <title>Crowd Funding</title>
+  <meta name="description"
+    content="Crowd Funding is about raising awarness and a platform to bring change by the people for the people">
+  <meta name="og:title" content="Crowd Funding">
+  <meta name="og:description"
+    content="Crowd Funding is about raising awarness and a platform to bring change by the people for the people">
+  <meta name="og:image" content="https://www.ourdemocracy.in/src/assets/images/check/static/Home_2.jpg">
+  <meta name="og:url" content="https://www.ourdemocracy.in/">
+  
+  <link href="static/css/bootstrap.min.css" rel="stylesheet">
+  <link href="static/css/select2.min.css" rel="stylesheet">
+  <link href="static/css/style.css" rel="stylesheet">
+  <link href="static/css/style3.css" rel="stylesheet">
+  <link href="static/css/component.css" rel="stylesheet">
+  <link href="static/css/jquery.dataTables.min.css" rel="stylesheet">
+  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+  <div id="root">
+      <div class="jss49 bg_fff" id="mainNav">
+          <header class="jss71 jss77 jss62 jss66">
+            <nav class="navbar navbar-expand-xl navbar-light bg-light">
+            
+              <div id="page-wrap w-100">
+                <a class="navbar-brand" href="/">
+                  <div class="jss47"><img src="static/images/logo.png" class="jss48" alt=""></div>
+                </a>
+                <button type="button" id="sidebarCollapse" class="btn btn-info">
+                    <i class="fa fa-bars" aria-hidden="true"></i>
+                </button>
+              </div>            
+            
+              <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#links" aria-controls="links" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse jss61 collapse" id="links" >
+                    <div id="search">
+                        <div class="jss50"></div>
+                        <div class="jss53">
+                          <div class="jss54">
+                            <svg class="jss102" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="presentation">
+                              <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"> </path>
+                              <path fill="none" d="M0 0h24v24H0z"></path>
+                            </svg>
+                          </div>
+                          <form action="/discover/" method="POST" class="jss124 jss111 jss55 mb-0">                        
+                              <input type="hidden" name="csrfmiddlewaretoken" value="OBy0PdmNhLA25acOzDgvklD64XS1hX49VnKTgUkpUHXgWzRfMqRXynV67daXUm2e">
+                              <input class="jss134 jss119 jss56" name="title" placeholder="Search campaigns..." type="text" value="">                            
+                         </form>
+                        </div>
+                      </div>
+                  <ul class="navbar-nav ml-auto">
+                    <li class="nav-item jss59 ">
+                      <a class="nav-link jss167 jss141 jss143 jss146 jss162" href="/discover/"><span class="jss142 jss58">Discover</span><span class="jss339"></span>  </a>
+                    </li>
+                    <li class="nav-item jss59 ">
+                      <a class="nav-link jss167 jss141 jss143 jss146 jss162" href="/how-it-works/"><span class="jss142 jss58">How it works</span><span class="jss339"></span></a>
+                    </li>
+                    <li class="nav-item jss59 ">
+                      <a class="nav-link jss167 jss141 jss143 jss146 jss162" href="/services/"><span class="jss142 jss58">Services</span><span class="jss339"></span></a>
+                    </li>
+                    <li class="nav-item jss59 ">
+                      <a class="nav-link jss167 jss141 jss143 jss146 jss162" href="/tips/"><span class="jss142 jss58">Tips</span><span class="jss339"></span></a>
+                    </li>
+                    <li class="nav-item jss59 ">
+                      <a class="nav-link jss167 jss141 jss143 jss146 jss162" href="/Medias/"><span class="jss142 jss58">Media</span><span class="jss339"></span></a>
+                    </li>
+                    
+                      
+                    
+                        <li class="nav-item jss59">
+                      <a class="nav-link jss167 jss141 jss143 jss146 jss162" href="/dashboard/"><span class="jss142 jss58">Dashboard</span><span class="jss339"></span></a>
+                    </li>
+                    <li class="nav-item dropdown text-center mr-4 right_zero">
+                        <a class="nav-link dropdown-toggle  icon_navbar" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-user-circle-o" aria-hidden="true"></i> 
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                          <a class="dropdown-item" href="/my-profile/"><i class="fa fa-user mr-2" aria-hidden="true"></i> Profile</a>
+                          
+                          <a class="dropdown-item" href="/my-analytics/"><i class="fa fa-line-chart mr-1"></i> Analytics</a>
+                          
+                          <div class="dropdown-divider"></div>
+                          <a class="dropdown-item" href="/logout/"><i class="fa fa-sign-out mr-2" aria-hidden="true"></i> Logout</a>
+                        </div>
+                      </li>
+                    
+                  
+                  
+                  
+                  </ul>
+                  <div class="jss59"><a class="jss167 jss141 jss149 jss150 jss57" tabindex="0" role="button" href="/start-Campaign/"><span class="jss142 jss58">Start a Campaign</span><span class="jss339"></span></a></div>
+                </div>
+            </nav>
+          </header>
+      </div>
+      <div class="wrapper">
+         
+          <!-- Sidebar  -->
+          <nav id="sidebar">
+              <div id="dismiss">
+                  <i class="fa fa-arrow-left"></i>
+              </div>
+  
+              <div class="sidebar-header">
+                  <a class="navbar-brand" href="/">
+                    <div class="w-100"><img src="static/images/logo.png" class="w-100" alt=""></div>
+                  </a>
+              </div>
+  
+              <ul class="list-unstyled components">
+                  <li>
+                      <a href="#">Dashboard</a>                      
+                  </li>
+                  <li>
+                      <a href="#">Edit Fundraiser​</a>
+                  </li>
+                  <li class="side-nav_dropdown dropdown">
+                      <a class="side-navbar_dropdown dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Promote Fundraiser​</a>
+                      <div class="side_navbar_dropdown_menu dropdown-menu">
+                          <a class="dropdown-item" href="#">Post An Update</a>
+                          <a class="dropdown-item" href="#">Remind to Donate</a>
+                          <a class="dropdown-item" href="#">Buzz About The Campaign</a>
+                          <a class="dropdown-item" href="#">Customize Donation Note</a>
+                        </div>
+                  </li>
+                  
+                  <li class="side-nav_dropdown dropdown">
+                      <a class="side-navbar_dropdown dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Withdraw Funds</a>
+                      <div class="side_navbar_dropdown_menu dropdown-menu">
+                          <a class="dropdown-item" href="#">Upload Documents</a>
+                          <a class="dropdown-item" href="#">Request Withdraw</a>
+                        </div>
+                  </li>
+                  <li>
+                      <a href="#">Services Opperred</a>
+                  </li>
+              </ul>
+          </nav>
+  
+          <!-- Page Content  -->
+          <div id="content" class="margin_top_80">
+
+              <main>
+                <div class="container">
+                  <div class="row">
+                      <div class="col-sm-12">
+                          <form class="jss349 row">
+                              <div class="col-sm-12 col-md-3">
+                                  <div class="jss550 jss551 jss553">
+                                    <p class="jss515 jss524">Campaign Type</p>
+                                    <div class="jss550">
+                                      <div class="jss567 jss554 jss558 jss568 jss555 select2_con">
+                                        <select class="select2" name="object_id" required >
+                                          <option value="all">All</option>
+                                          
+                                              
+                                                  <option value="14">Facilities for people with disabilities in public places</option>
+                                              
+                                          
+                                              
+                                                  <option value="7">Good Infracture in govt schools</option>
+                                              
+                                          
+                                              
+                                                  <option value="5">Test Campaign..</option>
+                                              
+                                          
+                                        </select>
+                                      </div>
+                                    </div>
+                                    <span class="error"></span>
+                                  </div>
+                                </div>
+
+                              <div class="col-sm-12 col-md-2">
+                                  <div class="jss550 jss551 jss553">
+                                    <p class="jss515 jss524">Cause</p>
+                                    <div class="jss550">
+                                      <div class="jss567 jss554 jss558 jss568 jss555 select2_con">
+                                        <select class="select2" name="cause" required>
+                                          <option value="all">All</option>
+                                          
+                                            
+                                                <option value="2">NGO</option>
+                                            
+                                          
+                                            
+                                                <option value="1">Social Intervention</option>
+                                            
+                                          
+                                            
+                                                <option value="3">Legal support</option>
+                                            
+                                          
+                                            
+                                                <option value="4">Humanitarian Support</option>
+                                            
+                                          
+                                            
+                                                <option value="5">Charity</option>
+                                            
+                                          
+                                        </select>
+                                      </div>
+                                    </div>
+                                    <span class="error"></span>
+                                  </div>
+                                </div>
+                             
+                  
+                          </form>
+
+                      </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-12">
+                        <div class="jss528_c pb-0">
+                            <p class="CDCampTitle position-relative">
+                              
+                              <i class="fa fa-pencil edit_icon" data-toggle="modal" data-target="#edit_title" aria-hidden="true"></i>
+                              
+                              Test Campaign..
+                            </p>
+                            <div class="CDBelowTitleDiv">
+                              <div class="CDImageDiv">
+                                <div class="position-relative">
+                                  
+                                  <i class="fa fa-pencil edit_icon" data-toggle="modal" data-target="#edit_image" aria-hidden="true"></i>
+                                  
+                                  <img src="/media/CampaignFundRaiser/jignesh_mevani.jpg" class="CDImgInitMain" alt="">
+                                </div>
+                                <p class="position-relative" style="margin: 1em 0px 0px; width: 80%; color: rgb(51, 51, 51);">Ghanshyam Tiwari has studied at NIT, IIM-B, Kellogg School of Management &amp; Harvard University and is a familiar face on TV debates countering propaganda with facts. Contribute now!
+                                  
+                                    <i class="fa fa-pencil edit_icon" data-toggle="modal" data-target="#edit_short_description" aria-hidden="true"></i> 
+                                  
+                                </p>
+                                <div class="CDShareBtnDiv">
+                      
+                                  <a href="https://www.facebook.com/sharer/sharer.php?u=http://18.184.80.136/FundraiserCampaign/5/Test Campaign../" target="_blank" class="CDShareBtnFB">
+                                    <svg aria-hidden="true" data-prefix="fab" data-icon="facebook-f" class="svg-inline--fa fa-facebook-f fa-w-9 " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 264 512">
+                                      <path fill="currentColor" d="M76.7 512V283H0v-91h76.7v-71.7C76.7 42.4 124.3 0 193.8 0c33.3 0 61.9 2.5 70.2 3.6V85h-48.2c-37.8 0-45.1 18-45.1 44.3V192H256l-11.7 91h-73.6v229">
+                                      </path>
+                                    </svg>
+                                  </a>
+                      
+                                  <a href="https://twitter.com/intent/tweet?text=Test Campaign.. http://18.184.80.136/FundraiserCampaign/5/Test Campaign../" target="_blank" class="CDShareBtnTW">
+                                    <svg aria-hidden="true" data-prefix="fab" data-icon="twitter" class="svg-inline--fa fa-twitter fa-w-16 " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                      <path fill="currentColor" d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z">
+                                      </path>
+                                    </svg>
+                                  </a>
+                                  <a href="https://api.whatsapp.com/send?text=http://18.184.80.136/FundraiserCampaign/5/Test Campaign../" data-action="share/whatsapp/share" target="_blank" class="CDShareBtnWH">
+                                    <svg aria-hidden="true" data-prefix="fab" data-icon="whatsapp" class="svg-inline--fa fa-whatsapp fa-w-14 " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                                      <path fill="currentColor" d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z">
+                                      </path>
+                                    </svg>
+                                  </a>
+                                </div>
+                              </div>
+                              <div class="CDValuesDiv">
+                                
+                                <div class="goalDiv">
+                                  <div class="CDCampGoal position-relative">
+                                    
+                                    <i class="fa fa-pencil edit_icon" data-toggle="modal" data-target="#edit_goal" aria-hidden="true"></i>
+                                    
+                      
+                                    <svg aria-hidden="true" data-prefix="fas" data-icon="rupee-sign" class="svg-inline--fa fa-rupee-sign fa-w-10 " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="font-size: 1.4rem; color: rgb(51, 51, 51);">
+                                      <path fill="currentColor" d="M308 96c6.627 0 12-5.373 12-12V44c0-6.627-5.373-12-12-12H12C5.373 32 0 37.373 0 44v44.748c0 6.627 5.373 12 12 12h85.28c27.308 0 48.261 9.958 60.97 27.252H12c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h158.757c-6.217 36.086-32.961 58.632-74.757 58.632H12c-6.627 0-12 5.373-12 12v53.012c0 3.349 1.4 6.546 3.861 8.818l165.052 152.356a12.001 12.001 0 0 0 8.139 3.182h82.562c10.924 0 16.166-13.408 8.139-20.818L116.871 319.906c76.499-2.34 131.144-53.395 138.318-127.906H308c6.627 0 12-5.373 12-12v-40c0-6.627-5.373-12-12-12h-58.69c-3.486-11.541-8.28-22.246-14.252-32H308z">
+                                      </path>
+                                    </svg> 450<br>
+                                    <div style="font-size: 1.2rem; font-weight: normal;">raised of<b>
+                                        <svg aria-hidden="true" data-prefix="fas" data-icon="rupee-sign" class="svg-inline--fa fa-rupee-sign fa-w-10 " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="font-size: 1.2rem; color: rgb(51, 51, 51);">
+                                          <path fill="currentColor" d="M308 96c6.627 0 12-5.373 12-12V44c0-6.627-5.373-12-12-12H12C5.373 32 0 37.373 0 44v44.748c0 6.627 5.373 12 12 12h85.28c27.308 0 48.261 9.958 60.97 27.252H12c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h158.757c-6.217 36.086-32.961 58.632-74.757 58.632H12c-6.627 0-12 5.373-12 12v53.012c0 3.349 1.4 6.546 3.861 8.818l165.052 152.356a12.001 12.001 0 0 0 8.139 3.182h82.562c10.924 0 16.166-13.408 8.139-20.818L116.871 319.906c76.499-2.34 131.144-53.395 138.318-127.906H308c6.627 0 12-5.373 12-12v-40c0-6.627-5.373-12-12-12h-58.69c-3.486-11.541-8.28-22.246-14.252-32H308z">
+                                          </path>
+                                        </svg> 6000000 </b> goal</div>
+                                  </div>
+                                </div>
+                                <div class="CDCompletionDiv">
+                                  <div class="completionLineDiv">
+                                    <div class="filled" style="width: 0%;"></div>
+                                  </div>
+                                  <p class="CDCompletionText">0 %</p>
+                                </div>
+                                <div class="dateDiv" style="margin-top: 5px;">
+                                  <div class="CDCampEdate">
+                                    <div class="jss13"><b style="font-size: 2rem;">3</b>Supporters
+                                    </div>
+                                    <div class="jss13 position-relative" style="margin-left: 20px;"><b style="font-size: 2rem;">67</b> Days Left
+                                      
+                                      <i class="fa fa-pencil edit_icon" data-toggle="modal" data-target="#edit_day" aria-hidden="true"></i>
+                                      
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="CDPeopleContainerSP">
+                                  <div class="CDPeopleImage" style="align-items: center; width: fit-content; margin: 0px 16px 0px 0px; padding: 0px;"><img src="/media/profile/Icon2.jpg" class="imgPeople2" alt="">
+                                  </div>
+                                  <div class="CDPeopleDetail">
+                                    <p class="CDPeopleTitle" style="margin: 0px;">Campaigner</p>
+                                    <p class="CDPeopleName">TestUser 101</p>
+                                    
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                      
+                            <div class="belowImage">
+                              <div class="descriptionsDiv">
+                                <div class="CDBtnsDiv ">
+                                  <ul class="nav nav-tabs" role="tablist">
+                                    <li class="nav-item">
+                                      <a class="CDBtn nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">
+                                        <svg aria-hidden="true" data-prefix="fas" data-icon="globe" class="svg-inline--fa fa-globe fa-w-16 " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" style="margin-right: 2px;">
+                                          <path fill="currentColor" d="M336.5 160C322 70.7 287.8 8 248 8s-74 62.7-88.5 152h177zM152 256c0 22.2 1.2 43.5 3.3 64h185.3c2.1-20.5 3.3-41.8 3.3-64s-1.2-43.5-3.3-64H155.3c-2.1 20.5-3.3 41.8-3.3 64zm324.7-96c-28.6-67.9-86.5-120.4-158-141.6 24.4 33.8 41.2 84.7 50 141.6h108zM177.2 18.4C105.8 39.6 47.8 92.1 19.3 160h108c8.7-56.9 25.5-107.8 49.9-141.6zM487.4 192H372.7c2.1 21 3.3 42.5 3.3 64s-1.2 43-3.3 64h114.6c5.5-20.5 8.6-41.8 8.6-64s-3.1-43.5-8.5-64zM120 256c0-21.5 1.2-43 3.3-64H8.6C3.2 212.5 0 233.8 0 256s3.2 43.5 8.6 64h114.6c-2-21-3.2-42.5-3.2-64zm39.5 96c14.5 89.3 48.7 152 88.5 152s74-62.7 88.5-152h-177zm159.3 141.6c71.4-21.2 129.4-73.7 158-141.6h-108c-8.8 56.9-25.6 107.8-50 141.6zM19.3 352c28.6 67.9 86.5 120.4 158 141.6-24.4-33.8-41.2-84.7-50-141.6h-108z">
+                                          </path>
+                                        </svg>Story</a>
+                                    </li>
+                                    <li class="nav-item">
+                                      <a class="CDBtn nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">
+                                        <svg aria-hidden="true" data-prefix="fas" data-icon="comments" class="svg-inline--fa fa-comments fa-w-18 " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" style="margin-right: 2px;">
+                                          <path fill="currentColor" d="M416 192c0-88.4-93.1-160-208-160S0 103.6 0 192c0 34.3 14.1 65.9 38 92-13.4 30.2-35.5 54.2-35.8 54.5-2.2 2.3-2.8 5.7-1.5 8.7S4.8 352 8 352c36.6 0 66.9-12.3 88.7-25 32.2 15.7 70.3 25 111.3 25 114.9 0 208-71.6 208-160zm122 220c23.9-26 38-57.7 38-92 0-66.9-53.5-124.2-129.3-148.1.9 6.6 1.3 13.3 1.3 20.1 0 105.9-107.7 192-240 192-10.8 0-21.3-.8-31.7-1.9C207.8 439.6 281.8 480 368 480c41 0 79.1-9.2 111.3-25 21.8 12.7 52.1 25 88.7 25 3.2 0 6.1-1.9 7.3-4.8 1.3-2.9.7-6.3-1.5-8.7-.3-.3-22.4-24.2-35.8-54.5z">
+                                          </path>
+                                        </svg>Comments</a>
+                                    </li>
+                                    <li class="nav-item">
+                                      <a class="CDBtn nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">
+                                        <svg aria-hidden="true" data-prefix="fas" data-icon="history" class="svg-inline--fa fa-history fa-w-16 " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="margin-right: 2px;">
+                                          <path fill="currentColor" d="M504 255.531c.253 136.64-111.18 248.372-247.82 248.468-59.015.042-113.223-20.53-155.822-54.911-11.077-8.94-11.905-25.541-1.839-35.607l11.267-11.267c8.609-8.609 22.353-9.551 31.891-1.984C173.062 425.135 212.781 440 256 440c101.705 0 184-82.311 184-184 0-101.705-82.311-184-184-184-48.814 0-93.149 18.969-126.068 49.932l50.754 50.754c10.08 10.08 2.941 27.314-11.313 27.314H24c-8.837 0-16-7.163-16-16V38.627c0-14.254 17.234-21.393 27.314-11.314l49.372 49.372C129.209 34.136 189.552 8 256 8c136.81 0 247.747 110.78 248 247.531zm-180.912 78.784l9.823-12.63c8.138-10.463 6.253-25.542-4.21-33.679L288 256.349V152c0-13.255-10.745-24-24-24h-16c-13.255 0-24 10.745-24 24v135.651l65.409 50.874c10.463 8.137 25.541 6.253 33.679-4.21z">
+                                          </path>
+                                        </svg>Updates</a>
+                                    </li>
+                                    <li class="nav-item">
+                                      <a class="CDBtn nav-link" id="abtcam-tab" data-toggle="tab" href="#abtcam" role="tab" aria-controls="abtcam" aria-selected="false">
+                                        <svg aria-hidden="true" data-prefix="fas" data-icon="bolt" class="svg-inline--fa fa-bolt fa-w-10 " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="margin-right: 2px;">
+                                          <path fill="currentColor" d="M296 160H180.6l42.6-129.8C227.2 15 215.7 0 200 0H56C44 0 33.8 8.9 32.2 20.8l-32 240C-1.7 275.2 9.5 288 24 288h118.7L96.6 482.5c-3.6 15.2 8 29.5 23.3 29.5 8.4 0 16.4-4.4 20.8-12l176-304c9.3-15.9-2.2-36-20.7-36z">
+                                          </path>
+                                        </svg>Buzz About The Campaign</a>
+                                    </li>
+                                  </ul>
+                      
+                                </div>
+                                <div id="navbar">
+                                  <div class="CDBtnsDivNIV" style="display: none;">
+                                    <div class="CDBtnsDivNIVLeft">
+                                      <ul class="nav nav-tabs" role="tablist">
+                                        <li class="nav-item">
+                                          <a class="CDBtn  nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">
+                                            <svg aria-hidden="true" data-prefix="fas" data-icon="globe" class="svg-inline--fa fa-globe fa-w-16 " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" style="margin-right: 2px;">
+                                              <path fill="currentColor" d="M336.5 160C322 70.7 287.8 8 248 8s-74 62.7-88.5 152h177zM152 256c0 22.2 1.2 43.5 3.3 64h185.3c2.1-20.5 3.3-41.8 3.3-64s-1.2-43.5-3.3-64H155.3c-2.1 20.5-3.3 41.8-3.3 64zm324.7-96c-28.6-67.9-86.5-120.4-158-141.6 24.4 33.8 41.2 84.7 50 141.6h108zM177.2 18.4C105.8 39.6 47.8 92.1 19.3 160h108c8.7-56.9 25.5-107.8 49.9-141.6zM487.4 192H372.7c2.1 21 3.3 42.5 3.3 64s-1.2 43-3.3 64h114.6c5.5-20.5 8.6-41.8 8.6-64s-3.1-43.5-8.5-64zM120 256c0-21.5 1.2-43 3.3-64H8.6C3.2 212.5 0 233.8 0 256s3.2 43.5 8.6 64h114.6c-2-21-3.2-42.5-3.2-64zm39.5 96c14.5 89.3 48.7 152 88.5 152s74-62.7 88.5-152h-177zm159.3 141.6c71.4-21.2 129.4-73.7 158-141.6h-108c-8.8 56.9-25.6 107.8-50 141.6zM19.3 352c28.6 67.9 86.5 120.4 158 141.6-24.4-33.8-41.2-84.7-50-141.6h-108z">
+                                              </path>
+                                            </svg>Story</a>
+                                        </li>
+                                        <li class="nav-item">
+                                          <a class="CDBtn nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">
+                                            <svg aria-hidden="true" data-prefix="fas" data-icon="comments" class="svg-inline--fa fa-comments fa-w-18 " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" style="margin-right: 2px;">
+                                              <path fill="currentColor" d="M416 192c0-88.4-93.1-160-208-160S0 103.6 0 192c0 34.3 14.1 65.9 38 92-13.4 30.2-35.5 54.2-35.8 54.5-2.2 2.3-2.8 5.7-1.5 8.7S4.8 352 8 352c36.6 0 66.9-12.3 88.7-25 32.2 15.7 70.3 25 111.3 25 114.9 0 208-71.6 208-160zm122 220c23.9-26 38-57.7 38-92 0-66.9-53.5-124.2-129.3-148.1.9 6.6 1.3 13.3 1.3 20.1 0 105.9-107.7 192-240 192-10.8 0-21.3-.8-31.7-1.9C207.8 439.6 281.8 480 368 480c41 0 79.1-9.2 111.3-25 21.8 12.7 52.1 25 88.7 25 3.2 0 6.1-1.9 7.3-4.8 1.3-2.9.7-6.3-1.5-8.7-.3-.3-22.4-24.2-35.8-54.5z">
+                                              </path>
+                                            </svg>Comments</a>
+                                        </li>
+                                        <li class="nav-item">
+                                          <a class="CDBtn nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">
+                                            <svg aria-hidden="true" data-prefix="fas" data-icon="history" class="svg-inline--fa fa-history fa-w-16 " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="margin-right: 2px;">
+                                              <path fill="currentColor" d="M504 255.531c.253 136.64-111.18 248.372-247.82 248.468-59.015.042-113.223-20.53-155.822-54.911-11.077-8.94-11.905-25.541-1.839-35.607l11.267-11.267c8.609-8.609 22.353-9.551 31.891-1.984C173.062 425.135 212.781 440 256 440c101.705 0 184-82.311 184-184 0-101.705-82.311-184-184-184-48.814 0-93.149 18.969-126.068 49.932l50.754 50.754c10.08 10.08 2.941 27.314-11.313 27.314H24c-8.837 0-16-7.163-16-16V38.627c0-14.254 17.234-21.393 27.314-11.314l49.372 49.372C129.209 34.136 189.552 8 256 8c136.81 0 247.747 110.78 248 247.531zm-180.912 78.784l9.823-12.63c8.138-10.463 6.253-25.542-4.21-33.679L288 256.349V152c0-13.255-10.745-24-24-24h-16c-13.255 0-24 10.745-24 24v135.651l65.409 50.874c10.463 8.137 25.541 6.253 33.679-4.21z">
+                                              </path>
+                                            </svg>Updates</a>
+                                        </li>
+                                        <li class="nav-item">
+                                          <a class="CDBtn nav-link" id="abtcam-tab" data-toggle="tab" href="#abtcam" role="tab" aria-controls="abtcam" aria-selected="false">
+                                            <svg aria-hidden="true" data-prefix="fas" data-icon="bolt" class="svg-inline--fa fa-bolt fa-w-10 " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="margin-right: 2px;">
+                                              <path fill="currentColor" d="M296 160H180.6l42.6-129.8C227.2 15 215.7 0 200 0H56C44 0 33.8 8.9 32.2 20.8l-32 240C-1.7 275.2 9.5 288 24 288h118.7L96.6 482.5c-3.6 15.2 8 29.5 23.3 29.5 8.4 0 16.4-4.4 20.8-12l176-304c9.3-15.9-2.2-36-20.7-36z">
+                                              </path>
+                                            </svg>Buzz About The Campaign</a>
+                                        </li>
+                                      </ul>
+                      
+                                    </div>
+                                    <div class="CDBtnsDivNIVRight">
+                                      <div class="CDShareBtnDiv">
+                                        <p class="CDShareBtnFB">
+                                          <a href="https://www.facebook.com/sharer/sharer.php?u=http://18.184.80.136/FundraiserCampaign/5/Test Campaign../" target="_blank">
+                                            <svg aria-hidden="true" data-prefix="fab" data-icon="facebook-f" class="svg-inline--fa fa-facebook-f fa-w-9 " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 264 512">
+                                              <path fill="currentColor" d="M76.7 512V283H0v-91h76.7v-71.7C76.7 42.4 124.3 0 193.8 0c33.3 0 61.9 2.5 70.2 3.6V85h-48.2c-37.8 0-45.1 18-45.1 44.3V192H256l-11.7 91h-73.6v229">
+                                              </path>
+                                            </svg>
+                                          </a>
+                                        </p>
+                      
+                      
+                                        <p class="CDShareBtnTW">
+                                          <a href="https://twitter.com/intent/tweet?text=Test Campaign.. http://18.184.80.136/FundraiserCampaign/5/Test Campaign../" target="_blank">
+                                            <svg aria-hidden="true" data-prefix="fab" data-icon="twitter" class="svg-inline--fa fa-twitter fa-w-16 " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                              <path fill="currentColor" d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z">
+                                              </path>
+                                            </svg>
+                                          </a>
+                                        </p>
+                      
+                                        <a href="https://api.whatsapp.com/send?text=http://18.184.80.136/FundraiserCampaign/5/Test Campaign../" data-action="share/whatsapp/share" target="_blank">
+                                          <p class="CDShareBtnWH"> <svg aria-hidden="true" data-prefix="fab" data-icon="whatsapp" class="svg-inline--fa fa-whatsapp fa-w-14 " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                                              <path fill="currentColor" d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z">
+                                              </path>
+                                            </svg></p>
+                                        </a>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                      
+                                <div class="tab-content" id="myTabContent">
+                                  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                    <div>
+                                      <div class="CDAboutCampDiv">
+                                        <p class="CDAboutTitle position-relative">
+                                          
+                                          <i class="fa fa-pencil edit_icon right-0" data-toggle="modal" data-target="#edit_About_The_Campaign" aria-hidden="true"></i>
+                                          
+                                          About The Campaign
+                                        </p>
+                                        <p class="CDAboutText">
+                                          
+                                          </p><p><span style="font-weight: bolder;">About the campaign&nbsp;</span></p><p><br></p><p>We are very careful decision makers in almost every aspect of our personal lives. We look for experts, skills and qualifications when it comes to choosing a doctor for example for our health matters. We choose the best teachers and schools for our kids or for our own education. But what happens&nbsp;<span style="font-weight: bolder;">when it comes to making our biggest decision for shaping the future of our nation?&nbsp;</span>What happens when it comes to choosing our People Leaders for Lok Sabha which houses the custodians and shapers of the present and the future of our motherland? At the time of choosing our future parliamentarians, we forget to look hard or dig deep into the credentials, track records, educational background and above all their motivation and commitment to serving people and preserving democracy.Here is an opportunity for you to change that. Choose your parliamentarians right and shape the future of India.Ghanshyam is a true People Leader, committed to serving the masses, the underprivileged, the undereducated and above all the motherland; selfless and tireless in his pursuit of solving real issues of people, issues of education, skill development and job creation. He is one of the most qualified youth leaders of today you can find and more importantly trust to give voice and force to your thoughts, your issues and your dreams.Be the catalyst for the change you want to see in the Lok Sabha and in your Parliamentarians. Donate with your heart, keeping the future of our Nation in mind.Why Ghanshyam as a future ParliamentarianGhanshyam, a 39 years old youth leader comes from a little known village called Gorari, housed in the Karakat constituency of Bihar. This is the constituency that has now become Ghanshyam’s battleground for Lok Sabha.Ghanshyam grew up in a modest household with a Fauzi father and a mother who taught primary school children. His father’s armed forces background and transferable job, aided Ghanshyam’s naturally enterprising self to travel to various towns of India, learning and enriching his knowledge of our motherland. Passionate from the beginning, Ghanshyam graduated from NIT Surathkal and went onto complete his post-graduation from the Kellogg School of Management and the Harvard University. With a deep-rooted inner drive to serve the motherland and inspired by numerous interactions with the world leaders, Kellogg and Harvard professors and like-minded fellow colleagues he solidified his life’s mission – i.e., to dedicate his thoughts, actions and work life to his birth land Karakat and to nation building, at large.Post Harvard, Ghanshyam has spent over 10 years on ground in Bihar and UP politics. Ghanshyam started out by undertaking grassroots level work, right here in the hinterlands of Bihar. More recently Ghanshyam has moved to national political arena, in his role as at the national spokesperson of the Samajvadi Party. He is regarded as one of the most thought provoking, people-oriented and yet fierce voices in television debates on all national channels. He has finally become the voice of masses on mass media. He is now seeking your support to become a people leader shaping the decisions of tomorrow.Ghanshyam’s journey which is nurtured with honesty, trust and outright selflessness needs your help with funding.Ghanshyam will be running for the Lok Sabha seat from Karakat and your support will go a long way in ensuring that the true passion of this young contender and the dreams of many of those who want to see a real change in our country, do not fall short.</p><p></p><p></p>
+                                          
+                                        <p></p>
+                                      </div>
+                      
+                                      <div class="CDCommentsDiv">
+                                        <p class="CDCommentHeading"><svg aria-hidden="true" data-prefix="fas" data-icon="comments" class="svg-inline--fa fa-comments fa-w-18 " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" style="font-size: 1.1rem; color: #EC156E;">
+                                            <path fill="currentColor" d="M416 192c0-88.4-93.1-160-208-160S0 103.6 0 192c0 34.3 14.1 65.9 38 92-13.4 30.2-35.5 54.2-35.8 54.5-2.2 2.3-2.8 5.7-1.5 8.7S4.8 352 8 352c36.6 0 66.9-12.3 88.7-25 32.2 15.7 70.3 25 111.3 25 114.9 0 208-71.6 208-160zm122 220c23.9-26 38-57.7 38-92 0-66.9-53.5-124.2-129.3-148.1.9 6.6 1.3 13.3 1.3 20.1 0 105.9-107.7 192-240 192-10.8 0-21.3-.8-31.7-1.9C207.8 439.6 281.8 480 368 480c41 0 79.1-9.2 111.3-25 21.8 12.7 52.1 25 88.7 25 3.2 0 6.1-1.9 7.3-4.8 1.3-2.9.7-6.3-1.5-8.7-.3-.3-22.4-24.2-35.8-54.5z">
+                                            </path>
+                                          </svg> Comments</p>
+                                        <div class="CDCommentHeadingLine"></div>
+                                        
+                                        
+                                        <form method="POST">
+                                          <input type="hidden" name="csrfmiddlewaretoken" value="lMULBLslBMtTC40t709lIlGuCAwQyhPr3e369ibrmLcYiQvgCKRp8R54ZYDkB7KF">
+                                          <div class="CDCommentNewDiv">
+                                            <img src="/media/profile/Icon2.jpg" class="CDCommentNewImage" alt="">
+                                            <textarea name="comment" cols="40" rows="0" class="CDCommentNewText" required="" id="id_comment"></textarea>
+                                            <button class="CDCommentPost border-0" name="form_type" value="comment" type="submit">Post</button>
+                                          </div>
+                                        </form>
+                                        
+                                        
+                                        <div id="comment_table_con">
+                                          
+                                          <div id="DataTables_Table_1_wrapper" class="dataTables_wrapper no-footer"><table class="table text-left comment_table dataTable no-footer" id="DataTables_Table_1" role="grid" style="width: 777px;">
+                                            <thead style="height: 0px;">
+                                              <tr role="row"><td style="width: 30px;" class="sorting_disabled" rowspan="1" colspan="1"></td><td class="sorting_disabled" rowspan="1" colspan="1" style="width: 675px;"></td></tr>
+                                            </thead>
+                                            <tbody>
+                                              
+                                              
+                                              
+                                            <tr class="CDCommentsDiv odd" role="row">
+                                                <td class="ml-auto" style="width: 30px;">
+                                                  <img src="/media/profile/Icon2.jpg" class="CDCommentImage" alt="">
+                                                </td>
+                                                <td>
+                                                  <div class="CDCommentDetails ml-0">
+                                                    <div class="CDCommentUser"><b>TestUser 101</b>
+                                                      <div style="color: rgb(68, 68, 68); margin-left: 20px;">
+                                                        
+                                                        1&nbsp;month, 3&nbsp;weeks ago
+                                                         </div>
+                                                      <div></div>
+                                                    </div>
+                                                    <div class="CDCommentText">
+                                                      <p class="CDCommentTextarea">
+                                                        </p><p>test comments</p><p></p>
+                                                    </div>
+                                                  </div>
+                                                </td>
+                                              </tr></tbody>
+                                          </table><div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_1_paginate"><a class="paginate_button previous disabled" aria-controls="DataTables_Table_1" data-dt-idx="0" tabindex="0" id="DataTables_Table_1_previous">Previous</a><span><a class="paginate_button current" aria-controls="DataTables_Table_1" data-dt-idx="1" tabindex="0">1</a></span><a class="paginate_button next disabled" aria-controls="DataTables_Table_1" data-dt-idx="2" tabindex="0" id="DataTables_Table_1_next">Next</a></div></div>
+                                          
+                                        </div>
+                                      </div>
+                      
+                                    </div>
+                                  </div>
+                                  <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                    <div class="CDCommentsDiv">
+                                      <p class="CDCommentHeading">
+                                        <svg aria-hidden="true" data-prefix="fas" data-icon="comments" class="svg-inline--fa fa-comments fa-w-18 " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" style="font-size: 1.1rem; color: #EC156E;">
+                                          <path fill="currentColor" d="M416 192c0-88.4-93.1-160-208-160S0 103.6 0 192c0 34.3 14.1 65.9 38 92-13.4 30.2-35.5 54.2-35.8 54.5-2.2 2.3-2.8 5.7-1.5 8.7S4.8 352 8 352c36.6 0 66.9-12.3 88.7-25 32.2 15.7 70.3 25 111.3 25 114.9 0 208-71.6 208-160zm122 220c23.9-26 38-57.7 38-92 0-66.9-53.5-124.2-129.3-148.1.9 6.6 1.3 13.3 1.3 20.1 0 105.9-107.7 192-240 192-10.8 0-21.3-.8-31.7-1.9C207.8 439.6 281.8 480 368 480c41 0 79.1-9.2 111.3-25 21.8 12.7 52.1 25 88.7 25 3.2 0 6.1-1.9 7.3-4.8 1.3-2.9.7-6.3-1.5-8.7-.3-.3-22.4-24.2-35.8-54.5z">
+                                          </path>
+                                        </svg> Comments</p>
+                                      <div class="CDCommentHeadingLine"></div>
+                                      
+                                      
+                                      <form method="POST">
+                                        <input type="hidden" name="csrfmiddlewaretoken" value="lMULBLslBMtTC40t709lIlGuCAwQyhPr3e369ibrmLcYiQvgCKRp8R54ZYDkB7KF">
+                                        <div class="CDCommentNewDiv">
+                                          <img src="/media/profile/Icon2.jpg" class="CDCommentNewImage" alt="">
+                                          <textarea name="comment" cols="40" rows="0" class="CDCommentNewText" required="" id="id_comment"></textarea>
+                                          <button class="CDCommentPost border-0" name="form_type" value="comment" type="submit">Post</button>
+                                        </div>
+                                      </form>
+                                      
+                                      
+                                      <div id="comment_table_con">
+                                        
+                                        <div id="DataTables_Table_2_wrapper" class="dataTables_wrapper no-footer"><table class="table text-left comment_table dataTable no-footer" id="DataTables_Table_2" role="grid" style="width: 0px;">
+                                          <thead style="height: 0px;">
+                                            <tr role="row"><td style="width: 0px;" class="sorting_disabled" rowspan="1" colspan="1"></td><td class="sorting_disabled" rowspan="1" colspan="1" style="width: 0px;"></td></tr>
+                                          </thead>
+                                          <tbody>
+                                            
+                                            
+                                            
+                                          <tr class="CDCommentsDiv odd" role="row">
+                                              <td class="ml-auto" style="width: 30px;">
+                                                <img src="/media/profile/Icon2.jpg" class="CDCommentImage" alt="">
+                                              </td>
+                                              <td>
+                                                <div class="CDCommentDetails ml-0">
+                                                  <div class="CDCommentUser"><b>TestUser 101</b>
+                                                    <div style="color: rgb(68, 68, 68); margin-left: 20px;">
+                                                      
+                                                      1&nbsp;month, 3&nbsp;weeks ago
+                                                      
+                                                    </div>
+                                                    <div></div>
+                                                  </div>
+                                                  <div class="CDCommentText">
+                                                    <p class="CDCommentTextarea">
+                                                      </p><p>test comments</p><p></p>
+                                                  </div>
+                                                </div>
+                                              </td>
+                                            </tr></tbody>
+                                        </table><div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_2_paginate"><a class="paginate_button previous disabled" aria-controls="DataTables_Table_2" data-dt-idx="0" tabindex="0" id="DataTables_Table_2_previous">Previous</a><span><a class="paginate_button current" aria-controls="DataTables_Table_2" data-dt-idx="1" tabindex="0">1</a></span><a class="paginate_button next disabled" aria-controls="DataTables_Table_2" data-dt-idx="2" tabindex="0" id="DataTables_Table_2_next">Next</a></div></div>
+                                        
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                                    <div class="CDUpdatesDiv">
+                                      
+                                      
+                                      
+                                      <div class="position-relative mt-3">
+                                        
+                                        <i class="fa fa-pencil edit_icon right-0" data-toggle="modal" data-target="#edit_Updates" aria-hidden="true"></i>
+                                        
+                                        <p class="CDUpdatesHeading">Latest Updates</p>
+                                      </div>
+                      
+                                      
+                                      <div class="CDUpdateDiv">
+                                        <p class="CDUpdateBoltText"><svg aria-hidden="true" data-prefix="fas" data-icon="bolt" class="svg-inline--fa fa-bolt fa-w-10 " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+                                            <path fill="currentColor" d="M296 160H180.6l42.6-129.8C227.2 15 215.7 0 200 0H56C44 0 33.8 8.9 32.2 20.8l-32 240C-1.7 275.2 9.5 288 24 288h118.7L96.6 482.5c-3.6 15.2 8 29.5 23.3 29.5 8.4 0 16.4-4.4 20.8-12l176-304c9.3-15.9-2.2-36-20.7-36z">
+                                            </path>
+                                          </svg> Here's a quick update</p>
+                                        <div class="CDUpdateHeadDiv">
+                                          <p class="CDUpdateHeading">dgfdg</p>
+                                          <p class="CDUpdateNo">#1</p>
+                                        </div>
+                                        <div class="CDUpdateByDiv"><img src="/media/profile/Icon2.jpg" class="imgUpdateBy" alt="">
+                                          <p class="CDUpdateByText"> by TestUser 101 on July 3, 2019, 11:23 a.m.
+                                            IST</p>
+                                        </div>
+                                        <div class="CDUpdateByLineDiv"></div>
+                                        <div class="CDUpdateText">
+                                          
+                                          <p>dfgbfd</p>
+                                          
+                                        </div>
+                                      </div>
+                                      
+                                    </div>
+                                  </div>
+                                  <div class="tab-pane fade" id="abtcam" role="tabpanel" aria-labelledby="abtcam-tab">
+                                    <div class="CDUpdatesDiv position-relative">
+                                      
+                                      <div class="d-flex justify-content-end">
+                                        
+                                        <i class="fa fa-pencil  " style=" color: #EC156E;   font-size: 24px !important; " data-toggle="modal" data-target="#edit_Buzz" aria-hidden="true"></i>
+                                        
+                                      </div>
+                                      
+                                      <div class="media-item p-0 align-items-start ">
+                                        <div class="media-item_img-box"><img class="media-item__img" src="/media/CampaignBuzz/support_group.jpg" alt="">
+                                        </div>
+                                        <div>
+                                          <a rel="noopener" target="_blank" href="http://18.184.80.136/campaign/5/test/">
+                                            <h3 class="media-item__heading">test</h3>
+                                          </a>
+                                          <div class="media-item__details">
+                                            <span>July 3, 2019, 11:32 a.m.</span>
+                                            <span class="separator">|</span>
+                                            <span>Times Of India</span>
+                                          </div>
+                      
+                                          <p class="media-item__intro">
+                                            
+                                            </p><p>estgfhb xfctgbf</p>
+                                            
+                                          <p></p>
+                      
+                                          
+                                          <a class="media-item__read-more mb-3" href="http://18.184.80.136/campaign/5/test/">Read More</a>
+                                          
+                                        </div>
+                                      </div>
+                                      <div class="pb-4"></div>
+                                      
+                                      
+                      
+                                    </div>
+                      
+                                  </div>
+                      
+                                </div>
+                              </div>
+                              <div class="CDPeopleDiv">
+                                <div class="CDPeopleMain">
+                                  <div class="CDPeopleContainer" style="margin-top: 0px; margin-bottom: 0px; padding: 10px 0px; border-radius: 0px; border-top: 0px;">
+                                    <!-- <div class="CDPeopleImage" style="margin-left: 0px; margin-right: 20px; width: auto;"><img src="/media/profile/Icon2.jpg" class="imgPeople" alt="" style="width: 50px; height: 50px;"></div> -->
+                                    <div class="CDPeopleDetail">
+                                      <p class="CDPeopleTitle" style="margin: 0px;">Beneficiary</p>
+                                      <div class="beneNameDiv">
+                                        <div class="headtextben">
+                                          <p class="CDCampBeneName">aptagrim</p>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="CDPeopleDonors">
+                                  <p class="CDCommentHeading"><svg aria-hidden="true" data-prefix="fas" data-icon="medal" class="svg-inline--fa fa-medal fa-w-16 " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                      <path fill="currentColor" d="M223.75 130.75L154.62 15.54A31.997 31.997 0 0 0 127.18 0H16.03C3.08 0-4.5 14.57 2.92 25.18l111.27 158.96c29.72-27.77 67.52-46.83 109.56-53.39zM495.97 0H384.82c-11.24 0-21.66 5.9-27.44 15.54l-69.13 115.21c42.04 6.56 79.84 25.62 109.56 53.38L509.08 25.18C516.5 14.57 508.92 0 495.97 0zM256 160c-97.2 0-176 78.8-176 176s78.8 176 176 176 176-78.8 176-176-78.8-176-176-176zm92.52 157.26l-37.93 36.96 8.97 52.22c1.6 9.36-8.26 16.51-16.65 12.09L256 393.88l-46.9 24.65c-8.4 4.45-18.25-2.74-16.65-12.09l8.97-52.22-37.93-36.96c-6.82-6.64-3.05-18.23 6.35-19.59l52.43-7.64 23.43-47.52c2.11-4.28 6.19-6.39 10.28-6.39 4.11 0 8.22 2.14 10.33 6.39l23.43 47.52 52.43 7.64c9.4 1.36 13.17 12.95 6.35 19.59z">
+                                      </path>
+                                    </svg> Top Donors</p>
+                                  <div class="CDCommentHeadingLine"></div>
+                                  
+                                  <div class="CDPeopleContainer">
+                                    <div class="CDPeopleImage">
+                                      <div class=" sb-avatar sb-avatar--text" style="display: inline-block; vertical-align: middle; width: 36px; height: 36px; border-radius: 100%; font-family: Helvetica, Arial, sans-serif; font-weight: bold;">
+                                        <div class=" sb-avatar__text" style="width: 36px; height: 36px; line-height: initial; text-align: center; text-transform: uppercase; color: #EC156E; background: rgb(238, 238, 238); border-radius: 100%;">
+                                          <div style="display: table; table-layout: fixed; width: 100%; height: 100%; font-size: 0px;"><span style="display: table-cell; vertical-align: middle; white-space: nowrap;"><span>M</span></span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <p class="CDPeopleTitle CDPeople1" style="width: 100%;">
+                                      Maulik </p>
+                                    <p class="CDPeopleTitle CDPeople2 " style="color: #EC156E; text-align: right; margin-right: 20px; min-width:90px;"><b><svg aria-hidden="true" data-prefix="fas" data-icon="rupee-sign" class="svg-inline--fa fa-rupee-sign fa-w-10 " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+                                          <path fill="currentColor" d="M308 96c6.627 0 12-5.373 12-12V44c0-6.627-5.373-12-12-12H12C5.373 32 0 37.373 0 44v44.748c0 6.627 5.373 12 12 12h85.28c27.308 0 48.261 9.958 60.97 27.252H12c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h158.757c-6.217 36.086-32.961 58.632-74.757 58.632H12c-6.627 0-12 5.373-12 12v53.012c0 3.349 1.4 6.546 3.861 8.818l165.052 152.356a12.001 12.001 0 0 0 8.139 3.182h82.562c10.924 0 16.166-13.408 8.139-20.818L116.871 319.906c76.499-2.34 131.144-53.395 138.318-127.906H308c6.627 0 12-5.373 12-12v-40c0-6.627-5.373-12-12-12h-58.69c-3.486-11.541-8.28-22.246-14.252-32H308z">
+                                          </path>
+                                        </svg> 250</b></p>
+                                  </div>
+                                  
+                                  <div class="CDPeopleContainer">
+                                    <div class="CDPeopleImage">
+                                      <div class=" sb-avatar sb-avatar--text" style="display: inline-block; vertical-align: middle; width: 36px; height: 36px; border-radius: 100%; font-family: Helvetica, Arial, sans-serif; font-weight: bold;">
+                                        <div class=" sb-avatar__text" style="width: 36px; height: 36px; line-height: initial; text-align: center; text-transform: uppercase; color: #EC156E; background: rgb(238, 238, 238); border-radius: 100%;">
+                                          <div style="display: table; table-layout: fixed; width: 100%; height: 100%; font-size: 0px;"><span style="display: table-cell; vertical-align: middle; white-space: nowrap;"><span>M</span></span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <p class="CDPeopleTitle CDPeople1" style="width: 100%;">
+                                      maulik </p>
+                                    <p class="CDPeopleTitle CDPeople2 " style="color: #EC156E; text-align: right; margin-right: 20px; min-width:90px;"><b><svg aria-hidden="true" data-prefix="fas" data-icon="rupee-sign" class="svg-inline--fa fa-rupee-sign fa-w-10 " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+                                          <path fill="currentColor" d="M308 96c6.627 0 12-5.373 12-12V44c0-6.627-5.373-12-12-12H12C5.373 32 0 37.373 0 44v44.748c0 6.627 5.373 12 12 12h85.28c27.308 0 48.261 9.958 60.97 27.252H12c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h158.757c-6.217 36.086-32.961 58.632-74.757 58.632H12c-6.627 0-12 5.373-12 12v53.012c0 3.349 1.4 6.546 3.861 8.818l165.052 152.356a12.001 12.001 0 0 0 8.139 3.182h82.562c10.924 0 16.166-13.408 8.139-20.818L116.871 319.906c76.499-2.34 131.144-53.395 138.318-127.906H308c6.627 0 12-5.373 12-12v-40c0-6.627-5.373-12-12-12h-58.69c-3.486-11.541-8.28-22.246-14.252-32H308z">
+                                          </path>
+                                        </svg> 200</b></p>
+                                  </div>
+                                  
+                                </div>
+                                <div class="CDPeopleSupporters">
+                                  <p class="CDCommentHeading"><svg aria-hidden="true" data-prefix="fas" data-icon="users" class="svg-inline--fa fa-users fa-w-20 " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
+                                      <path fill="currentColor" d="M96 224c35.3 0 64-28.7 64-64s-28.7-64-64-64-64 28.7-64 64 28.7 64 64 64zm448 0c35.3 0 64-28.7 64-64s-28.7-64-64-64-64 28.7-64 64 28.7 64 64 64zm32 32h-64c-17.6 0-33.5 7.1-45.1 18.6 40.3 22.1 68.9 62 75.1 109.4h66c17.7 0 32-14.3 32-32v-32c0-35.3-28.7-64-64-64zm-256 0c61.9 0 112-50.1 112-112S381.9 32 320 32 208 82.1 208 144s50.1 112 112 112zm76.8 32h-8.3c-20.8 10-43.9 16-68.5 16s-47.6-6-68.5-16h-8.3C179.6 288 128 339.6 128 403.2V432c0 26.5 21.5 48 48 48h288c26.5 0 48-21.5 48-48v-28.8c0-63.6-51.6-115.2-115.2-115.2zm-223.7-13.4C161.5 263.1 145.6 256 128 256H64c-35.3 0-64 28.7-64 64v32c0 17.7 14.3 32 32 32h65.9c6.3-47.4 34.9-87.3 75.2-109.4z">
+                                      </path>
+                                    </svg> Supporters</p>
+                                  <div class="CDCommentHeadingLine"></div>
+                                  <div id="supporters_table_conn">
+                                    
+                                    <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper no-footer"><div class="dataTables_scroll"><div class="dataTables_scrollHead" style="overflow: hidden; position: relative; border: 0px; width: 100%;"><div class="dataTables_scrollHeadInner" style="box-sizing: content-box; width: 478px; padding-right: 0px;"><table class="table text-left supporters_table display responsive nowrap dataTable no-footer" role="grid" style="margin-left: 0px; width: 478px;"><thead style="height: 0px;">
+                                        <tr role="row"><td style="width: 66px;" class="sorting_disabled" rowspan="1" colspan="1"></td><td class="sorting_disabled" rowspan="1" colspan="1" style="width: 142px;"></td><td class="sorting_disabled" rowspan="1" colspan="1" style="width: 250px;"></td><td class="sorting_disabled" rowspan="1" colspan="1" style="width: 20px;"></td></tr>
+                                      </thead></table></div></div><div class="dataTables_scrollBody" style="position: relative; overflow: auto; height: 260px; width: 100%;"><table class="table text-left supporters_table display responsive nowrap dataTable no-footer" id="DataTables_Table_0" role="grid" style="width: 100%;"><thead style="height: 0px;">
+                                        <tr role="row" style="height: 0px;"><td style="width: 66px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;" class="sorting_disabled" rowspan="1" colspan="1"><div class="dataTables_sizing" style="height: 0px; overflow: hidden;"></div></td><td class="sorting_disabled" rowspan="1" colspan="1" style="width: 142px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;"><div class="dataTables_sizing" style="height: 0px; overflow: hidden;"></div></td><td class="sorting_disabled" rowspan="1" colspan="1" style="width: 250px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;"><div class="dataTables_sizing" style="height: 0px; overflow: hidden;"></div></td><td class="sorting_disabled" rowspan="1" colspan="1" style="width: 20px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;"><div class="dataTables_sizing" style="height: 0px; overflow: hidden;"></div></td></tr>
+                                      </thead>
+                                      
+                                      <tbody>
+                                        
+                                        
+                                        
+                                        
+                                        
+                      
+                                      <tr class="CDPeopleContainer odd" role="row">
+                                          <td style="width: 140px;">
+                                            <div class="CDPeopleImage">
+                                              <div class=" sb-avatar sb-avatar--text">
+                                                <div class=" sb-avatar__text">
+                                                  <div class=" sb-avatar__text_con ">
+                                                    <span class=" sb-avatar__text_con_span "><span>M</span></span></div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </td>
+                                          <td>
+                                            <p class="CDPeopleTitle CDPeople1 w-100">
+                                               maulik 
+                                            </p>
+                                          </td>
+                                          <td>
+                                            <p class="CDPeopleTitle CDPeople2 width_200"><b>
+                                                <svg aria-hidden="true" data-prefix="fas" data-icon="rupee-sign" class="svg-inline--fa fa-rupee-sign fa-w-10 " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+                                                  <path fill="currentColor" d="M308 96c6.627 0 12-5.373 12-12V44c0-6.627-5.373-12-12-12H12C5.373 32 0 37.373 0 44v44.748c0 6.627 5.373 12 12 12h85.28c27.308 0 48.261 9.958 60.97 27.252H12c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h158.757c-6.217 36.086-32.961 58.632-74.757 58.632H12c-6.627 0-12 5.373-12 12v53.012c0 3.349 1.4 6.546 3.861 8.818l165.052 152.356a12.001 12.001 0 0 0 8.139 3.182h82.562c10.924 0 16.166-13.408 8.139-20.818L116.871 319.906c76.499-2.34 131.144-53.395 138.318-127.906H308c6.627 0 12-5.373 12-12v-40c0-6.627-5.373-12-12-12h-58.69c-3.486-11.541-8.28-22.246-14.252-32H308z">
+                                                  </path>
+                                                </svg> 200</b>
+                                            </p>
+                                          </td>
+                                          <td style="width: 20px;"></td>
+                                        </tr><tr class="CDPeopleContainer even" role="row">
+                                          <td style="width: 140px;">
+                                            <div class="CDPeopleImage">
+                                              <div class=" sb-avatar sb-avatar--text">
+                                                <div class=" sb-avatar__text">
+                                                  <div class=" sb-avatar__text_con ">
+                                                    <span class=" sb-avatar__text_con_span "><span>M</span></span></div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </td>
+                                          <td>
+                                            <p class="CDPeopleTitle CDPeople1 w-100">
+                                               Maulik 
+                                            </p>
+                                          </td>
+                                          <td>
+                                            <p class="CDPeopleTitle CDPeople2 width_200"><b>
+                                                <svg aria-hidden="true" data-prefix="fas" data-icon="rupee-sign" class="svg-inline--fa fa-rupee-sign fa-w-10 " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+                                                  <path fill="currentColor" d="M308 96c6.627 0 12-5.373 12-12V44c0-6.627-5.373-12-12-12H12C5.373 32 0 37.373 0 44v44.748c0 6.627 5.373 12 12 12h85.28c27.308 0 48.261 9.958 60.97 27.252H12c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h158.757c-6.217 36.086-32.961 58.632-74.757 58.632H12c-6.627 0-12 5.373-12 12v53.012c0 3.349 1.4 6.546 3.861 8.818l165.052 152.356a12.001 12.001 0 0 0 8.139 3.182h82.562c10.924 0 16.166-13.408 8.139-20.818L116.871 319.906c76.499-2.34 131.144-53.395 138.318-127.906H308c6.627 0 12-5.373 12-12v-40c0-6.627-5.373-12-12-12h-58.69c-3.486-11.541-8.28-22.246-14.252-32H308z">
+                                                  </path>
+                                                </svg> 250</b>
+                                            </p>
+                                          </td>
+                                          <td style="width: 20px;"></td>
+                                        </tr></tbody>
+                                    </table></div></div><div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate"><a class="paginate_button previous disabled" aria-controls="DataTables_Table_0" data-dt-idx="0" tabindex="0" id="DataTables_Table_0_previous">Previous</a><span><a class="paginate_button current" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0">1</a></span><a class="paginate_button next disabled" aria-controls="DataTables_Table_0" data-dt-idx="2" tabindex="0" id="DataTables_Table_0_next">Next</a></div></div>
+                                    
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                      
+                      
+                      
+                            <div class="CDReportDiv mb-0">
+                              <p class="CDReportText">Have a question? If the info above doesn't help. You can check out our <b><a href="/campaign-criteria/"><u style="color: #EC156E;">FAQs</u></a></b> page</p>
+                      
+                              
+                              
+                      
+                              
+                            </div>
+                          </div>
+                    </div>
+                  </div>
+                </div>
+              </main>
+
+          </div>
+      </div>
+  </div>
+
+
+  <div class="overlay"></div>
+
+
+  <script type="text/javascript" src="static/js/jquery.min.js" ></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="static/js/bootstrap.min.js" ></script>  
+  <script type="text/javascript" src="static/js/script.js"></script>
+  <script type="text/javascript" src="static/js/select2.full.min.js"></script>
+  <script type="text/javascript" src="static/js/jquery.dataTables.min.js"></script>
+  <script type="text/javascript" src="static/js/custom-file-input.js"></script>
+  <script type="text/javascript">
+    $('#dismiss, .overlay').on('click', function () {
+        $('#sidebar').removeClass('active');
+        $('.overlay').removeClass('active');
+    });
+    $(document).ready(function () {
+        $('#sidebarCollapse').on('click', function () {
+          $('#sidebar').addClass('active');
+          $('.overlay').addClass('active');
+          $('.collapse.in').toggleClass('in');
+          $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+        });
+    });
+</script>
+ <script>
+    $(document).ready(function() {
+        $('.select2').select2();
+    });
+  </script>
+
+  <!-- Amchart -->
+  <script src="https://www.amcharts.com/lib/4/core.js"></script>
+  <script src="https://www.amcharts.com/lib/4/charts.js"></script>
+  <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+  <script>
+    // Themes begin
+    am4core.useTheme(am4themes_animated);
+    // Themes end
+
+    var chart = am4core.create("support_grp", am4charts.XYChart);
+
+    var data = [];
+    var value = 50;
+    for(let i = 0; i < 300; i++){
+      let date = new Date();
+      date.setHours(0,0,0,0);
+      date.setDate(i);
+      value -= Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 10);
+      data.push({date:date, value: value});
+    }
+
+    chart.data = data;
+
+    // Create axes
+    var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+    dateAxis.renderer.minGridDistance = 60;
+
+    var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+
+    // Create series
+    var series = chart.series.push(new am4charts.LineSeries());
+    series.dataFields.valueY = "value";
+    series.dataFields.dateX = "date";
+    series.tooltipText = "{value}"
+
+    series.tooltip.pointerOrientation = "vertical";
+
+    chart.cursor = new am4charts.XYCursor();
+    chart.cursor.snapToSeries = series;
+    chart.cursor.xAxis = dateAxis;
+
+    //chart.scrollbarY = new am4core.Scrollbar();
+    // chart.scrollbarX = new am4core.Scrollbar();
+  </script>
+
+<script>
+  // Themes begin
+  am4core.useTheme(am4themes_animated);
+  // Themes end
+
+  var chart = am4core.create("support_total", am4charts.XYChart);
+
+  var data = [];
+  var value = 50;
+  for(let i = 0; i < 300; i++){
+    let date = new Date();
+    date.setHours(0,0,0,0);
+    date.setDate(i);
+    value -= Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 10);
+    data.push({date:date, value: value});
+  }
+
+  chart.data = data;
+
+  // Create axes
+  var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+  dateAxis.renderer.minGridDistance = 60;
+
+  var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+  valueAxis.renderer.labels.template.fill = am4core.color("#ffffff");
+  dateAxis.renderer.labels.template.fill = am4core.color("#ffffff");
+  valueAxis.renderer.grid.template.stroke = am4core.color("#ffffff");
+
+  // Create series
+  var series = chart.series.push(new am4charts.LineSeries());
+  series.dataFields.valueY = "value";
+  series.dataFields.dateX = "date";
+  series.tooltipText = "{value}"
+
+  series.tooltip.pointerOrientation = "vertical";
+
+  chart.cursor = new am4charts.XYCursor();
+  chart.cursor.snapToSeries = series;
+  chart.cursor.xAxis = dateAxis;
+
+  //chart.scrollbarY = new am4core.Scrollbar();
+  // chart.scrollbarX = new am4core.Scrollbar();
+</script>
+  
+
+</body>
+</html>

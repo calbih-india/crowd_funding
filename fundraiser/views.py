@@ -13,6 +13,7 @@ from fundraiser.models import *
 from django.db.models import Sum
 from django.db.models import Q
 from django.db.models import Count
+from django.db.models.functions import Coalesce
 
 
 #---------------- import django message framework --------------------#
@@ -90,7 +91,7 @@ import geoip2.database
 
 
 #--------------------- save visit history ---------------------------------------------------------#
-def save_visiter(request, supportgroup):
+def save_support_group_visiter(request, supportgroup):
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
     if x_forwarded_for:
         ip = x_forwarded_for.split(',')[-1].strip()
@@ -99,21 +100,102 @@ def save_visiter(request, supportgroup):
     else:
         ip = request.META.get('REMOTE_ADDR')
 
-    reader = geoip2.database.Reader('GeoLite2-City_20190730/GeoLite2-City.mmdb')
+    
+    source = request.GET.get('source')
 
-    response = reader.city(ip)
-    location = {
-        'country_iso_code':response.country.iso_code, 'country_name':response.country.name, 
-        'subdivisions_name':response.subdivisions.most_specific.name, 'subdivisions_iso_code':response.subdivisions.most_specific.iso_code,
-        'city':response.city.name, 'postal':response.postal.code, 'location_latitude':response.location.latitude, 'location_longitude':response.location.longitude
-        }
+    try:
 
-    reader.close()
-    if request.user.is_authenticated:
-        SupportVisitHistory.objects.create(path=request.path, ip=ip, request_type=request.method, location=location, support_group=supportgroup, user=request.user)
+        reader = geoip2.database.Reader('GeoLite2-City_20190730/GeoLite2-City.mmdb')
+
+        response = reader.city(ip)
+        location = {
+            'country_iso_code':response.country.iso_code, 'country_name':response.country.name, 
+            'subdivisions_name':response.subdivisions.most_specific.name, 'subdivisions_iso_code':response.subdivisions.most_specific.iso_code,
+            'city':response.city.name, 'postal':response.postal.code, 'location_latitude':response.location.latitude, 'location_longitude':response.location.longitude
+            }
+
+        reader.close()
+        if request.user.is_authenticated:
+            SupportVisitHistory.objects.create(path=request.path, ip=ip, request_type=request.method, location=location, support_group=supportgroup, user=request.user, source=source)
+        else:
+            SupportVisitHistory.objects.create(path=request.path, ip=ip, request_type=request.method, location=location, support_group=supportgroup, source=source)
+    except:
+        if request.user.is_authenticated:
+            SupportVisitHistory.objects.create(path=request.path, ip=ip, request_type=request.method, support_group=supportgroup, user=request.user, source=source)
+        else:
+            SupportVisitHistory.objects.create(path=request.path, ip=ip, request_type=request.method, support_group=supportgroup, source=source)
+
+    return True
+
+
+def save_event_visiter(request, event):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[-1].strip()
+    elif request.META.get('HTTP_X_REAL_IP'):
+        ip = request.META.get('HTTP_X_REAL_IP')
     else:
-        SupportVisitHistory.objects.create(path=request.path, ip=ip, request_type=request.method, location=location, support_group=supportgroup)
+        ip = request.META.get('REMOTE_ADDR')
 
+
+    source = request.GET.get('source')
+
+    try:
+        reader = geoip2.database.Reader('GeoLite2-City_20190730/GeoLite2-City.mmdb')
+
+        response = reader.city(ip)
+        location = {
+            'country_iso_code':response.country.iso_code, 'country_name':response.country.name, 
+            'subdivisions_name':response.subdivisions.most_specific.name, 'subdivisions_iso_code':response.subdivisions.most_specific.iso_code,
+            'city':response.city.name, 'postal':response.postal.code, 'location_latitude':response.location.latitude, 'location_longitude':response.location.longitude
+            }
+
+        reader.close()
+        if request.user.is_authenticated:
+            EventVisitHistory.objects.create(path=request.path, ip=ip, request_type=request.method, location=location, event=event, user=request.user, source=source)
+        else:
+            EventVisitHistory.objects.create(path=request.path, ip=ip, request_type=request.method, location=location, event=event, source=source)
+    except:
+        if request.user.is_authenticated:
+            EventVisitHistory.objects.create(path=request.path, ip=ip, request_type=request.method, event=event, user=request.user, source=source)
+        else:
+            EventVisitHistory.objects.create(path=request.path, ip=ip, request_type=request.method, event=event, source=source)
+
+    return True
+
+
+
+def save_fundraiser_visiter(request, fundraiser):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[-1].strip()
+    elif request.META.get('HTTP_X_REAL_IP'):
+        ip = request.META.get('HTTP_X_REAL_IP')
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+
+    source = request.GET.get('source')
+
+    try:
+        reader = geoip2.database.Reader('GeoLite2-City_20190730/GeoLite2-City.mmdb')
+
+        response = reader.city(ip)
+        location = {
+            'country_iso_code':response.country.iso_code, 'country_name':response.country.name, 
+            'subdivisions_name':response.subdivisions.most_specific.name, 'subdivisions_iso_code':response.subdivisions.most_specific.iso_code,
+            'city':response.city.name, 'postal':response.postal.code, 'location_latitude':response.location.latitude, 'location_longitude':response.location.longitude
+            }
+
+        reader.close()
+        if request.user.is_authenticated:
+            CampaignFundRaiserVisitHistory.objects.create(path=request.path, ip=ip, request_type=request.method, location=location, campaign_fundraiser=fundraiser, user=request.user, source=source)
+        else:
+            CampaignFundRaiserVisitHistory.objects.create(path=request.path, ip=ip, request_type=request.method, location=location, campaign_fundraiser=fundraiser, source=source)
+    except:
+        if request.user.is_authenticated:
+            CampaignFundRaiserVisitHistory.objects.create(path=request.path, ip=ip, request_type=request.method, campaign_fundraiser=fundraiser, user=request.user, source=source)
+        else:
+            CampaignFundRaiserVisitHistory.objects.create(path=request.path, ip=ip, request_type=request.method, campaign_fundraiser=fundraiser, source=source)
     return True
 
 
@@ -325,9 +407,12 @@ def discover(request):
     if request.is_ajax():
         category = request.GET.get('category', None)
         sub_category = request.GET.get('sub_category', None)
+        nested_sub_category = request.GET.get('nested_sub_category', None)
         page = request.GET.get('page', None)
         if sub_category == 'Show All':
             sub_category = None
+        if nested_sub_category == 'Show All':
+            nested_sub_category = None
 
         if category == 'Fundraisers':
             instance_CampaignCategory = CampaignCategory.objects.filter(is_active=True)
@@ -335,6 +420,13 @@ def discover(request):
 
             if sub_category:
                 instance_CampaignFundRaiser = instance_CampaignFundRaiser.filter(category__category__iexact=sub_category)
+                instance_CampaignSubCategory = CampaignSubCategory.objects.filter(category__category__iexact=sub_category)
+            else:
+                instance_CampaignSubCategory = []
+
+            if nested_sub_category:
+                instance_CampaignFundRaiser = instance_CampaignFundRaiser.filter(sub_category__sub_category__iexact=nested_sub_category)
+                
 
             paginator  = Paginator(instance_CampaignFundRaiser, 6)
             page = request.GET.get('page')
@@ -347,8 +439,10 @@ def discover(request):
 
             context = {
                 'sub_category':sub_category,
+                'nested_sub_category':nested_sub_category,
                 'instance_CampaignFundRaiser':instance_CampaignFundRaiser,
                 'instance_CampaignCategory':instance_CampaignCategory,
+                'instance_CampaignSubCategory':instance_CampaignSubCategory,
             }
             return render(request, 'before_login/discover_fundraiser.html', context)
         if category == 'Event':
@@ -416,10 +510,17 @@ def discover(request):
         }
         return render(request, 'before_login/discover.html', context)
 
-def campaign_selected(request, ID, name):
+def campaign_selected(request, url_text):
     form_error = False
     try:
-        instance_CampaignFundRaiser = CampaignFundRaiser.objects.get(id=ID)
+        instance_CampaignFundRaiser = CampaignFundRaiser.objects.get(url_text=url_text)
+
+        source = request.GET.get('source')
+
+        try:
+            save_fundraiser_visiter(request, instance_CampaignFundRaiser)
+        except Exception as e:
+            pass
 
 
 
@@ -428,7 +529,7 @@ def campaign_selected(request, ID, name):
             if request.user.user_type == 'Admin' or request.user.user_type == 'Backend User':
                 is_authorised_for_edit = True
             elif instance_CampaignFundRaiser.user.id == request.user.id:
-                is_authorised_for_edit = True
+                is_authorised_for_edit = False
             else:
                 is_authorised_for_edit = False
         else:
@@ -447,7 +548,7 @@ def campaign_selected(request, ID, name):
 
                         messages.add_message(request,messages.SUCCESS,'Goal updated successfully.')
 
-                        return redirect('campaign_selected', ID=ID, name=name)
+                        return redirect('campaign_selected', url_text=url_text)
                     else:
                         CampaignFundRaiserTitleForm = CampaignFundRaiser_Title_Form(instance=instance_CampaignFundRaiser)
                         CampaignFundRaiserPictureForm = CampaignFundRaiser_Picture_Form(instance=instance_CampaignFundRaiser)
@@ -465,7 +566,7 @@ def campaign_selected(request, ID, name):
 
                         messages.add_message(request,messages.SUCCESS,'Title updated successfully.')
 
-                        return redirect('campaign_selected', ID=ID, name=name)
+                        return redirect('campaign_selected', url_text=url_text)
 
                     else:
                         CampaignFundRaiserGoalForm = CampaignFundRaiser_Goal_Form(instance=instance_CampaignFundRaiser)
@@ -486,7 +587,7 @@ def campaign_selected(request, ID, name):
 
                         messages.add_message(request,messages.SUCCESS,'Picture updated successfully.')
 
-                        return redirect('campaign_selected', ID=ID, name=name)
+                        return redirect('campaign_selected', url_text=url_text)
 
                     else:
                         CampaignFundRaiserGoalForm = CampaignFundRaiser_Goal_Form(instance=instance_CampaignFundRaiser)
@@ -508,7 +609,7 @@ def campaign_selected(request, ID, name):
 
                         messages.add_message(request,messages.SUCCESS,'About updated successfully.')
 
-                        return redirect('campaign_selected', ID=ID, name=name)
+                        return redirect('campaign_selected', url_text=url_text)
 
                     else:
                         CampaignFundRaiserGoalForm = CampaignFundRaiser_Goal_Form(instance=instance_CampaignFundRaiser)
@@ -530,7 +631,7 @@ def campaign_selected(request, ID, name):
 
                         messages.add_message(request,messages.SUCCESS,'Update added successfully.')
 
-                        return redirect('campaign_selected', ID=ID, name=name)
+                        return redirect('campaign_selected', url_text=url_text)
 
                     else:
                         CampaignFundRaiserGoalForm = CampaignFundRaiser_Goal_Form(instance=instance_CampaignFundRaiser)
@@ -552,7 +653,7 @@ def campaign_selected(request, ID, name):
 
                         messages.add_message(request,messages.SUCCESS,'Buzz added successfully.')
 
-                        return redirect('campaign_selected', ID=ID, name=name)
+                        return redirect('campaign_selected', url_text=url_text)
 
                     else:
                         CampaignFundRaiserGoalForm = CampaignFundRaiser_Goal_Form(instance=instance_CampaignFundRaiser)
@@ -575,7 +676,7 @@ def campaign_selected(request, ID, name):
 
                         messages.add_message(request,messages.SUCCESS,'Comment added successfully.')
 
-                        return redirect('campaign_selected', ID=ID, name=name)
+                        return redirect('campaign_selected', url_text=url_text)
 
                     else:
                         CampaignFundRaiserGoalForm = CampaignFundRaiser_Goal_Form(instance=instance_CampaignFundRaiser)
@@ -597,7 +698,7 @@ def campaign_selected(request, ID, name):
 
                         messages.add_message(request,messages.SUCCESS,'Days updated successfully.')
 
-                        return redirect('campaign_selected', ID=ID, name=name)
+                        return redirect('campaign_selected', url_text=url_text)
 
                     else:
                         CampaignFundRaiserGoalForm = CampaignFundRaiser_Goal_Form(instance=instance_CampaignFundRaiser)
@@ -619,7 +720,7 @@ def campaign_selected(request, ID, name):
 
                         messages.add_message(request,messages.SUCCESS,'Short Description updated successfully.')
 
-                        return redirect('campaign_selected', ID=ID, name=name)
+                        return redirect('campaign_selected', url_text=url_text)
 
                     else:
                         CampaignFundRaiserGoalForm = CampaignFundRaiser_Goal_Form(instance=instance_CampaignFundRaiser)
@@ -717,38 +818,70 @@ def campaign_selected(request, ID, name):
 
                             messages.add_message(request,messages.SUCCESS,'Comment added successfully.')
 
-                            return redirect('campaign_selected', ID=ID, name=name)
+                            return redirect('campaign_selected', url_text=url_text)
                         else:
                             Campaign_Doners_Forms = CampaignDonersForms()
+                            CheckPotentialCampaignDoners_Forms = CheckPotentialCampaignDoners()
                     else:
                         messages.add_message(request,messages.ERROR,'for comment authenticate must be need.')
                         return redirect('login')
 
                 elif form_type == 'Doners':
-                    Campaign_Doners_Forms = CampaignDonersForms(request.POST)
-                    if Campaign_Doners_Forms.is_valid():
-                        Campaign_Doners_Forms = Campaign_Doners_Forms.save(commit=False)
-                        Campaign_Doners_Forms.campaign_fund_raiser = instance_CampaignFundRaiser
-                        if request.user.is_authenticated:
-                            Campaign_Doners_Forms.doner_user = request.user
+                    CheckPotentialCampaignDoners_Forms = CheckPotentialCampaignDoners(request.POST)
+                    if CheckPotentialCampaignDoners_Forms.is_valid():
+                        is_donating = CheckPotentialCampaignDoners_Forms.cleaned_data['is_donating']
+                        if is_donating:
+                            Campaign_Doners_Forms = CampaignDonersForms(request.POST)
+                            if Campaign_Doners_Forms.is_valid():
+                                Campaign_Doners_Forms = Campaign_Doners_Forms.save(commit=False)
+                                Campaign_Doners_Forms.campaign_fund_raiser = instance_CampaignFundRaiser
+                                if request.user.is_authenticated:
+                                    Campaign_Doners_Forms.doner_user = request.user
+                                Campaign_Doners_Forms.source = source
 
-                        Campaign_Doners_Forms.save()
+                                Campaign_Doners_Forms.save()
 
-                        return redirect('campaign_payment', ID=ID, OID=Campaign_Doners_Forms.id)
+                                return redirect('campaign_payment', ID=instance_CampaignFundRaiser.id, OID=Campaign_Doners_Forms.id)
+
+                            else:
+                                form_error = 'Doners'
+                                Campaign_Comments_Form = CampaignCommentsForm()
+
+                        else:
+                            Campaign_Doners_Forms = PotentialCampaignDonersForms(request.POST)
+                            if Campaign_Doners_Forms.is_valid():
+                                Campaign_Doners_Forms = Campaign_Doners_Forms.save(commit=False)
+                                Campaign_Doners_Forms.campaign_fund_raiser = instance_CampaignFundRaiser
+                                if request.user.is_authenticated:
+                                    Campaign_Doners_Forms.doner_user = request.user
+                                Campaign_Doners_Forms.source = source
+
+                                Campaign_Doners_Forms.save()
+
+                                messages.add_message(request,messages.SUCCESS,'Thanks for supporting.')
+
+                                return redirect('campaign_selected', url_text=url_text)
+
+                            else:
+                                form_error = 'Doners'
+                                Campaign_Comments_Form = CampaignCommentsForm()
 
                     else:
                         form_error = 'Doners'
-                        print(Campaign_Doners_Forms.errors)
+                        Campaign_Doners_Forms = CampaignDonersForms(request.POST)
                         Campaign_Comments_Form = CampaignCommentsForm()
+                        
                 else:
                     Campaign_Comments_Form = CampaignCommentsForm()
                     Campaign_Doners_Forms = CampaignDonersForms()
+                    CheckPotentialCampaignDoners_Forms = CheckPotentialCampaignDoners()
 
                     
 
 
             else:
                 Campaign_Comments_Form = CampaignCommentsForm()
+                CheckPotentialCampaignDoners_Forms = CheckPotentialCampaignDoners()
                 if request.user.is_authenticated:
                     Campaign_Doners_Forms = CampaignDonersForms(initial={'name':request.user.name, 'email':request.user.email, 'phone':request.user.mobile_no, 'address':request.user.address, 'pincode':request.user.pincode})
                 else:
@@ -779,6 +912,7 @@ def campaign_selected(request, ID, name):
                 'domain':domain,
                 'is_authorised_for_edit':is_authorised_for_edit,
                 'form_error':form_error,
+                'CheckPotentialCampaignDoners_Forms':CheckPotentialCampaignDoners_Forms,
             }
 
             return render(request, 'before_login/campaign_selected.html', context)
@@ -822,7 +956,7 @@ def campaign_payment(request, ID, OID):
             "customerName" : instance_CampaignDoners.name, 
             "customerPhone" : str(instance_CampaignDoners.phone), 
             "customerEmail" : instance_CampaignDoners.email, 
-            "returnUrl": "http://54.93.72.190/payment/check/",
+            "returnUrl": "http://3.18.104.39/payment/check/",
             "notifyUrl": ''
         }
         
@@ -863,8 +997,7 @@ def payment_check(request):
 
 
         instance_CampaignDoners = False
-        # try:
-        if True:
+        try:
             cashfree_appid = instance_CashfreePaymentDetails.app_id
             cashfree_secretKey = instance_CashfreePaymentDetails.secrate_key
             cashfree_payment_mode = instance_CashfreePaymentDetails.payment_mode
@@ -896,11 +1029,23 @@ def payment_check(request):
             response = requests.post(api_url, data=payload, headers=headers)
             response = response.json()
 
+            # get payment mode
+            try:
+                payment_mode_api_url = 'https://test.cashfree.com/api/v1/order/info/status/'
+                payment_mode_response = requests.post(payment_mode_api_url, data=payload, headers=headers)
+                payment_mode_response = payment_mode_response.json()
+                payment_mode = payment_mode_response['paymentDetails']['paymentMode']
+            except:
+                payment_mode = None
+
+
+
 
             if postData['signature'] == computedsignature and postData['txStatus'] == 'SUCCESS' and float(postData['orderAmount']) == float(instance_CampaignDoners.amount) and response['status'] == 'OK':
                 instance_CampaignFundRaiser = CampaignFundRaiser.objects.get(id=instance_CampaignDoners.campaign_fund_raiser.id)
                 instance_CampaignDoners.payment_status = 'captured'
                 instance_CampaignDoners.payment_id = postData['referenceId']
+                instance_CampaignDoners.payment_mode = payment_mode
                 instance_CampaignDoners.save()
 
                 instance_CampaignDoners_count = CampaignDoners.objects.filter(campaign_fund_raiser=instance_CampaignFundRaiser, payment_status='captured', email=instance_CampaignDoners.email).count()
@@ -912,16 +1057,32 @@ def payment_check(request):
                     instance_CampaignTotalAmount.total_amount = (instance_CampaignTotalAmount.total_amount + instance_CampaignDoners.amount)
                 instance_CampaignTotalAmount.save()
 
+
+                try:
+                    current_site = get_current_site(request)
+                    mail_subject = 'Thank you for supporting us.'
+                    message = render_to_string('email_template/my_fundraiser_campaign_supporter_reminder_email.html', {
+                        'domain': current_site.domain,
+                        'instance_CampaignDoners':instance_CampaignDoners,
+                    })
+                    email = EmailMultiAlternatives(
+                                        mail_subject, message, to=[instance_CampaignDoners.email]
+                        )
+                    email.attach_alternative(message, "text/html")
+                    email.send()
+                except:
+                    pass
+
                 messages.add_message(request,messages.SUCCESS,'Thanks for supporting.')
-                return redirect('campaign_selected', ID=instance_CampaignDoners.campaign_fund_raiser.id, name=instance_CampaignDoners.campaign_fund_raiser.title)
+                return redirect('campaign_selected', url_text=instance_CampaignDoners.campaign_fund_raiser.url_text)
             else:
                 if instance_CampaignDoners:
                     instance_CampaignDoners.payment_status = 'failed'
                     instance_CampaignDoners.save()
-        # except:
-        #     if instance_CampaignDoners:
-        #         instance_CampaignDoners.payment_status = 'failed'
-        #         instance_CampaignDoners.save()
+        except:
+            if instance_CampaignDoners:
+                instance_CampaignDoners.payment_status = 'failed'
+                instance_CampaignDoners.save()
 
     messages.add_message(request,messages.ERROR,'There seems to be some error in payment. In case your payment was successful please contact out support.')
     return redirect('discover')
@@ -1016,7 +1177,7 @@ def report_campaign_selected(request, ID):
 
 
         messages.add_message(request,messages.SUCCESS,'report send to admin successfully.')
-        return redirect('campaign_selected', ID=ID, name=instance_CampaignFundRaiser.title)
+        return redirect('campaign_selected', url_text=instance_CampaignFundRaiser.url_text)
         
     except:
         return redirect('discover')
@@ -1046,25 +1207,30 @@ def ask_update_campaign_selected(request, ID):
 
 
         messages.add_message(request,messages.SUCCESS,'Email send successfully.')
-        return redirect('campaign_selected', ID=ID, name=instance_CampaignFundRaiser.title)
+        return redirect('campaign_selected', url_text=instance_CampaignFundRaiser.url_text)
 
     except:
         return redirect('discover')
 
 
-def support_group_selected(request, ID, name):
+def support_group_selected(request, url_text):
     try:
 
-        instance_SupportGroup = SupportGroup.objects.get(id=ID)
+        instance_SupportGroup = SupportGroup.objects.get(url_text=url_text)
 
-        save_visiter(request, instance_SupportGroup)
+        source = request.GET.get('source')
+
+        try:
+            save_support_group_visiter(request, instance_SupportGroup)
+        except:
+            pass
 
         is_authorised_for_edit = False
         if request.user.is_authenticated:
             if request.user.user_type == 'Admin' or request.user.user_type == 'Backend User':
                 is_authorised_for_edit = True
             elif instance_SupportGroup.group_leader.id == request.user.id:
-                is_authorised_for_edit = True
+                is_authorised_for_edit = False
             else:
                 is_authorised_for_edit = False
         else:
@@ -1086,7 +1252,7 @@ def support_group_selected(request, ID, name):
 
                         messages.add_message(request,messages.SUCCESS,'Goal updated successfully.')
 
-                        return redirect('support_group_selected', ID=ID, name=name)
+                        return redirect('support_group_selected', url_text=url_text)
                     else:
                         SupportGroup_Title_Form = SupportGroupTitleForm(instance=instance_SupportGroup)
                         SupportGroup_Picture_Form = SupportGroupPictureForm(instance=instance_SupportGroup)
@@ -1103,7 +1269,7 @@ def support_group_selected(request, ID, name):
 
                         messages.add_message(request,messages.SUCCESS,'Title updated successfully.')
 
-                        return redirect('support_group_selected', ID=ID, name=name)
+                        return redirect('support_group_selected', url_text=url_text)
 
                     else:
                         SupportGroup_Goal_Form = SupportGroupGoalForm(instance=instance_SupportGroup)
@@ -1123,7 +1289,7 @@ def support_group_selected(request, ID, name):
 
                         messages.add_message(request,messages.SUCCESS,'Picture updated successfully.')
 
-                        return redirect('support_group_selected', ID=ID, name=name)
+                        return redirect('support_group_selected', url_text=url_text)
 
                     else:
                         SupportGroup_Goal_Form = SupportGroupGoalForm(instance=instance_SupportGroup)
@@ -1144,7 +1310,7 @@ def support_group_selected(request, ID, name):
 
                         messages.add_message(request,messages.SUCCESS,'About updated successfully.')
 
-                        return redirect('support_group_selected', ID=ID, name=name)
+                        return redirect('support_group_selected', url_text=url_text)
 
                     else:
                         SupportGroup_Goal_Form = SupportGroupGoalForm(instance=instance_SupportGroup)
@@ -1163,7 +1329,7 @@ def support_group_selected(request, ID, name):
 
                         messages.add_message(request,messages.SUCCESS,'Short Description updated successfully.')
 
-                        return redirect('support_group_selected', ID=ID, name=name)
+                        return redirect('support_group_selected', url_text=url_text)
 
                     else:
                         SupportGroup_Goal_Form = SupportGroupGoalForm(instance=instance_SupportGroup)
@@ -1184,7 +1350,7 @@ def support_group_selected(request, ID, name):
 
                         messages.add_message(request,messages.SUCCESS,'Update added successfully.')
 
-                        return redirect('support_group_selected', ID=ID, name=name)
+                        return redirect('support_group_selected', url_text=url_text)
 
                     else:
                         SupportGroup_Goal_Form = SupportGroupGoalForm(instance=instance_SupportGroup)
@@ -1205,7 +1371,7 @@ def support_group_selected(request, ID, name):
 
                         messages.add_message(request,messages.SUCCESS,'Buzz added successfully.')
 
-                        return redirect('support_group_selected', ID=ID, name=name)
+                        return redirect('support_group_selected', url_text=url_text)
 
                     else:
                         SupportGroup_Goal_Form = SupportGroupGoalForm(instance=instance_SupportGroup)
@@ -1227,7 +1393,7 @@ def support_group_selected(request, ID, name):
 
                         messages.add_message(request,messages.SUCCESS,'Comment added successfully.')
 
-                        return redirect('support_group_selected', ID=ID, name=name)
+                        return redirect('support_group_selected', url_text=url_text)
 
                     else:
                         SupportGroup_Goal_Form = SupportGroupGoalForm(instance=instance_SupportGroup)
@@ -1333,7 +1499,7 @@ def support_group_selected(request, ID, name):
 
                             messages.add_message(request,messages.SUCCESS,'Comment added successfully.')
 
-                            return redirect('support_group_selected', ID=ID, name=name)
+                            return redirect('support_group_selected', url_text=url_text)
                         else:
                             Support_Group_Members_Forms = SupportGroupMembersForms()
                     else:
@@ -1351,10 +1517,10 @@ def support_group_selected(request, ID, name):
                             try:
                                 if instance_SupportGroup.group_leader.id == request.user.id:
                                     messages.add_message(request,messages.SUCCESS,"You can't join your own mobilisation campaign.")
-                                    return redirect('support_group_selected', ID=ID, name=name)
+                                    return redirect('support_group_selected', url_text=url_text)
                                 elif dublicate_count != 0:
                                     messages.add_message(request,messages.SUCCESS,"You have already joined this mobilisation campaign.")
-                                    return redirect('support_group_selected', ID=ID, name=name)
+                                    return redirect('support_group_selected', url_text=url_text)
                                 else:
                                     pass
                             except:
@@ -1364,11 +1530,11 @@ def support_group_selected(request, ID, name):
                             check_owner =  SupportGroupMembers.objects.filter(support_group=instance_SupportGroup, support_group__group_leader__email__iexact=post_email).count()
                             if dublicate_count != 0:
                                 messages.add_message(request,messages.SUCCESS,"You have already joined this mobilisation campaign.")
-                                return redirect('support_group_selected', ID=ID, name=name)
+                                return redirect('support_group_selected', url_text=url_text)
 
                             elif check_owner != 0:
                                 messages.add_message(request,messages.SUCCESS,"You can't join your own mobilisation campaign.")
-                                return redirect('support_group_selected', ID=ID, name=name)
+                                return redirect('support_group_selected', url_text=url_text)
 
 
 
@@ -1377,11 +1543,28 @@ def support_group_selected(request, ID, name):
                         if request.user.is_authenticated:
                             Support_Group_Members_Forms.group_member = request.user
 
+                        Support_Group_Members_Forms.source = source
+
                         Support_Group_Members_Forms.save()
+
+                        try:
+                            current_site = get_current_site(request)
+                            mail_subject = 'Thank you for supporting us.'
+                            message = render_to_string('email_template/my_mobilisation_campaign_supporter_reminder_email.html', {
+                                'domain': current_site.domain,
+                                'instance_SupportGroupMembers':Support_Group_Members_Forms,
+                            })
+                            email = EmailMultiAlternatives(
+                                                mail_subject, message, to=[Support_Group_Members_Forms.email]
+                                )
+                            email.attach_alternative(message, "text/html")
+                            email.send()
+                        except:
+                            pass
 
                         messages.add_message(request,messages.SUCCESS,'Thank you.')
 
-                        return redirect('support_group_selected', ID=ID, name=name)
+                        return redirect('support_group_selected', url_text=url_text)
                     
                     else:
                         Support_Comments_Form = SupportCommentsForm()
@@ -1453,7 +1636,7 @@ def report_support_group_selected(request, ID):
 
 
         messages.add_message(request,messages.SUCCESS,'report send to admin successfully.')
-        return redirect('support_group_selected', ID=ID, name=instance_SupportGroup.title)
+        return redirect('support_group_selected', url_text=instance_SupportGroup.url_text)
         
     except:
         return redirect('discover')
@@ -1484,7 +1667,7 @@ def ask_update_support_group_selected(request, ID):
 
 
         messages.add_message(request,messages.SUCCESS,'Email send successfully.')
-        return redirect('support_group_selected', ID=ID, name=instance_SupportGroup.title)
+        return redirect('support_group_selected', name=instance_SupportGroup.url_text)
     except:
         return redirect('discover')
 
@@ -1492,17 +1675,24 @@ def ask_update_support_group_selected(request, ID):
 
 
 
-def event_selected(request, ID, name):
+def event_selected(request, url_text):
     try:
 
-        instance_Event = Event.objects.get(id=ID)
+        instance_Event = Event.objects.get(url_text=url_text)
+
+        source = request.GET.get('source')
+
+        try:
+            save_event_visiter(request, instance_Event)
+        except:
+            pass
 
         is_authorised_for_edit = False
         if request.user.is_authenticated:
             if request.user.user_type == 'Admin' or request.user.user_type == 'Backend User':
                 is_authorised_for_edit = True
             elif instance_Event.user.id == request.user.id:
-                is_authorised_for_edit = True
+                is_authorised_for_edit = False
             else:
                 is_authorised_for_edit = False
         else:
@@ -1524,7 +1714,7 @@ def event_selected(request, ID, name):
 
                         messages.add_message(request,messages.SUCCESS,'Title updated successfully.')
 
-                        return redirect('event_selected', ID=ID, name=name)
+                        return redirect('event_selected', url_text=url_text)
 
                     else:
                         Event_Picture_Form = EventPictureForm(instance=instance_Event)
@@ -1544,7 +1734,7 @@ def event_selected(request, ID, name):
 
                         messages.add_message(request,messages.SUCCESS,'Picture updated successfully.')
 
-                        return redirect('event_selected', ID=ID, name=name)
+                        return redirect('event_selected', url_text=url_text)
 
                     else:
                         Event_Title_Form = EventTitleForm(instance=instance_Event)
@@ -1565,7 +1755,7 @@ def event_selected(request, ID, name):
 
                         messages.add_message(request,messages.SUCCESS,'About updated successfully.')
 
-                        return redirect('event_selected', ID=ID, name=name)
+                        return redirect('event_selected', url_text=url_text)
 
                     else:
                         Event_Title_Form = EventTitleForm(instance=instance_Event)
@@ -1584,7 +1774,7 @@ def event_selected(request, ID, name):
 
                         messages.add_message(request,messages.SUCCESS,'Location updated successfully.')
 
-                        return redirect('event_selected', ID=ID, name=name)
+                        return redirect('event_selected', url_text=url_text)
 
                     else:
                         Event_Title_Form = EventTitleForm(instance=instance_Event)
@@ -1603,7 +1793,7 @@ def event_selected(request, ID, name):
 
                         messages.add_message(request,messages.SUCCESS,'Date updated successfully.')
 
-                        return redirect('event_selected', ID=ID, name=name)
+                        return redirect('event_selected', url_text=url_text)
 
                     else:
                         Event_Title_Form = EventTitleForm(instance=instance_Event)
@@ -1624,7 +1814,7 @@ def event_selected(request, ID, name):
 
                         messages.add_message(request,messages.SUCCESS,'Update added successfully.')
 
-                        return redirect('event_selected', ID=ID, name=name)
+                        return redirect('event_selected', url_text=url_text)
 
                     else:
                         Event_Title_Form = EventTitleForm(instance=instance_Event)
@@ -1645,7 +1835,7 @@ def event_selected(request, ID, name):
 
                         messages.add_message(request,messages.SUCCESS,'Buzz added successfully.')
 
-                        return redirect('event_selected', ID=ID, name=name)
+                        return redirect('event_selected', url_text=url_text)
 
                     else:
                         Event_Title_Form = EventTitleForm(instance=instance_Event)
@@ -1666,7 +1856,7 @@ def event_selected(request, ID, name):
 
                         messages.add_message(request,messages.SUCCESS,'Comment added successfully.')
 
-                        return redirect('event_selected', ID=ID, name=name)
+                        return redirect('event_selected', url_text=url_text)
 
                     else:
                         Event_Title_Form = EventTitleForm(instance=instance_Event)
@@ -1773,7 +1963,7 @@ def event_selected(request, ID, name):
 
                             messages.add_message(request,messages.SUCCESS,'Comment added successfully.')
 
-                            return redirect('event_selected', ID=ID, name=name)
+                            return redirect('event_selected', url_text=url_text)
                         else:
                             Event_GroupMembers_Forms = EventGroupMembersForms()
                     else:
@@ -1791,10 +1981,10 @@ def event_selected(request, ID, name):
                             try:
                                 if instance_Event.user.id == request.user.id:
                                     messages.add_message(request,messages.SUCCESS,"You can't join your own mobilisation campaign.")
-                                    return redirect('event_selected', ID=ID, name=name)
+                                    return redirect('event_selected', url_text=url_text)
                                 elif dublicate_count != 0:
                                     messages.add_message(request,messages.SUCCESS,"You have already joined this mobilisation campaign.")
-                                    return redirect('event_selected', ID=ID, name=name)
+                                    return redirect('event_selected', url_text=url_text)
                                 else:
                                     pass
                             except:
@@ -1804,11 +1994,11 @@ def event_selected(request, ID, name):
                             check_owner =  EventGroupMembers.objects.filter(event=instance_Event, event__user__email__iexact=post_email).count()
                             if dublicate_count != 0:
                                 messages.add_message(request,messages.SUCCESS,"You have already joined this mobilisation campaign.")
-                                return redirect('event_selected', ID=ID, name=name)
+                                return redirect('event_selected', url_text=url_text)
 
                             elif check_owner != 0:
                                 messages.add_message(request,messages.SUCCESS,"You can't join your own mobilisation campaign.")
-                                return redirect('event_selected', ID=ID, name=name)
+                                return redirect('event_selected', url_text=url_text)
 
 
 
@@ -1817,11 +2007,29 @@ def event_selected(request, ID, name):
                         if request.user.is_authenticated:
                             Event_GroupMembers_Forms.group_member = request.user
 
+                        Event_GroupMembers_Forms.source = source
+
                         Event_GroupMembers_Forms.save()
+
+
+                        try:
+                            current_site = get_current_site(request)
+                            mail_subject = 'Thank you for supporting us.'
+                            message = render_to_string('email_template/my_event_campaign_supporter_reminder_email.html', {
+                                'domain': current_site.domain,
+                                'instance_EventGroupMembers':Event_GroupMembers_Forms,
+                            })
+                            email = EmailMultiAlternatives(
+                                                mail_subject, message, to=[Event_GroupMembers_Forms.email]
+                                )
+                            email.attach_alternative(message, "text/html")
+                            email.send()
+                        except:
+                            pass
 
                         messages.add_message(request,messages.SUCCESS,'Thank you.')
 
-                        return redirect('event_selected', ID=ID, name=name)
+                        return redirect('event_selected', url_text=url_text)
 
                     else:
                         Event_Comments_Form = EventCommentsForm()
@@ -1896,7 +2104,7 @@ def report_event_selected(request, ID):
 
 
         messages.add_message(request,messages.SUCCESS,'report send to admin successfully.')
-        return redirect('event_selected', ID=ID, name=instance_Event.name)
+        return redirect('event_selected', url_text=instance_Event.url_text)
         
     except:
         return redirect('discover')
@@ -1927,7 +2135,7 @@ def ask_update_event_selected(request, ID):
 
 
         messages.add_message(request,messages.SUCCESS,'Email send successfully.')
-        return redirect('event_selected', ID=ID, name=instance_Event.name)
+        return redirect('event_selected', url_text=instance_Event.url_text)
     except:
         return redirect('discover')
 
@@ -2478,9 +2686,10 @@ def admin_crm_email(request):
     email = request.GET.getlist('id[]', None)
     email_message = request.GET.get('message', None)
     mail_subject = request.GET.get('subject', None)
-
+    current_site = get_current_site(request)
     message = render_to_string('email_template/crm_email.html',{
         'email_message':email_message,
+        'domain': current_site.domain,
     })
     email = EmailMultiAlternatives(
         mail_subject, message, to=email
@@ -2564,6 +2773,79 @@ def admin_manage_category_edit(request, ID):
         return render(request, 'admin_template/admin_manage_category_edit.html', context)
     except:
         return redirect('admin_manage_category')
+
+
+
+@login_required
+@admin_or_backend_user_required
+def admin_manage_sub_category(request):
+    form_error = False
+    if request.method == 'POST':
+        Campaign_SubCategory_Form = CampaignSubCategoryForm(request.POST, request.FILES)
+        if Campaign_SubCategory_Form.is_valid():
+            Campaign_SubCategory_Form = Campaign_SubCategory_Form.save()
+
+            messages.add_message(request,messages.SUCCESS,'Sub-Category "%s" added successfully' %(Campaign_SubCategory_Form.sub_category))
+
+            return redirect('admin_manage_sub_category')
+
+        else:
+            form_error = True
+
+    else:
+        Campaign_SubCategory_Form = CampaignSubCategoryForm()
+
+
+    instance_CampaignSubCategory = CampaignSubCategory.objects.all().order_by("-id")
+    context ={
+        'instance_CampaignSubCategory':instance_CampaignSubCategory,
+        'Campaign_SubCategory_Form':Campaign_SubCategory_Form,
+        'form_error':form_error,
+    }
+    return render(request, 'admin_template/admin_manage_sub_category.html', context)
+
+@login_required
+@admin_or_backend_user_required
+def admin_manage_sub_category_status(request, ID, status):
+    try:
+        instance_CampaignSubCategory = CampaignSubCategory.objects.get(id=ID)
+        if status == "True":
+            instance_CampaignSubCategory.is_active = True
+            instance_CampaignSubCategory.save()
+
+            messages.add_message(request,messages.SUCCESS,'Sub-Category "%s" activated successfully' %(instance_CampaignSubCategory.sub_category))
+
+        elif status == "False":
+            instance_CampaignSubCategory.is_active = False
+            instance_CampaignSubCategory.save()
+
+            messages.add_message(request,messages.SUCCESS,'Sub-Category "%s" inactivate successfully' %(instance_CampaignSubCategory.sub_category))
+    except:
+        pass
+    return redirect('admin_manage_sub_category')
+
+@login_required
+@admin_or_backend_user_required
+def admin_manage_sub_category_edit(request, ID):
+    try:
+        instance_CampaignSubCategory = CampaignSubCategory.objects.get(id=ID)
+        if request.method == 'POST':
+            Campaign_SubCategory_Form = CampaignSubCategoryEditForm(request.POST, request.FILES, instance=instance_CampaignSubCategory)
+            if Campaign_SubCategory_Form.is_valid():
+                Campaign_SubCategory_Form = Campaign_SubCategory_Form.save()
+
+                messages.add_message(request,messages.SUCCESS,'Sub-Category "%s" updated successfully' %(Campaign_SubCategory_Form.sub_category))
+
+                return redirect('admin_manage_sub_category')
+        else:
+            Campaign_SubCategory_Form = CampaignSubCategoryEditForm(instance=instance_CampaignSubCategory)
+        
+        context = {
+            'Campaign_SubCategory_Form':Campaign_SubCategory_Form,
+        }
+        return render(request, 'admin_template/admin_manage_sub_category_edit.html', context)
+    except:
+        return redirect('admin_manage_sub_category')
 
 
 
@@ -2752,703 +3034,52 @@ def admin_manage_support_group_member(request):
 
 @login_required
 @admin_or_backend_user_required
-def admin_manage_fundraiser_member(request):
+def admin_fundraiser_campaign_member(request):
     if request.is_ajax():
-        campaign = request.GET.get('campaign', None)
-        instance_query = request.GET.get('instance_query', None) 
-        amount = request.GET.get('amount', None)
-        city = request.GET.get('city', None)
-        state = request.GET.get('state', None)
-        country = request.GET.get('country', None)
+        Column = request.GET.getlist('Column[]')
+        Campaign_Doners = request.GET.getlist('CampaignDoners[]')
 
-        if campaign == 'Event':
-            instance_Event = Event.objects.all()
-            instance_EventGroupMembers = EventGroupMembers.objects.all()
+        instance_CampaignDoners = CampaignDoners.objects.filter(campaign_fund_raiser__id__in=Campaign_Doners, payment_status='captured')
 
-            if instance_query:
-                if instance_query != 'all':
-                    instance_Event = instance_Event.filter(id=instance_query)
-                    instance_EventGroupMembers = instance_EventGroupMembers.filter(event__id__in=instance_Event.values_list('id', flat=True).distinct())
-                else:
-                    pass
-
-            if city:
-                if city != 'all':
-                    instance_EventGroupMembers = instance_EventGroupMembers.filter(city__iexact=city)
-                else:
-                    pass
-
-            if state:
-                if state != 'all':
-                    instance_EventGroupMembers = instance_EventGroupMembers.filter(state__iexact=state)
-                else:
-                    pass
-
-            table = render_to_string('admin_template/admin_manage_fundraiser_member_ajax.html',{
-                'instance_EventGroupMembers':instance_EventGroupMembers,
-            })
-
-            if state:
-                # writing respons
-                context = {
-                    'table':table,
-                }
-                return JsonResponse(context)
-
-            elif city:
-                state_list = instance_EventGroupMembers.values_list('state', flat=True).distinct().order_by('state')
-                # writing respons
-                context = {
-                    'table':table,
-                    'state_list' : list(state_list),
-                }
-                return JsonResponse(context)
-
-            elif instance_query:
-                state_list = instance_EventGroupMembers.values_list('state', flat=True).distinct().order_by('state')
-                city_list = instance_EventGroupMembers.values_list('city', flat=True).distinct().order_by('city')
-                # writing respons
-                context = {
-                    'table':table,
-                    'state_list' : list(state_list),
-                    'city_list':list(city_list),
-                }
-                return JsonResponse(context)
-
-            else:
-                instance_query_list = instance_Event.values_list('id','name').distinct().order_by('name')
-                state_list = instance_EventGroupMembers.values_list('state', flat=True).distinct().order_by('state')
-                city_list = instance_EventGroupMembers.values_list('city', flat=True).distinct().order_by('city')
-                # writing response
-                context = {
-                    'table':table,
-                    'instance_query_list' : list(instance_query_list),
-                    'state_list' : list(state_list),
-                    'city_list':list(city_list),
-                }
-                return JsonResponse(context)
-
-        elif campaign == 'Mobilisation Campaign':
-
-            instance_SupportGroup = SupportGroup.objects.all()
-            instance_SupportGroupMembers = SupportGroupMembers.objects.all()
-
-            if instance_query:
-                if instance_query != 'all':
-                    instance_SupportGroup = instance_SupportGroup.filter(id=instance_query)
-                    instance_SupportGroupMembers = instance_SupportGroupMembers.filter(support_group__id__in=instance_SupportGroup.values_list('id', flat=True).distinct())
-                else:
-                    pass
-
-            if city:
-                if city != 'all':
-                    instance_SupportGroupMembers = instance_SupportGroupMembers.filter(city__iexact=city)
-                else:
-                    pass
-
-            if state:
-                if state != 'all':
-                    instance_SupportGroupMembers = instance_SupportGroupMembers.filter(state__iexact=state)
-                else:
-                    pass
-
-
-            table = render_to_string('admin_template/admin_manage_fundraiser_member_ajax.html',{
-                'instance_SupportGroupMembers':instance_SupportGroupMembers,
-            })
-
-            if state:
-                # writing respons
-                context = {
-                    'table':table,
-                }
-                return JsonResponse(context)
-
-            elif city:
-                state_list = instance_SupportGroupMembers.values_list('state', flat=True).distinct().order_by('state')
-                # writing respons
-                context = {
-                    'table':table,
-                    'state_list' : list(state_list),
-                }
-                return JsonResponse(context)
-
-            elif instance_query:
-                state_list = instance_SupportGroupMembers.values_list('state', flat=True).distinct().order_by('state')
-                city_list = instance_SupportGroupMembers.values_list('city', flat=True).distinct().order_by('city')
-                # writing respons
-                context = {
-                    'table':table,
-                    'state_list' : list(state_list),
-                    'city_list':list(city_list),
-                }
-                return JsonResponse(context)
-
-            else:
-                instance_query_list = instance_SupportGroup.values_list('id','title').distinct().order_by('title')
-                state_list = instance_SupportGroupMembers.values_list('state', flat=True).distinct().order_by('state')
-                city_list = instance_SupportGroupMembers.values_list('city', flat=True).distinct().order_by('city')
-                # writing respons
-                context = {
-                    'table':table,
-                    'instance_query_list' : list(instance_query_list),
-                    'state_list' : list(state_list),
-                    'city_list':list(city_list),
-                }
-                return JsonResponse(context)
-
-        else:
-            instance_CampaignFundRaiser = CampaignFundRaiser.objects.all()
-            instance_CampaignDoners = CampaignDoners.objects.filter(payment_status='captured')
-
-            campaign_amount_list = CampaignDoners.objects.filter(payment_status='captured').values_list('amount', flat=True).distinct().order_by('amount')
-
-            if instance_query:
-                if instance_query != 'all':
-                    instance_CampaignFundRaiser = instance_CampaignFundRaiser.filter(id=instance_query)
-                    instance_CampaignDoners = instance_CampaignDoners.filter(campaign_fund_raiser__id__in=instance_CampaignFundRaiser.values_list('id', flat=True).distinct())
-                else:
-                    pass
-
-            if amount:
-                if amount != 'all':
-                    instance_CampaignDoners = instance_CampaignDoners.filter(amount=amount)
-                else:
-                    pass
-
-            if city:
-                if city != 'all':
-                    instance_CampaignDoners = instance_CampaignDoners.filter(city__iexact=city)
-                else:
-                    pass
-
-            if state:
-                if state != 'all':
-                    instance_CampaignDoners = instance_CampaignDoners.filter(state__iexact=state)
-                else:
-                    pass
-
-            if country:
-                if country != 'all':
-                    instance_CampaignDoners = instance_CampaignDoners.filter(country__iexact=country)
-                else:
-                    pass
-
-            table = render_to_string('admin_template/admin_manage_fundraiser_member_ajax.html',{
-                'instance_CampaignDoners':instance_CampaignDoners,
-            })
-
-            # writing response
-
-            if country:
-                context = {
-                    'table':table,
-                }
-                return JsonResponse(context)
-
-            if state:
-                campaign_country_list = instance_CampaignDoners.values_list('country', flat=True).distinct().order_by('country')
-                context = {
-                    'table':table,
-                    'country_list' : list(campaign_country_list),
-                }
-                return JsonResponse(context)
-
-            if city:
-                campaign_state_list = instance_CampaignDoners.values_list('state', flat=True).distinct().order_by('state')
-                campaign_country_list = instance_CampaignDoners.values_list('country', flat=True).distinct().order_by('country')
-                context = {
-                    'table':table,
-                    'state_list' : list(campaign_state_list),
-                    'country_list' : list(campaign_country_list),
-                }
-                return JsonResponse(context)
-
-            if amount:
-                campaign_city_list = instance_CampaignDoners.values_list('city', flat=True).distinct().order_by('city')
-                campaign_state_list = instance_CampaignDoners.values_list('state', flat=True).distinct().order_by('state')
-                campaign_country_list = instance_CampaignDoners.values_list('country', flat=True).distinct().order_by('country')
-                context = {
-                    'table':table,
-                    'city_list' : list(campaign_city_list),
-                    'state_list' : list(campaign_state_list),
-                    'country_list' : list(campaign_country_list),
-                }
-                return JsonResponse(context)
-
-            if instance_query:
-                campaign_amount_list = instance_CampaignDoners.values_list('amount', flat=True).distinct().order_by('amount')
-                campaign_city_list = instance_CampaignDoners.values_list('city', flat=True).distinct().order_by('city')
-                campaign_state_list = instance_CampaignDoners.values_list('state', flat=True).distinct().order_by('state')
-                campaign_country_list = instance_CampaignDoners.values_list('country', flat=True).distinct().order_by('country')
-                context = {
-                    'campaign_amount_list' : list(campaign_amount_list),
-                    'city_list' : list(campaign_city_list),
-                    'state_list' : list(campaign_state_list),
-                    'country_list' : list(campaign_country_list),
-                    'table':table,
-                }
-                return JsonResponse(context)
-
-            else:
-                instance_query_list = instance_CampaignFundRaiser.values_list('id','title').distinct().order_by('title')
-                campaign_amount_list = instance_CampaignDoners.values_list('amount', flat=True).distinct().order_by('amount')
-                campaign_city_list = instance_CampaignDoners.values_list('city', flat=True).distinct().order_by('city')
-                campaign_state_list = instance_CampaignDoners.values_list('state', flat=True).distinct().order_by('state')
-                campaign_country_list = instance_CampaignDoners.values_list('country', flat=True).distinct().order_by('country')
-
-                context = {
-                    'instance_query_list' : list(instance_query_list),
-                    'campaign_amount_list' : list(campaign_amount_list),
-                    'city_list' : list(campaign_city_list),
-                    'state_list' : list(campaign_state_list),
-                    'country_list' : list(campaign_country_list),
-                    'table':table,
-                }
-                return JsonResponse(context)
-
-    else:
-        instance_query_list = CampaignFundRaiser.objects.values_list('id','title').distinct().order_by('title')
-        campaign_amount_list = CampaignDoners.objects.filter(payment_status='captured').values_list('amount', flat=True).distinct().order_by('amount')
-        campaign_city_list = CampaignDoners.objects.filter(payment_status='captured').values_list('city', flat=True).distinct().order_by('city')
-        campaign_state_list = CampaignDoners.objects.filter(payment_status='captured').values_list('state', flat=True).distinct().order_by('state')
-        campaign_country_list = CampaignDoners.objects.filter(payment_status='captured').values_list('country', flat=True).distinct().order_by('country')
-        instance_CampaignDoners = CampaignDoners.objects.filter(payment_status='captured')
-        context ={
-            'instance_query_list':instance_query_list,
-            'campaign_amount_list':campaign_amount_list,
-            'campaign_city_list':campaign_city_list,
-            'campaign_state_list':campaign_state_list,
-            'campaign_country_list':campaign_country_list,
+        context = {
             'instance_CampaignDoners':instance_CampaignDoners,
+            'Column':Column,
         }
-        return render(request, 'admin_template/admin_manage_fundraiser_member.html', context)
-
-
-@login_required
-@admin_or_backend_user_required
-def admin_manage_mobilisation_member(request):
-    if request.is_ajax():
-        campaign = request.GET.get('campaign', None)
-        instance_query = request.GET.get('instance_query', None) 
-        amount = request.GET.get('amount', None)
-        city = request.GET.get('city', None)
-        state = request.GET.get('state', None)
-        country = request.GET.get('country', None)
-
-        if campaign == 'Event':
-            instance_Event = Event.objects.all()
-            instance_EventGroupMembers = EventGroupMembers.objects.all()
-
-            if instance_query:
-                if instance_query != 'all':
-                    instance_Event = instance_Event.filter(id=instance_query)
-                    instance_EventGroupMembers = instance_EventGroupMembers.filter(event__id__in=instance_Event.values_list('id', flat=True).distinct())
-                else:
-                    pass
-
-            if city:
-                if city != 'all':
-                    instance_EventGroupMembers = instance_EventGroupMembers.filter(city__iexact=city)
-                else:
-                    pass
-
-            if state:
-                if state != 'all':
-                    instance_EventGroupMembers = instance_EventGroupMembers.filter(state__iexact=state)
-                else:
-                    pass
-
-            table = render_to_string('admin_template/admin_manage_mobilisation_member_ajax.html',{
-                'instance_EventGroupMembers':instance_EventGroupMembers,
-            })
-
-            if state:
-                # writing respons
-                context = {
-                    'table':table,
-                }
-                return JsonResponse(context)
-
-            elif city:
-                state_list = instance_EventGroupMembers.values_list('state', flat=True).distinct().order_by('state')
-                # writing respons
-                context = {
-                    'table':table,
-                    'state_list' : list(state_list),
-                }
-                return JsonResponse(context)
-
-            elif instance_query:
-                state_list = instance_EventGroupMembers.values_list('state', flat=True).distinct().order_by('state')
-                city_list = instance_EventGroupMembers.values_list('city', flat=True).distinct().order_by('city')
-                # writing respons
-                context = {
-                    'table':table,
-                    'state_list' : list(state_list),
-                    'city_list':list(city_list),
-                }
-                return JsonResponse(context)
-
-            else:
-                instance_query_list = instance_Event.values_list('id','name').distinct().order_by('name')
-                state_list = instance_EventGroupMembers.values_list('state', flat=True).distinct().order_by('state')
-                city_list = instance_EventGroupMembers.values_list('city', flat=True).distinct().order_by('city')
-                # writing response
-                context = {
-                    'table':table,
-                    'instance_query_list' : list(instance_query_list),
-                    'state_list' : list(state_list),
-                    'city_list':list(city_list),
-                }
-                return JsonResponse(context)
-
-        elif campaign == 'Mobilisation Campaign':
-
-            instance_SupportGroup = SupportGroup.objects.all()
-            instance_SupportGroupMembers = SupportGroupMembers.objects.all()
-
-            if instance_query:
-                if instance_query != 'all':
-                    instance_SupportGroup = instance_SupportGroup.filter(id=instance_query)
-                    instance_SupportGroupMembers = instance_SupportGroupMembers.filter(support_group__id__in=instance_SupportGroup.values_list('id', flat=True).distinct())
-                else:
-                    pass
-
-            if city:
-                if city != 'all':
-                    instance_SupportGroupMembers = instance_SupportGroupMembers.filter(city__iexact=city)
-                else:
-                    pass
-
-            if state:
-                if state != 'all':
-                    instance_SupportGroupMembers = instance_SupportGroupMembers.filter(state__iexact=state)
-                else:
-                    pass
-
-            if country:
-                if state != 'all':
-                    instance_SupportGroupMembers = instance_SupportGroupMembers.filter(country__iexact=country)
-                else:
-                    pass
-
-
-            table = render_to_string('admin_template/admin_manage_mobilisation_member_ajax.html',{
-                'instance_SupportGroupMembers':instance_SupportGroupMembers,
-            })
-
-            if country:
-                # writing respons
-                context = {
-                    'table':table,
-                }
-                return JsonResponse(context)
-
-            if state:
-                country_list = instance_SupportGroupMembers.values_list('country', flat=True).distinct().order_by('country')
-                # writing respons
-                context = {
-                    'table':table,
-                    'country_list':list(country_list),
-                }
-                return JsonResponse(context)
-
-            elif city:
-                state_list = instance_SupportGroupMembers.values_list('state', flat=True).distinct().order_by('state')
-                country_list = instance_SupportGroupMembers.values_list('country', flat=True).distinct().order_by('country')
-                # writing respons
-                context = {
-                    'table':table,
-                    'state_list' : list(state_list),
-                    'country_list':list(country_list),
-                }
-                return JsonResponse(context)
-
-            elif instance_query:
-                state_list = instance_SupportGroupMembers.values_list('state', flat=True).distinct().order_by('state')
-                city_list = instance_SupportGroupMembers.values_list('city', flat=True).distinct().order_by('city')
-                country_list = instance_SupportGroupMembers.values_list('country', flat=True).distinct().order_by('country')
-                # writing respons
-                context = {
-                    'table':table,
-                    'state_list' : list(state_list),
-                    'city_list':list(city_list),
-                    'country_list':list(country_list),
-                }
-                return JsonResponse(context)
-
-            else:
-                instance_query_list = instance_SupportGroup.values_list('id','title').distinct().order_by('title')
-                state_list = instance_SupportGroupMembers.values_list('state', flat=True).distinct().order_by('state')
-                city_list = instance_SupportGroupMembers.values_list('city', flat=True).distinct().order_by('city')
-                country_list = instance_SupportGroupMembers.values_list('country', flat=True).distinct().order_by('country')
-                # writing respons
-                context = {
-                    'table':table,
-                    'instance_query_list' : list(instance_query_list),
-                    'state_list' : list(state_list),
-                    'city_list':list(city_list),
-                    'country_list':list(country_list),
-                }
-                return JsonResponse(context)
-
-        else:
-            instance_CampaignFundRaiser = CampaignFundRaiser.objects.all()
-            instance_CampaignDoners = CampaignDoners.objects.filter(payment_status='captured')
-
-            campaign_amount_list = CampaignDoners.objects.filter(payment_status='captured').values_list('amount', flat=True).distinct().order_by('amount')
-
-            if instance_query:
-                if instance_query != 'all':
-                    instance_CampaignFundRaiser = instance_CampaignFundRaiser.filter(id=instance_query)
-                    instance_CampaignDoners = instance_CampaignDoners.filter(campaign_fund_raiser__id__in=instance_CampaignFundRaiser.values_list('id', flat=True).distinct())
-                else:
-                    pass
-
-            if amount:
-                if amount != 'all':
-                    instance_CampaignDoners = instance_CampaignDoners.filter(amount=amount)
-                else:
-                    pass
-
-            if city:
-                if city != 'all':
-                    instance_CampaignDoners = instance_CampaignDoners.filter(city__iexact=city)
-                else:
-                    pass
-
-            if state:
-                if state != 'all':
-                    instance_CampaignDoners = instance_CampaignDoners.filter(state__iexact=state)
-                else:
-                    pass
-
-            if country:
-                if country != 'all':
-                    instance_CampaignDoners = instance_CampaignDoners.filter(country__iexact=country)
-                else:
-                    pass
-
-            table = render_to_string('admin_template/admin_manage_mobilisation_member_ajax.html',{
-                'instance_CampaignDoners':instance_CampaignDoners,
-            })
-
-            # writing response
-
-            if country:
-                context = {
-                    'table':table,
-                }
-                return JsonResponse(context)
-
-            if state:
-                campaign_country_list = instance_CampaignDoners.values_list('country', flat=True).distinct().order_by('country')
-                context = {
-                    'table':table,
-                    'country_list' : list(campaign_country_list),
-                }
-                return JsonResponse(context)
-
-            if city:
-                campaign_state_list = instance_CampaignDoners.values_list('state', flat=True).distinct().order_by('state')
-                campaign_country_list = instance_CampaignDoners.values_list('country', flat=True).distinct().order_by('country')
-                context = {
-                    'table':table,
-                    'state_list' : list(campaign_state_list),
-                    'country_list' : list(campaign_country_list),
-                }
-                return JsonResponse(context)
-
-            if amount:
-                campaign_city_list = instance_CampaignDoners.values_list('city', flat=True).distinct().order_by('city')
-                campaign_state_list = instance_CampaignDoners.values_list('state', flat=True).distinct().order_by('state')
-                campaign_country_list = instance_CampaignDoners.values_list('country', flat=True).distinct().order_by('country')
-                context = {
-                    'table':table,
-                    'city_list' : list(campaign_city_list),
-                    'state_list' : list(campaign_state_list),
-                    'country_list' : list(campaign_country_list),
-                }
-                return JsonResponse(context)
-
-            if instance_query:
-                campaign_amount_list = instance_CampaignDoners.values_list('amount', flat=True).distinct().order_by('amount')
-                campaign_city_list = instance_CampaignDoners.values_list('city', flat=True).distinct().order_by('city')
-                campaign_state_list = instance_CampaignDoners.values_list('state', flat=True).distinct().order_by('state')
-                campaign_country_list = instance_CampaignDoners.values_list('country', flat=True).distinct().order_by('country')
-                context = {
-                    'campaign_amount_list' : list(campaign_amount_list),
-                    'city_list' : list(campaign_city_list),
-                    'state_list' : list(campaign_state_list),
-                    'country_list' : list(campaign_country_list),
-                    'table':table,
-                }
-                return JsonResponse(context)
-
-            else:
-                instance_query_list = instance_CampaignFundRaiser.values_list('id','title').distinct().order_by('title')
-                campaign_amount_list = instance_CampaignDoners.values_list('amount', flat=True).distinct().order_by('amount')
-                campaign_city_list = instance_CampaignDoners.values_list('city', flat=True).distinct().order_by('city')
-                campaign_state_list = instance_CampaignDoners.values_list('state', flat=True).distinct().order_by('state')
-                campaign_country_list = instance_CampaignDoners.values_list('country', flat=True).distinct().order_by('country')
-
-                context = {
-                    'instance_query_list' : list(instance_query_list),
-                    'campaign_amount_list' : list(campaign_amount_list),
-                    'city_list' : list(campaign_city_list),
-                    'state_list' : list(campaign_state_list),
-                    'country_list' : list(campaign_country_list),
-                    'table':table,
-                }
-                return JsonResponse(context)
-
+        return render(request, 'admin_template/admin_fundraiser_campaign_member_ajax.html', context)
     else:
-        instance_SupportGroup = SupportGroup.objects.all()
-        instance_SupportGroupMembers = SupportGroupMembers.objects.all()
-        instance_query_list = instance_SupportGroup.values_list('id','title').distinct().order_by('title')
-        campaign_state_list = instance_SupportGroupMembers.values_list('state', flat=True).distinct().order_by('state')
-        campaign_city_list = instance_SupportGroupMembers.values_list('city', flat=True).distinct().order_by('city')
-        campaign_country_list = instance_SupportGroupMembers.values_list('country', flat=True).distinct().order_by('country')
-        # writing respons
+        instance_CampaignFundRaiser = CampaignFundRaiser.objects.all().order_by('-id')
+        instance_CampaignDoners_count = CampaignDoners.objects.all().count()
         context = {
-            'instance_query_list' : instance_query_list,
-            'campaign_state_list' : campaign_state_list,
-            'campaign_city_list':campaign_city_list,
-            'campaign_country_list':campaign_country_list,
-            'instance_SupportGroupMembers':instance_SupportGroupMembers
+            'instance_CampaignFundRaiser':instance_CampaignFundRaiser,
+            'instance_CampaignDoners_count':instance_CampaignDoners_count,
         }
-        # instance_query_list = CampaignFundRaiser.objects.values_list('id','title').distinct().order_by('title')
-        # campaign_amount_list = CampaignDoners.objects.filter(payment_status='captured').values_list('amount', flat=True).distinct().order_by('amount')
-        # campaign_city_list = CampaignDoners.objects.filter(payment_status='captured').values_list('city', flat=True).distinct().order_by('city')
-        # campaign_state_list = CampaignDoners.objects.filter(payment_status='captured').values_list('state', flat=True).distinct().order_by('state')
-        # campaign_country_list = CampaignDoners.objects.filter(payment_status='captured').values_list('country', flat=True).distinct().order_by('country')
-        # instance_CampaignDoners = CampaignDoners.objects.filter(payment_status='captured')
-        # context ={
-        #     'instance_query_list':instance_query_list,
-        #     'campaign_amount_list':campaign_amount_list,
-        #     'campaign_city_list':campaign_city_list,
-        #     'campaign_state_list':campaign_state_list,
-        #     'campaign_country_list':campaign_country_list,
-        #     'instance_CampaignDoners':instance_CampaignDoners,
-        # }
-        return render(request, 'admin_template/admin_manage_mobilisation_member.html', context)
+        return render(request, 'admin_template/admin_fundraiser_campaign_member.html', context)
 
 
 @login_required
 @admin_or_backend_user_required
-def admin_manage_event_member(request):
+def admin_event_member(request):
     if request.is_ajax():
-        campaign = request.GET.get('campaign', None)
-        instance_query = request.GET.get('instance_query', None) 
-        city = request.GET.get('city', None)
-        state = request.GET.get('state', None)
-        country = request.GET.get('country', None)
-        
-        instance_Event = Event.objects.all()
-        instance_EventGroupMembers = EventGroupMembers.objects.all()
+        Column = request.GET.getlist('Column[]')
+        GET_Event = request.GET.getlist('Event[]')
 
-        if instance_query:
-            if instance_query != 'all':
-                instance_Event = instance_Event.filter(id=instance_query)
-                instance_EventGroupMembers = instance_EventGroupMembers.filter(event__id__in=instance_Event.values_list('id', flat=True).distinct())
-            else:
-                pass
+        instance_EventGroupMembers = EventGroupMembers.objects.filter(event__id__in=GET_Event)
 
-        if city:
-            if city != 'all':
-                instance_EventGroupMembers = instance_EventGroupMembers.filter(city__iexact=city)
-            else:
-                pass
-
-        if state:
-            if state != 'all':
-                instance_EventGroupMembers = instance_EventGroupMembers.filter(state__iexact=state)
-            else:
-                pass
-
-        if country:
-            if country != 'all':
-                instance_EventGroupMembers = instance_EventGroupMembers.filter(country__iexact=country)
-            else:
-                pass
-
-        table = render_to_string('admin_template/admin_manage_event_member_ajax.html',{
+        context = {
             'instance_EventGroupMembers':instance_EventGroupMembers,
-        })
-
-        if country:
-            # writing respons
-            context = {
-                'table':table,
-            }
-            return JsonResponse(context)
-
-        if state:
-            country_list = instance_EventGroupMembers.values_list('country', flat=True).distinct().order_by('country')
-            # writing respons
-            context = {
-                'table':table,
-                'country_list' : list(country_list),
-            }
-            return JsonResponse(context)
-
-        elif city:
-            state_list = instance_EventGroupMembers.values_list('state', flat=True).distinct().order_by('state')
-            country_list = instance_EventGroupMembers.values_list('country', flat=True).distinct().order_by('country')
-            # writing respons
-            context = {
-                'table':table,
-                'state_list' : list(state_list),
-                'country_list' : list(country_list),
-            }
-            return JsonResponse(context)
-
-        elif instance_query:
-            state_list = instance_EventGroupMembers.values_list('state', flat=True).distinct().order_by('state')
-            city_list = instance_EventGroupMembers.values_list('city', flat=True).distinct().order_by('city')
-            country_list = instance_EventGroupMembers.values_list('country', flat=True).distinct().order_by('country')
-            # writing respons
-            context = {
-                'table':table,
-                'state_list' : list(state_list),
-                'city_list':list(city_list),
-                'country_list':list(country_list),
-            }
-            return JsonResponse(context)
-
-        else:
-            instance_query_list = instance_Event.values_list('id','name').distinct().order_by('name')
-            state_list = instance_EventGroupMembers.values_list('state', flat=True).distinct().order_by('state')
-            city_list = instance_EventGroupMembers.values_list('city', flat=True).distinct().order_by('city')
-            country_list = instance_EventGroupMembers.values_list('country', flat=True).distinct().order_by('country')
-            # writing response
-            context = {
-                'table':table,
-                'instance_query_list' : list(instance_query_list),
-                'state_list' : list(state_list),
-                'city_list':list(city_list),
-                'country_list':list(country_list),
-            }
-            return JsonResponse(context)
-
-    else:
-        # instance_Event = Event.objects.all()
-        instance_EventGroupMembers = EventGroupMembers.objects.all()
-        instance_query_list = Event.objects.values_list('id','name').distinct().order_by('name')
-        campaign_state_list = instance_EventGroupMembers.values_list('state', flat=True).distinct().order_by('state')
-        campaign_city_list = instance_EventGroupMembers.values_list('city', flat=True).distinct().order_by('city')
-        campaign_country_list = instance_EventGroupMembers.values_list('country', flat=True).distinct().order_by('country')
-        # writing response
-        context = {
-            'instance_query_list' : instance_query_list,
-            'campaign_state_list' : campaign_state_list,
-            'campaign_city_list':campaign_city_list,
-            'campaign_country_list':campaign_country_list,
-            'instance_EventGroupMembers':instance_EventGroupMembers
+            'Column':Column,
         }
-        
-        return render(request, 'admin_template/admin_manage_event_member.html', context)
+        return render(request, 'admin_template/admin_event_member_ajax.html', context)
+    else:
+        instance_Event = Event.objects.all().order_by("-id")
+        instance_EventGroupMembers_count = EventGroupMembers.objects.all().count()
+        context = {
+            'instance_Event':instance_Event,
+            'instance_EventGroupMembers_count':instance_EventGroupMembers_count,
+        }
+        return render(request, 'admin_template/admin_event_member.html', context)
+
+
 
 @login_required
 @admin_or_backend_user_required
@@ -3878,8 +3509,7 @@ def admin_manage_user(request):
 @login_required
 @admin_user_required
 def admin_manage_usera_edit(request, ID):
-    # try:
-    if True:
+    try:
         instance_user = User.objects.get(id=ID)
         
         if request.method == 'POST':
@@ -3897,8 +3527,8 @@ def admin_manage_usera_edit(request, ID):
             'Admin_User_Edit_Form':Admin_User_Edit_Form,
         }
         return render(request, 'admin_template/admin_manage_usera_edit.html', context)
-    # except:
-    #     pass
+    except:
+        pass
     return redirect('admin_manage_user')
 
 @login_required
@@ -4013,41 +3643,6 @@ def admin_manage_banner_images_status(request, ID, status):
         pass
     return redirect('admin_manage_banner_images')
 
-
-@login_required
-@admin_or_backend_user_required
-def platform_generic_user(request):
-    if request.is_ajax():
-        Column = request.GET.getlist('Column[]')
-        Fund_Raiser = request.GET.getlist('FundRaiser[]')
-        Support_Group = request.GET.getlist('SupportGroup[]')
-        Event_Event = request.GET.getlist('Event[]')
-
-        instance_CampaignFundRaiser = CampaignFundRaiser.objects.filter(id__in=Fund_Raiser,is_active='True').order_by("-id")
-        instance_SupportGroup = SupportGroup.objects.filter(id__in=Support_Group,is_active='True').order_by("-id")
-        instance_Event = Event.objects.filter(id__in=Event_Event,is_active='True').order_by("-id")
-
-        context = {
-            'instance_CampaignFundRaiser':instance_CampaignFundRaiser,
-            'instance_SupportGroup':instance_SupportGroup,
-            'instance_Event':instance_Event,
-            'Column':Column,
-        }
-        return render(request, 'admin_template/admin_manage_platform_generic_user_ajax.html', context)
-    else:
-        instance_CampaignFundRaiser = CampaignFundRaiser.objects.all().order_by("-id")
-        instance_SupportGroup = SupportGroup.objects.all().order_by("-id")
-        instance_Event = Event.objects.all().order_by("-id")
-
-        context = {
-            'instance_CampaignFundRaiser':instance_CampaignFundRaiser,
-            'instance_SupportGroup':instance_SupportGroup,
-            'instance_Event':instance_Event,
-        }
-        return render(request, 'admin_template/admin_manage_platform_generic_user.html', context)
-
-
-
 @login_required
 @admin_or_backend_user_required
 def generic_user_view(request):
@@ -4139,8 +3734,10 @@ def public_personas(request):
         public_email_form = PublicEmailForm()
 
         if departments and email and email_message and mail_subject:
+            current_site = get_current_site(request)
             message = render_to_string('email_template/public_personas_email.html',{
                 'email_message':email_message,
+                'domain': current_site.domain,
             })
             email = EmailMultiAlternatives(
                 mail_subject, message, to=email
@@ -4244,16 +3841,53 @@ def admin_manage_cashfree_credential(request):
 
 @login_required
 @admin_or_backend_user_required
+def admin_manage_commission(request):
+    try:
+        instance_Commission = Commission.objects.all()[0]
+    except:
+        instance_Commission = Commission()
+        instance_Commission.save()
+    if request.method == 'POST':
+        Commission_Form = CommissionForm(request.POST, instance=instance_Commission)
+        if Commission_Form.is_valid():
+            Commission_Form.save()
+
+            messages.add_message(request,messages.SUCCESS,'Comission updated successfully.')
+
+            return redirect('admin_manage_commission')
+    else:
+        Commission_Form = CommissionForm(instance=instance_Commission)
+
+    context = {
+        'Commission_Form':Commission_Form,
+    }
+
+    return render(request, 'admin_template/admin_manage_commission.html', context)
+
+
+@login_required
+@admin_or_backend_user_required
 def admin_withdrawl_request_edit(request, ID):
     instance_WithdrawalRequest = WithdrawalRequest.objects.get(id=ID)
     if request.method == 'POST':
         Admin_Withdrawal_Request_Form = AdminWithdrawalRequestForm(request.POST, instance = instance_WithdrawalRequest)
+
+
+
+        instance_campaign = CampaignFundRaiser.objects.get(id=instance_WithdrawalRequest.campaign.id)
+        
+        
+
         if Admin_Withdrawal_Request_Form.is_valid() :
-            Admin_Withdrawal_Request_Form = Admin_Withdrawal_Request_Form.save()
+            status = Admin_Withdrawal_Request_Form.cleaned_data['status']
+            if instance_campaign.available_withdrawl_fund() < instance_WithdrawalRequest.amount and status == 'Approved':
+                Admin_Withdrawal_Request_Form.add_error('status', 'User do not have enough balance to withdraw.')
+            else:
+                Admin_Withdrawal_Request_Form = Admin_Withdrawal_Request_Form.save()
 
-            messages.add_message(request,messages.SUCCESS,'%s withdrawl request updated successfully.' %(Admin_Withdrawal_Request_Form.campaign.user.name))
+                messages.add_message(request,messages.SUCCESS,'%s withdrawl request updated successfully.' %(Admin_Withdrawal_Request_Form.campaign.user.name))
 
-            return redirect('admin_withdrawl_request')
+                return redirect('admin_withdrawl_request')
             
     else:
         Admin_Withdrawal_Request_Form = AdminWithdrawalRequestForm(instance=instance_WithdrawalRequest)
@@ -4388,7 +4022,18 @@ def dashboard(request):
             return render(request, 'user_template/dashboard_ajax.html', context)
 
     else:
-        pass
+        instance_CampaignFundRaiser = CampaignFundRaiser.objects.filter(user=request.user)
+        instance_SupportGroup = SupportGroup.objects.filter(group_leader=request.user)
+        instance_Event = Event.objects.filter(user=request.user)
+
+        if instance_CampaignFundRaiser.count() > 0:
+            return redirect('my_fundraiser_campaign_dashboard', url_text=instance_CampaignFundRaiser[0].url_text)
+        elif instance_SupportGroup.count() > 0:
+            return redirect('my_mobilisation_campaign_dashboard', url_text=instance_SupportGroup[0].url_text)
+        elif instance_Event.count() > 0:
+            return redirect('my_event_dashboard', url_text=instance_Event[0].url_text)
+        else:
+            return redirect('chose_campaign')
 
     context = {
     }
@@ -4587,6 +4232,8 @@ def campaign_withdrawal(request, ID):
 def campaign_funds_summary(request, ID):
     try:
         instance_CampaignFundRaiser = CampaignFundRaiser.objects.get(id=ID, user=request.user)
+
+        
         instance_WithdrawalRequest = WithdrawalRequest.objects.filter(campaign=instance_CampaignFundRaiser).order_by("-id")
 
         try:
@@ -5163,3 +4810,1950 @@ def contact_us(request):
     }
     return render(request, 'before_login/contact_us.html', context)
 #------------------------------------------ end user view ---------------------------------------------#
+
+
+
+
+
+
+
+
+
+
+#-----------------------------------> Ajax Validation <---------------------------------#
+
+def get_sub_category(request):
+    category = request.GET.get('category', None)
+    if category:
+        instance_sub_category = CampaignSubCategory.objects.filter(category__id=category, is_active=True, category__is_active=True)
+        context = {
+            'sub_category':list(instance_sub_category.values('id', 'sub_category')),
+        }
+    else:
+        context = {
+            'sub_category':[],
+        }
+    return JsonResponse(context)
+
+
+
+@login_required
+@end_user_required
+def my_fundraiser_campaign_dashboard(request, url_text):
+    try:
+        instance_CampaignFundRaiser = CampaignFundRaiser.objects.get(url_text=url_text, user=request.user)
+
+
+        Today = datetime.now().date() 
+
+        completed_days = ( datetime.now().date()  - instance_CampaignFundRaiser.created_at.date() ).days
+
+        today_supporters = CampaignDoners.objects.filter(created_at__gte=Today, payment_status='captured', campaign_fund_raiser=instance_CampaignFundRaiser).count()
+        total_supporters = CampaignDoners.objects.filter(campaign_fund_raiser=instance_CampaignFundRaiser, payment_status='captured').count()
+
+        total_supporters_graph = list(CampaignDoners.objects.filter(campaign_fund_raiser=instance_CampaignFundRaiser, payment_status='captured').extra({'created_at': "date(created_at)"}).values('created_at').distinct().annotate(Count('created_at')).order_by('created_at'))
+        total_supporters_dates = [x.get('created_at') for x in total_supporters_graph]
+
+        for d in (datetime.today() - timedelta(days=x) for x in range(0,10)):
+            if d.date() not in total_supporters_dates:
+                total_supporters_graph.append({'created_at': d.date(), 'created_at__count': 0})
+
+
+        # total_supporters_graph.sort(key = lambda x:x['created_at'])
+        
+        total_raised = CampaignDoners.objects.filter(campaign_fund_raiser=instance_CampaignFundRaiser, payment_status='captured').aggregate(total_amount=Sum('amount'))
+        today_raised = CampaignDoners.objects.filter(created_at__gte=Today, campaign_fund_raiser=instance_CampaignFundRaiser, payment_status='captured').aggregate(total_amount=Sum('amount'))
+        
+        
+        today_visit = CampaignFundRaiserVisitHistory.objects.filter(created_at__gte=Today, campaign_fundraiser=instance_CampaignFundRaiser).distinct('ip','user').count()
+        total_visit = CampaignFundRaiserVisitHistory.objects.filter(campaign_fundraiser=instance_CampaignFundRaiser).distinct('ip','user').count()
+        previous_total_visit = CampaignFundRaiserVisitHistory.objects.filter(campaign_fundraiser=instance_CampaignFundRaiser).exclude(created_at__gte=Today).count()
+
+        distinct_total_visit_graph = CampaignFundRaiserVisitHistory.objects.filter(created_at__lte=datetime.today(), created_at__gt=datetime.today()-timedelta(days=10)).distinct('ip','user')
+        total_visit_graph = list(CampaignFundRaiserVisitHistory.objects.filter(campaign_fundraiser=instance_CampaignFundRaiser).extra({'created_at': "date(created_at)"}).values('created_at').annotate(Count('created_at')).order_by('created_at').filter(id__in=distinct_total_visit_graph))
+        
+        
+        dates = [x.get('created_at') for x in total_visit_graph]
+
+        for d in (datetime.today() - timedelta(days=x) for x in range(0,10)):
+            if d.date() not in dates:
+                total_visit_graph.append({'created_at': d.date(), 'created_at__count': 0})
+
+
+        # total_visit_graph = total_visit_graph.order_by('created_at')
+
+
+        # distinct_total_visit_graph.sort(key = lambda x:x['created_at'])
+
+        facebook_total_supporters = CampaignDoners.objects.filter(campaign_fund_raiser=instance_CampaignFundRaiser, payment_status='captured', source__icontains='facebook').count()
+        twitter_total_supporters = CampaignDoners.objects.filter(campaign_fund_raiser=instance_CampaignFundRaiser, payment_status='captured', source__icontains='twitter').count()
+        whatsapp_total_supporters = CampaignDoners.objects.filter(campaign_fund_raiser=instance_CampaignFundRaiser, payment_status='captured', source__icontains='whatsapp').count()
+
+        facebook_total_visit = CampaignFundRaiserVisitHistory.objects.filter(campaign_fundraiser=instance_CampaignFundRaiser, source__icontains='facebook').distinct('ip','user').count()
+        twitter_total_visit = CampaignFundRaiserVisitHistory.objects.filter(campaign_fundraiser=instance_CampaignFundRaiser, source__icontains='twitter').distinct('ip','user').count()
+        whatsapp_total_visit = CampaignFundRaiserVisitHistory.objects.filter(campaign_fundraiser=instance_CampaignFundRaiser, source__icontains='whatsapp').distinct('ip','user').count()
+        try:
+            today_increases = round((today_visit / ( previous_total_visit - today_visit )) * 100, 2)
+        except ZeroDivisionError:
+            today_increases = today_visit
+
+        
+
+        context = {
+        'today_supporters':today_supporters,
+        'total_supporters':total_supporters,
+        'total_supporters_graph':total_supporters_graph,
+
+        'today_visit':today_visit,
+        'total_visit':total_visit,
+        'total_visit_graph':total_visit_graph,
+
+        'total_raised':total_raised,
+        'today_raised':today_raised,
+
+        'today_increases':today_increases,
+
+        'instance_CampaignFundRaiser':instance_CampaignFundRaiser,
+
+        'facebook_total_supporters':facebook_total_supporters,
+        'twitter_total_supporters':twitter_total_supporters,
+        'whatsapp_total_supporters':whatsapp_total_supporters,
+
+        'facebook_total_visit':facebook_total_visit,
+        'twitter_total_visit':twitter_total_visit,
+        'whatsapp_total_visit':whatsapp_total_visit,
+
+        'completed_days':completed_days,
+        }
+
+        return render(request, 'user_template/my_fundraiser_campaign_dashboard.html', context)
+    except:
+        return redirect('my_profile')
+
+@login_required
+@end_user_required
+def my_fundraiser_campaign_modify(request, url_text):
+    try:
+    
+        instance_CampaignFundRaiser = CampaignFundRaiser.objects.get(url_text=url_text, user=request.user)
+        form_error = False
+
+
+
+        if request.method == "POST":
+            form_type = request.POST.get('form_type', None)
+
+            if form_type == 'Goal':
+                CampaignFundRaiserGoalForm = CampaignFundRaiser_Goal_Form(request.POST, instance=instance_CampaignFundRaiser)
+                if CampaignFundRaiserGoalForm.is_valid():
+                    CampaignFundRaiserGoalForm = CampaignFundRaiserGoalForm.save()
+
+                    messages.add_message(request,messages.SUCCESS,'Goal updated successfully.')
+
+                    return redirect('my_fundraiser_campaign_modify', url_text=url_text)
+                else:
+                    form_error = 'Goal'
+                    CampaignFundRaiserTitleForm = CampaignFundRaiser_Title_Form(instance=instance_CampaignFundRaiser)
+                    CampaignFundRaiserPictureForm = CampaignFundRaiser_Picture_Form(instance=instance_CampaignFundRaiser)
+                    CampaignFundRaiserAboutForm = CampaignFundRaiser_About_Form(instance=instance_CampaignFundRaiser)
+                    CampaignFundRaiserDay = CampaignFundRaiser_Day(instance=instance_CampaignFundRaiser)
+                    CampaignFundRaiserShortDescription = CampaignFundRaiser_Short_Description(instance=instance_CampaignFundRaiser)
+                    CampaignFundRaiserUrlText_Form = CampaignFundRaiserUrlTextForm(instance=instance_CampaignFundRaiser)
+                    CampaignFundRaiserIsEndGoal_Form = CampaignFundRaiserIsEndGoalForm(instance=instance_CampaignFundRaiser)
+                    CampaignFundRaiserCategory_Form = CampaignFundRaiserCategoryForm(instance=instance_CampaignFundRaiser)
+                    
+
+            elif form_type == 'Title':
+                CampaignFundRaiserTitleForm = CampaignFundRaiser_Title_Form(request.POST, instance=instance_CampaignFundRaiser)
+                if CampaignFundRaiserTitleForm.is_valid():
+                    CampaignFundRaiserTitleForm = CampaignFundRaiserTitleForm.save()
+
+                    messages.add_message(request,messages.SUCCESS,'Title updated successfully.')
+
+                    return redirect('my_fundraiser_campaign_modify', url_text=url_text)
+
+                else:
+                    form_error = 'Title'
+                    CampaignFundRaiserGoalForm = CampaignFundRaiser_Goal_Form(instance=instance_CampaignFundRaiser)
+                    CampaignFundRaiserPictureForm = CampaignFundRaiser_Picture_Form(instance=instance_CampaignFundRaiser)
+                    CampaignFundRaiserAboutForm = CampaignFundRaiser_About_Form(instance=instance_CampaignFundRaiser)
+                    CampaignFundRaiserDay = CampaignFundRaiser_Day(instance=instance_CampaignFundRaiser)
+                    CampaignFundRaiserShortDescription = CampaignFundRaiser_Short_Description(instance=instance_CampaignFundRaiser)
+                    CampaignFundRaiserUrlText_Form = CampaignFundRaiserUrlTextForm(instance=instance_CampaignFundRaiser)
+                    CampaignFundRaiserIsEndGoal_Form = CampaignFundRaiserIsEndGoalForm(instance=instance_CampaignFundRaiser)
+                    CampaignFundRaiserCategory_Form = CampaignFundRaiserCategoryForm(instance=instance_CampaignFundRaiser)
+                    
+
+
+
+            elif form_type == 'Picture':
+                CampaignFundRaiserPictureForm = CampaignFundRaiser_Picture_Form(request.POST, request.FILES, instance=instance_CampaignFundRaiser)
+                if CampaignFundRaiserPictureForm.is_valid():
+                    CampaignFundRaiserPictureForm = CampaignFundRaiserPictureForm.save()
+
+                    messages.add_message(request,messages.SUCCESS,'Picture updated successfully.')
+
+                    return redirect('my_fundraiser_campaign_modify', url_text=url_text)
+
+                else:
+                    form_error = 'Picture'
+                    CampaignFundRaiserGoalForm = CampaignFundRaiser_Goal_Form(instance=instance_CampaignFundRaiser)
+                    CampaignFundRaiserTitleForm = CampaignFundRaiser_Title_Form(instance=instance_CampaignFundRaiser)
+                    CampaignFundRaiserAboutForm = CampaignFundRaiser_About_Form(instance=instance_CampaignFundRaiser)
+                    CampaignFundRaiserDay = CampaignFundRaiser_Day(instance=instance_CampaignFundRaiser)
+                    CampaignFundRaiserShortDescription = CampaignFundRaiser_Short_Description(instance=instance_CampaignFundRaiser)
+                    CampaignFundRaiserUrlText_Form = CampaignFundRaiserUrlTextForm(instance=instance_CampaignFundRaiser)
+                    CampaignFundRaiserIsEndGoal_Form = CampaignFundRaiserIsEndGoalForm(instance=instance_CampaignFundRaiser)
+                    CampaignFundRaiserCategory_Form = CampaignFundRaiserCategoryForm(instance=instance_CampaignFundRaiser)
+                    
+
+
+
+
+            elif form_type == 'About':
+                CampaignFundRaiserAboutForm = CampaignFundRaiser_About_Form(request.POST, instance=instance_CampaignFundRaiser)
+                if CampaignFundRaiserAboutForm.is_valid():
+                    CampaignFundRaiserAboutForm = CampaignFundRaiserAboutForm.save()
+
+                    messages.add_message(request,messages.SUCCESS,'About updated successfully.')
+
+                    return redirect('my_fundraiser_campaign_modify', url_text=url_text)
+
+                else:
+                    form_error = 'About'
+                    CampaignFundRaiserGoalForm = CampaignFundRaiser_Goal_Form(instance=instance_CampaignFundRaiser)
+                    CampaignFundRaiserTitleForm = CampaignFundRaiser_Title_Form(instance=instance_CampaignFundRaiser)
+                    CampaignFundRaiserPictureForm = CampaignFundRaiser_Picture_Form(instance=instance_CampaignFundRaiser)
+                    CampaignFundRaiserDay = CampaignFundRaiser_Day(instance=instance_CampaignFundRaiser)
+                    CampaignFundRaiserShortDescription = CampaignFundRaiser_Short_Description(instance=instance_CampaignFundRaiser)
+                    CampaignFundRaiserUrlText_Form = CampaignFundRaiserUrlTextForm(instance=instance_CampaignFundRaiser)
+                    CampaignFundRaiserIsEndGoal_Form = CampaignFundRaiserIsEndGoalForm(instance=instance_CampaignFundRaiser)
+                    CampaignFundRaiserCategory_Form = CampaignFundRaiserCategoryForm(instance=instance_CampaignFundRaiser)
+                    
+
+
+            elif form_type == 'Day':
+                CampaignFundRaiserDay = CampaignFundRaiser_Day(request.POST, instance=instance_CampaignFundRaiser)
+                if CampaignFundRaiserDay.is_valid():
+                    CampaignFundRaiserDay.save()
+
+                    messages.add_message(request,messages.SUCCESS,'Days updated successfully.')
+
+                    return redirect('my_fundraiser_campaign_modify', url_text=url_text)
+
+                else:
+                    form_error = 'Day'
+                    CampaignFundRaiserGoalForm = CampaignFundRaiser_Goal_Form(instance=instance_CampaignFundRaiser)
+                    CampaignFundRaiserTitleForm = CampaignFundRaiser_Title_Form(instance=instance_CampaignFundRaiser)
+                    CampaignFundRaiserPictureForm = CampaignFundRaiser_Picture_Form(instance=instance_CampaignFundRaiser)
+                    CampaignFundRaiserAboutForm = CampaignFundRaiser_About_Form(instance=instance_CampaignFundRaiser)
+                    CampaignFundRaiserShortDescription = CampaignFundRaiser_Short_Description(instance=instance_CampaignFundRaiser)
+                    CampaignFundRaiserUrlText_Form = CampaignFundRaiserUrlTextForm(instance=instance_CampaignFundRaiser)
+                    CampaignFundRaiserIsEndGoal_Form = CampaignFundRaiserIsEndGoalForm(instance=instance_CampaignFundRaiser)
+                    CampaignFundRaiserCategory_Form = CampaignFundRaiserCategoryForm(instance=instance_CampaignFundRaiser)
+                    
+
+            elif form_type == 'short_description':
+                CampaignFundRaiserShortDescription = CampaignFundRaiser_Short_Description(request.POST, instance=instance_CampaignFundRaiser)
+                if CampaignFundRaiserShortDescription.is_valid():
+                    CampaignFundRaiserShortDescription.save()
+
+                    messages.add_message(request,messages.SUCCESS,'Short Description updated successfully.')
+
+                    return redirect('my_fundraiser_campaign_modify', url_text=url_text)
+
+                else:
+                    form_error = 'short_description'
+                    CampaignFundRaiserGoalForm = CampaignFundRaiser_Goal_Form(instance=instance_CampaignFundRaiser)
+                    CampaignFundRaiserTitleForm = CampaignFundRaiser_Title_Form(instance=instance_CampaignFundRaiser)
+                    CampaignFundRaiserPictureForm = CampaignFundRaiser_Picture_Form(instance=instance_CampaignFundRaiser)
+                    CampaignFundRaiserAboutForm = CampaignFundRaiser_About_Form(instance=instance_CampaignFundRaiser)
+                    CampaignFundRaiserDay = CampaignFundRaiser_Day(instance=instance_CampaignFundRaiser)
+                    CampaignFundRaiserUrlText_Form = CampaignFundRaiserUrlTextForm(instance=instance_CampaignFundRaiser)
+                    CampaignFundRaiserIsEndGoal_Form = CampaignFundRaiserIsEndGoalForm(instance=instance_CampaignFundRaiser)
+                    CampaignFundRaiserCategory_Form = CampaignFundRaiserCategoryForm(instance=instance_CampaignFundRaiser)
+
+
+            elif form_type == 'EndGoal':
+                CampaignFundRaiserIsEndGoal_Form = CampaignFundRaiserIsEndGoalForm(request.POST, instance=instance_CampaignFundRaiser)
+                if CampaignFundRaiserIsEndGoal_Form.is_valid():
+                    CampaignFundRaiserIsEndGoal_Form.save()
+
+                    messages.add_message(request,messages.SUCCESS,'Campaign status updated successfully.')
+
+                    return redirect('my_fundraiser_campaign_modify', url_text=url_text)
+
+                else:
+                    form_error = 'EndGoal'
+                    
+                    CampaignFundRaiserGoalForm = CampaignFundRaiser_Goal_Form(instance=instance_CampaignFundRaiser)
+                    CampaignFundRaiserTitleForm = CampaignFundRaiser_Title_Form(instance=instance_CampaignFundRaiser)
+                    CampaignFundRaiserPictureForm = CampaignFundRaiser_Picture_Form(instance=instance_CampaignFundRaiser)
+                    CampaignFundRaiserAboutForm = CampaignFundRaiser_About_Form(instance=instance_CampaignFundRaiser)
+                    CampaignFundRaiserDay = CampaignFundRaiser_Day(instance=instance_CampaignFundRaiser)
+                    CampaignFundRaiserShortDescription = CampaignFundRaiser_Short_Description(instance=instance_CampaignFundRaiser)
+                    CampaignFundRaiserUrlText_Form = CampaignFundRaiserUrlTextForm(instance=instance_CampaignFundRaiser)
+                    CampaignFundRaiserCategory_Form = CampaignFundRaiserCategoryForm(instance=instance_CampaignFundRaiser)
+
+
+            elif form_type == 'url':
+                url_text = instance_CampaignFundRaiser.url_text
+                CampaignFundRaiserUrlText_Form = CampaignFundRaiserUrlTextForm(request.POST, instance=instance_CampaignFundRaiser)
+                if CampaignFundRaiserUrlText_Form.is_valid():
+                    CampaignFundRaiserUrlText_Form.save()
+
+                    return redirect(instance_CampaignFundRaiser.url_text)
+
+                    messages.add_message(request,messages.SUCCESS,'Url text updated successfully.')
+
+                    return redirect('my_fundraiser_campaign_modify', url_text=instance_CampaignFundRaiser.url_text)
+
+                else:
+                    form_error = 'url'
+                    instance_CampaignFundRaiser.url_text = url_text
+                    instance_CampaignFundRaiser.save()
+                    CampaignFundRaiserGoalForm = CampaignFundRaiser_Goal_Form(instance=instance_CampaignFundRaiser)
+                    CampaignFundRaiserTitleForm = CampaignFundRaiser_Title_Form(instance=instance_CampaignFundRaiser)
+                    CampaignFundRaiserPictureForm = CampaignFundRaiser_Picture_Form(instance=instance_CampaignFundRaiser)
+                    CampaignFundRaiserAboutForm = CampaignFundRaiser_About_Form(instance=instance_CampaignFundRaiser)
+                    CampaignFundRaiserDay = CampaignFundRaiser_Day(instance=instance_CampaignFundRaiser)
+                    CampaignFundRaiserShortDescription = CampaignFundRaiser_Short_Description(instance=instance_CampaignFundRaiser)
+                    CampaignFundRaiserIsEndGoal_Form = CampaignFundRaiserIsEndGoalForm(instance=instance_CampaignFundRaiser)
+                    CampaignFundRaiserCategory_Form = CampaignFundRaiserCategoryForm(instance=instance_CampaignFundRaiser)
+
+
+            elif form_type == 'category':
+                CampaignFundRaiserCategory_Form = CampaignFundRaiserCategoryForm(request.POST, instance=instance_CampaignFundRaiser)
+                if CampaignFundRaiserCategory_Form.is_valid():
+                    CampaignFundRaiserCategory_Form.save()
+
+                    messages.add_message(request,messages.SUCCESS,'Category updated successfully.')
+
+                    return redirect('my_fundraiser_campaign_modify', url_text=url_text)
+
+                else:
+                    form_error = 'category'
+                    CampaignFundRaiserGoalForm = CampaignFundRaiser_Goal_Form(instance=instance_CampaignFundRaiser)
+                    CampaignFundRaiserTitleForm = CampaignFundRaiser_Title_Form(instance=instance_CampaignFundRaiser)
+                    CampaignFundRaiserPictureForm = CampaignFundRaiser_Picture_Form(instance=instance_CampaignFundRaiser)
+                    CampaignFundRaiserAboutForm = CampaignFundRaiser_About_Form(instance=instance_CampaignFundRaiser)
+                    CampaignFundRaiserDay = CampaignFundRaiser_Day(instance=instance_CampaignFundRaiser)
+                    CampaignFundRaiserShortDescription = CampaignFundRaiser_Short_Description(instance=instance_CampaignFundRaiser)
+                    CampaignFundRaiserUrlText_Form = CampaignFundRaiserUrlTextForm(instance=instance_CampaignFundRaiser)
+                    CampaignFundRaiserIsEndGoal_Form = CampaignFundRaiserIsEndGoalForm(instance=instance_CampaignFundRaiser)
+                    CampaignFundRaiserCategory_Form = CampaignFundRaiserCategoryForm(instance=instance_CampaignFundRaiser)
+                    
+
+
+            else:
+                CampaignFundRaiserGoalForm = CampaignFundRaiser_Goal_Form(instance=instance_CampaignFundRaiser)
+                CampaignFundRaiserTitleForm = CampaignFundRaiser_Title_Form(instance=instance_CampaignFundRaiser)
+                CampaignFundRaiserPictureForm = CampaignFundRaiser_Picture_Form(instance=instance_CampaignFundRaiser)
+                CampaignFundRaiserAboutForm = CampaignFundRaiser_About_Form(instance=instance_CampaignFundRaiser)
+                CampaignFundRaiserDay = CampaignFundRaiser_Day(instance=instance_CampaignFundRaiser)
+                CampaignFundRaiserShortDescription = CampaignFundRaiser_Short_Description(instance=instance_CampaignFundRaiser)
+                CampaignFundRaiserUrlText_Form = CampaignFundRaiserUrlTextForm(instance=instance_CampaignFundRaiser)
+                CampaignFundRaiserIsEndGoal_Form = CampaignFundRaiserIsEndGoalForm(instance=instance_CampaignFundRaiser)
+                CampaignFundRaiserCategory_Form = CampaignFundRaiserCategoryForm(instance=instance_CampaignFundRaiser)
+                
+
+        else:
+            CampaignFundRaiserGoalForm = CampaignFundRaiser_Goal_Form(instance=instance_CampaignFundRaiser)
+            CampaignFundRaiserTitleForm = CampaignFundRaiser_Title_Form(instance=instance_CampaignFundRaiser)
+            CampaignFundRaiserPictureForm = CampaignFundRaiser_Picture_Form(instance=instance_CampaignFundRaiser)
+            CampaignFundRaiserAboutForm = CampaignFundRaiser_About_Form(instance=instance_CampaignFundRaiser)
+            CampaignFundRaiserDay = CampaignFundRaiser_Day(instance=instance_CampaignFundRaiser)
+            CampaignFundRaiserShortDescription = CampaignFundRaiser_Short_Description(instance=instance_CampaignFundRaiser)
+            CampaignFundRaiserUrlText_Form = CampaignFundRaiserUrlTextForm(instance=instance_CampaignFundRaiser)
+            CampaignFundRaiserIsEndGoal_Form = CampaignFundRaiserIsEndGoalForm(instance=instance_CampaignFundRaiser)
+            CampaignFundRaiserCategory_Form = CampaignFundRaiserCategoryForm(instance=instance_CampaignFundRaiser)
+            
+
+
+
+
+       
+        instance_CampaignDoners = CampaignDoners.objects.filter(campaign_fund_raiser=instance_CampaignFundRaiser, payment_status='captured').order_by("-id")
+
+
+        current_site = get_current_site(request)
+        domain = current_site.domain
+
+        context = {
+            'instance_CampaignFundRaiser':instance_CampaignFundRaiser,
+            'instance_CampaignDoners':instance_CampaignDoners,
+            
+
+            "CampaignFundRaiserGoalForm":CampaignFundRaiserGoalForm,
+            "CampaignFundRaiserTitleForm":CampaignFundRaiserTitleForm,
+            "CampaignFundRaiserPictureForm" : CampaignFundRaiserPictureForm,
+            "CampaignFundRaiserAboutForm" : CampaignFundRaiserAboutForm,
+            'CampaignFundRaiserDay':CampaignFundRaiserDay,
+            'CampaignFundRaiserShortDescription':CampaignFundRaiserShortDescription,
+            'CampaignFundRaiserUrlText_Form':CampaignFundRaiserUrlText_Form,
+            'CampaignFundRaiserIsEndGoal_Form':CampaignFundRaiserIsEndGoal_Form,
+            'CampaignFundRaiserCategory_Form':CampaignFundRaiserCategory_Form,
+
+
+            'Today':datetime.now().date(),
+            'domain':domain,
+
+            'form_error':form_error,
+        }
+
+        return render(request, 'user_template/my_fundraiser_campaign_modify.html', context)
+    except:
+        return redirect('dashboard')
+
+
+
+@login_required
+@end_user_required
+def my_fundraiser_campaign_supporter(request, url_text):
+    try:
+        instance_CampaignFundRaiser = CampaignFundRaiser.objects.get(url_text=url_text, user=request.user)
+
+        instance_CampaignDoners = PotentialCampaignDoners.objects.filter(campaign_fund_raiser=instance_CampaignFundRaiser)
+        instance_CampaignDoners_created_at = PotentialCampaignDoners.objects.filter(campaign_fund_raiser=instance_CampaignFundRaiser).values('created_at').distinct()
+        instance_CampaignDoners_name = PotentialCampaignDoners.objects.filter(campaign_fund_raiser=instance_CampaignFundRaiser).values('name').distinct()
+        instance_CampaignDoners_email = PotentialCampaignDoners.objects.filter(campaign_fund_raiser=instance_CampaignFundRaiser).values('email').distinct()
+        instance_CampaignDoners_phone = PotentialCampaignDoners.objects.filter(campaign_fund_raiser=instance_CampaignFundRaiser).values('phone').distinct()
+        instance_CampaignDoners_sent = PotentialCampaignDoners.objects.filter(campaign_fund_raiser=instance_CampaignFundRaiser).values('sent').distinct()
+
+        context = {
+            'instance_CampaignFundRaiser':instance_CampaignFundRaiser,
+            'instance_CampaignDoners':instance_CampaignDoners,
+            'instance_CampaignDoners_created_at':instance_CampaignDoners_created_at,
+            'instance_CampaignDoners_name':instance_CampaignDoners_name,
+            'instance_CampaignDoners_email':instance_CampaignDoners_email,
+            'instance_CampaignDoners_phone':instance_CampaignDoners_phone,
+            'instance_CampaignDoners_sent':instance_CampaignDoners_sent,
+        }
+
+
+        return render(request, 'user_template/my_fundraiser_campaign_supporter.html', context)
+    except:
+        return redirect('dashboard')
+
+
+
+@login_required
+@end_user_required
+def my_fundraiser_campaign_premium_services(request, url_text):
+    try:
+        instance_CampaignFundRaiser = CampaignFundRaiser.objects.get(url_text=url_text, user=request.user)
+
+
+        form_error = False
+        if request.method == 'POST':
+            Services_Enquiry_Form = ServicesEnquiryForm(request.POST)
+            if Services_Enquiry_Form.is_valid():
+                Services_Enquiry_Form = Services_Enquiry_Form.save()
+
+
+                try:
+                    instance_admin_email = list(User.objects.filter(user_type='Admin').values_list('email', flat=True))
+                    current_site = get_current_site(request)
+
+                    mail_subject = "Services Enquiry"
+                    message = render_to_string('email_template/services_enquiry_to_admin.html',{
+                        'domain': current_site.domain,
+                        'Services_Enquiry_Form':Services_Enquiry_Form,
+                    })
+                    email = EmailMultiAlternatives(
+                        mail_subject, message, to=instance_admin_email
+                    )
+                    email.attach_alternative(message, "text/html")
+                    email.send()
+                except:
+                    pass
+
+
+                try:
+                    current_site = get_current_site(request)
+
+                    mail_subject = "Services Enquiry Confirmation"
+                    message = render_to_string('email_template/services_enquiry_to_user.html',{
+                        'domain': current_site.domain,
+                        'Services_Enquiry_Form':Services_Enquiry_Form,
+                    })
+                    email = EmailMultiAlternatives(
+                        mail_subject, message, to=[Services_Enquiry_Form.email]
+                    )
+                    email.attach_alternative(message, "text/html")
+                    email.send()
+                except:
+                    pass
+
+
+
+                messages.add_message(request,messages.SUCCESS,'Services enquiry send successfully.')
+
+                return redirect('my_fundraiser_campaign_premium_services', url_text=url_text)
+
+            else:
+                form_error = True
+        else:
+            Services_Enquiry_Form = ServicesEnquiryForm(initial={'name':request.user.name, 'email':request.user.email, 'mobile_no':request.user.mobile_no})
+
+        context = {
+           'instance_CampaignFundRaiser':instance_CampaignFundRaiser,
+            'Services_Enquiry_Form':Services_Enquiry_Form,
+            'form_error':form_error,
+        }
+        return render(request, 'user_template/my_fundraiser_campaign_premium_services.html', context)
+    except:
+        return redirect('dashboard')
+
+
+@login_required
+@end_user_required
+def my_fundraiser_campaign_document(request, url_text):
+    # try:
+        instance_CampaignFundRaiser = CampaignFundRaiser.objects.get(url_text=url_text, user=request.user)
+
+        if request.method == 'POST':
+            form_type = request.POST.get('form_type')
+            if form_type == 'cheque':
+                cancelled_cheque_form = CampaignFundRaiserCancelledChequeForm(request.POST, request.FILES, instance=instance_CampaignFundRaiser)
+                if cancelled_cheque_form.is_valid():
+                    cancelled_cheque_form.save()
+                    messages.add_message(request,messages.SUCCESS,'Cancelled cheque uploaded successfully.')
+
+                    return redirect('my_fundraiser_campaign_document', url_text=url_text)
+                else:
+                    address_proof_form = CampaignFundRaiserAddressProofForm(instance=instance_CampaignFundRaiser)
+                    pancard_proof_form = CampaignFundRaiserPancardProofForm(instance=instance_CampaignFundRaiser)
+
+            elif form_type == 'address':
+                address_proof_form = CampaignFundRaiserAddressProofForm(request.POST, request.FILES, instance=instance_CampaignFundRaiser)
+                if address_proof_form.is_valid():
+                    address_proof_form.save()
+                    messages.add_message(request,messages.SUCCESS,'Address proof uploaded successfully.')
+
+                    return redirect('my_fundraiser_campaign_document', url_text=url_text)
+                else:
+                    cancelled_cheque_form = CampaignFundRaiserCancelledChequeForm(instance=instance_CampaignFundRaiser)
+                    pancard_proof_form = CampaignFundRaiserPancardProofForm(instance=instance_CampaignFundRaiser)
+
+            elif form_type == 'pancard':
+                pancard_proof_form = CampaignFundRaiserPancardProofForm(request.POST, request.FILES, instance=instance_CampaignFundRaiser)
+                if pancard_proof_form.is_valid():
+                    pancard_proof_form.save()
+                    messages.add_message(request,messages.SUCCESS,'Pancard uploaded successfully.')
+
+                    return redirect('my_fundraiser_campaign_document', url_text=url_text)
+                else:
+                    cancelled_cheque_form = CampaignFundRaiserCancelledChequeForm(instance=instance_CampaignFundRaiser)
+                    address_proof_form = CampaignFundRaiserAddressProofForm(instance=instance_CampaignFundRaiser)
+
+            else:
+                cancelled_cheque_form = CampaignFundRaiserCancelledChequeForm(instance=instance_CampaignFundRaiser)
+                address_proof_form = CampaignFundRaiserAddressProofForm(instance=instance_CampaignFundRaiser)
+                pancard_proof_form = CampaignFundRaiserPancardProofForm(instance=instance_CampaignFundRaiser)
+
+        else:
+            cancelled_cheque_form = CampaignFundRaiserCancelledChequeForm(instance=instance_CampaignFundRaiser)
+            address_proof_form = CampaignFundRaiserAddressProofForm(instance=instance_CampaignFundRaiser)
+            pancard_proof_form = CampaignFundRaiserPancardProofForm(instance=instance_CampaignFundRaiser)
+
+
+        context = {
+            'cancelled_cheque_form':cancelled_cheque_form,
+            'address_proof_form':address_proof_form,
+            'instance_CampaignFundRaiser':instance_CampaignFundRaiser,
+            'pancard_proof_form':pancard_proof_form,
+        }
+
+
+        return render(request, 'user_template/my_fundraiser_campaign_document.html', context)
+    # except:
+    #     return redirect('dashboard')
+
+
+@login_required
+@end_user_required
+def my_fundraiser_campaign_updates(request, url_text):
+    try:
+        instance_CampaignFundRaiser = CampaignFundRaiser.objects.get(url_text=url_text, user=request.user)
+        instance_CampaignUpdates = CampaignUpdates.objects.filter(campaign_fund_raiser=instance_CampaignFundRaiser)
+
+        if request.method == 'POST':
+            campaign_updates_form = CampaignUpdatesForm(request.POST)
+            if campaign_updates_form.is_valid():
+                campaign_updates_form = campaign_updates_form.save(commit=False)
+                campaign_updates_form.campaign_fund_raiser = instance_CampaignFundRaiser
+                campaign_updates_form.save()
+
+                messages.add_message(request,messages.SUCCESS,'Campaign Update " %s " added successfully. ' %(campaign_updates_form.title))
+
+                return redirect('my_fundraiser_campaign_updates', url_text=url_text)
+
+        else:
+            campaign_updates_form = CampaignUpdatesForm()
+
+
+        context = {
+            'instance_CampaignFundRaiser':instance_CampaignFundRaiser,
+            'instance_CampaignUpdates':instance_CampaignUpdates,
+            'CampaignUpdates_Form':campaign_updates_form,
+        }
+        return render(request, 'user_template/my_fundraiser_campaign_updates.html', context)
+    except:
+        return redirect('dashboard')
+
+
+@login_required
+@end_user_required
+def my_fundraiser_campaign_buzz(request, url_text):
+    try:
+        instance_CampaignFundRaiser = CampaignFundRaiser.objects.get(url_text=url_text, user=request.user)
+        instance_CampaignBuzz = CampaignBuzz.objects.filter(campaign_fund_raiser=instance_CampaignFundRaiser)
+
+        if request.method == 'POST':
+            campaign_buzz_form = CampaignBuzzForm(request.POST, request.FILES)
+            if campaign_buzz_form.is_valid():
+                campaign_buzz_form = campaign_buzz_form.save(commit=False)
+                campaign_buzz_form.campaign_fund_raiser = instance_CampaignFundRaiser
+                campaign_buzz_form.save()
+
+                messages.add_message(request,messages.SUCCESS,'Campaign Buzz " %s " added successfully. ' %(campaign_buzz_form.title))
+
+                return redirect('my_fundraiser_campaign_buzz', url_text=url_text)
+
+        else:
+            campaign_buzz_form = CampaignBuzzForm()
+
+
+        context = {
+            'instance_CampaignFundRaiser':instance_CampaignFundRaiser,
+            'instance_CampaignBuzz':instance_CampaignBuzz,
+            'CampaignBuzz_Form':campaign_buzz_form,
+        }
+        return render(request, 'user_template/my_fundraiser_campaign_buzz.html', context)
+    except:
+        return redirect('dashboard')
+
+
+@login_required
+@end_user_required
+def my_fundraiser_campaign_updates_delete(request, url_text, id):
+    try:
+        instance_CampaignFundRaiser = CampaignFundRaiser.objects.get(url_text=url_text, user=request.user)
+        instance_CampaignUpdates = CampaignUpdates.objects.get(id=id, campaign_fund_raiser=instance_CampaignFundRaiser)
+
+        instance_CampaignUpdates.delete()
+
+        messages.add_message(request,messages.SUCCESS,'Campaign Update deleted successfully. ')
+
+        return redirect('my_fundraiser_campaign_updates', url_text=url_text)
+
+    except:
+        return redirect('dashboard')
+
+
+@login_required
+@end_user_required
+def my_fundraiser_campaign_buzz_delete(request, url_text, id):
+    try:
+        instance_CampaignFundRaiser = CampaignFundRaiser.objects.get(url_text=url_text, user=request.user)
+        instance_CampaignBuzz = CampaignBuzz.objects.get(id=id, campaign_fund_raiser=instance_CampaignFundRaiser)
+
+        instance_CampaignBuzz.delete()
+        messages.add_message(request,messages.SUCCESS,'Campaign Buzz deleted successfully.')
+
+        return redirect('my_fundraiser_campaign_buzz', url_text=url_text)
+
+       
+    except:
+        return redirect('dashboard')
+
+@login_required
+@end_user_required
+def my_fundraiser_campaign_comment(request, url_text):
+    try:
+        instance_CampaignFundRaiser = CampaignFundRaiser.objects.get(url_text=url_text, user=request.user)
+        instance_comment = CampaignComments.objects.filter(campaign_fund_raiser=instance_CampaignFundRaiser)
+
+        if request.method == 'POST':
+            enable_comment_form = CampaignFundRaiserEnableCommentForm(request.POST, instance=instance_CampaignFundRaiser)
+            if enable_comment_form.is_valid():
+                enable_comment_form.save()
+        else:
+            enable_comment_form = CampaignFundRaiserEnableCommentForm(instance=instance_CampaignFundRaiser)
+
+        context = {
+            'instance_CampaignFundRaiser':instance_CampaignFundRaiser,
+            'instance_comment':instance_comment,
+            'Today':datetime.now(),
+            'enable_comment_form':enable_comment_form,
+        }
+        return render(request, 'user_template/my_fundraiser_campaign_comment.html', context)
+    except:
+        return redirect('dashboard')
+
+@login_required
+@end_user_required
+def my_fundraiser_campaign_supporter_donor_info(request, url_text):
+    try:
+        instance_CampaignFundRaiser = CampaignFundRaiser.objects.get(url_text=url_text, user=request.user)
+        instance_CampaignDoners = CampaignDoners.objects.filter(campaign_fund_raiser=instance_CampaignFundRaiser, payment_status='captured')
+        context = {
+            'instance_CampaignFundRaiser':instance_CampaignFundRaiser,
+            'instance_CampaignDoners':instance_CampaignDoners,
+            
+        }
+        return render(request, 'user_template/my_fundraiser_campaign_supporter_donor_info.html', context)
+    except:
+        return redirect('dashboard')
+
+@login_required
+@end_user_required
+def my_fundraiser_campaign_withdraw_funds(request, url_text):
+    try:
+        form_error = False
+        instance_CampaignFundRaiser = CampaignFundRaiser.objects.get(url_text=url_text, user=request.user)
+
+
+        instance_WithdrawalRequest_amount = WithdrawalRequest.objects.filter(campaign=instance_CampaignFundRaiser, status="New").aggregate(Sum('amount'))
+
+        instance_WithdrawalRequest = WithdrawalRequest.objects.filter(campaign=instance_CampaignFundRaiser)
+
+        instance_refund = CampaignDoners.objects.filter(campaign_fund_raiser=instance_CampaignFundRaiser, refund_status='refund approved').aggregate(Sum('amount'))
+
+        try:
+            instance_WithdrawalRequest_latest = WithdrawalRequest.objects.filter(campaign=instance_CampaignFundRaiser, status='Approved').order_by("-id")[0]
+        except:
+            instance_WithdrawalRequest_latest = False
+
+
+
+        if request.method == 'POST':
+            Withdrawal_Request_Form = WithdrawalRequestForm(request.POST, request.FILES)
+            if Withdrawal_Request_Form.is_valid():
+                Withdrawal_Request_Form = Withdrawal_Request_Form.save()
+
+                messages.add_message(request,messages.SUCCESS, 'Withdrawal request sended successfully')
+
+                return redirect('my_fundraiser_campaign_withdraw_funds', url_text=url_text)
+            else:
+                form_error = True
+
+        else:
+            Withdrawal_Request_Form = WithdrawalRequestForm(initial={'campaign':instance_CampaignFundRaiser.id})
+
+
+        instance_our_democracy_commission_in_rs = CampaignDoners.objects.filter(campaign_fund_raiser__id=instance_CampaignFundRaiser.id, payment_status='captured').aggregate(Sum('our_democracy_commission_in_rs'))['our_democracy_commission_in_rs__sum']
+        instance_our_democracy_gst_in_rs = CampaignDoners.objects.filter(campaign_fund_raiser__id=instance_CampaignFundRaiser.id, payment_status='captured').aggregate(Sum('our_democracy_gst_in_rs'))['our_democracy_gst_in_rs__sum']
+        instance_payment_gateway_charges_in_rs = CampaignDoners.objects.filter(campaign_fund_raiser__id=instance_CampaignFundRaiser.id, payment_status='captured').aggregate(Sum('payment_gateway_charges_in_rs'))['payment_gateway_charges_in_rs__sum']
+        instance_payment_gateway_gst_in_rs = CampaignDoners.objects.filter(campaign_fund_raiser__id=instance_CampaignFundRaiser.id, payment_status='captured').aggregate(Sum('payment_gateway_gst_in_rs'))['payment_gateway_gst_in_rs__sum']
+
+        try:
+            instance_our_democracy_commission_in_rs = float(instance_our_democracy_commission_in_rs)
+        except:
+            instance_our_democracy_commission_in_rs = 0
+
+        try:
+            instance_our_democracy_gst_in_rs = float(instance_our_democracy_gst_in_rs)
+        except:
+            instance_our_democracy_gst_in_rs = 0
+
+        try:
+            instance_payment_gateway_charges_in_rs = float(instance_payment_gateway_charges_in_rs)
+        except:
+            instance_payment_gateway_charges_in_rs = 0
+
+        try:
+            instance_payment_gateway_gst_in_rs = float(instance_payment_gateway_gst_in_rs)
+        except:
+            instance_payment_gateway_gst_in_rs = 0
+
+        try:
+            last_withdrawl = WithdrawalRequest.objects.filter(campaign__id=instance_CampaignFundRaiser.id, status='Approved').order_by('-id')[0].amount
+        except:
+            last_withdrawl = 0
+
+
+
+        context = {
+            'instance_CampaignFundRaiser':instance_CampaignFundRaiser,
+            'instance_refund':instance_refund,
+            'instance_WithdrawalRequest_amount':instance_WithdrawalRequest_amount,
+            'instance_WithdrawalRequest':instance_WithdrawalRequest,
+            'instance_WithdrawalRequest_latest':instance_WithdrawalRequest_latest,
+            'Withdrawal_Request_Form':Withdrawal_Request_Form,
+            'form_error':form_error,
+
+            'instance_our_democracy_commission_in_rs':instance_our_democracy_commission_in_rs,
+            'instance_payment_gateway_charges_in_rs':instance_payment_gateway_charges_in_rs,
+            'gst_in_rs':instance_payment_gateway_gst_in_rs + instance_our_democracy_gst_in_rs,
+
+            'last_withdrawl':last_withdrawl,
+
+        }
+
+
+        return render(request, 'user_template/my_fundraiser_campaign_withdraw_funds.html', context)
+    except:
+        return redirect('dashboard')
+
+
+#------------------------ mobilization-------------------------
+
+@login_required
+@end_user_required
+def my_mobilisation_campaign_dashboard(request, url_text):
+    try:
+        instance_SupportGroup = SupportGroup.objects.get(url_text=url_text, group_leader=request.user)
+
+        Today = datetime.now().date() 
+        completed_days = ( datetime.now().date()  - instance_SupportGroup.created_at.date() ).days
+
+        today_supporters = SupportGroupMembers.objects.filter(created_at__gte=Today, support_group=instance_SupportGroup).count()
+        total_supporters = SupportGroupMembers.objects.filter(support_group=instance_SupportGroup).count()
+
+        total_supporters_graph = list(SupportGroupMembers.objects.filter(support_group=instance_SupportGroup).extra({'created_at': "date(created_at)"}).values('created_at').distinct().annotate(Count('created_at')).order_by('created_at'))
+        total_supporters_dates = [x.get('created_at') for x in total_supporters_graph]
+
+        for d in (datetime.today() - timedelta(days=x) for x in range(0,10)):
+            if d.date() not in total_supporters_dates:
+                total_supporters_graph.append({'created_at': d, 'created_at__count': 0})
+        
+        today_visit = SupportVisitHistory.objects.filter(created_at__gte=Today, support_group=instance_SupportGroup).distinct('ip','user').count()
+        total_visit = SupportVisitHistory.objects.filter(support_group=instance_SupportGroup).distinct('ip','user').count()
+        previous_total_visit = SupportVisitHistory.objects.filter(support_group=instance_SupportGroup).exclude(created_at__gte=Today).count()
+
+        distinct_total_visit_graph = SupportVisitHistory.objects.distinct('ip','user')
+        total_visit_graph = list(SupportVisitHistory.objects.filter(support_group=instance_SupportGroup, created_at__lte=datetime.today(), created_at__gt=datetime.today()-timedelta(days=10)).extra({'created_at': "date(created_at)"}).values('created_at').distinct().annotate(Count('created_at')).order_by('created_at').filter(id__in=distinct_total_visit_graph))
+        dates = [x.get('created_at') for x in total_visit_graph]
+
+        for d in (datetime.today() - timedelta(days=x) for x in range(0,10)):
+            if d.date() not in dates:
+                total_visit_graph.append({'created_at': d, 'created_at__count': 0})
+
+        facebook_total_supporters = SupportGroupMembers.objects.filter(support_group=instance_SupportGroup, source__icontains='facebook').count()
+        twitter_total_supporters = SupportGroupMembers.objects.filter(support_group=instance_SupportGroup, source__icontains='twitter').count()
+        whatsapp_total_supporters = SupportGroupMembers.objects.filter(support_group=instance_SupportGroup, source__icontains='whatsapp').count()
+
+        facebook_total_visit = SupportVisitHistory.objects.filter(support_group=instance_SupportGroup, source__icontains='facebook').distinct('ip','user').count()
+        twitter_total_visit = SupportVisitHistory.objects.filter(support_group=instance_SupportGroup, source__icontains='twitter').distinct('ip','user').count()
+        whatsapp_total_visit = SupportVisitHistory.objects.filter(support_group=instance_SupportGroup, source__icontains='whatsapp').distinct('ip','user').count()
+
+
+        try:
+            today_increases = round((today_visit / ( previous_total_visit - today_visit )) * 100, 2)
+        except ZeroDivisionError:
+            today_increases = today_visit
+
+        context = {
+        'today_supporters':today_supporters,
+        'total_supporters':total_supporters,
+        'total_supporters_graph':total_supporters_graph,
+
+        'today_visit':today_visit,
+        'total_visit':total_visit,
+        'total_visit_graph':total_visit_graph,
+
+        'today_increases':today_increases,
+
+        'instance_SupportGroup':instance_SupportGroup,
+
+        'facebook_total_supporters':facebook_total_supporters,
+        'twitter_total_supporters':twitter_total_supporters,
+        'whatsapp_total_supporters':whatsapp_total_supporters,
+
+        'facebook_total_visit':facebook_total_visit,
+        'twitter_total_visit':twitter_total_visit,
+        'whatsapp_total_visit':whatsapp_total_visit,
+
+        'completed_days':completed_days,
+        }
+
+        return render(request, 'user_template/my_mobilisation_campaign_dashboard.html', context)
+    except:
+        return redirect('dashboard')
+
+@login_required
+@end_user_required
+def my_mobilisation_campaign_modify(request, url_text):
+    try:
+        instance_SupportGroup = SupportGroup.objects.get(url_text=url_text, group_leader=request.user)
+        form_error = False
+        if request.method == "POST":
+            form_type = request.POST.get('form_type', None)
+
+            if form_type == 'Goal':
+                SupportGroup_Goal_Form = SupportGroupGoalForm(request.POST, instance=instance_SupportGroup)
+                if SupportGroup_Goal_Form.is_valid():
+                    SupportGroup_Goal_Form = SupportGroup_Goal_Form.save()
+
+                    messages.add_message(request,messages.SUCCESS,'Goal updated successfully.')
+
+                    return redirect('my_mobilisation_campaign_modify', url_text=url_text)
+                else:
+                    form_error = 'Goal'
+                    SupportGroup_Title_Form = SupportGroupTitleForm(instance=instance_SupportGroup)
+                    SupportGroup_Picture_Form = SupportGroupPictureForm(instance=instance_SupportGroup)
+                    SupportGroup_About_Form = SupportGroupAboutForm(instance=instance_SupportGroup)
+                    SupportGroup_ShortDescription_Form = SupportGroupShortDescriptionForm(instance=instance_SupportGroup)
+                    SupportGroupUrlText_Form = SupportGroupUrlTextForm(instance=instance_SupportGroup)
+                    SupportGroupIsEndGoal_Form = SupportGroupIsEndGoalForm(instance=instance_SupportGroup)
+
+            elif form_type == 'Title':
+                SupportGroup_Title_Form = SupportGroupTitleForm(request.POST, instance=instance_SupportGroup)
+                if SupportGroup_Title_Form.is_valid():
+                    SupportGroup_Title_Form = SupportGroup_Title_Form.save()
+
+                    messages.add_message(request,messages.SUCCESS,'Title updated successfully.')
+
+                    return redirect('my_mobilisation_campaign_modify', url_text=url_text)
+
+                else:
+                    form_error = 'Title'
+                    SupportGroup_Goal_Form = SupportGroupGoalForm(instance=instance_SupportGroup)
+                    SupportGroup_Picture_Form = SupportGroupPictureForm(instance=instance_SupportGroup)
+                    SupportGroup_About_Form = SupportGroupAboutForm(instance=instance_SupportGroup)
+                    SupportGroup_ShortDescription_Form = SupportGroupShortDescriptionForm(instance=instance_SupportGroup)
+                    SupportGroupUrlText_Form = SupportGroupUrlTextForm(instance=instance_SupportGroup)
+                    SupportGroupIsEndGoal_Form = SupportGroupIsEndGoalForm(instance=instance_SupportGroup)
+
+            elif form_type == 'Picture':
+                SupportGroup_Picture_Form = SupportGroupPictureForm(request.POST, request.FILES, instance=instance_SupportGroup)
+                if SupportGroup_Picture_Form.is_valid():
+                    SupportGroup_Picture_Form = SupportGroup_Picture_Form.save()
+
+                    messages.add_message(request,messages.SUCCESS,'Picture updated successfully.')
+
+                    return redirect('my_mobilisation_campaign_modify', url_text=url_text)
+
+                else:
+                    form_error = 'Picture'
+                    SupportGroup_Goal_Form = SupportGroupGoalForm(instance=instance_SupportGroup)
+                    SupportGroup_Title_Form = SupportGroupTitleForm(instance=instance_SupportGroup)
+                    SupportGroup_About_Form = SupportGroupAboutForm(instance=instance_SupportGroup)
+                    SupportGroup_ShortDescription_Form = SupportGroupShortDescriptionForm(instance=instance_SupportGroup)
+                    SupportGroupUrlText_Form = SupportGroupUrlTextForm(instance=instance_SupportGroup)
+                    SupportGroupIsEndGoal_Form = SupportGroupIsEndGoalForm(instance=instance_SupportGroup)
+
+
+            elif form_type == 'About':
+                SupportGroup_About_Form = SupportGroupAboutForm(request.POST, instance=instance_SupportGroup)
+                if SupportGroup_About_Form.is_valid():
+                    SupportGroup_About_Form = SupportGroup_About_Form.save()
+
+                    messages.add_message(request,messages.SUCCESS,'About updated successfully.')
+
+                    return redirect('my_mobilisation_campaign_modify', url_text=url_text)
+
+                else:
+                    form_error = 'About'
+                    SupportGroup_Goal_Form = SupportGroupGoalForm(instance=instance_SupportGroup)
+                    SupportGroup_Title_Form = SupportGroupTitleForm(instance=instance_SupportGroup)
+                    SupportGroup_Picture_Form = SupportGroupPictureForm(instance=instance_SupportGroup)
+                    SupportGroup_ShortDescription_Form = SupportGroupShortDescriptionForm(instance=instance_SupportGroup)
+                    SupportGroupUrlText_Form = SupportGroupUrlTextForm(instance=instance_SupportGroup)
+                    SupportGroupIsEndGoal_Form = SupportGroupIsEndGoalForm(instance=instance_SupportGroup)
+
+
+            elif form_type == 'ShortDescription':
+                SupportGroup_ShortDescription_Form = SupportGroupShortDescriptionForm(request.POST, instance=instance_SupportGroup)
+                if SupportGroup_ShortDescription_Form.is_valid():
+                    SupportGroup_ShortDescription_Form = SupportGroup_ShortDescription_Form.save()
+
+                    messages.add_message(request,messages.SUCCESS,'Short Description updated successfully.')
+
+                    return redirect('my_mobilisation_campaign_modify', url_text=url_text)
+
+                else:
+                    form_error = 'short_description'
+                    SupportGroup_Goal_Form = SupportGroupGoalForm(instance=instance_SupportGroup)
+                    SupportGroup_Title_Form = SupportGroupTitleForm(instance=instance_SupportGroup)
+                    SupportGroup_Picture_Form = SupportGroupPictureForm(instance=instance_SupportGroup)
+                    SupportGroup_About_Form = SupportGroupAboutForm(instance=instance_SupportGroup)
+                    SupportGroupUrlText_Form = SupportGroupUrlTextForm(instance=instance_SupportGroup)
+                    SupportGroupIsEndGoal_Form = SupportGroupIsEndGoalForm(instance=instance_SupportGroup)
+
+
+            elif form_type == 'url':
+                url_text = instance_SupportGroup.url_text
+                SupportGroupUrlText_Form = SupportGroupUrlTextForm(request.POST, instance=instance_SupportGroup)
+                if SupportGroupUrlText_Form.is_valid():
+                    SupportGroupUrlText_Form = SupportGroupUrlText_Form.save()
+
+                    messages.add_message(request,messages.SUCCESS,'Url text updated successfully.')
+
+                    return redirect('my_mobilisation_campaign_modify', url_text=instance_SupportGroup.url_text)
+
+                else:
+                    instance_SupportGroup.url_text = url_text
+                    instance_SupportGroup.save()
+                    form_error = 'url'
+                    SupportGroup_Goal_Form = SupportGroupGoalForm(instance=instance_SupportGroup)
+                    SupportGroup_Title_Form = SupportGroupTitleForm(instance=instance_SupportGroup)
+                    SupportGroup_Picture_Form = SupportGroupPictureForm(instance=instance_SupportGroup)
+                    SupportGroup_About_Form = SupportGroupAboutForm(instance=instance_SupportGroup)
+                    SupportGroup_ShortDescription_Form = SupportGroupShortDescriptionForm(instance=instance_SupportGroup)
+                    SupportGroupIsEndGoal_Form = SupportGroupIsEndGoalForm(instance=instance_SupportGroup)
+
+
+            elif form_type == 'EndGoal':
+                SupportGroupIsEndGoal_Form = SupportGroupIsEndGoalForm(request.POST, instance=instance_SupportGroup)
+                if SupportGroupIsEndGoal_Form.is_valid():
+                    SupportGroupIsEndGoal_Form = SupportGroupIsEndGoal_Form.save()
+
+                    messages.add_message(request,messages.SUCCESS,'Campaign status updated successfully.')
+
+                    return redirect('my_mobilisation_campaign_modify', url_text=url_text)
+
+                else:
+                    form_error = 'EndGoal'
+                    SupportGroup_Goal_Form = SupportGroupGoalForm(instance=instance_SupportGroup)
+                    SupportGroup_Title_Form = SupportGroupTitleForm(instance=instance_SupportGroup)
+                    SupportGroup_Picture_Form = SupportGroupPictureForm(instance=instance_SupportGroup)
+                    SupportGroup_About_Form = SupportGroupAboutForm(instance=instance_SupportGroup)
+                    SupportGroup_ShortDescription_Form = SupportGroupShortDescriptionForm(instance=instance_SupportGroup)
+                    SupportGroupUrlText_Form = SupportGroupUrlTextForm(instance=instance_SupportGroup)
+                    SupportGroupIsEndGoal_Form = SupportGroupIsEndGoalForm(instance=instance_SupportGroup)
+
+
+
+            else:
+                SupportGroup_Goal_Form = SupportGroupGoalForm(instance=instance_SupportGroup)
+                SupportGroup_Title_Form = SupportGroupTitleForm(instance=instance_SupportGroup)
+                SupportGroup_Picture_Form = SupportGroupPictureForm(instance=instance_SupportGroup)
+                SupportGroup_About_Form = SupportGroupAboutForm(instance=instance_SupportGroup)
+                SupportGroup_ShortDescription_Form = SupportGroupShortDescriptionForm(instance=instance_SupportGroup)
+                SupportGroupUrlText_Form = SupportGroupUrlTextForm(instance=instance_SupportGroup)
+                SupportGroupIsEndGoal_Form = SupportGroupIsEndGoalForm(instance=instance_SupportGroup)
+
+        else:
+            SupportGroup_Goal_Form = SupportGroupGoalForm(instance=instance_SupportGroup)
+            SupportGroup_Title_Form = SupportGroupTitleForm(instance=instance_SupportGroup)
+            SupportGroup_Picture_Form = SupportGroupPictureForm(instance=instance_SupportGroup)
+            SupportGroup_About_Form = SupportGroupAboutForm(instance=instance_SupportGroup)
+            SupportGroup_ShortDescription_Form = SupportGroupShortDescriptionForm(instance=instance_SupportGroup)
+            SupportGroupUrlText_Form = SupportGroupUrlTextForm(instance=instance_SupportGroup)
+            SupportGroupIsEndGoal_Form = SupportGroupIsEndGoalForm(instance=instance_SupportGroup)
+
+        
+        instance_SupportGroupMembers = SupportGroupMembers.objects.filter(support_group=instance_SupportGroup).order_by("-id")
+
+
+        current_site = get_current_site(request)
+        domain = current_site.domain
+
+        context = {
+            'instance_SupportGroup':instance_SupportGroup,
+            'instance_SupportGroupMembers':instance_SupportGroupMembers,
+
+
+            'SupportGroup_Goal_Form':SupportGroup_Goal_Form,
+            'SupportGroup_Title_Form':SupportGroup_Title_Form,
+            'SupportGroup_Picture_Form':SupportGroup_Picture_Form,
+            'SupportGroup_About_Form':SupportGroup_About_Form,
+            'SupportGroup_ShortDescription_Form':SupportGroup_ShortDescription_Form,
+            'SupportGroupUrlText_Form':SupportGroupUrlText_Form,
+            'SupportGroupIsEndGoal_Form':SupportGroupIsEndGoal_Form,
+
+
+            'Today':datetime.now().date(),
+            'domain':domain,
+            'form_error':form_error,
+        }
+
+        return render(request, 'user_template/my_mobilisation_campaign_modify.html', context)
+    except:
+        return redirect('dashboard')
+
+
+@login_required
+@end_user_required
+def my_mobilisation_campaign_supporter(request, url_text):
+    try:
+        instance_SupportGroup = SupportGroup.objects.get(url_text=url_text, group_leader=request.user)
+
+        instance_SupportGroupMembers = SupportGroupMembers.objects.filter(support_group=instance_SupportGroup, is_share=True)
+
+
+        context = {
+            'instance_SupportGroupMembers':instance_SupportGroupMembers,
+            'instance_SupportGroup':instance_SupportGroup,
+        }
+
+        return render(request, 'user_template/my_mobilisation_campaign_supporter.html', context)
+    except:
+        return redirect('dashboard')
+
+
+@login_required
+@end_user_required
+def my_mobilisation_campaign_premium_services(request, url_text):
+    try:
+        instance_SupportGroup = SupportGroup.objects.get(url_text=url_text, group_leader=request.user)
+
+
+
+        form_error = False
+        if request.method == 'POST':
+            Services_Enquiry_Form = ServicesEnquiryForm(request.POST)
+            if Services_Enquiry_Form.is_valid():
+                Services_Enquiry_Form = Services_Enquiry_Form.save()
+
+
+                try:
+                    instance_admin_email = list(User.objects.filter(user_type='Admin').values_list('email', flat=True))
+                    current_site = get_current_site(request)
+
+                    mail_subject = "Services Enquiry"
+                    message = render_to_string('email_template/services_enquiry_to_admin.html',{
+                        'domain': current_site.domain,
+                        'Services_Enquiry_Form':Services_Enquiry_Form,
+                    })
+                    email = EmailMultiAlternatives(
+                        mail_subject, message, to=instance_admin_email
+                    )
+                    email.attach_alternative(message, "text/html")
+                    email.send()
+                except:
+                    pass
+
+
+                try:
+                    current_site = get_current_site(request)
+
+                    mail_subject = "Services Enquiry Confirmation"
+                    message = render_to_string('email_template/services_enquiry_to_user.html',{
+                        'domain': current_site.domain,
+                        'Services_Enquiry_Form':Services_Enquiry_Form,
+                    })
+                    email = EmailMultiAlternatives(
+                        mail_subject, message, to=[Services_Enquiry_Form.email]
+                    )
+                    email.attach_alternative(message, "text/html")
+                    email.send()
+                except:
+                    pass
+
+
+
+                messages.add_message(request,messages.SUCCESS,'Services enquiry send successfully.')
+
+                return redirect('my_mobilisation_campaign_premium_services', url_text=url_text)
+
+            else:
+                form_error = True
+        else:
+            Services_Enquiry_Form = ServicesEnquiryForm(initial={'name':request.user.name, 'email':request.user.email, 'mobile_no':request.user.mobile_no})
+
+        context = {
+           'instance_SupportGroup':instance_SupportGroup,
+            'Services_Enquiry_Form':Services_Enquiry_Form,
+            'form_error':form_error,
+        }
+        return render(request, 'user_template/my_mobilisation_campaign_premium_services.html', context)
+    except:
+        return redirect('dashboard')
+
+
+@login_required
+@end_user_required
+def my_mobilisation_campaign_updates(request, url_text):
+    try:
+        instance_SupportGroup = SupportGroup.objects.get(url_text=url_text, group_leader=request.user)
+        instance_SupportUpdates = SupportUpdates.objects.filter(support_group=instance_SupportGroup)
+
+        if request.method == 'POST':
+            SupportUpdates_Form = SupportUpdatesForm(request.POST)
+            if SupportUpdates_Form.is_valid():
+                SupportUpdates_Form = SupportUpdates_Form.save(commit=False)
+                SupportUpdates_Form.support_group = instance_SupportGroup
+                SupportUpdates_Form.save()
+
+                messages.add_message(request,messages.SUCCESS,'Campaign Update " %s " added successfully. ' %(SupportUpdates_Form.title))
+
+                return redirect('my_mobilisation_campaign_updates', url_text=url_text)
+
+        else:
+            SupportUpdates_Form = SupportUpdatesForm()
+
+
+        context = {
+            'instance_SupportGroup':instance_SupportGroup,
+            'instance_SupportUpdates':instance_SupportUpdates,
+            'SupportUpdates_Form':SupportUpdates_Form,
+        }
+        return render(request, 'user_template/my_mobilisation_campaign_updates.html', context)
+    except:
+        return redirect('dashboard')
+
+
+@login_required
+@end_user_required
+def my_mobilisation_campaign_buzz(request, url_text):
+    try:
+        instance_SupportGroup = SupportGroup.objects.get(url_text=url_text, group_leader=request.user)
+        instance_SupportBuzz = SupportBuzz.objects.filter(support_group=instance_SupportGroup)
+
+        if request.method == 'POST':
+            SupportBuzz_Form = SupportBuzzForm(request.POST, request.FILES)
+            if SupportBuzz_Form.is_valid():
+                SupportBuzz_Form = SupportBuzz_Form.save(commit=False)
+                SupportBuzz_Form.support_group = instance_SupportGroup
+                SupportBuzz_Form.save()
+
+                messages.add_message(request,messages.SUCCESS,'Campaign Buzz " %s " added successfully. ' %(SupportBuzz_Form.title))
+
+                return redirect('my_mobilisation_campaign_buzz', url_text=url_text)
+
+        else:
+            SupportBuzz_Form = SupportBuzzForm()
+
+
+        context = {
+            'instance_SupportGroup':instance_SupportGroup,
+            'instance_SupportBuzz':instance_SupportBuzz,
+            'SupportBuzz_Form':SupportBuzz_Form,
+        }
+        return render(request, 'user_template/my_mobilisation_campaign_buzz.html', context)
+    except:
+        return redirect('dashboard')
+
+@login_required
+@end_user_required
+def my_mobilisation_campaign_comment(request, url_text):
+    try:
+        instance_SupportGroup = SupportGroup.objects.get(url_text=url_text, group_leader=request.user)
+        instance_SupportComments = SupportComments.objects.filter(support_group=instance_SupportGroup)
+
+        if request.method == 'POST':
+            enable_comment_form = SupportGroupEnableCommentForm(request.POST, instance=instance_SupportGroup)
+            if enable_comment_form.is_valid():
+                enable_comment_form.save()
+        else:
+            enable_comment_form = SupportGroupEnableCommentForm(instance=instance_SupportGroup)
+
+        context = {
+            'instance_SupportGroup':instance_SupportGroup,
+            'instance_SupportComments':instance_SupportComments,
+            'enable_comment_form':enable_comment_form,
+        }
+        return render(request, 'user_template/my_mobilisation_campaign_comment.html', context)
+    except:
+        return redirect('dashboard')
+
+
+@login_required
+@end_user_required
+def my_mobilisation_campaign_supporter_donor_info(request, url_text):
+    try:
+        instance_SupportGroup = SupportGroup.objects.get(url_text=url_text, group_leader=request.user)
+        instance_SupportGroupMembers = SupportGroupMembers.objects.filter(support_group=instance_SupportGroup)
+
+        context = {
+            'instance_SupportGroup':instance_SupportGroup,
+            'instance_SupportGroupMembers':instance_SupportGroupMembers,
+        }
+        return render(request, 'user_template/my_mobilisation_campaign_supporter_donor_info.html', context)
+    except:
+        return redirect('dashboard')
+
+
+@login_required
+@end_user_required
+def my_mobilisation_campaign_updates_delete(request, url_text, id):
+    try:
+        instance_SupportGroup = SupportGroup.objects.get(url_text=url_text, group_leader=request.user)
+        instance_SupportUpdates = SupportUpdates.objects.get(id=id, support_group=instance_SupportGroup)
+
+        instance_SupportUpdates.delete()
+
+        messages.add_message(request,messages.SUCCESS,'Campaign Update deleted successfully. ')
+
+        return redirect('my_mobilisation_campaign_updates', url_text=url_text)
+
+    except:
+        return redirect('dashboard')
+
+
+@login_required
+@end_user_required
+def my_mobilisation_campaign_buzz_delete(request, url_text, id):
+    try:
+        instance_SupportGroup = SupportGroup.objects.get(url_text=url_text, group_leader=request.user)
+        instance_SupportBuzz = SupportBuzz.objects.get(id=id, support_group=instance_SupportGroup)
+
+        instance_SupportBuzz.delete()
+        messages.add_message(request,messages.SUCCESS,'Campaign Buzz deleted successfully.')
+
+        return redirect('my_mobilisation_campaign_buzz', url_text=url_text)
+
+       
+    except:
+        return redirect('dashboard')
+
+
+#-------------------------- event -----------------------------
+
+
+@login_required
+@end_user_required
+def my_event_dashboard(request, url_text):
+    try:
+        instance_Event = Event.objects.get(url_text=url_text, user=request.user)
+
+
+        Today = datetime.now().date() 
+        completed_days = ( datetime.now().date()  - instance_Event.created_at.date() ).days
+
+        today_supporters = EventGroupMembers.objects.filter(created_at__gte=Today, event=instance_Event).count()
+        total_supporters = EventGroupMembers.objects.filter(event=instance_Event).count()
+
+        total_supporters_graph = list(EventGroupMembers.objects.filter(event=instance_Event).extra({'created_at': "date(created_at)"}).values('created_at').distinct().annotate(Count('created_at')).order_by('created_at'))
+        total_supporters_dates = [x.get('created_at') for x in total_supporters_graph]
+
+        for d in (datetime.today() - timedelta(days=x) for x in range(0,10)):
+            if d.date() not in total_supporters_dates:
+                total_supporters_graph.append({'created_at': d, 'created_at__count': 0})
+
+        today_visit = EventVisitHistory.objects.filter(created_at__gte=Today, event=instance_Event).distinct('ip','user').count()
+        total_visit = EventVisitHistory.objects.filter(event=instance_Event).distinct('ip','user').count()
+        previous_total_visit = EventVisitHistory.objects.filter(event=instance_Event).exclude(created_at__gte=Today).count()
+        distinct_total_visit_graph = EventVisitHistory.objects.distinct('ip','user')
+        total_visit_graph = list(EventVisitHistory.objects.filter(event=instance_Event, created_at__lte=datetime.today(), created_at__gt=datetime.today()-timedelta(days=10)).extra({'created_at': "date(created_at)"}).values('created_at').distinct().annotate(Count('created_at')).order_by('created_at').filter(id__in=distinct_total_visit_graph))
+        dates = [x.get('created_at') for x in total_visit_graph]
+
+        for d in (datetime.today() - timedelta(days=x) for x in range(0,10)):
+            if d.date() not in dates:
+                total_visit_graph.append({'created_at': d, 'created_at__count': 0})
+
+
+        facebook_total_supporters = EventGroupMembers.objects.filter(event=instance_Event, source__icontains='facebook').count()
+        twitter_total_supporters = EventGroupMembers.objects.filter(event=instance_Event, source__icontains='twitter').count()
+        whatsapp_total_supporters = EventGroupMembers.objects.filter(event=instance_Event, source__icontains='whatsapp').count()
+
+        facebook_total_visit = EventVisitHistory.objects.filter(event=instance_Event, source__icontains='facebook').distinct('ip','user').count()
+        twitter_total_visit = EventVisitHistory.objects.filter(event=instance_Event, source__icontains='twitter').distinct('ip','user').count()
+        whatsapp_total_visit = EventVisitHistory.objects.filter(event=instance_Event, source__icontains='whatsapp').distinct('ip','user').count()
+
+
+        try:
+            today_increases = round((today_visit / ( previous_total_visit - today_visit )) * 100, 2)
+        except ZeroDivisionError:
+            today_increases = today_visit
+
+        context = {
+        'today_supporters':today_supporters,
+        'total_supporters':total_supporters,
+        'total_supporters_graph':total_supporters_graph,
+
+        'today_visit':today_visit,
+        'total_visit':total_visit,
+        'total_visit_graph':total_visit_graph,
+
+        'today_increases':today_increases,
+
+        'instance_Event':instance_Event,
+
+        'facebook_total_supporters':facebook_total_supporters,
+        'twitter_total_supporters':twitter_total_supporters,
+        'whatsapp_total_supporters':whatsapp_total_supporters,
+
+        'facebook_total_visit':facebook_total_visit,
+        'twitter_total_visit':twitter_total_visit,
+        'whatsapp_total_visit':whatsapp_total_visit,
+
+        'completed_days':completed_days,
+
+        }
+
+        return render(request, 'user_template/my_event_dashboard.html', context)
+    except:
+        return redirect('dashboard')
+
+
+@login_required
+@end_user_required
+def my_event_campaign_modify(request, url_text):
+    try:
+        instance_Event = Event.objects.get(url_text=url_text, user=request.user)
+        form_error = False
+
+        if request.method == "POST":
+            form_type = request.POST.get('form_type', None)
+
+            if form_type == 'Title':
+                Event_Title_Form = EventTitleForm(request.POST, instance=instance_Event)
+                if Event_Title_Form.is_valid():
+                    Event_Title_Form = Event_Title_Form.save()
+
+                    messages.add_message(request,messages.SUCCESS,'Title updated successfully.')
+
+                    return redirect('my_event_campaign_modify', url_text=url_text)
+
+                else:
+                    form_error = 'Title'
+                    Event_Picture_Form = EventPictureForm(instance=instance_Event)
+                    Event_About_Form = EventAboutForm(instance=instance_Event)
+                    Event_Place_Form = EventPlaceForm(instance=instance_Event)
+                    Event_Date_Form = EventDateForm(instance=instance_Event)
+                    EventIsEndGoal_Form = EventIsEndGoalForm(instance=instance_Event)
+                    EventUrlText_Form = EventUrlTextForm(instance=instance_Event)
+
+
+
+            elif form_type == 'Picture':
+                Event_Picture_Form = EventPictureForm(request.POST, request.FILES, instance=instance_Event)
+                if Event_Picture_Form.is_valid():
+                    Event_Picture_Form = Event_Picture_Form.save()
+
+                    messages.add_message(request,messages.SUCCESS,'Picture updated successfully.')
+
+                    return redirect('my_event_campaign_modify', url_text=url_text)
+
+                else:
+                    form_error = 'Picture'
+                    Event_Title_Form = EventTitleForm(instance=instance_Event)
+                    Event_About_Form = EventAboutForm(instance=instance_Event)
+                    Event_Place_Form = EventPlaceForm(instance=instance_Event)
+                    Event_Date_Form = EventDateForm(instance=instance_Event)
+                    EventIsEndGoal_Form = EventIsEndGoalForm(instance=instance_Event)
+                    EventUrlText_Form = EventUrlTextForm(instance=instance_Event)
+
+
+
+
+            elif form_type == 'About':
+                Event_About_Form = EventAboutForm(request.POST, instance=instance_Event)
+                if Event_About_Form.is_valid():
+                    Event_About_Form = Event_About_Form.save()
+
+                    messages.add_message(request,messages.SUCCESS,'About updated successfully.')
+
+                    return redirect('my_event_campaign_modify', url_text=url_text)
+
+                else:
+                    form_error = 'About'
+                    Event_Title_Form = EventTitleForm(instance=instance_Event)
+                    Event_Picture_Form = EventPictureForm(instance=instance_Event)
+                    Event_Place_Form = EventPlaceForm(instance=instance_Event)
+                    Event_Date_Form = EventDateForm(instance=instance_Event)
+                    EventIsEndGoal_Form = EventIsEndGoalForm(instance=instance_Event)
+                    EventUrlText_Form = EventUrlTextForm(instance=instance_Event)
+
+
+            if form_type == 'Location':
+                Event_Place_Form = EventPlaceForm(request.POST, instance=instance_Event)
+                if Event_Place_Form.is_valid():
+                    Event_Place_Form = Event_Place_Form.save()
+
+                    messages.add_message(request,messages.SUCCESS,'Location updated successfully.')
+
+                    return redirect('my_event_campaign_modify', url_text=url_text)
+
+                else:
+                    form_error = 'Location'
+                    Event_Title_Form = EventTitleForm(instance=instance_Event)
+                    Event_Picture_Form = EventPictureForm(instance=instance_Event)
+                    Event_About_Form = EventAboutForm(instance=instance_Event)
+                    Event_Date_Form = EventDateForm(instance=instance_Event)
+                    EventIsEndGoal_Form = EventIsEndGoalForm(instance=instance_Event)
+                    EventUrlText_Form = EventUrlTextForm(instance=instance_Event)
+
+
+            if form_type == 'Date':
+                Event_Date_Form = EventDateForm(request.POST, instance=instance_Event)
+                if Event_Date_Form.is_valid():
+                    Event_Date_Form = Event_Date_Form.save()
+
+                    messages.add_message(request,messages.SUCCESS,'Date updated successfully.')
+
+                    return redirect('my_event_campaign_modify', url_text=url_text)
+
+                else:
+                    form_error = 'Date'
+                    Event_Title_Form = EventTitleForm(instance=instance_Event)
+                    Event_Picture_Form = EventPictureForm(instance=instance_Event)
+                    Event_About_Form = EventAboutForm(instance=instance_Event)
+                    Event_Place_Form = EventPlaceForm(instance=instance_Event)
+                    EventIsEndGoal_Form = EventIsEndGoalForm(instance=instance_Event)
+                    EventUrlText_Form = EventUrlTextForm(instance=instance_Event)
+
+
+            if form_type == 'EndGoal':
+                EventIsEndGoal_Form = EventIsEndGoalForm(request.POST, instance=instance_Event)
+                if EventIsEndGoal_Form.is_valid():
+                    EventIsEndGoal_Form = EventIsEndGoal_Form.save()
+
+                    messages.add_message(request,messages.SUCCESS,'Event status updated successfully.')
+
+                    return redirect('my_event_campaign_modify', url_text=url_text)
+
+                else:
+                    form_error = 'EndGoal'
+                    Event_Title_Form = EventTitleForm(instance=instance_Event)
+                    Event_Picture_Form = EventPictureForm(instance=instance_Event)
+                    Event_About_Form = EventAboutForm(instance=instance_Event)
+                    Event_Place_Form = EventPlaceForm(instance=instance_Event)
+                    Event_Date_Form = EventDateForm(instance=instance_Event)
+                    EventUrlText_Form = EventUrlTextForm(instance=instance_Event)
+
+            if form_type == 'url':
+                url_text = instance_Event.url_text
+                EventUrlText_Form = EventUrlTextForm(request.POST, instance=instance_Event)
+                if EventUrlText_Form.is_valid():
+                    EventUrlText_Form = EventUrlText_Form.save()
+
+                    messages.add_message(request,messages.SUCCESS,'Url text successfully.')
+
+                    return redirect('my_event_campaign_modify', url_text=url_text)
+
+                else:
+                    form_error = 'url'
+                    instance_Event.url_text = url_text
+                    instance_Event.save()
+                    Event_Title_Form = EventTitleForm(instance=instance_Event)
+                    Event_Picture_Form = EventPictureForm(instance=instance_Event)
+                    Event_About_Form = EventAboutForm(instance=instance_Event)
+                    Event_Place_Form = EventPlaceForm(instance=instance_Event)
+                    Event_Date_Form = EventDateForm(instance=instance_Event)
+                    EventIsEndGoal_Form = EventIsEndGoalForm(instance=instance_Event)
+
+            else:
+                Event_Title_Form = EventTitleForm(instance=instance_Event)
+                Event_Picture_Form = EventPictureForm(instance=instance_Event)
+                Event_About_Form = EventAboutForm(instance=instance_Event)
+                Event_Place_Form = EventPlaceForm(instance=instance_Event)
+                Event_Date_Form = EventDateForm(instance=instance_Event)
+                EventIsEndGoal_Form = EventIsEndGoalForm(instance=instance_Event)
+                EventUrlText_Form = EventUrlTextForm(instance=instance_Event)
+
+
+        else:
+            Event_Title_Form = EventTitleForm(instance=instance_Event)
+            Event_Picture_Form = EventPictureForm(instance=instance_Event)
+            Event_About_Form = EventAboutForm(instance=instance_Event)
+            Event_Place_Form = EventPlaceForm(instance=instance_Event)
+            Event_Date_Form = EventDateForm(instance=instance_Event)
+            EventIsEndGoal_Form = EventIsEndGoalForm(instance=instance_Event)
+            EventUrlText_Form = EventUrlTextForm(instance=instance_Event)
+
+
+        
+        instance_EventGroupMembers = EventGroupMembers.objects.filter(event=instance_Event).order_by("-id")
+
+
+        current_site = get_current_site(request)
+        domain = current_site.domain
+
+        context = {
+            'instance_Event':instance_Event,
+            'instance_EventGroupMembers':instance_EventGroupMembers,
+
+            'Event_Title_Form':Event_Title_Form,
+            'Event_Picture_Form':Event_Picture_Form,
+            'Event_About_Form':Event_About_Form,
+            'Event_Place_Form':Event_Place_Form,
+            'Event_Date_Form':Event_Date_Form,
+            'EventIsEndGoal_Form':EventIsEndGoal_Form,
+            'EventUrlText_Form':EventUrlText_Form,
+
+            'Today':datetime.now().date(),
+            'domain':domain,
+
+            'form_error':form_error,
+        }
+        
+        return render(request, 'user_template/my_event_campaign_modify.html', context)
+    except:
+        return redirect('dashboard')
+
+
+@login_required
+@end_user_required
+def my_event_campaign_supporter(request, url_text):
+    try:
+        instance_Event = Event.objects.get(url_text=url_text, user=request.user)
+
+        instance_EventGroupMembers = EventGroupMembers.objects.filter(event=instance_Event, is_share=True)
+        context = {
+            'instance_EventGroupMembers':instance_EventGroupMembers,
+            'instance_Event':instance_Event,
+        }
+
+        return render(request, 'user_template/my_event_campaign_supporter.html', context)
+    except:
+        return redirect('dashboard')
+
+
+@login_required
+@end_user_required
+def my_event_campaign_premium_services(request, url_text):
+    try:
+        instance_Event = Event.objects.get(url_text=url_text, user=request.user)
+
+
+        form_error = False
+        if request.method == 'POST':
+            Services_Enquiry_Form = ServicesEnquiryForm(request.POST)
+            if Services_Enquiry_Form.is_valid():
+                Services_Enquiry_Form = Services_Enquiry_Form.save()
+
+
+                try:
+                    instance_admin_email = list(User.objects.filter(user_type='Admin').values_list('email', flat=True))
+                    current_site = get_current_site(request)
+
+                    mail_subject = "Services Enquiry"
+                    message = render_to_string('email_template/services_enquiry_to_admin.html',{
+                        'domain': current_site.domain,
+                        'Services_Enquiry_Form':Services_Enquiry_Form,
+                    })
+                    email = EmailMultiAlternatives(
+                        mail_subject, message, to=instance_admin_email
+                    )
+                    email.attach_alternative(message, "text/html")
+                    email.send()
+                except:
+                    pass
+
+
+                try:
+                    current_site = get_current_site(request)
+
+                    mail_subject = "Services Enquiry Confirmation"
+                    message = render_to_string('email_template/services_enquiry_to_user.html',{
+                        'domain': current_site.domain,
+                        'Services_Enquiry_Form':Services_Enquiry_Form,
+                    })
+                    email = EmailMultiAlternatives(
+                        mail_subject, message, to=[Services_Enquiry_Form.email]
+                    )
+                    email.attach_alternative(message, "text/html")
+                    email.send()
+                except:
+                    pass
+
+
+
+                messages.add_message(request,messages.SUCCESS,'Services enquiry send successfully.')
+
+                return redirect('my_event_campaign_premium_services', url_text=url_text)
+
+            else:
+                form_error = True
+        else:
+            Services_Enquiry_Form = ServicesEnquiryForm(initial={'name':request.user.name, 'email':request.user.email, 'mobile_no':request.user.mobile_no})
+
+        context = {
+            'instance_Event':instance_Event,
+            'Services_Enquiry_Form':Services_Enquiry_Form,
+            'form_error':form_error,
+        }
+        return render(request, 'user_template/my_event_campaign_premium_services.html', context)
+    except:
+        return redirect('dashboard')
+
+
+@login_required
+@end_user_required
+def my_event_campaign_updates(request, url_text):
+    try:
+        instance_Event = Event.objects.get(url_text=url_text, user=request.user)
+        instance_EventUpdates = EventUpdates.objects.filter(event=instance_Event)
+
+        if request.method == 'POST':
+            EventUpdates_Form = EventUpdatesForm(request.POST)
+            if EventUpdates_Form.is_valid():
+                EventUpdates_Form = EventUpdates_Form.save(commit=False)
+                EventUpdates_Form.event = instance_Event
+                EventUpdates_Form.save()
+
+                messages.add_message(request,messages.SUCCESS,'Event Update " %s " added successfully. ' %(EventUpdates_Form.title))
+
+                return redirect('my_event_campaign_updates', url_text=url_text)
+
+        else:
+            EventUpdates_Form = EventUpdatesForm()
+
+
+        context = {
+            'instance_Event':instance_Event,
+            'instance_EventUpdates':instance_EventUpdates,
+            'EventUpdates_Form':EventUpdates_Form,
+        }
+        return render(request, 'user_template/my_event_campaign_updates.html', context)
+    except:
+        return redirect('dashboard')
+
+
+@login_required
+@end_user_required
+def my_event_campaign_buzz(request, url_text):
+    try:
+        instance_Event = Event.objects.get(url_text=url_text, user=request.user)
+        instance_EventBuzz = EventBuzz.objects.filter(event=instance_Event)
+
+        if request.method == 'POST':
+            EventBuzz_Form = EventBuzzForm(request.POST, request.FILES)
+            if EventBuzz_Form.is_valid():
+                EventBuzz_Form = EventBuzz_Form.save(commit=False)
+                EventBuzz_Form.event = instance_Event
+                EventBuzz_Form.save()
+
+                messages.add_message(request,messages.SUCCESS,'Campaign Buzz " %s " added successfully. ' %(EventBuzz_Form.title))
+
+                return redirect('my_event_campaign_buzz', url_text=url_text)
+
+        else:
+            EventBuzz_Form = EventBuzzForm()
+
+
+        context = {
+            'instance_Event':instance_Event,
+            'instance_EventBuzz':instance_EventBuzz,
+            'EventBuzz_Form':EventBuzz_Form,
+        }
+        return render(request, 'user_template/my_event_campaign_buzz.html', context)
+    except:
+        return redirect('dashboard')
+
+
+@login_required
+@end_user_required
+def my_event_campaign_comment(request, url_text):
+    # try:
+        instance_Event = Event.objects.get(url_text=url_text, user=request.user)
+        instance_EventComments = EventComments.objects.filter(event=instance_Event)
+
+        if request.method == 'POST':
+            enable_comment_form = EventEnableCommentForm(request.POST, instance=instance_Event)
+            if enable_comment_form.is_valid():
+                enable_comment_form.save()
+        else:
+            enable_comment_form = EventEnableCommentForm(instance=instance_Event)
+
+        context = {
+            'instance_Event':instance_Event,
+            'instance_EventComments':instance_EventComments,
+            'enable_comment_form':enable_comment_form,
+        }
+        return render(request, 'user_template/my_event_campaign_comment.html', context)
+    # except:
+    #     return redirect('dashboard')
+
+@login_required
+@end_user_required
+def my_event_campaign_supporter_donor_info(request, url_text):
+    try:
+        instance_Event = Event.objects.get(url_text=url_text, user=request.user)
+        instance_EventGroupMembers = EventGroupMembers.objects.filter(event=instance_Event)
+
+        context = {
+            'instance_Event':instance_Event,
+            'instance_EventGroupMembers':instance_EventGroupMembers,
+        }
+        return render(request, 'user_template/my_event_campaign_supporter_donor_info.html', context)
+    except:
+        return redirect('dashboard')
+
+
+
+@login_required
+@end_user_required
+def my_event_campaign_updates_delete(request, url_text, id):
+    try:
+        instance_Event = Event.objects.get(url_text=url_text, user=request.user)
+        instance_EventUpdates = EventUpdates.objects.get(id=id, event=instance_Event)
+
+        instance_EventUpdates.delete()
+
+        messages.add_message(request,messages.SUCCESS,'Event Update deleted successfully. ')
+
+        return redirect('my_event_campaign_updates', url_text=url_text)
+
+    except:
+        return redirect('dashboard')
+
+
+@login_required
+@end_user_required
+def my_event_campaign_buzz_delete(request, url_text, id):
+    try:
+        instance_Event = Event.objects.get(url_text=url_text, user=request.user)
+        instance_EventBuzz = EventBuzz.objects.get(id=id, event=instance_Event)
+
+        instance_EventBuzz.delete()
+        messages.add_message(request,messages.SUCCESS,'Event Buzz deleted successfully.')
+
+        return redirect('my_event_campaign_buzz', url_text=url_text)
+
+       
+    except:
+        return redirect('dashboard')
+
+
+#-------------------------- mix code -------------------------------#
+
+@login_required
+@end_user_required
+def my_fundraiser_campaign_custome_note(request, url_text):
+    try:
+        instance_CampaignFundRaiser = CampaignFundRaiser.objects.get(url_text=url_text, user=request.user)
+
+        if request.method == 'POST':
+            CustomeNoteForm = CampaignFundRaiserCustomeNoteForm(request.POST, instance=instance_CampaignFundRaiser)
+            if CustomeNoteForm.is_valid():
+                CustomeNoteForm.save()
+
+                messages.add_message(request,messages.SUCCESS,'Custom Note updated successfully.')
+
+                return redirect('my_fundraiser_campaign_custome_note', url_text=url_text)
+
+        else:
+            CustomeNoteForm = CampaignFundRaiserCustomeNoteForm(instance=instance_CampaignFundRaiser)
+
+        current_site = get_current_site(request)
+        context = {
+            'instance_CampaignFundRaiser':instance_CampaignFundRaiser,
+            'CustomeNoteForm':CustomeNoteForm,
+            'domain': current_site.domain,
+        }
+        return render(request, 'user_template/my_fundraiser_campaign_custome_note.html', context)
+    except:
+        return redirect('dashboard')
+
+@login_required
+@end_user_required
+def my_mobilisation_campaign_custome_note(request, url_text):
+    try:
+        instance_SupportGroup = SupportGroup.objects.get(url_text=url_text, group_leader=request.user)
+
+        if request.method == 'POST':
+            CustomeNoteForm = SupportGroupCustomeNoteForm(request.POST, instance=instance_SupportGroup)
+            if CustomeNoteForm.is_valid():
+                CustomeNoteForm.save()
+
+            messages.add_message(request,messages.SUCCESS,'Custom Note updated successfully.')
+
+            return redirect('my_mobilisation_campaign_custome_note', url_text=url_text)
+
+        else:
+            CustomeNoteForm = SupportGroupCustomeNoteForm(instance=instance_SupportGroup)
+
+        current_site = get_current_site(request)
+        context = {
+            'instance_SupportGroup':instance_SupportGroup,
+            'CustomeNoteForm':CustomeNoteForm,
+            'domain': current_site.domain,
+        }
+        return render(request, 'user_template/my_mobilisation_campaign_custome_note.html', context)
+    except:
+        return redirect('dashboard')
+
+@login_required
+@end_user_required
+def my_event_campaign_custome_note(request, url_text):
+    try:
+        instance_Event = Event.objects.get(url_text=url_text, user=request.user)
+
+        if request.method == 'POST':
+            CustomeNoteForm = EventCustomeNoteForm(request.POST, instance=instance_Event)
+            if CustomeNoteForm.is_valid():
+                CustomeNoteForm.save()
+
+                messages.add_message(request,messages.SUCCESS,'Custom Note updated successfully.')
+
+                return redirect('my_event_campaign_custome_note', url_text=url_text)
+
+        else:
+            CustomeNoteForm = EventCustomeNoteForm(instance=instance_Event)
+
+        current_site = get_current_site(request)
+        context = {
+            'instance_Event':instance_Event,
+            'CustomeNoteForm':CustomeNoteForm,
+            'domain': current_site.domain,
+        }
+        return render(request, 'user_template/my_event_campaign_custome_note.html', context)
+    except:
+        return redirect('dashboard')
+
+
+@login_required
+@end_user_required
+def my_fundraiser_campaign_supporter_reminder(request, id):
+    try:
+        instance_CampaignDoners = PotentialCampaignDoners.objects.get(id=id)
+
+        message = None
+        if request.method == 'POST':
+            message = request.POST.get('message', None)
+
+        current_site = get_current_site(request)
+        mail_subject = 'Thank you for supporting us.'
+        message = render_to_string('email_template/potential_donor_email.html', {
+            'domain': current_site.domain,
+            'instance_CampaignDoners':instance_CampaignDoners,
+            'message':message,
+        })
+        email = EmailMultiAlternatives(
+                            mail_subject, message, to=[instance_CampaignDoners.email]
+            )
+        email.attach_alternative(message, "text/html")
+        email.send()
+
+        instance_CampaignDoners.sent = instance_CampaignDoners.sent + 1
+        instance_CampaignDoners.save()
+
+        return redirect('my_fundraiser_campaign_supporter', url_text=instance_CampaignDoners.campaign_fund_raiser.url_text)
+    except:
+        return redirect('dashboard')
+
+
+
+
+
+@login_required
+@end_user_required
+def my_mobilisation_campaign_supporter_reminder(request, id):
+    try:
+        instance_SupportGroupMembers = SupportGroupMembers.objects.get(id=id)
+
+        current_site = get_current_site(request)
+        mail_subject = 'Thank you for supporting us.'
+        message = render_to_string('email_template/my_mobilisation_campaign_supporter_reminder_email.html', {
+            'domain': current_site.domain,
+            'instance_SupportGroupMembers':instance_SupportGroupMembers,
+        })
+        email = EmailMultiAlternatives(
+                            mail_subject, message, to=[instance_SupportGroupMembers.email]
+            )
+        email.attach_alternative(message, "text/html")
+        email.send()
+
+        return redirect('my_mobilisation_campaign_supporter', url_text=instance_SupportGroupMembers.support_group.url_text)
+    except:
+        return redirect('dashboard')
+
+
+@login_required
+@end_user_required
+def my_event_campaign_supporter_reminder(request, id):
+    try:
+        instance_EventGroupMembers = EventGroupMembers.objects.get(id=id)
+
+        current_site = get_current_site(request)
+        mail_subject = 'Thank you for supporting us.'
+        message = render_to_string('email_template/my_event_campaign_supporter_reminder_email.html', {
+            'domain': current_site.domain,
+            'instance_EventGroupMembers':instance_EventGroupMembers,
+        })
+        email = EmailMultiAlternatives(
+                            mail_subject, message, to=[instance_EventGroupMembers.email]
+            )
+        email.attach_alternative(message, "text/html")
+        email.send()
+
+        return redirect('my_event_campaign_supporter', url_text=instance_EventGroupMembers.event.url_text)
+    except:
+        return redirect('dashboard')

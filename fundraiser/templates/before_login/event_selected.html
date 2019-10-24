@@ -83,7 +83,7 @@
                       {% endif %}
                   </div>
                     <div class="CDShareBtnDiv" style="justify-content: flex-start;">
-                      <a href="https://www.facebook.com/sharer/sharer.php?u={% if request.is_secure %}https{% else %}http{% endif %}://{{domain}}{{request.path}}" target="_blank">
+                      <a href="https://www.facebook.com/sharer/sharer.php?u={% if request.is_secure %}https{% else %}http{% endif %}://{{domain}}{{request.path}}?source=facebook" target="_blank">
                         <p class="CDShareBtnFB"> <svg aria-hidden="true" data-prefix="fab" data-icon="facebook-f"
                                 class="svg-inline--fa fa-facebook-f fa-w-9 " role="img"
                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 264 512">
@@ -93,7 +93,7 @@
                             </svg></p>
                           </a>
 
-                        <a href="https://twitter.com/intent/tweet?text={{ instance_Event.name }} {% if request.is_secure %}https{% else %}http{% endif %}://{{domain}}{{request.path}}" target="_blank">
+                        <a href="https://twitter.com/intent/tweet?text={{ instance_Event.name }} {% if request.is_secure %}https{% else %}http{% endif %}://{{domain}}{{request.path}}?source=twitter" target="_blank">
                         <p class="CDShareBtnTW"> <svg aria-hidden="true" data-prefix="fab" data-icon="twitter"
                                 class="svg-inline--fa fa-twitter fa-w-16 " role="img" xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 512 512">
@@ -104,7 +104,7 @@
                           </p>
                           </a>
 
-                        <a href="https://api.whatsapp.com/send?text={% if request.is_secure %}https{% else %}http{% endif %}://{{domain}}{{request.path}}" data-action="share/whatsapp/share" target="_blank">
+                        <a href="https://api.whatsapp.com/send?text={% if request.is_secure %}https{% else %}http{% endif %}://{{domain}}{{request.path}}?source=whatsapp" data-action="share/whatsapp/share" target="_blank">
                         <p class="CDShareBtnWH"> <svg aria-hidden="true" data-prefix="fab" data-icon="whatsapp"
                                 class="svg-inline--fa fa-whatsapp fa-w-14 " role="img"
                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
@@ -251,7 +251,7 @@
                             </div>
                             <div class="CDBtnsDivNIVRight">
                                 <div class="CDShareBtnDiv">
-                                  <a href="https://www.facebook.com/sharer/sharer.php?u={% if request.is_secure %}https{% else %}http{% endif %}://{{domain}}{{request.path}}" target="_blank">
+                                  <a href="https://www.facebook.com/sharer/sharer.php?u={% if request.is_secure %}https{% else %}http{% endif %}://{{domain}}{{request.path}}?source=facebook" target="_blank">
                                     <p class="CDShareBtnFB"> <svg aria-hidden="true" data-prefix="fab"
                                             data-icon="facebook-f" class="svg-inline--fa fa-facebook-f fa-w-9 "
                                             role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 264 512">
@@ -261,7 +261,7 @@
                                         </svg></p>
                                       </a>
 
-                                      <a href="https://twitter.com/intent/tweet?text={{ instance_Event.name }} {% if request.is_secure %}https{% else %}http{% endif %}://{{domain}}{{request.path}}" target="_blank">
+                                      <a href="https://twitter.com/intent/tweet?text={{ instance_Event.name }} {% if request.is_secure %}https{% else %}http{% endif %}://{{domain}}{{request.path}}?source=twitter" target="_blank">
                                     <p class="CDShareBtnTW"> <svg aria-hidden="true" data-prefix="fab"
                                             data-icon="twitter" class="svg-inline--fa fa-twitter fa-w-16 " role="img"
                                             xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
@@ -271,7 +271,7 @@
                                         </svg></p>
                                     </a>
 
-                                    <a href="https://api.whatsapp.com/send?text={% if request.is_secure %}https{% else %}http{% endif %}://{{domain}}{{request.path}}" data-action="share/whatsapp/share" target="_blank">
+                                    <a href="https://api.whatsapp.com/send?text={% if request.is_secure %}https{% else %}http{% endif %}://{{domain}}{{request.path}}?source=whatsapp" data-action="share/whatsapp/share" target="_blank">
                                     <p class="CDShareBtnWH"> <svg aria-hidden="true" data-prefix="fab"
                                             data-icon="whatsapp" class="svg-inline--fa fa-whatsapp fa-w-14 " role="img"
                                             xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
@@ -311,23 +311,25 @@
                                             </path>
                                         </svg> Comments</p>
                                     <div class="CDCommentHeadingLine"></div>
-                                    {% if user.is_authenticated %}
-                                        {% if event_member or is_authorised_for_edit %}
-                                        <form method="POST">
-                                            {% csrf_token %}
-                                            <div class="CDCommentNewDiv">
+                                    {% if instance_Event.enable_comment %}
+                                      {% if user.is_authenticated %}
+                                          {% if event_member or is_authorised_for_edit or request.user.id == instance_Event.user.id %}
+                                          <form method="POST">
+                                              {% csrf_token %}
+                                              <div class="CDCommentNewDiv">
+                                              <img src="/media/{{request.user.profile}}" class="CDCommentNewImage" alt="">
+                                                  {{ Event_Comments_Form.comment }}
+                                              <button  class="CDCommentPost border-0" name="form_type" value="comment" type="submit">Post</button>
+                                              </div>
+                                          </form>
+                                          {% else %}
+                                          <div class="CDCommentNewDiv">
                                             <img src="/media/{{request.user.profile}}" class="CDCommentNewImage" alt="">
                                                 {{ Event_Comments_Form.comment }}
-                                            <button  class="CDCommentPost border-0" name="form_type" value="comment" type="submit">Post</button>
-                                            </div>
-                                        </form>
-                                        {% else %}
-                                        <div class="CDCommentNewDiv">
-                                          <img src="/media/{{request.user.profile}}" class="CDCommentNewImage" alt="">
-                                              {{ Event_Comments_Form.comment }}
-                                          <button  class="CDCommentPost border-0 GroupMemberRequired" type="button">Post</button>
-                                        </div>
-                                        {% endif %}
+                                            <button  class="CDCommentPost border-0 GroupMemberRequired" type="button">Post</button>
+                                          </div>
+                                          {% endif %}
+                                      {% endif %}
                                     {% endif %}
                                     <div id="comment_table_con">   
                                       {% if instance_EventComments|length != 0 %}
@@ -387,23 +389,25 @@
                                         </path>
                                     </svg> Comments</p>
                                 <div class="CDCommentHeadingLine"></div>
-                                {% if user.is_authenticated %}
-                                    {% if event_member or is_authorised_for_edit %}
-                                    <form method="POST">
-                                        {% csrf_token %}
-                                        <div class="CDCommentNewDiv">
+                                {% if instance_Event.enable_comment %}
+                                  {% if user.is_authenticated %}
+                                      {% if event_member or is_authorised_for_edit or request.user.id == instance_Event.user.id %}
+                                      <form method="POST">
+                                          {% csrf_token %}
+                                          <div class="CDCommentNewDiv">
+                                          <img src="/media/{{request.user.profile}}" class="CDCommentNewImage" alt="">
+                                              {{ Event_Comments_Form.comment }}
+                                          <button  class="CDCommentPost border-0" name="form_type" value="comment" type="submit">Post</button>
+                                          </div>
+                                      </form>
+                                      {% else %}
+                                      <div class="CDCommentNewDiv">
                                         <img src="/media/{{request.user.profile}}" class="CDCommentNewImage" alt="">
                                             {{ Event_Comments_Form.comment }}
-                                        <button  class="CDCommentPost border-0" name="form_type" value="comment" type="submit">Post</button>
-                                        </div>
-                                    </form>
-                                    {% else %}
-                                    <div class="CDCommentNewDiv">
-                                      <img src="/media/{{request.user.profile}}" class="CDCommentNewImage" alt="">
-                                          {{ Event_Comments_Form.comment }}
-                                      <button  class="CDCommentPost border-0 GroupMemberRequired" type="button">Post</button>
-                                    </div>
-                                    {% endif %}
+                                        <button  class="CDCommentPost border-0 GroupMemberRequired" type="button">Post</button>
+                                      </div>
+                                      {% endif %}
+                                {% endif %}
                               {% endif %}
                 <div id="comment_table_con">
                   {% if instance_EventComments|length != 0 %}   
@@ -552,7 +556,7 @@
               <table class="table text-left supporters_table display responsive nowrap">
                 <thead style="height: 0px;">
                   <tr>
-                    <td style="width: 140px;"></td>
+                    <td style="width: 99px !important;"></td>
                     <td></td>
                     <td style="width: 200px;    word-break: keep-all;"></td>
                     <td></td>
@@ -562,7 +566,7 @@
                     {% for member in instance_EventGroupMembers %}
 
                     <tr class="CDPeopleContainer">
-                      <td >
+                      <td style="width: 99px !important;">
                         <div class="CDPeopleImage">
                           <div class=" sb-avatar sb-avatar--text">
                             <div class=" sb-avatar__text">
@@ -730,16 +734,6 @@
                           {{Event_GroupMembers_Forms.state}}
                         </div>
                         <span class="error">{{Event_GroupMembers_Forms.errors.state}}</span>
-                    </div>
-                </div>
-                <div class="jss833 jss834 jss836">
-                    <p class="jss798 jss807">Country </p>
-                    <div class="jss833">
-                        <div class="jss850 jss837 jss841 jss851 jss838">
-                          <!-- <input aria-invalid="false" class="jss860 jss845" required type="text" value=""> -->
-                          {{Event_GroupMembers_Forms.country}}
-                        </div>
-                        <span class="error">{{Event_GroupMembers_Forms.errors.country}}</span>
                     </div>
                 </div>
                 <div>

@@ -1,0 +1,103 @@
+{% extends 'user_template/my_mobilisation_campaign_dashboard.html' %}
+
+{% block extra_style %}
+{% endblock %}
+
+
+{% block body %}
+<main class="main_min_heg">
+    <div class="container">
+        <div class="row mt-3 mb-3 align-items-center  position-relative">   
+          <div class="col-md-12">
+            <h5>Activity</h5>
+          </div> 
+          <div class="col-md-12">
+              <form method="POST">
+                  {% csrf_token %}
+                    <div>
+                        <label class="jss867">
+                          <span class="jss873">
+                            <span class="jss892 jss886 jss882 jss876 jss883 jss878 jss877">
+                              <span class="jss891">
+                                <span class="jss874 jss875"></span>
+                                {{enable_comment_form.enable_comment}}
+                                <!-- <input class="jss885" id="comment_id" type="checkbox" value="comment" checked=""> -->
+                              </span>
+                              <span class="jss934"></span>
+                            </span>
+                            <span class="jss881"></span>
+                          </span>
+                          <span id="comment_id_text" class="jss798 jss807 jss872">Enable comments for this campaign</span></label>
+                    </div>
+                </form>
+            </div>          
+        </div>
+        <div class="row mt-3 mb-3 align-items-center  position-relative">
+            <div class="col-md-12">
+                <h5 class="text-center">Comments ( 0 ) </h5>
+                <div class="CDCommentsDiv bg_ee" style="background: #eee"> 
+                    <div id="comment_table_con">
+                      {% if instance_SupportComments|length == 0 %}
+                        <p class="p-3 mb-0">No Comments Yet</p>
+                        {% else %}
+                      
+                        <table class="table text-left comment_table" >
+                          <thead style="height: 0px;">
+                            <tr>
+                              <td style="width: 30px;"></td>
+                              <td></td>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {% for comment in instance_EventComments %}
+                            <tr class="CDCommentsDiv" style="background: #eee">
+                              <td class="ml-auto" style="width: 30px;">
+                                <img src="/media/{{comment.comment_user.profile}}" class="CDCommentImage" alt="">
+                              </td>
+                              <td>
+                                <div class="CDCommentDetails ml-0">
+                                  <div class="CDCommentUser"><b>{{comment.comment_user.name}}</b>
+                                    <div style="color: rgb(68, 68, 68); margin-left: 20px;">
+                                        {{comment.created_at }}
+                                    </div>
+                                    <div></div>
+                                  </div>
+                                  <div class="CDCommentText">
+                                    <p class="CDCommentTextarea">
+                                        {{comment.comment}}
+                                    </p>
+                                  </div>
+                                </div>
+                              </td>
+                            </tr>
+                            {% endfor %}
+                          </tbody>
+                        </table>
+                        {% endif %}
+                      </div>
+                  </div>
+              </div>
+        </div>
+                 
+        </div>
+  </main>
+{% endblock %}
+
+
+{% block model_popup %}  
+
+{% endblock %}
+
+{% block extra_script %}
+<script>
+    $(document).ready(function() {
+        $('.comment_table').DataTable({
+          "ordering": false,
+          "info": false,
+          "searching": false,
+          "lengthChange": false,
+          "pageLength": 5
+        });
+    });
+  </script>
+{% endblock %}

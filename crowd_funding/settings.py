@@ -25,7 +25,7 @@ SECRET_KEY = 'zvh^ljm3f7^&zo_$zje=wpy69c(hchapx*%@cp-xrvhiaai%9@'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['54.93.72.190','localhost']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'fundraiser.apps.FundraiserConfig',
     'webapi.apps.WebapiConfig',
+    
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -42,6 +43,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'social_django',
     'django_social_share',
+
+    
+    
 ]
 
 MIDDLEWARE = [
@@ -70,6 +74,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'fundraiser.context_processors.all_active_campaign_category',
 
                 'social_django.context_processors.backends',
                 'social_django.context_processors.login_redirect',
@@ -99,11 +104,11 @@ WSGI_APPLICATION = 'crowd_funding.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'ourdemocracy',
-        'USER':'ourdemocracy',
-        'PASSWORD':'ourdemo12345',
-        'HOST':'localhost',
-        'PORT':'',
+        'NAME': 'crowdfunding',
+        'USER': 'crowdfunding',
+        'PASSWORD': 'aptagrim',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
@@ -163,6 +168,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 #https://docs.djangoproject.com/en/2.2/ref/contrib/auth/
 #https://docs.djangoproject.com/en/2.0/topics/auth/default/
 
+AUTHENTICATION_BACKENDS = (
+    'fundraiser.backends.EmailBackend',
+    )
+
 AUTH_USER_MODEL = 'fundraiser.User'
 
 LOGIN_URL = 'login'
@@ -189,3 +198,5 @@ EMAIL_HOST_PASSWORD = 'democracy123!'
 EMAIL_PORT = 587
 DEFAULT_FROM_EMAIL = 'ourdemocracyapp@gmail.com'
 
+
+DATA_UPLOAD_MAX_MEMORY_SIZE  = 20000000

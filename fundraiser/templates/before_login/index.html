@@ -265,7 +265,7 @@
                         {% if instance_CampaignFundRaiser|length  <= 3 %}
                                 <div class="DItemsDiv my_fund">
                                 {% for fundraiser in instance_CampaignFundRaiser %}
-                                        <a href="{% url 'campaign_selected' fundraiser.id fundraiser.title %}" class="DItemDiv position-relative">
+                                        <a href="{% url 'campaign_selected' fundraiser.url_text %}" class="DItemDiv position-relative">
                                           
                                           {% if fundraiser.end_date < today%}
                                           <div class="DItemEndedImageDiv">
@@ -319,7 +319,7 @@
                                     
                                     {% for fundraiser in instance_CampaignFundRaiser %}
                                     <li>
-                                        <a href="{% url 'campaign_selected' fundraiser.id fundraiser.title %}" class="DItemDiv" >
+                                        <a href="{% url 'campaign_selected' fundraiser.url_text %}" class="DItemDiv" >
                                           {% if fundraiser.end_date < today%}
                                           <div class="DItemEndedImageDiv">
                                             <img src="/media/{{ fundraiser.picture }}" class="DItemImage" alt="">
@@ -395,7 +395,7 @@
                         {% if instance_SupportGroup|length  <= 3 %}
                         <div class="DItemsDiv">
                             {% for supportgroup in instance_SupportGroup %}
-                            <a href="{% url 'support_group_selected' supportgroup.id supportgroup.title %}" class="DItemDiv">
+                            <a href="{% url 'support_group_selected' supportgroup.url_text %}" class="DItemDiv">
                                 <img src="/media/{{supportgroup.picture}}" class="DItemImage"
                                   alt="">
                                 <div class="DItemDetailsDiv">
@@ -433,7 +433,7 @@
 
                             {% for supportgroup in instance_SupportGroup %}
                             <li>
-                                <a href="{% url 'support_group_selected' supportgroup.id supportgroup.title %}" class="DItemDiv">
+                                <a href="{% url 'support_group_selected' supportgroup.url_text %}" class="DItemDiv">
                                   <img src="/media/{{supportgroup.picture}}" class="DItemImage"
                                     alt="">
                                   <div class="DItemDetailsDiv">
@@ -472,7 +472,7 @@
 
                               {% for supportgroup in instance_SupportGroup %}
                             <li>
-                                <a href="{% url 'support_group_selected' supportgroup.id supportgroup.title %}" class="DItemDiv">
+                                <a href="{% url 'support_group_selected' supportgroup.url_text %}" class="DItemDiv">
                                   <img src="/media/{{supportgroup.picture}}" class="DItemImage"
                                     alt="">
                                   <div class="DItemDetailsDiv">
@@ -528,7 +528,7 @@
                         {% if instance_Event|length  <= 3 %}
                         <div class="DItemsDiv">
                             {% for event in instance_Event %}
-                            <a href="{% url 'event_selected' event.id event.name %}" class="DItemDiv">
+                            <a href="{% url 'event_selected' event.url_text %}" class="DItemDiv">
                                 <img src="/media/{{event.image}}" class="DItemImage" alt="">
                                 <div class="DItemDetailsDiv">
                                   <p class="DItemTitle"> {{event.name}} </p>
@@ -573,7 +573,7 @@
 
                             {% for event in instance_Event %}
                             <li>
-                                <a href="{% url 'event_selected' event.id event.name %}" class="DItemDiv">
+                                <a href="{% url 'event_selected' event.url_text %}" class="DItemDiv">
                                   <img src="/media/{{event.image}}" class="DItemImage" alt="">
                                   <div class="DItemDetailsDiv">
                                     <p class="DItemTitle"> {{event.name}} </p>
@@ -680,9 +680,9 @@
                 <p class="jss171 jss180 jss32">Democracy Pro Bono</p>
                 <p class="jss171 jss180 jss33">In case of crisis, maybe your skillset can save a life. Join our pool of
                   contributors if you are a lawyer, journalist, counselor or even a concerned citizen who wants to be
-                  contacted in case of a crisis or a campaign.</p><button
-                  class="jss306 jss280 jss297 jss298 jss291 jss294 jss304 jss279" tabindex="0" type="button"><span
-                    class="jss281">Coming Soon</span><span class="jss325"></span></button>
+                  contacted in case of a crisis or a campaign.</p><a
+                  class="jss306 jss280 jss297 jss298 jss291 jss294 jss304 jss279" tabindex="0" href="#" style="width: 130px !important;"><span
+                    class="jss281">  Coming Soon  </span><span class="jss325"></span></a>
               </div>
             </div>
           </div>
@@ -889,14 +889,15 @@
 
         </main>
         {% endblock %}
+        {% block footer %}
         <footer>
           <div class="footer-top">
             <div class="footer-container">
               <div class="footer-row">
                 <h1>Discover</h1>
-                <p><a href="{% url 'discover' %}">Political Campaigns</a></p>
-                <p><a href="{% url 'discover' %}">Journalism Campaigns</a></p>
-                <p><a href="{% url 'discover' %}">Social Cause Campaigns</a></p>
+                {% for category in instance_active_campaign_category %}
+                <p><a href="{% url 'discover' %}">{{category.category}}</a></p>
+                {% endfor %}
               </div>
               <div class="footer-row">
                 <h1>About US</h1>
@@ -951,6 +952,7 @@
             </div>
           </div>
         </footer>
+        {% endblock %}
       </main>
     </div>
   </div>
@@ -993,6 +995,33 @@
   {% endif %}
 
   {% block extra_script %}
+  <script type="text/javascript">
+    var section = document.querySelector('.stats');
+     var hasEntered = false;
+
+     window.addEventListener('scroll', (e) => {
+ var shouldAnimate = (window.scrollY + window.innerHeight) >= section.offsetTop;
+
+ if (shouldAnimate && !hasEntered) {
+ hasEntered = true;
+
+ $('.count').each(function () {
+     $(this).prop('Counter',0).animate({
+         Counter: $(this).text()
+     }, {
+         duration: 4000,
+         easing: 'swing',
+         step: function (now) {
+             $(this).text(Math.ceil(now));
+         }
+     });
+ });
+
+
+}
+});
+     
+  </script>
   {% endblock %}
 
 <script type="text/javascript">
@@ -1099,33 +1128,7 @@
     //   }
      </script>
 
-     <script type="text/javascript">
-       var section = document.querySelector('.stats');
-        var hasEntered = false;
-
-        window.addEventListener('scroll', (e) => {
-    var shouldAnimate = (window.scrollY + window.innerHeight) >= section.offsetTop;
-
-    if (shouldAnimate && !hasEntered) {
-    hasEntered = true;
-
-    $('.count').each(function () {
-        $(this).prop('Counter',0).animate({
-            Counter: $(this).text()
-        }, {
-            duration: 4000,
-            easing: 'swing',
-            step: function (now) {
-                $(this).text(Math.ceil(now));
-            }
-        });
-    });
-
-
-  }
-});
-        
-     </script>
+     
   
 </body>
 </html>

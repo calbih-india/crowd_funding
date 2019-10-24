@@ -29,7 +29,7 @@
           <div class="jss7_c jss75_c jss377_c bg_fff ">
             <ul class="jss1148 jss1149 category_ul" role="menu">
               <li class="category_ul_head" tabindex="0" role="menuitem">Category<span class="jss1167"></span></li>
-              <li class="category_ul_list active cursor_pointer" role="menuitem">Fundraisers<span class="jss1167"></span></li>
+              <li class="category_ul_list active cursor_pointer Fundraisers_Category" role="menuitem">Fundraisers<span class="jss1167"></span></li>
               <li class="category_ul_list cursor_pointer" role="menuitem">Mobilisation Campaign</span></li>
               <li class="category_ul_list cursor_pointer" role="menuitem">Event</span></li>
             </ul>
@@ -38,7 +38,7 @@
         <div class="jss11_c filter_result">
 
             {% if title %}
-            <div class="DMainFiltersDiv">
+            <div class="DMainFiltersDiv first_setion_list">
                 {% if sub_category == None %}
                 <p class="btn btnActive"><a href="javascript:void(0);">Show All</a></p>
                 {% else %}
@@ -52,12 +52,13 @@
                     {% endif %}
                 {% endfor %}
             </div>
+            
 
             <div>Showing results for '{{title}}'</div>
             
             <div class="DItemsDiv">
                 {% for fundraiser in instance_CampaignFundRaiser %}
-                <a href="{% url 'campaign_selected' fundraiser.id fundraiser.title %}" class="DItemDiv">
+                <a href="{% url 'campaign_selected' fundraiser.url_text %}" class="DItemDiv">
                     <img src="/media/{{ fundraiser.picture }}" class="DItemImage" alt="">
                     <div class="DItemIconDiv"><img
                             src="data:image/png;base64,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"
@@ -95,7 +96,7 @@
                 {% endfor %}
            
                 {% for supportgroup in instance_SupportGroup %}
-                <a href="{% url 'support_group_selected' supportgroup.id supportgroup.title %}" class="DItemDiv">
+                <a href="{% url 'support_group_selected' supportgroup.url_text %}" class="DItemDiv">
                     <img src="/media/{{supportgroup.picture}}" class="DItemImage" alt="">
                     <div class="DItemDetailsDiv">
                     <p class="DItemTitle"> {{supportgroup.title}}</p>
@@ -121,7 +122,7 @@
                 {% endfor %}
 
                 {% for event in instance_Event %}
-                <a href="{% url 'event_selected' event.id event.name %}" class="DItemDiv">
+                <a href="{% url 'event_selected' event.url_text %}" class="DItemDiv">
                     <img src="/media/{{event.image}}" class="DItemImage" alt="">
                     <div class="DItemDetailsDiv">
                     <p class="DItemTitle"> {{event.name}}</p>
@@ -156,7 +157,72 @@
       </section>
     </div>
   </main>
-{% endblock %}        
+{% endblock %}   
+
+{% block footer %}
+        <footer>
+          <div class="footer-top">
+            <div class="footer-container">
+              <div class="footer-row first_setion_list">
+                <h1>Discover</h1>
+                {% for category in instance_active_campaign_category %}
+                <p class="btn" onclick="change_sub_category(this)">{{category.category}}</p>
+                {% endfor %}
+              </div>
+              <div class="footer-row">
+                <h1>About US</h1>
+                <p><a href="{% url 'how_it_works' %}">How It Works</a></p>
+                <p><a href="{% url 'media' %}">Media</a></p>
+                <p><a href="{% url 'services' %}">Services Offerred</a></p>
+                <p><a href="{% url 'about_us' %}">About Us</a></p>
+                <p><a href="{% url 'pricing' %}">Plans &amp; Pricing</a></p>
+              </div>
+              <div class="footer-row">
+                <h1>Support</h1>
+                <p><a href="{% url 'campaign_criteria' %}">Campaign Criteria</a></p>
+                <p><a href="{% url 'tips' %}">Campaign Tips</a></p>
+                <!-- <p><a href="{% url 'discover' %}">Contact Us</a></p> -->
+                <p><a href="{% url 'contact_us' %}">Contact Us</a></p>
+                <p><a href="{% url 'terms_conditions' %}">Terms &amp; Conditions</a></p>
+                <p><a href="{% url 'privacy_policy' %}">Privacy Policy</a></p>
+              </div>
+              <div class="footer-row">
+                <h1>Follow Us</h1><a rel="noopener noreferrer" target="_blank"
+                  href="https://www.facebook.com/OurDemocracy.in/"><svg aria-hidden="true" data-prefix="fab"
+                    data-icon="facebook" class="svg-inline--fa fa-facebook fa-w-14 " role="img"
+                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                    <path fill="currentColor"
+                      d="M448 56.7v398.5c0 13.7-11.1 24.7-24.7 24.7H309.1V306.5h58.2l8.7-67.6h-67v-43.2c0-19.6 5.4-32.9 33.5-32.9h35.8v-60.5c-6.2-.8-27.4-2.7-52.2-2.7-51.6 0-87 31.5-87 89.4v49.9h-58.4v67.6h58.4V480H24.7C11.1 480 0 468.9 0 455.3V56.7C0 43.1 11.1 32 24.7 32h398.5c13.7 0 24.8 11.1 24.8 24.7z">
+                    </path>
+                  </svg> &nbsp; Facebook</a><a rel="noopener noreferrer" target="_blank"
+                  href="https://www.instagram.com/ourdemocracy.in/"><svg aria-hidden="true" data-prefix="fab"
+                    data-icon="instagram" class="svg-inline--fa fa-instagram fa-w-14 " role="img"
+                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                    <path fill="currentColor"
+                      d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z">
+                    </path>
+                  </svg> &nbsp; Instagram</a><a rel="noopener noreferrer" target="_blank"
+                  href="https://twitter.com/ourdemocracyin"><svg aria-hidden="true" data-prefix="fab"
+                    data-icon="twitter" class="svg-inline--fa fa-twitter fa-w-16 " role="img"
+                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                    <path fill="currentColor"
+                      d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z">
+                    </path>
+                  </svg> &nbsp; Twitter</a>
+              </div>
+            </div>
+          </div>
+          <div class="footer-bottom">
+            <div class="footer-left"><a href="/">Our Democracy</a></div>
+            <div class="footer-right">
+              <div class="foot-bottom-designed" href="# ">
+                <h3 style="color: rgb(221, 221, 221); margin: 0px;"> </h3>
+                <div style="margin-left: 10px; color: rgb(196, 24, 84);"> </div>
+              </div>
+            </div>
+          </div>
+        </footer>
+        {% endblock %}
 
 {% block extra_script %}
   
@@ -176,11 +242,34 @@
  <script>
     function change_sub_category(e){
         var sub_category = $(e).text();
-        $(".DMainFiltersDiv").find('.btn').removeClass("btnActive");
+        $(".first_setion_list").find('.btn').removeClass("btnActive");
         $(e).addClass("btnActive")
-        var category = $('.category_ul li.active').text();
+
+        if ($('.Fundraisers_Category').is('.actives')){
+          
+        }
+        else{
+          $(".category_ul").find('.category_ul_list').removeClass("active");
+          $('.Fundraisers_Category').addClass("active");
+        }
+
+        
+        // var category = $('.category_ul li.active').text();
+        var category = 'Fundraisers'
         // alert("{% url 'discover' %}?category="+category+"&sub_category="+sub_category)
         $.get("{% url 'discover' %}?category="+category+"&sub_category="+sub_category, function(result){
+          $('.filter_result').html(result);                                     
+        })
+    };
+
+    function nested_sub_category(e){
+      var nested_sub_category = $(e).text();
+      var sub_category = $(".first_setion_list p.btnActive").text();
+      var category = $('.category_ul li.active ').text();
+      $(".sec_setion_list ").find('.btn').removeClass("btnActive");
+      $(e).addClass("btnActive");
+
+      $.get("{% url 'discover' %}", {"category":category, "sub_category":sub_category, "nested_sub_category":nested_sub_category}, function(result){
           $('.filter_result').html(result);                                     
         })
     };
@@ -195,7 +284,7 @@
     });
 
     function changesupportgrouppage(page){
-      var sub_category = $(".DMainFiltersDiv p.btnActive").text();
+      var sub_category = $(".first_setion_list p.btnActive").text();
       var category = $('.category_ul li.active ').text();
       $.get("{% url 'discover' %}?category="+category+"&page="+page, function(result){
           $('.filter_result').html(result);                                     
@@ -203,7 +292,7 @@
     };
 
     function changefundraiserpage(page){
-      var sub_category = $(".DMainFiltersDiv p.btnActive").text();
+      var sub_category = $(".first_setion_list p.btnActive").text();
       var category = $('.category_ul li.active ').text();
       $.get("{% url 'discover' %}?category="+category+"&sub_category="+sub_category+"&page="+page, function(result){
           $('.filter_result').html(result);                                     

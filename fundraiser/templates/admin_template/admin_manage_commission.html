@@ -1,0 +1,100 @@
+{% extends 'admin_template/admin_dashboard.html' %}
+
+{% block title %}
+<title>Crowd Funding Admin | Modify Cahfree credential </title>
+{% endblock %}
+
+
+{% block meta_tag %}
+<meta name="description" content="" />
+<meta property="og:title" content="" />
+<meta property="og:url" content="web page path" />
+<meta property="og:description" content="">
+<meta property="og:image" content="image PATH">
+{% endblock %}
+
+{% block extra_style %}
+  <link href="/static/css/jquery-te-1.4.0.css" rel="stylesheet">
+{% endblock %}
+
+
+
+{% block body %}
+<main class="jss346 mt-4">
+    <div>
+        <div class="row align-items-center">
+            <div class="col-md-12 text-center">
+                <h4 class="mb-0">Modify Our Democracy Commission & Payment Gateway Charges </h4>
+            </div>
+        </div>
+        <div class="jss476 jss480 jss477 jss347 mt-4">
+
+            <form class="jss349 row" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="col-sm-12 col-md-12">
+                    <div class="jss550 jss551 jss553">
+                        <p class="jss515 jss524">Our Democracy Charges</p>
+                        <div class="jss550">
+                            <div class="jss567 jss554 jss558 jss568 jss555">
+                                {{Commission_Form.our_democracy_commission}}
+                            </div>
+                            <span class="error">{{Commission_Form.errors.our_democracy_commission}}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-md-12">
+                    <div class="jss550 jss551 jss553">
+                        <p class="jss515 jss524">Our Democracy GST Charges</p>
+                        <div class="jss550">
+                            <div class="jss567 jss554 jss558 jss568 jss555">
+                                {{Commission_Form.our_democracy_gst}}
+                            </div>
+                            <span class="error">{{Commission_Form.errors.our_democracy_gst}}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-md-12">
+                    <div class="jss550 jss551 jss553">
+                        <p class="jss515 jss524">Payment Gateway Charges</p>
+                        <div class="jss550">
+                            <div class="jss567 jss554 jss558 jss568 jss555">
+                                {{Commission_Form.payment_gateway_charges}}
+                            </div>
+                            <span class="error">{{Commission_Form.errors.payment_gateway_charges}}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-md-12">
+                    <div class="jss550 jss551 jss553">
+                        <p class="jss515 jss524">Payment Gateway GST Charges</p>
+                        <div class="jss550">
+                            <div class="jss567 jss554 jss558 jss568 jss555">
+                                {{Commission_Form.payment_gateway_gst}}
+                            </div>
+                            <span class="error">{{Commission_Form.errors.payment_gateway_gst}}</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="jss610 jss584 jss595 jss596 jss598 jss599 jss609 jss350" id="Commission" type="submit"><span
+                        class="jss585"> Submit</span><span class="jss636"></span></button>
+
+            </form>
+        </div>
+    </div>
+</main>
+{% endblock %}
+
+  
+
+{% block model_popup %}
+
+{% endblock %}
+
+
+{% block extra_script %}
+
+{% endblock %}

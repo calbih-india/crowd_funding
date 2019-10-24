@@ -1,0 +1,795 @@
+{% extends 'user_template/my_fundraiser_campaign_dashboard.html' %}
+{% load template_filter %}
+
+{% block extra_style %}
+{% endblock %}
+
+
+{% block body %}
+<main class="main_min_heg">
+    <!-- <form>
+     <div class="container">   
+	    <div class="d-flex justify-content-end">
+	    	<div class="tags1 react-tags-wrapper">
+	    		<div class="tagsSelected1">
+	    				<span class="tag-wrapper tag1 cursor-move" draggable="true"><a class="tagsRemove1">×</a></span>
+	    				<div class="tagInput1"><input class="tagInputField1" type="text" placeholder="Tags for people to search for.." aria-label="Tags for people to search for.." maxlength="20" value=""></div>
+	    		</div>
+	    	</div>
+	    </div> 
+      </form>-->
+      <form class="row"  method="POST">
+        {% csrf_token %}
+        <div class="col-sm-12 col-md-6">
+            <div class="row justify-content-center">
+                <div class="col-sm-12 col-md-6">
+                <div class="jss550 jss551 jss553 ">
+                  <div class="jss550">
+                    <div class="">
+                      <p class="jss798 jss807 ">Campaign Type</p>
+                      <div class="jss550 w-100">
+                        <div class="jss567 jss554 jss558 jss568 jss555 select2_con">
+                          {{CampaignFundRaiserCategory_Form.category}}
+                        </div>
+                        <span class="error ">{{CampaignFundRaiserCategory_Form.errors.title}}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-6">
+            <div class="row justify-content-center">
+            <div class="col-sm-12 col-md-6">
+                <div class="jss550 jss551 jss553 ">
+                  <div class="jss550">
+                    <div class="">
+                      <p class="jss798 jss807 ">Sub-Category</p>
+                      <div class="jss550 w-100">
+                        <div class="jss567 jss554 jss558 jss568 jss555 select2_con">
+                            {{CampaignFundRaiserCategory_Form.sub_category}}
+                        </div>
+                        <span class="error ">{{CampaignFundRaiserCategory_Form.sub_category.errors.title}}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                </div>
+              </div>
+        </div>
+        <input type="hidden" name="form_type" value="category">
+    </form>  
+      <div class="row">
+        <div class="col-sm-12">
+            <div class="jss528_c pb-0 bg_3e3e3e">
+              <p class="CDCampTitle position-relative color_fff">
+                <i class="fa fa-pencil edit_icon" data-toggle="modal" data-target="#edit_title" aria-hidden="true"></i>
+                {{ instance_CampaignFundRaiser.title }}
+              </p>
+              <div class="CDBelowTitleDiv bg_3e3e3e">
+                <div class="CDImageDiv">
+                  <div class="position-relative">
+                    <i class="fa fa-pencil edit_icon" data-toggle="modal" data-target="#edit_image" aria-hidden="true" style=""></i>
+                    <!-- <i class="fa fa-search-plus edit_icon" onclick="zoomIn()" aria-hidden="true" style="top: 35px;font-size: 20px !important;"></i>
+                    <i class="fa fa-search-minus edit_icon" onclick="zoomOut()" aria-hidden="true" style="top: 65px;    font-size: 20px !important;"></i> -->
+                    <div class="campaing_img_con">
+                        <img src="/media/{{ instance_CampaignFundRaiser.picture }}" id="campaing_img" class="CDImgInitMain" alt="">
+                    </div>
+                  </div>
+                  <p class="position-relative color_fff" style="margin: 1em 0px 0px; width: auto; ">{{ instance_CampaignFundRaiser.short_description }}
+                      <i class="fa fa-pencil edit_icon"  data-toggle="modal" data-target="#edit_short_description" aria-hidden="true"></i>
+                  </p>
+                  <p class="position-relative color_fff" style="margin: 1em 0px 1em; width: auto; ">
+                      {% if request.is_secure %}https{% else %}http{% endif %}://{{domain}}{% url 'campaign_selected' url_text=instance_CampaignFundRaiser.url_text  %}
+                  <i class="fa fa-pencil edit_icon"  data-toggle="modal" data-target="#edit_url_modal" aria-hidden="true"></i>
+                  </p>
+              </div>
+                <div class="CDValuesDiv">
+                  <div>
+                       <form class="mb-0" method="POST">
+                         {% csrf_token %}
+                          <div>
+                              <label class="jss867 mb-0">
+                                <span class="jss873">
+                                  <span class="jss892 jss886 jss882 jss876 jss883 jss878 jss877">
+                                    <span class="jss891">
+                                      <span class="jss874 jss875"></span>
+                                      {{CampaignFundRaiserIsEndGoal_Form.is_end_goal}}
+                                    </span>
+                                    <span class="jss934"></span>
+                                  </span>
+                                  <span class="jss881"></span>
+                                </span>
+                                <span id="fundraiser_end_goal_id_text" class="jss798 jss807 jss872 color_fff">Has an end goal</span></label>
+                                
+                          </div>
+                          <input type="hidden" name="form_type" value="EndGoal">
+                      </form>
+                  </div>
+                  <div class="goaldiv_contanier w-100" id="fundraiser_end_goal_div">
+                    <div class="goalDiv">
+                      <div class="CDCampGoal position-relative mt-0 color_fff">
+                        <i class="fa fa-pencil edit_icon" data-toggle="modal" data-target="#edit_goal" aria-hidden="true"></i>
+          
+                        <svg aria-hidden="true" data-prefix="fas" data-icon="rupee-sign"
+                          class="svg-inline--fa fa-rupee-sign fa-w-10 " role="img" xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 320 512" style="font-size: 1.4rem; color: #fff;">
+                          <path fill="currentColor"
+                            d="M308 96c6.627 0 12-5.373 12-12V44c0-6.627-5.373-12-12-12H12C5.373 32 0 37.373 0 44v44.748c0 6.627 5.373 12 12 12h85.28c27.308 0 48.261 9.958 60.97 27.252H12c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h158.757c-6.217 36.086-32.961 58.632-74.757 58.632H12c-6.627 0-12 5.373-12 12v53.012c0 3.349 1.4 6.546 3.861 8.818l165.052 152.356a12.001 12.001 0 0 0 8.139 3.182h82.562c10.924 0 16.166-13.408 8.139-20.818L116.871 319.906c76.499-2.34 131.144-53.395 138.318-127.906H308c6.627 0 12-5.373 12-12v-40c0-6.627-5.373-12-12-12h-58.69c-3.486-11.541-8.28-22.246-14.252-32H308z">
+                          </path>
+                        </svg> {{ instance_CampaignFundRaiser.campaigntotalamount.total_amount }}<br>
+                        <div style="font-size: 1.2rem; font-weight: normal;">raised of<b>
+                            <svg aria-hidden="true" data-prefix="fas" data-icon="rupee-sign"
+                              class="svg-inline--fa fa-rupee-sign fa-w-10 " role="img" xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 320 512" style="font-size: 1.2rem; color: #fff;">
+                              <path fill="currentColor"
+                                d="M308 96c6.627 0 12-5.373 12-12V44c0-6.627-5.373-12-12-12H12C5.373 32 0 37.373 0 44v44.748c0 6.627 5.373 12 12 12h85.28c27.308 0 48.261 9.958 60.97 27.252H12c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h158.757c-6.217 36.086-32.961 58.632-74.757 58.632H12c-6.627 0-12 5.373-12 12v53.012c0 3.349 1.4 6.546 3.861 8.818l165.052 152.356a12.001 12.001 0 0 0 8.139 3.182h82.562c10.924 0 16.166-13.408 8.139-20.818L116.871 319.906c76.499-2.34 131.144-53.395 138.318-127.906H308c6.627 0 12-5.373 12-12v-40c0-6.627-5.373-12-12-12h-58.69c-3.486-11.541-8.28-22.246-14.252-32H308z">
+                              </path>
+                            </svg> {{ instance_CampaignFundRaiser.goal }} </b> goal</div>
+                      </div>
+                    </div>
+                    <div class="CDCompletionDiv">
+                      <div class="completionLineDiv">
+                        <div class="filled color_fff" style="width: {{ instance_CampaignFundRaiser.totalfund_in_percentage}}%;"></div>
+                      </div>
+                      <p class="CDCompletionText color_fff">{{ instance_CampaignFundRaiser.totalfund_in_percentage}} %</p>
+                    </div>
+                  </div>
+                  <div class="dateDiv" style="margin-top: 5px;">
+                    <div class="CDCampEdate">
+                      <div class="jss13 color_fff"><b
+                          style="font-size: 2rem;">{{ instance_CampaignFundRaiser.campaigntotalamount.total_supporters }}</b>  Supporters
+                      </div>
+                      <div class="jss13 position-relative color_fff" style="margin-left: 20px;"><b
+                          style="font-size: 2rem;">{{ instance_CampaignFundRaiser.available_days}}</b> Days Left
+                        <i class="fa fa-pencil edit_icon" data-toggle="modal" data-target="#edit_day" aria-hidden="true"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <div class="dateDiv">
+                      <div class="headtext">
+                            <div class="icons">
+                                <svg aria-hidden="true" data-prefix="fas" data-icon="calendar-alt" class="svg-inline--fa fa-calendar-alt fa-w-14 " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" style="font-size: 20px; color: rgb(255, 255, 255);"><path fill="currentColor" d="M0 464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V192H0v272zm320-196c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12v-40zm0 128c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12v-40zM192 268c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12v-40zm0 128c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12v-40zM64 268c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12H76c-6.6 0-12-5.4-12-12v-40zm0 128c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12H76c-6.6 0-12-5.4-12-12v-40zM400 64h-48V16c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16v48H160V16c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16v48H48C21.5 64 0 85.5 0 112v48h448v-48c0-26.5-21.5-48-48-48z"></path></svg>
+                            </div>
+                            <div class="d-inline-block">
+                              <div class="w-100 position-relative d-inline-block">
+                                <input type="text" class="border-0 campEdate" readonly="" value="04/09/2019">
+                              </div>
+                            </div>
+                            <p class="goalText">Deadline</p>
+                      </div>
+                  </div> -->
+                  <div class="CDPeopleContainerSP">
+                    <div class="CDPeopleImage"
+                      style="align-items: center; width: fit-content; margin: 0px 16px 0px 0px; padding: 0px;"><img
+                        src="/media/{{instance_CampaignFundRaiser.user.profile}}" class="imgPeople2" alt="">
+                    </div>
+                    <div class="CDPeopleDetail">
+                      <p class="CDPeopleTitle color_fff" style="margin: 0px;">Campaigner</p>
+                      <p class="CDPeopleName color_fff">{{ instance_CampaignFundRaiser.user.name }}</p>
+                      {% if instance_CampaignFundRaiser.user.is_indian %}
+                      <p class="CDPeopleLocation color_fff"><svg aria-hidden="true" data-prefix="fas" data-icon="map-marker"
+                          class="svg-inline--fa fa-map-marker fa-w-12 " role="img" xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 384 512" >
+                          <path fill="currentColor"
+                            d="M172.268 501.67C26.97 291.031 0 269.413 0 192 0 85.961 85.961 0 192 0s192 85.961 192 192c0 77.413-26.97 99.031-172.268 309.67-9.535 13.774-29.93 13.773-39.464 0z">
+                          </path>
+                        </svg> India</p>
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+        
+              <div class="belowImage mb-3">
+                <div class="descriptionsDiv">
+                 <div class="CDAboutCampDiv">
+                          <p class="CDAboutTitle position-relative ">
+                            <i class="fa fa-pencil edit_icon right-0" data-toggle="modal" data-target="#edit_About_The_Campaign"
+                              aria-hidden="true"></i>
+                            About The Campaign
+                          </p>
+                          <p class="CDAboutText ">
+                            {% autoescape off %}
+                            {{ instance_CampaignFundRaiser.about|linebreaks }}
+                            {% endautoescape %}
+                          </p>
+                        </div>
+                 
+        
+                  
+                </div>
+                <div class="CDPeopleDiv mt-1">  
+                   <!-- <div class="CDPeopleMain"> -->
+                    <!-- <div class="CDPeopleContainer"
+                      style="margin-top: 0px; margin-bottom: 0px; padding: 10px 0px; border-radius: 0px; border-top: 0px;"> -->
+                      <!-- <div class="CDPeopleImage" style="margin-left: 0px; margin-right: 20px; width: auto;"><img src="/media/{{instance_CampaignFundRaiser.user.profile}}" class="imgPeople" alt="" style="width: 50px; height: 50px;"></div> -->
+                      <!-- <div class="CDPeopleDetail">
+                        <p class="CDPeopleTitle" style="margin: 0px;">Beneficiary</p>
+                        <div class="beneNameDiv">
+                          <div class="headtextben">
+                            <p class="CDCampBeneName">{{ instance_CampaignFundRaiser.user.beneficiary.name }}</p>
+                          </div>
+                        </div>
+                      </div> -->
+                    <!-- </div> -->
+                  <!-- </div>                -->
+                  <div class="CDPeopleSupporters">
+                    <p class="CDCommentHeading color_fff"><svg aria-hidden="true" data-prefix="fas" data-icon="users"
+                        class="svg-inline--fa fa-users fa-w-20 " role="img" xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 640 512">
+                        <path fill="currentColor"
+                          d="M96 224c35.3 0 64-28.7 64-64s-28.7-64-64-64-64 28.7-64 64 28.7 64 64 64zm448 0c35.3 0 64-28.7 64-64s-28.7-64-64-64-64 28.7-64 64 28.7 64 64 64zm32 32h-64c-17.6 0-33.5 7.1-45.1 18.6 40.3 22.1 68.9 62 75.1 109.4h66c17.7 0 32-14.3 32-32v-32c0-35.3-28.7-64-64-64zm-256 0c61.9 0 112-50.1 112-112S381.9 32 320 32 208 82.1 208 144s50.1 112 112 112zm76.8 32h-8.3c-20.8 10-43.9 16-68.5 16s-47.6-6-68.5-16h-8.3C179.6 288 128 339.6 128 403.2V432c0 26.5 21.5 48 48 48h288c26.5 0 48-21.5 48-48v-28.8c0-63.6-51.6-115.2-115.2-115.2zm-223.7-13.4C161.5 263.1 145.6 256 128 256H64c-35.3 0-64 28.7-64 64v32c0 17.7 14.3 32 32 32h65.9c6.3-47.4 34.9-87.3 75.2-109.4z">
+                        </path>
+                      </svg> Supporters</p>
+                    <div class="CDCommentHeadingLine"></div>
+                    <div id="supporters_table_conn">
+                      {% if instance_CampaignDoners|length != 0 %}
+                      <table class="table text-left supporters_table display responsive nowrap">
+                        <thead style="height: 0px;">
+                          <tr>
+                            <td style="width: 140px;"></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for doner in instance_CampaignDoners %}
+                          <tr class="CDPeopleContainer">
+                            <td style="width: 140px;">
+                              <div class="CDPeopleImage">
+                                <div class=" sb-avatar sb-avatar--text">
+                                  <div class=" sb-avatar__text">
+                                    <div class=" sb-avatar__text_con ">
+                                      <span class=" sb-avatar__text_con_span "><span>{{doner.short_name}}</span></span></div>
+                                  </div>
+                                </div>
+                              </div>
+                            </td>
+                            <td>
+                              <p class="CDPeopleTitle CDPeople1 w-100">
+                                {% if doner.is_hide_me %} Anonymous {% else %} {{ doner.name }} {% endif %}
+                              </p>
+                            </td>
+                            <td>
+                              <p class="CDPeopleTitle CDPeople2 width_200"><b>
+                                  <svg aria-hidden="true" data-prefix="fas" data-icon="rupee-sign"
+                                    class="svg-inline--fa fa-rupee-sign fa-w-10 " role="img" xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 320 512">
+                                    <path fill="currentColor"
+                                      d="M308 96c6.627 0 12-5.373 12-12V44c0-6.627-5.373-12-12-12H12C5.373 32 0 37.373 0 44v44.748c0 6.627 5.373 12 12 12h85.28c27.308 0 48.261 9.958 60.97 27.252H12c-6.627 0-12 5.373-12 12v40c0 6.627 5.373 12 12 12h158.757c-6.217 36.086-32.961 58.632-74.757 58.632H12c-6.627 0-12 5.373-12 12v53.012c0 3.349 1.4 6.546 3.861 8.818l165.052 152.356a12.001 12.001 0 0 0 8.139 3.182h82.562c10.924 0 16.166-13.408 8.139-20.818L116.871 319.906c76.499-2.34 131.144-53.395 138.318-127.906H308c6.627 0 12-5.373 12-12v-40c0-6.627-5.373-12-12-12h-58.69c-3.486-11.541-8.28-22.246-14.252-32H308z">
+                                    </path>
+                                  </svg> {{doner.amount}}</b>
+                              </p>
+                            </td>
+                            <td style="width: 20px;"></td>
+                          </tr>
+                          {% endfor %}
+        
+                        </tbody>
+                      </table>
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+                   
+            </div>
+        </div>
+      </div>
+    </div>
+  </main>
+{% endblock %}
+
+{% block model_popup %}
+<div class="modal fade" id="edit_title" role="dialog" aria-labelledby="edit_titleTittle" aria-hidden="false"
+  data-backdrop="static">
+  <div class="modal-dialog modal-dialog-scrollable  modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header border-0 pl-4  pb-1">
+        <h5 class="modal-title" id="edit_titleTittle">Edit Tittle </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body pt-0 pb-0">
+        <form class="jss632" method="POST">
+          {% csrf_token %}
+          <div class="jss833 jss834 jss836">
+            <p class="jss798 jss807">Edit Your Tittle</p>
+            <div class="jss833">
+              <div class="jss850 jss837 jss841 jss851 jss838 edit_title_class" id="tittle_count">
+              	<div class="jss217_goal"> <span class="result"></span>/90 </div>
+                <!-- <input aria-invalid="false" class="jss860 jss845" type="text" value=""> -->
+                <div class="jss217_goal_input">
+	                <input aria-invalid="false" class="jss860 jss845 " maxlength="90" name="title" value="{{CampaignFundRaiserTitleForm.title.value}}" id="id_title" type="text" >
+              	</div>
+                
+              </div>
+              <span class="error edit_title_error">{{CampaignFundRaiserTitleForm.errors.title}}</span>
+            </div>
+          </div>
+          <button name="form_type" value="Title" class="jss892 jss901 jss912 jss913 jss915 jss916 jss926 jss633"
+            id="edit_title_btn" type="submit">
+            <span class="jss902">Submit</span>
+            <span class="jss934"></span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="edit_image" role="dialog" aria-labelledby="edit_imageTittle" aria-hidden="false"
+  data-backdrop="static">
+  <div class="modal-dialog modal-dialog-scrollable  modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header border-0 pl-4  pb-1">
+        <h5 class="modal-title" id="edit_imageTittle">Edit Image </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body pt-0 pb-0">
+        <form class="jss632" method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="jss550 jss551 jss553">
+            <p class="jss515 jss524">Upload Image</p>
+            <div class="jss550">
+              <div class="jss567 jss554 jss558 jss568 jss555">
+                <span class="js">
+                  <span class="box">
+                    <input type="file" name="picture" onchange="Validateimgupload(this);" id="id_picture"
+                      class="inputfile inputfile-1">
+                    <label id="lblfile-1" for="id_picture"><svg xmlns="http://www.w3.org/2000/svg" width="20"
+                        height="17" viewBox="0 0 20 17">
+                        <path
+                          d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z">
+                        </path>
+                      </svg> <span>Upload Image</span></label>
+                  </span>
+                </span>
+              </div>
+              <span class="error" id="id_picture_error"></span>
+            </div>
+          </div>
+          <button name="form_type" value="Picture" class="jss892 jss901 jss912 jss913 jss915 jss916 jss926 jss633"
+            id="id_picture_btn" type="submit">
+            <span class="jss902">Submit</span>
+            <span class="jss934"></span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="edit_url_modal" role="dialog" aria-labelledby="edit_urlTittle" aria-hidden="false"
+  data-backdrop="static">
+  <div class="modal-dialog modal-dialog-scrollable  modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header border-0 pl-4  pb-1">
+        <h5 class="modal-title" id="edit_goalTittle">Edit URL </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body pt-0 pb-0">
+        <form class="jss632" method="POST">
+          {% csrf_token %}
+          <div class="jss550 jss551 jss553">
+            <p class="jss515 jss524">URL</p>
+            <div class="jss550">
+              <div class="jss567 jss554 jss558 jss568 jss555 edit_url_div">
+                {{CampaignFundRaiserUrlText_Form.url_text}}
+              </div>
+            </div>
+            <span class="error edit_url_error">{{CampaignFundRaiserUrlText_Form.errors.url_text}}</span>
+          </div>
+          <button name="form_type" value="url" class="jss892 jss901 jss912 jss913 jss915 jss916 jss926 jss633"
+            id="edit_url_btn" type="submit">
+            <span class="jss902">Submit</span>
+            <span class="jss934"></span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="edit_goal" role="dialog" aria-labelledby="edit_goalTittle" aria-hidden="false"
+  data-backdrop="static">
+  <div class="modal-dialog modal-dialog-scrollable  modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header border-0 pl-4  pb-1">
+        <h5 class="modal-title" id="edit_goalTittle">Edit Goal </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body pt-0 pb-0">
+        <form class="jss632" method="POST">
+          {% csrf_token %}
+          <div class="jss550 jss551 jss553">
+            <p class="jss515 jss524">Goal</p>
+            <div class="jss550">
+              <div class="jss567 jss554 jss558 jss568 jss555 edit_goal">
+                <!-- <input class="jss577 jss562 integer_value" type="text" value="" required="required"> -->
+                {{CampaignFundRaiserGoalForm.goal}}                
+              </div>
+            </div>
+            <span class="error edit_goal_error">{{CampaignFundRaiserGoalForm.errors.goal}}</span>
+          </div>
+          <button name="form_type" value="Goal" class="jss892 jss901 jss912 jss913 jss915 jss916 jss926 jss633"
+            id="edit_goal_btn" type="submit">
+            <span class="jss902">Submit</span>
+            <span class="jss934"></span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <div class="modal fade" id="edit_goal" role="dialog" aria-labelledby="edit_goalTittle" aria-hidden="false"
+  data-backdrop="static">
+  <div class="modal-dialog  modal-dialog-centered modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header border-0 pl-4  pb-1">
+        <h5 class="modal-title" id="edit_goalTittle">Confirm Update</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body pt-0 pb-0">
+        <form class="jss632" method="POST">
+          {% csrf_token %}
+          <div class="jss550 jss551 jss553">
+            <p class="jss515 jss524 mb-3">You can only update the " Goal " Once</p>
+            <div class="jss550">
+              <div class="jss567 jss554 jss558 jss568 jss555 edit_goal">
+                  <input class="jss577 jss562 " type="text" value="" required="required" placeholder="Reason for change">
+                
+              </div>
+            </div>
+            <span class="error edit_goal_error">{{CampaignFundRaiserGoalForm.errors.goal}}</span>
+          </div>
+          <div>
+            
+          </div>
+          <div name="form_type" class="d-flex align-items-center justify-content-between">
+              <button type="button" data-dismiss="modal" aria-label="Close" class="a_222222 btn_none">Cancel</button>
+              <button type="submit" class="colr_yellow btn_none">ok</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<div class="modal fade" id="edit_About_The_Campaign" role="dialog" aria-labelledby="edit_About_The_CampaignTittle"
+  aria-hidden="false" data-backdrop="static">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg  modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header pl-4  pb-1">
+        <h5 class="modal-title" id="edit_About_The_CampaignTittle">Edit About the Campaign </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body pt-0 pb-0">
+        <form class="jss632" method="POST">
+          {% csrf_token %}
+          <div class="jss550 jss551 jss553">
+            <div class="jss550">
+              <div class="jss567 jss554 jss568 jss555" id="id_about_cam">
+                <textarea class="jss577 jss562 jqte-test w-100" id="id_about" name="about"
+                  value="{{CampaignFundRaiserAboutForm.about.value}}">{{CampaignFundRaiserAboutForm.about.value}}</textarea>
+
+              </div>
+            </div>
+            <span class="error" id="id_about_error"></span>
+          </div>
+          <button name="form_type" value="About" class="jss892 jss901 jss912 jss913 jss915 jss916 jss926 jss633"
+            type="submit" id="abt_capm_group">
+            <span class="jss902">Submit</span>
+            <span class="jss934"></span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="edit_Updates" role="dialog" aria-labelledby="edit_UpdatesTittle" aria-hidden="false"
+  data-backdrop="static">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg  modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header pl-4  pb-1">
+        <h5 class="modal-title" id="edit_UpdatesTittle">Edit Updates </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body pt-0 pb-0">
+        <form class="jss632" method="POST">
+          {% csrf_token %}
+          <div class="jss550 jss551 jss553">
+            <p class="jss515 jss524">Title</p>
+            <div class="jss550">
+              <div class="jss567 jss554 jss558 jss568 jss555 class_tittle mb-1">
+                {{CampaignUpdates_Form.title}}
+                <!-- <input  class="jss577 jss562"  type="text" value="" required="required">                         -->
+              </div>
+              <span class="error" id="id_tittle_error">{{CampaignUpdates_Form.errors.title}}</span>
+            </div>
+          </div>
+          <div class="jss550 jss553 mt-0 mb-0">
+            <div class="jss550">
+              <div class="jss567 jss554 jss568 jss555" id="id_about_update">
+                <textarea class="jss577 jss562 jqte-test w-100" id="id_about" name="about" value=""></textarea>
+              </div>
+              <span class="error" id="id_update_error"></span>
+            </div>
+          </div>
+          <button name="form_type" value="Updates" class="jss892 jss901 jss912 jss913 jss915 jss916 jss926 jss633"
+            id="Edit_Updates" type="submit">
+            <span class="jss902">Submit</span>
+            <span class="jss934"></span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="edit_day" role="dialog" aria-labelledby="edit_day" aria-hidden="false" data-backdrop="static">
+  <div class="modal-dialog modal-dialog-scrollable  modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header border-0 pl-4  pb-1">
+        <h5 class="modal-title" id="edit_goalTittle">Edit Days </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body pt-0 pb-0">
+        <form class="jss632" method="POST">
+          {% csrf_token %}
+          <div class="jss550 jss551 jss553">
+          <p class="jss515 jss524">Day</p>
+          <div class="jss550">
+            <div class="jss567 jss554 jss558 jss568 jss555">
+                  <!-- <input type="text" name="day" class="jss577 jss562 integer_value" required="" id="id_day"> -->
+                {{CampaignFundRaiserDay.day}}
+            </div>
+          <span class="error">{{CampaignFundRaiserDay.errors.day}}</span>
+          </div>
+        </div>
+          <button name="form_type" value="Day" class="jss892 jss901 jss912 jss913 jss915 jss916 jss926 jss633" id="edit_day_btn" type="submit">
+            <span class="jss902">Submit</span>
+            <span class="jss934"></span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="edit_short_description" role="dialog" aria-labelledby="edit_short_description" aria-hidden="false" data-backdrop="static">
+  <div class="modal-dialog modal-dialog-scrollable  modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header border-0 pl-4  pb-1">
+        <h5 class="modal-title" id="edit_goalTittle">Edit Description </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body pt-0 pb-0">
+        <form class="jss632" method="POST">
+          {% csrf_token %}
+          <div class="jss550 jss551 jss553">
+              <p class="jss515 jss524">Short Description</p>
+              <div class="jss550">
+                <div class="jss567 jss554 jss558 jss568 jss555">
+                    <!-- <input type="text" name="short_description" class="jss577 jss562" maxlength="250" required="" id="id_short_description"> -->
+                    {{CampaignFundRaiserShortDescription.short_description}}
+                </div>
+              <span class="error">{{CampaignFundRaiserShortDescription.errors.short_description}}</span>
+              </div>
+          </div>
+          <button name="form_type" value="short_description" class="jss892 jss901 jss912 jss913 jss915 jss916 jss926 jss633" id="edit_short_description_btn" type="submit">
+            <span class="jss902">Submit</span>
+            <span class="jss934"></span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="edit_Buzz" role="dialog" aria-labelledby="edit_BuzzTittle" aria-hidden="false"
+  data-backdrop="static">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg  modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header pl-4  pb-1">
+        <h5 class="modal-title" id="edit_BuzzTittle">Edit Buzz </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body pt-0 pb-0">
+        <form class="jss632" method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="jss550 jss551 jss553">
+            <p class="jss515 jss524">Title</p>
+            <div class="jss550">
+              <div class="jss567 jss554 jss558 jss568 jss555 class_tittle_one">
+                {{CampaignBuzz_Form.title}}
+              </div>
+              <span class="error" id="id_tittle_one_error">{{CampaignBuzz_Form.errors.title}}</span>
+            </div>
+          </div>
+          <div class="jss550 jss551 jss553">
+            <p class="jss515 jss524">Buzz </p>
+            <div class="jss550">
+              <div class="jss567 jss554 jss568 jss555" id="id_about_buzz">
+                <textarea class="jss577 jss562 jqte-test w-100" id="id_about" name="buzz" value=""></textarea>
+              </div>
+              <span class="error" id="id_buzz_error"></span>
+            </div>
+          </div>
+          <div class="jss550 jss551 jss553">
+            <p class="jss515 jss524">Article Link</p>
+            <div class="jss550">
+              <div class="jss567 jss554 jss558 jss568 jss555">
+                {{CampaignBuzz_Form.article_link}}
+              </div>
+            </div>
+            <span class="error" id="article_error">{{CampaignBuzz_Form.errors.article_link}}</span>
+          </div>
+          <div class="jss550 jss551 jss553">
+            <p class="jss515 jss524">Publisher</p>
+            <div class="jss550">
+              <div class="jss567 jss554 jss558 jss568 jss555">
+                {{CampaignBuzz_Form.publisher}}
+              </div>
+            </div>
+            <span class="error" id="publisher_error">{{CampaignBuzz_Form.errors.publisher}}</span>
+          </div>
+          <div class="jss550 jss551 jss553">
+            <p class="jss515 jss524">Upload Image</p>
+            <div class="jss550">
+              <div class="jss567 jss554 jss558 jss568 jss555">
+                <span class="js">
+                  <span class="box">
+                    <input type="file" name="picture" onchange="Validateimgupload_two(this);" id="id_picture_two"
+                      class="inputfile inputfile-1" data-multiple-caption="{count} files selected" required="required">
+                    <label id="lblfile-1" for="id_picture_two"><svg xmlns="http://www.w3.org/2000/svg" width="20"
+                        height="17" viewBox="0 0 20 17">
+                        <path
+                          d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z">
+                        </path>
+                      </svg> <span>Upload Image</span></label>
+                  </span>
+                </span>
+              </div>
+              <span class="error id_picture_two_error"></span>
+            </div>
+          </div>
+          <button name="form_type" value="Buzz" class="jss892 jss901 jss912 jss913 jss915 jss916 jss926 jss633"
+            id="Edit_buzz" type="submit">
+            <span class="jss902">Submit</span>
+            <span class="jss934"></span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_script %}
+<script type="text/javascript" src="/static/js/jquery.dataTables.min.js"></script>
+
+<script type="text/javascript">
+  $(document).ready(function () {
+    $('.jqte-test').jqte();
+
+    $('#id_about_cam .jqte-test').jqte();
+  });
+  $(document).ready(function () {
+    $('.supporters_table').DataTable({
+       "scrollY": 260,
+      "ordering": false,
+      "info": false,
+      "searching": false,
+      "lengthChange": false,
+      "pageLength": 5
+    });
+
+    $('.comment_table').DataTable({
+      "ordering": false,
+      "info": false,
+      "searching": false,
+      "lengthChange": false,
+      "pageLength": 5
+    });
+  });
+</script>
+
+<script>
+    $("select[name='category']").change(function(){
+      $.get("{% url 'get_sub_category' %}", {'category':$("select[name='category']").val()}, function(result){
+        var sub_category_list = result['sub_category'];     
+  
+        //for state
+        $("select[name='sub_category']").empty();
+        $("select[name='sub_category']").append($("<option value=''>Select the option</option>"));
+        for (i = 0; i < sub_category_list.length; i++) {
+          $("select[name='sub_category']").append($("<option value='"+sub_category_list[i]['id']+"'>"+sub_category_list[i]["sub_category"]+"</option>"));
+        }
+        $("select[name='sub_category']").select2(); 
+      })
+    })
+
+  $(document).ready(function() {
+
+    $.get("{% url 'get_sub_category' %}", {'category':$("select[name='category']").val()}, function(result){
+        var sub_category_list = result['sub_category'];     
+  
+        //for state
+        $("select[name='sub_category']").empty();
+        $("select[name='sub_category']").append($("<option value=''>Select the option</option>"));
+        for (i = 0; i < sub_category_list.length; i++) {
+          if (sub_category_list[i]['id'] == {{CampaignFundRaiserCategory_Form.sub_category.value}}){
+            $("select[name='sub_category']").append($("<option selected value='"+sub_category_list[i]['id']+"'>"+sub_category_list[i]["sub_category"]+"</option>"));
+          }
+          else {
+            $("select[name='sub_category']").append($("<option value='"+sub_category_list[i]['id']+"'>"+sub_category_list[i]["sub_category"]+"</option>"));
+          }
+        }
+        $("select[name='sub_category']").select2(); 
+      })
+
+  });
+    </script>
+
+<script>
+{% if form_error == 'Goal' %}
+$('#edit_goal').modal('show'); 
+{% elif form_error == 'Title' %}
+$('#edit_title').modal('show'); 
+{% elif form_error == 'Picture' %}
+$('#edit_image').modal('show'); 
+{% elif form_error == 'About' %}
+$('#edit_About_The_Campaign').modal('show'); 
+{% elif form_error == 'Day' %}
+$('#edit_day').modal('show'); 
+{% elif form_error == 'short_description' %}
+$('#edit_short_description').modal('show'); 
+{% elif form_error == 'url' %}
+$('#edit_url_modal').modal('show'); 
+{% endif %}
+</script>
+<script type="text/javascript">
+  function zoomIn(){
+    var myImg = document.getElementById("campaing_img");
+  var currWidth = myImg.clientWidth;
+  if (currWidth == 2500) return false;
+  else {
+    myImg.style.width = (currWidth + 100) + "px";
+  }
+  }
+  function zoomOut(){
+    var myImg = document.getElementById("campaing_img");
+      var currWidth = myImg.clientWidth;
+      if (currWidth == 100) return false;
+      else {
+        myImg.style.width = (currWidth - 100) + "px";
+      }
+  }
+</script>
+{% endblock %}

@@ -1,5 +1,5 @@
 from django.db import models
-
+import os
 from django.contrib.auth.models import User
 from django.contrib.auth.models import AbstractUser,BaseUserManager
 from django.utils.translation import ugettext_lazy as _
@@ -7,7 +7,7 @@ from django.utils.translation import ugettext_lazy as _
 
 # validators
 from django.core.validators import FileExtensionValidator
-from django.core.validators import MaxValueValidator, MinValueValidator 
+from django.core.validators import MaxValueValidator, MinValueValidator, RegexValidator
 
 # django signal
 from django.db.models.signals import post_save
@@ -33,6 +33,12 @@ from django.db.models import FloatField
 
 #----------------- import jsonfield ----------------#
 import jsonfield
+
+from django.db.models.functions import Coalesce
+
+
+
+alphanumeric = RegexValidator(r'^[0-9a-zA-Z]*$', 'Only alphanumeric characters are allowed.')
 
 
 class UserManager(BaseUserManager):
@@ -202,12 +208,19 @@ class ContactUS(models.Model):
 
 class CampaignCategory(models.Model):
     category = models.CharField(max_length=50, unique=True)
-    # image = models.ImageField(upload_to='CampaignFundRaiser', null=True)
-    # description = models.TextField(null=True)
     is_active = models.BooleanField(default=True)
 
     def __str__(self):
         return self.category
+
+
+class CampaignSubCategory(models.Model):
+    category = models.ForeignKey(CampaignCategory, on_delete=models.CASCADE)
+    sub_category = models.CharField(max_length=50, unique=True)
+    is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.sub_category
 
 
 class CauseCategory(models.Model):
@@ -223,6 +236,7 @@ class CampaignFundRaiser(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     title = models.CharField(max_length=250, unique=True)
     category = models.ForeignKey(CampaignCategory, on_delete=models.CASCADE, null=True)
+    sub_category = models.ForeignKey(CampaignSubCategory, on_delete=models.CASCADE, null=True)
     goal = models.PositiveIntegerField()
     day = models.PositiveIntegerField()
     short_description = models.CharField(max_length=250)
@@ -231,9 +245,17 @@ class CampaignFundRaiser(models.Model):
     cause = models.ForeignKey(CauseCategory, on_delete=models.SET_NULL, null=True)
     sensitivity = models.CharField(max_length=40, choices=sensitivity_choices, null=True)
     commission = models.FloatField(default=2.0)
+    url_text = models.CharField(max_length=50, unique=True, validators=[alphanumeric])
     created_at = models.DateTimeField(auto_now_add=True)
     end_date = models.DateField(null=True, blank=True, editable=False)
-
+    cancelled_cheque_image = models.FileField(upload_to='campaign_fund_raiser_document', null=True)
+    address_proof_image = models.FileField(upload_to='campaign_fund_raiser_document', null=True)
+    address_proof_type = models.CharField(max_length=40, choices=Address_Proof_Type, null=True)
+    pancard_image = models.FileField(upload_to='campaign_fund_raiser_document', null=True)
+    pancard_no = models.CharField(max_length=50, null=True)
+    custome_note = models.TextField(null=True)
+    enable_comment = models.BooleanField(default=True)
+    is_end_goal = models.BooleanField(default=False)
     is_active = models.BooleanField(default=False)
 
     def __str__(self):
@@ -244,7 +266,30 @@ class CampaignFundRaiser(models.Model):
             today = datetime.now().date()
             self.end_date = today + timedelta(days=self.day)
 
+            self.custome_note = 'Thank you so much for supporting the campaign "%s" and helping strengthen democracy. ust one more request - every time you share this campaign on social media, you take us closer to finding new contributors! Please SHARE the campaign now!' %(self.title)
+
         return super(CampaignFundRaiser, self).save(*args, **kwargs)
+
+    def address_proof_image_extension(self):
+        if self.address_proof_image:
+            name, extension = os.path.splitext(self.address_proof_image.name)
+            return extension
+        else:
+            return None
+
+    def pancard_image_extension(self):
+        if self.pancard_image:
+            name, extension = os.path.splitext(self.pancard_image.name)
+            return extension
+        else:
+            return None
+
+    def cancelled_cheque_image_extension(self):
+        if self.cancelled_cheque_image:
+            name, extension = os.path.splitext(self.cancelled_cheque_image.name)
+            return extension
+        else:
+            return None
 
     def available_days(self):
         today = datetime.now().date()
@@ -258,14 +303,38 @@ class CampaignFundRaiser(models.Model):
 
     def available_withdrawl_fund(self):
         total_fund = self.campaigntotalamount.total_amount
-        commission = self.commission
         total_withdrawl = WithdrawalRequest.objects.filter(campaign__id=self.id, status='Approved').aggregate(Sum('amount'))['amount__sum']
         try:
             total_withdrawl = float(total_withdrawl)
         except:
             total_withdrawl = 0
 
-        available_amount = (total_fund -(( total_fund * commission )/100)) - total_withdrawl
+        instance_our_democracy_commission_in_rs = CampaignDoners.objects.filter(campaign_fund_raiser__id=self.id, payment_status='captured').aggregate(Sum('our_democracy_commission_in_rs'))['our_democracy_commission_in_rs__sum']
+        instance_our_democracy_gst_in_rs = CampaignDoners.objects.filter(campaign_fund_raiser__id=self.id, payment_status='captured').aggregate(Sum('our_democracy_gst_in_rs'))['our_democracy_gst_in_rs__sum']
+        instance_payment_gateway_charges_in_rs = CampaignDoners.objects.filter(campaign_fund_raiser__id=self.id, payment_status='captured').aggregate(Sum('payment_gateway_charges_in_rs'))['payment_gateway_charges_in_rs__sum']
+        instance_payment_gateway_gst_in_rs = CampaignDoners.objects.filter(campaign_fund_raiser__id=self.id, payment_status='captured').aggregate(Sum('payment_gateway_gst_in_rs'))['payment_gateway_gst_in_rs__sum']
+
+        try:
+            instance_our_democracy_commission_in_rs = float(instance_our_democracy_commission_in_rs)
+        except:
+            instance_our_democracy_commission_in_rs = 0
+
+        try:
+            instance_our_democracy_gst_in_rs = float(instance_our_democracy_gst_in_rs)
+        except:
+            instance_our_democracy_gst_in_rs = 0
+
+        try:
+            instance_payment_gateway_charges_in_rs = float(instance_payment_gateway_charges_in_rs)
+        except:
+            instance_payment_gateway_charges_in_rs = 0
+
+        try:
+            instance_payment_gateway_gst_in_rs = float(instance_payment_gateway_gst_in_rs)
+        except:
+            instance_payment_gateway_gst_in_rs = 0
+
+        available_amount = total_fund - total_withdrawl - instance_our_democracy_commission_in_rs - instance_our_democracy_gst_in_rs - instance_payment_gateway_charges_in_rs - instance_payment_gateway_gst_in_rs
         return available_amount
 
     def total_withdrawl_fund(self):
@@ -294,6 +363,29 @@ def increment_booking_number():
 
 
 
+class PotentialCampaignDoners(models.Model):
+    campaign_fund_raiser = models.ForeignKey(CampaignFundRaiser, on_delete=models.CASCADE, null=True)
+    doner_user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    name = models.CharField(max_length=100)
+    email = models.EmailField()
+    phone = models.CharField(max_length=20)
+    address = models.CharField(max_length=250)
+    city = models.CharField(max_length=50)
+    state = models.CharField(max_length=50)
+    pincode = models.CharField(max_length=20)
+    facbook = models.URLField(blank=True, null=True)
+    twitter = models.URLField(blank=True, null=True)
+    indian_citizen = models.BooleanField(default=True)
+    is_hide_me = models.BooleanField(default=False)
+    order_id = models.CharField(max_length = 20, default = increment_booking_number, editable=False, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    source = models.CharField(max_length=50, null=True, blank=True)
+    sent = models.PositiveIntegerField(default=0)
+
+    def __str__(self):
+        return self.name
+
+
 class CampaignDoners(models.Model):
     campaign_fund_raiser = models.ForeignKey(CampaignFundRaiser, on_delete=models.CASCADE, null=True)
     amount = models.PositiveIntegerField(validators=[MinValueValidator(100)])
@@ -304,18 +396,75 @@ class CampaignDoners(models.Model):
     address = models.CharField(max_length=250)
     city = models.CharField(max_length=50)
     state = models.CharField(max_length=50)
-    country = models.CharField(max_length=50,default="India")
     pincode = models.CharField(max_length=20)
-    facbook = models.CharField(max_length=100,blank=True, null=True)
-    twitter = models.CharField(max_length=100,blank=True, null=True)
+    facbook = models.URLField(blank=True, null=True)
+    twitter = models.URLField(blank=True, null=True)
     indian_citizen = models.BooleanField(default=True)
     is_hide_me = models.BooleanField(default=False)
     payment_status = models.CharField(max_length=20, choices=Payment_Status, default='created')
     refund_status = models.CharField(max_length=20, choices=Refund_Status, default='not requested')
     payment_id = models.CharField(max_length=100, null=True)
+    payment_mode = models.CharField(max_length=100, null=True)
     order_id = models.CharField(max_length = 20, default = increment_booking_number, editable=False, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     is_request_refund = models.BooleanField(default=False)
+    source = models.CharField(max_length=50, null=True, blank=True)
+    pan_no = models.CharField(max_length=50, null=True, blank=True)
+
+    our_democracy_commission = models.FloatField()
+    our_democracy_gst = models.FloatField()
+    payment_gateway_charges = models.FloatField()
+    payment_gateway_gst = models.FloatField()
+
+    our_democracy_commission_in_rs = models.FloatField()
+    our_democracy_gst_in_rs = models.FloatField()
+    payment_gateway_charges_in_rs = models.FloatField()
+    payment_gateway_gst_in_rs = models.FloatField()
+
+
+
+
+    def save(self, *args, **kwargs):
+        if not self.id:
+            try:
+                instance_Commission = Commission.objects.all()[0]
+            except:
+                instance_Commission = Commission()
+                instance_Commission.save()
+
+
+            # our_democracy_commission_percentage = instance_Commission.our_democracy_commission
+            # our_democracy_gst_percentage = instance_Commission.our_democracy_gst
+            # payment_gateway_charges_percentage = instance_Commission.payment_gateway_charges
+            # payment_gateway_gst_percentage = instance_Commission.payment_gateway_gst
+
+            our_democracy_commission_percentage = 5.0
+            our_democracy_gst_percentage = 18.0
+            payment_gateway_charges_percentage = 3.0
+            payment_gateway_gst_percentage = 18.0
+
+            our_democracy_commission_in_rs = round((self.amount * our_democracy_commission_percentage) / 100, 2)
+            our_democracy_gst_in_rs = round((our_democracy_commission_in_rs * our_democracy_gst_percentage) / 100, 2)
+            payment_gateway_charges_in_rs = round((self.amount * payment_gateway_charges_percentage) / 100, 2)
+            payment_gateway_gst_in_rs = round((payment_gateway_gst_percentage * payment_gateway_charges_in_rs) / 100, 2)
+
+
+            self.our_democracy_commission = our_democracy_commission_percentage
+            self.our_democracy_gst = our_democracy_gst_percentage
+            self.payment_gateway_charges = payment_gateway_charges_percentage
+            self.payment_gateway_gst = payment_gateway_gst_percentage
+
+
+            self.our_democracy_commission_in_rs = our_democracy_commission_in_rs
+            self.our_democracy_gst_in_rs = our_democracy_gst_in_rs
+            self.payment_gateway_charges_in_rs = payment_gateway_charges_in_rs
+            self.payment_gateway_gst_in_rs = payment_gateway_gst_in_rs
+            
+
+        return super(CampaignDoners, self).save(*args, **kwargs)
+
+
+
 
     def __str__(self):
         return self.name
@@ -387,7 +536,7 @@ class CampaignEnqiry(models.Model):
 class CampaignUpdates(models.Model):
     campaign_fund_raiser = models.ForeignKey(CampaignFundRaiser, on_delete=models.CASCADE, null=True)
     title = models.TextField(max_length=250)
-    about = models.TextField()
+    about= models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -397,7 +546,7 @@ class CampaignUpdates(models.Model):
 class CampaignBuzz(models.Model):
     campaign_fund_raiser = models.ForeignKey(CampaignFundRaiser, on_delete=models.CASCADE, null=True)
     title = models.TextField(max_length=250)
-    buzz = models.TextField()
+    buzz= models.TextField()
     article_link = models.URLField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     picture = models.ImageField(upload_to='CampaignBuzz')
@@ -416,6 +565,7 @@ class CampaignBuzz(models.Model):
 class SupportGroup(models.Model):
     group_leader = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     title = models.CharField(max_length=250, unique=True)
+    url_text = models.CharField(max_length=50, unique=True, validators=[alphanumeric])
     goal = models.PositiveIntegerField()
     short_description = models.CharField(max_length=250)
     about = models.TextField()
@@ -424,9 +574,20 @@ class SupportGroup(models.Model):
     sensitivity = models.CharField(max_length=40, choices=sensitivity_choices, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     is_active = models.BooleanField(default=False)
+    custome_note = models.TextField(null=True)
+    enable_comment = models.BooleanField(default=True)
+    is_end_goal = models.BooleanField(default=False)
+
 
     def __str__(self):
         return self.title
+
+    def save(self, *args, **kwargs):
+        if not self.id:
+
+            self.custome_note = 'Thank you so much for supporting the campaign "%s" and helping strengthen democracy. ust one more request - every time you share this campaign on social media, you take us closer to finding new contributors! Please SHARE the campaign now!' %(self.title)
+        return super(SupportGroup, self).save(*args, **kwargs)
+
 
     def group_member_count(self):
         return SupportGroupMembers.objects.filter(support_group__id=self.id).count()
@@ -448,12 +609,12 @@ class SupportGroupMembers(models.Model):
     state = models.CharField(max_length=50)
     pincode = models.CharField(max_length=20)
     city = models.CharField(max_length=50)
-    country = models.CharField(max_length=50,default="India")
-    facbook = models.CharField(max_length=100,blank=True, null=True)
-    twitter = models.CharField(max_length=100,blank=True, null=True)
+    facbook = models.URLField(null=True, blank=True)
+    twitter = models.URLField(null=True, blank=True)
     is_share = models.BooleanField(default=True)
     is_hide_me = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
+    source = models.CharField(max_length=50, null=True, blank=True)
 
     def __str__(self):
         return self.support_group.title
@@ -501,7 +662,7 @@ class SupportEnqiry(models.Model):
 class SupportUpdates(models.Model):
     support_group = models.ForeignKey(SupportGroup, on_delete=models.CASCADE, null=True)
     title = models.TextField(max_length=250)
-    about = models.TextField()
+    about= models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -511,7 +672,7 @@ class SupportUpdates(models.Model):
 class SupportBuzz(models.Model):
     support_group = models.ForeignKey(SupportGroup, on_delete=models.CASCADE, null=True)
     title = models.TextField(max_length=250)
-    buzz = models.TextField()
+    buzz= models.TextField()
     article_link = models.URLField()
     created_at = models.DateTimeField(auto_now_add=True)
     picture = models.ImageField(upload_to='SupportBuzz')
@@ -527,6 +688,7 @@ class SupportBuzz(models.Model):
 class Event(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=250, unique=True)
+    url_text = models.CharField(max_length=50, unique=True, validators=[alphanumeric])
     about = models.TextField()
     place = models.CharField(max_length=250)
     date = models.DateTimeField()
@@ -536,9 +698,18 @@ class Event(models.Model):
     sensitivity = models.CharField(max_length=40, choices=sensitivity_choices, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     is_active = models.BooleanField(default=False)
+    custome_note = models.TextField(null=True)
+    enable_comment = models.BooleanField(default=True)
+    is_end_goal = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        if not self.id:
+
+            self.custome_note = 'Thank you so much for supporting the event "%s" and helping strengthen democracy. ust one more request - every time you share this event on social media, you take us closer to finding new contributors! Please SHARE the campaign now!' %(self.name)
+        return super(Event, self).save(*args, **kwargs)
 
     def group_member_count(self):
         return EventGroupMembers.objects.filter(event__id=self.id).count()
@@ -554,12 +725,12 @@ class EventGroupMembers(models.Model):
     state = models.CharField(max_length=50)
     pincode = models.CharField(max_length=20)
     city = models.CharField(max_length=50)
-    country = models.CharField(max_length=50,default="India")
-    facbook = models.CharField(max_length=100,blank=True, null=True)
-    twitter = models.CharField(max_length=100,blank=True, null=True)
+    facbook = models.URLField(null=True, blank=True)
+    twitter = models.URLField(null=True, blank=True)
     is_share = models.BooleanField(default=True)
     is_hide_me = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
+    source = models.CharField(max_length=50, null=True, blank=True)
 
     def __str__(self):
         return self.event.name
@@ -608,7 +779,7 @@ class EventEnqiry(models.Model):
 class EventUpdates(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE, null=True)
     title = models.TextField(max_length=250)
-    about = models.TextField()
+    about= models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -618,7 +789,7 @@ class EventUpdates(models.Model):
 class EventBuzz(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE, null=True)
     title = models.TextField(max_length=250)
-    buzz = models.TextField()
+    buzz= models.TextField()
     article_link = models.URLField()
     created_at = models.DateTimeField(auto_now_add=True)
     picture = models.ImageField(upload_to='EventBuzz')
@@ -634,17 +805,43 @@ class EventBuzz(models.Model):
 class SupportVisitHistory(models.Model):
     support_group = models.ForeignKey(SupportGroup, on_delete=models.CASCADE, null=True)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
-    path = models.CharField(max_length=250)
-    ip = models.CharField(max_length=250)
-    request_type = models.CharField(max_length=10)
-    location = jsonfield.JSONField()
+    path = models.CharField(max_length=250, null=True, blank=True)
+    ip = models.CharField(max_length=250, null=True, blank=True)
+    request_type = models.CharField(max_length=10, null=True, blank=True)
+    location = jsonfield.JSONField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    source = models.CharField(max_length=50, null=True, blank=True)
 
     def __str__(self):
         return self.ip
 
 
+class EventVisitHistory(models.Model):
+    event = models.ForeignKey(Event, on_delete=models.CASCADE, null=True)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    path = models.CharField(max_length=250, null=True, blank=True)
+    ip = models.CharField(max_length=250, null=True, blank=True)
+    request_type = models.CharField(max_length=10, null=True, blank=True)
+    location = jsonfield.JSONField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    source = models.CharField(max_length=50, null=True, blank=True)
 
+    def __str__(self):
+        return self.ip
+
+
+class CampaignFundRaiserVisitHistory(models.Model):
+    campaign_fundraiser = models.ForeignKey(CampaignFundRaiser, on_delete=models.CASCADE, null=True)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    path = models.CharField(max_length=250, null=True, blank=True)
+    ip = models.CharField(max_length=250, null=True, blank=True)
+    request_type = models.CharField(max_length=10, null=True, blank=True)
+    location = jsonfield.JSONField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    source = models.CharField(max_length=50, null=True, blank=True)
+
+    def __str__(self):
+        return self.ip
 
 #--------------------- signal --------------------------------------#
 @receiver(post_save,sender=CampaignFundRaiser)
@@ -709,3 +906,29 @@ class CashfreePaymentDetails(models.Model):
 
     def __str__(self):
         return self.app_id
+
+
+
+class Commission(models.Model):
+    our_democracy_commission = models.FloatField(default=5)
+    our_democracy_gst = models.FloatField(default=18)
+    payment_gateway_charges = models.FloatField(default=3)
+    payment_gateway_gst = models.FloatField(default=18)
+
+    def save(self):
+        # count will have all of the objects from the Aboutus model
+        count = Commission.objects.all().count()
+        # this will check if the variable exist so we can update the existing ones
+        save_permission = Commission.has_add_permission(self)
+
+        # if there's more than two objects it will not save them in the database)
+        if count < 1:
+            super(Commission, self).save()
+        elif save_permission:
+            super(Commission, self).save()
+
+    def has_add_permission(self):
+        return Commission.objects.filter(id=self.id).exists()
+
+    def __str__(self):
+        return str(self.id)

@@ -161,7 +161,7 @@
                                 {% if instance_CampaignFundRaiser|length  <= 3 %}
                                 <div class="DItemsDiv my_fund">
                                 {% for fundraiser in instance_CampaignFundRaiser %}
-                                        <a href="{% url 'campaign_selected' fundraiser.id fundraiser.title %}" class="DItemDiv position-relative">
+                                        <a href="{% url 'campaign_selected' fundraiser.url_text %}" class="DItemDiv position-relative">
                                           <div class="DItemEndedImageDiv">
                                             <img src="/media/{{ fundraiser.picture }}" class="DItemImage" alt="">
                                           </div>
@@ -210,7 +210,7 @@
                                     
                                     {% for fundraiser in instance_CampaignFundRaiser %}
                                     <li>
-                                        <a href="{% url 'campaign_selected' fundraiser.id fundraiser.title %}" class="DItemDiv" >
+                                        <a href="{% url 'campaign_selected' fundraiser.url_text %}" class="DItemDiv" >
                                           <div class="DItemEndedImageDiv">
                                             <img src="/media/{{ fundraiser.picture }}"
                                               class="DItemImage" alt="">
@@ -274,7 +274,7 @@
                                 {% if instance_SupportGroup|length  <= 3 %}
                                 <div class="DItemsDiv">
                                     {% for supportgroup in instance_SupportGroup %}
-                                    <a href="{% url 'support_group_selected' supportgroup.id supportgroup.title %}" class="DItemDiv">
+                                    <a href="{% url 'support_group_selected' supportgroup.url_text %}" class="DItemDiv">
                                         <img src="/media/{{supportgroup.picture}}" class="DItemImage"
                                           alt="">
                                         <div class="DItemDetailsDiv">
@@ -312,7 +312,7 @@
 
                                     {% for supportgroup in instance_SupportGroup %}
                                     <li>
-                                        <a href="{% url 'support_group_selected' supportgroup.id supportgroup.title %}" class="DItemDiv">
+                                        <a href="{% url 'support_group_selected' supportgroup.url_text %}" class="DItemDiv">
                                           <img src="/media/{{supportgroup.picture}}" class="DItemImage"
                                             alt="">
                                           <div class="DItemDetailsDiv">
@@ -365,7 +365,7 @@
                                 {% if instance_supported_CampaignFundRaiser|length  <= 3 %}
                                 <div class="DItemsDiv my_fund">
                                   {% for fundraiser in instance_supported_CampaignFundRaiser %}
-                                  <a href="{% url 'campaign_selected' fundraiser.id fundraiser.title %}" class="DItemDiv position-relative">
+                                  <a href="{% url 'campaign_selected' fundraiser.url_text %}" class="DItemDiv position-relative">
                                     <div class="DItemEndedImageDiv">
                                       <img src="/media/{{ fundraiser.picture }}" class="DItemImage" alt="">
                                     </div>
@@ -414,7 +414,7 @@
                                 
                                     {% for fundraiser in instance_supported_CampaignFundRaiser %}
                                     <li>
-                                      <a href="{% url 'campaign_selected' fundraiser.id fundraiser.title %}" class="DItemDiv">
+                                      <a href="{% url 'campaign_selected' fundraiser.url_text %}" class="DItemDiv">
                                         <div class="DItemEndedImageDiv">
                                           <img src="/media/{{ fundraiser.picture }}" class="DItemImage" alt="">
                                         </div>
@@ -481,7 +481,7 @@
                             {% if instance_joined_SupportGroup|length  <= 3 %}
                             <div class="DItemsDiv">
                                 {% for supportgroup in instance_joined_SupportGroup %}
-                                <a href="{% url 'support_group_selected' supportgroup.id supportgroup.title %}" class="DItemDiv">
+                                <a href="{% url 'support_group_selected' supportgroup.url_text %}" class="DItemDiv">
                                     <img src="/media/{{supportgroup.picture}}" class="DItemImage"
                                       alt="">
                                     <div class="DItemDetailsDiv">
@@ -519,7 +519,7 @@
 
                                 {% for supportgroup in instance_joined_SupportGroup %}
                                 <li>
-                                    <a href="{% url 'support_group_selected' supportgroup.id supportgroup.title %}" class="DItemDiv">
+                                    <a href="{% url 'support_group_selected' supportgroup.url_text %}" class="DItemDiv">
                                       <img src="/media/{{supportgroup.picture}}" class="DItemImage"
                                         alt="">
                                       <div class="DItemDetailsDiv">

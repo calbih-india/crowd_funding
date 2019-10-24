@@ -72,7 +72,7 @@
     <div class="DItemsDiv">
         {% for event in instance_Event %}
         <div class="DItemDiv">
-          <a class="w-100" href="{% url 'event_selected' event.id event.name %}" target="_blank">
+          <a class="w-100" href="{% url 'event_selected' event.url_text %}" target="_blank">
             <img src="/media/{{event.image}}" class="DItemImage" alt="" draggable="false">
             <div class="DItemDetailsDiv ml-auto mr-auto">
                 <p class="DItemTitle">{{event.name}}</p>
@@ -110,7 +110,7 @@
                 <ul class="DItemActionDiv_con campaignAction_div">
                     <li>
                         <span style=" text-align: center;">Edit</span>
-                        <a href="{% url 'event_selected' event.id event.name %}" target="_blank"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                        <a href="{% url 'event_selected' event.url_text %}" target="_blank"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                     </li>
                     <li>
                         <span style=" text-align: center;     width: 125%;">Authorize Event</span>
@@ -227,7 +227,7 @@
     <div class="DItemsDiv">
         {% for supportgroup in instance_SupportGroup %}
             <div class="DItemDiv">
-            <a class="w-100"  href="{% url 'support_group_selected' supportgroup.id supportgroup.title %}" target="_blank" >
+            <a class="w-100"  href="{% url 'support_group_selected' supportgroup.url_text %}" target="_blank" >
                 <img src="/media/{{ supportgroup.picture }}" class="DItemImage" alt="" draggable="false">
                 <div class="DItemDetailsDiv ml-auto mr-auto">
                     <p class="DItemTitle"> {{ supportgroup.title }}</p>
@@ -258,7 +258,7 @@
                         <li>
                             <span style=" text-align: center;">Edit</span>
 
-                            <a href="{% url 'support_group_selected' supportgroup.id supportgroup.title %}" target="_blank"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                            <a href="{% url 'support_group_selected' supportgroup.url_text %}" target="_blank"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                         </li>
                         <li>
                             <span style="width: 125%; text-align: center;">Authorize Mobilisation Campaign</span>
@@ -374,7 +374,7 @@
         <div class="DItemsDiv">
             {% for fundraiser in instance_CampaignFundRaiser %}
                 <div class="DItemDiv">
-                  <a class="w-100" href="{% url 'campaign_selected' fundraiser.id fundraiser.title %}" target="_blank">
+                  <a class="w-100" href="{% url 'campaign_selected' fundraiser.url_text %}" target="_blank">
                     <img src="/media/{{ fundraiser.picture }}" class="DItemImage" alt="" draggable="false">
                     <div class="DItemDetailsDiv ml-auto mr-auto">
                         <p class="DItemTitle"> {{ fundraiser.title }}</p>
@@ -414,7 +414,7 @@
                         <ul class="DItemActionDiv_con campaignAction_div">
                             <li>
                                 <span style=" text-align: center;">Edit</span>
-                                <a href="{% url 'campaign_selected' fundraiser.id fundraiser.title %}" target="_blank"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                                <a href="{% url 'campaign_selected' fundraiser.url_text %}" target="_blank"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                             </li>
                             <li>
                                 <span style="    width: 125%; text-align: center;">Authorize Campaign</span>
