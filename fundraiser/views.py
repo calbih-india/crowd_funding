@@ -956,7 +956,7 @@ def campaign_payment(request, ID, OID):
             "customerName" : instance_CampaignDoners.name, 
             "customerPhone" : str(instance_CampaignDoners.phone), 
             "customerEmail" : instance_CampaignDoners.email, 
-            "returnUrl": "http://3.18.104.39/payment/check/",
+            "returnUrl": "http://new.ourdemocracy.in/payment/check/",
             "notifyUrl": ''
         }
         
