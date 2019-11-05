@@ -1090,6 +1090,7 @@ def payment_check(request):
                     message_campaign_creator = render_to_string('email_template/fundraiser_campaign_creator_inform.html', {
                         'domain': current_site.domain,
                         'instance_CampaignDoners':instance_CampaignDoners,
+                        'instance_CampaignFundRaiser':instance_CampaignFundRaiser
                     })
                     email = EmailMultiAlternatives(
                                         mail_subject_campaign_creator, message_campaign_creator, to=[instance_CampaignFundRaiser.user.email]

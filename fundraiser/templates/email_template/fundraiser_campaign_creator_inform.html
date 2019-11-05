@@ -41,10 +41,10 @@
                                                 <td style="font-weight:regular;text-align:left">
                                                   <p style="Margin:0 0 0px 0;font-size:24px;line-height:24px;color:#25254d;font-weight:500;text-align:left;font-family: Arial;padding:0px">
                                                       <br>
-                                                      Hi {{instance_CampaignDoners.campaign_fund_raiser.user.name}},  <br> <br></p>
+                                                      Hi {{instance_CampaignFundRaiser.user.name}},  <br> <br></p>
                                                   <p  style="Margin:0 0 0px 0;font-size:15px;line-height:22px;color:#25254d;font-weight:400;text-align:left;font-family: Arial;padding:0px">
-                                                    {{instance_CampaignDoners.campaign_fund_raiser.custome_note|linebreaks}}
-                                                    A new Doner {{instance_CampaignDoners.name}} has supported your campaign {{instance_CampaignDoners.campaign_fund_raiser.title}}. Please Check your campaign.
+                                                    {% comment %} {{instance_CampaignDoners.campaign_fund_raiser.custome_note|linebreaks}} {% endcomment %}
+                                                    A new Doner {{instance_CampaignDoners.name}} has supported your campaign {{instance_CampaignFundRaiser.title}}. Please Check your campaign.
                                                     <br></p>
                                                    
                                                   
