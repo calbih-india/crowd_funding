@@ -1092,11 +1092,11 @@ def payment_check(request):
                         'instance_CampaignDoners':instance_CampaignDoners,
                         'instance_CampaignFundRaiser':instance_CampaignFundRaiser
                     })
-                    email = EmailMultiAlternatives(
+                    email_campaigner = EmailMultiAlternatives(
                                         mail_subject_campaign_creator, message_campaign_creator, to=[instance_CampaignFundRaiser.user.email]
                         )
-                    email.attach_alternative(message, "text/html")
-                    email.send()
+                    email_campaigner.attach_alternative(message, "text/html")
+                    email_campaigner.send()
                 except:
                     pass
 
