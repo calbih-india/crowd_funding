@@ -827,11 +827,9 @@ def campaign_selected(request, url_text):
                         return redirect('login')
 
                 elif form_type == 'Doners':
-                    
                     CheckPotentialCampaignDoners_Forms = CheckPotentialCampaignDoners(request.POST)
-                    is_donating = CheckPotentialCampaignDoners_Forms.cleaned_data['is_donating']
                     if CheckPotentialCampaignDoners_Forms.is_valid():
-                        
+                        is_donating = CheckPotentialCampaignDoners_Forms.cleaned_data['is_donating']
                         if is_donating:
                             Campaign_Doners_Forms = CampaignDonersForms(request.POST)
                             if Campaign_Doners_Forms.is_valid():
@@ -860,9 +858,10 @@ def campaign_selected(request, url_text):
 
                                 Campaign_Doners_Forms.save()
 
-                                messages.add_message(request,messages.SUCCESS,'Thanks for supporting.')
+                                # messages.add_message(request,messages.SUCCESS,'Thanks for supporting.')
 
-                                return redirect('campaign_selected', url_text=url_text)
+                                # return redirect('campaign_selected', url_text=url_text)
+                                return redirect('campaign_payment', ID=instance_CampaignFundRaiser.id, OID=Campaign_Doners_Forms.id)
 
                             else:
                                 form_error = 'Doners'
