@@ -6136,6 +6136,7 @@ def my_fundraiser_campaign_updates(request, url_text):
     try:
         instance_CampaignFundRaiser = CampaignFundRaiser.objects.get(url_text=url_text, user=request.user)
         instance_CampaignUpdates = CampaignUpdates.objects.filter(campaign_fund_raiser=instance_CampaignFundRaiser)
+        instance_CampaignDoners = CampaignDoners.objects.filter(campaign_fund_raiser=instance_CampaignFundRaiser).order_by("-id")
 
         if request.method == 'POST':
             campaign_updates_form = CampaignUpdatesForm(request.POST)
@@ -6145,6 +6146,20 @@ def my_fundraiser_campaign_updates(request, url_text):
                 campaign_updates_form.save()
 
                 messages.add_message(request,messages.SUCCESS,'Campaign Update " %s " added successfully. ' %(campaign_updates_form.title))
+                email = list(instance_CampaignDoners.objects.values_list('email', flat=True))
+                # email = request.GET.getlist('id[]', None)
+                email_message = "Hello here is a new update"
+                mail_subject = "New Update"
+                current_site = get_current_site(request)
+                message = render_to_string('email_template/fundraiser_update_email.html',{
+                    'email_message':email_message,
+                    'domain': current_site.domain,
+                })
+                email = EmailMultiAlternatives(
+                    mail_subject, message, to=email
+                )
+                email.attach_alternative(message, "text/html")
+                email.send()
 
                 return redirect('my_fundraiser_campaign_updates', url_text=url_text)
 
