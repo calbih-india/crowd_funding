@@ -6146,7 +6146,7 @@ def my_fundraiser_campaign_updates(request, url_text):
                 campaign_updates_form.save()
 
                 messages.add_message(request,messages.SUCCESS,'Campaign Update " %s " added successfully. ' %(campaign_updates_form.title))
-                email = list(instance_CampaignDoners.objects.values_list('email', flat=True))
+                email = instance_CampaignDoners.objects.values_list('email', flat=True)
                 # email = request.GET.getlist('id[]', None)
                 email_message = "Hello here is a new update"
                 mail_subject = "New Update"
