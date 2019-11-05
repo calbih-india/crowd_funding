@@ -2037,45 +2037,45 @@ $("#id_pan_num").keyup(function(){
     }
 });
 
-$('#want_to_contribute_amount').click(function(){
-        if($(this).prop("checked") == true ){
-        //   $("#want_to_contribute_amount_text").text("Want to Contribute Amount");
-            $(this).parent().parent().addClass("jss878 jss877");  
-            $("#amount_div_sec").show();
-            $("#id_amount").attr("disabled", false);
-            $("#id_pan_num").attr("disabled", false);
-            $("#id_amount_error_class").text("");
-        }
-        else if($(this).prop("checked") == false){
-            // $("#want_to_contribute_amount_text").text("Don`t want to Contribute Amount");
-            $(this).parent().parent().removeClass("jss878 jss877");
-            $("#amount_div_sec").hide();
-            $("#id_amount").attr("disabled", true); 
-            $("#id_pan_num").attr("disabled", true);
-            $("#id_amount_error_class").text("");
-        }
-    });
+// $('#want_to_contribute_amount').click(function(){
+//         if($(this).prop("checked") == true ){
+//         //   $("#want_to_contribute_amount_text").text("Want to Contribute Amount");
+//             $(this).parent().parent().addClass("jss878 jss877");  
+//             $("#amount_div_sec").show();
+//             $("#id_amount").attr("disabled", false);
+//             $("#id_pan_num").attr("disabled", false);
+//             $("#id_amount_error_class").text("");
+//         }
+//         else if($(this).prop("checked") == false){
+//             // $("#want_to_contribute_amount_text").text("Don`t want to Contribute Amount");
+//             $(this).parent().parent().removeClass("jss878 jss877");
+//             $("#amount_div_sec").hide();
+//             $("#id_amount").attr("disabled", true); 
+//             $("#id_pan_num").attr("disabled", true);
+//             $("#id_amount_error_class").text("");
+//         }
+//     });
 
-if($("#want_to_contribute_amount").prop("checked") == true){
-        // $("#want_to_contribute_amount_text").text("Want to Contribute Amount");
+// if($("#want_to_contribute_amount").prop("checked") == true){
+//         // $("#want_to_contribute_amount_text").text("Want to Contribute Amount");
 
-        $("#want_to_contribute_amount").parent().parent().addClass("jss878 jss877");
+//         $("#want_to_contribute_amount").parent().parent().addClass("jss878 jss877");
             
-          $("#amount_div_sec").show();
-          $("#id_amount").attr("disabled", false);
-          $("#id_pan_num").attr("disabled", false);
-          $("#id_amount_error_class").text("");
+//           $("#amount_div_sec").show();
+//           $("#id_amount").attr("disabled", false);
+//           $("#id_pan_num").attr("disabled", false);
+//           $("#id_amount_error_class").text("");
 
-      }
-      else if($("#want_to_contribute_amount").prop("checked") == false){
+//       }
+//       else if($("#want_to_contribute_amount").prop("checked") == false){
         
-        //   $("#want_to_contribute_amount_text").text("Don`t want to Contribute Amount");
-        $("#want_to_contribute_amount").parent().parent().removeClass("jss878 jss877");
-        $("#id_amount").attr("disabled", true);  
-        $("#id_pan_num").attr("disabled", true);         
-        $("#amount_div_sec").hide();
-        $("#id_amount_error_class").text("");
-      }
+//         //   $("#want_to_contribute_amount_text").text("Don`t want to Contribute Amount");
+//         $("#want_to_contribute_amount").parent().parent().removeClass("jss878 jss877");
+//         $("#id_amount").attr("disabled", true);  
+//         $("#id_pan_num").attr("disabled", true);         
+//         $("#amount_div_sec").hide();
+//         $("#id_amount_error_class").text("");
+//       }
 
 
 
@@ -3131,16 +3131,16 @@ $("#upload_documents").click(function(){
            }
       });
 
-      $('#comment_id').click(function(){
-        if($(this).prop("checked") == true){
-          $("#comment_id_text").text("Enable comments for this campaign");
-            $(this).parent().parent().addClass("jss878 jss877");
-        }
-        else if($(this).prop("checked") == false){
-            $("#comment_id_text").text("Disable comments for this campaign");
-          $(this).parent().parent().removeClass("jss878 jss877");
-        }
-    });
+    //   $('#comment_id').click(function(){
+    //     if($(this).prop("checked") == true){
+    //       $("#comment_id_text").text("Enable comments for this campaign");
+    //         $(this).parent().parent().addClass("jss878 jss877");
+    //     }
+    //     else if($(this).prop("checked") == false){
+    //         $("#comment_id_text").text("Disable comments for this campaign");
+    //       $(this).parent().parent().removeClass("jss878 jss877");
+    //     }
+    // });
 
       var _validFileExtensions_pan_upload = [".pdf" ,".jpeg", ".jpg",".png"];    
              
@@ -3223,25 +3223,25 @@ $("#upload_documents").click(function(){
            }
       });
 
-      $('#comment_id').click(function(){
-        if($(this).prop("checked") == true){
-          $("#comment_id_text").text("Enable comments for this campaign");
-            $(this).parent().parent().addClass("jss878 jss877");
-        }
-        else if($(this).prop("checked") == false){
-            $("#comment_id_text").text("Disable comments for this campaign");
-          $(this).parent().parent().removeClass("jss878 jss877");
-        }
-    });
+    //   $('#comment_id').click(function(){
+    //     if($(this).prop("checked") == true){
+    //       $("#comment_id_text").text("Enable comments for this campaign");
+    //         $(this).parent().parent().addClass("jss878 jss877");
+    //     }
+    //     else if($(this).prop("checked") == false){
+    //         $("#comment_id_text").text("Disable comments for this campaign");
+    //       $(this).parent().parent().removeClass("jss878 jss877");
+    //     }
+    // });
 
-      if($("#comment_id").prop("checked") == true){
-        $("#comment_id_text").text("Enable comments for this campaign");
-          $("#comment_id").parent().parent().addClass("jss878 jss877");
-      }
-      else if($("#comment_id").prop("checked") == false){
-          $("#comment_id_text").text("Disable comments for this campaign");
-        $("#comment_id").parent().parent().removeClass("jss878 jss877");
-      }
+    //   if($("#comment_id").prop("checked") == true){
+    //     $("#comment_id_text").text("Enable comments for this campaign");
+    //       $("#comment_id").parent().parent().addClass("jss878 jss877");
+    //   }
+    //   else if($("#comment_id").prop("checked") == false){
+    //       $("#comment_id_text").text("Disable comments for this campaign");
+    //     $("#comment_id").parent().parent().removeClass("jss878 jss877");
+    //   }
 
       
       

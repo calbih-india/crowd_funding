@@ -9,7 +9,7 @@
     <div class="container">
         <div class="row mt-3 mb-3 align-items-center  position-relative">   
           <div class="col-md-12">
-            <h5>Activity</h5>
+            <h5 id="yara">Activity</h5>
           </div>  
           <div class="col-md-12">
               <form method="POST">
@@ -21,6 +21,7 @@
                               <span class="jss891">
                                 <span class="jss874 jss875"></span>
                                 {{enable_comment_form.enable_comment}}
+                                {% comment %} {{CampaignFundRaiserEnableComment_Form.enable_comment}} {% endcomment %}
                                 <!-- <input class="jss885" id="comment_id" type="checkbox" value="comment" checked=""> -->
                               </span>
                               <span class="jss934"></span>
@@ -98,6 +99,29 @@
           "lengthChange": false,
           "pageLength": 5
         });
+
+
+        $('#comment_id').click(function(){
+          if($(this).prop("checked") == true){
+            $("#comment_id_text").text("Enable comments for this campaign");
+              $(this).parent().parent().addClass("jss878 jss877");
+          }
+          else if($(this).prop("checked") == false){
+              $("#comment_id_text").text("Disable comments for this campaign");
+            $(this).parent().parent().removeClass("jss878 jss877");
+          }
+        });
+
+        if($("#comment_id").prop("checked") == true){
+          $("#comment_id_text").text("Enable comments for this campaign");
+            $("#comment_id").parent().parent().addClass("jss878 jss877");
+        }
+        else if($("#comment_id").prop("checked") == false){
+            $("#comment_id_text").text("Disable comments for this campaign");
+          $("#comment_id").parent().parent().removeClass("jss878 jss877");
+        }
+
+
     });
   </script>
 {% endblock %}
