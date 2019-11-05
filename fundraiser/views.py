@@ -6136,7 +6136,7 @@ def my_fundraiser_campaign_updates(request, url_text):
     try:
         instance_CampaignFundRaiser = CampaignFundRaiser.objects.get(url_text=url_text, user=request.user)
         instance_CampaignUpdates = CampaignUpdates.objects.filter(campaign_fund_raiser=instance_CampaignFundRaiser)
-        instance_CampaignDoners = CampaignDoners.objects.filter(campaign_fund_raiser=instance_CampaignFundRaiser).order_by("-id")
+        instance_CampaignDoners = CampaignDoners.objects.filter(campaign_fund_raiser=instance_CampaignFundRaiser)
 
         if request.method == 'POST':
             campaign_updates_form = CampaignUpdatesForm(request.POST)
