@@ -1095,7 +1095,7 @@ def payment_check(request):
                     email_campaigner = EmailMultiAlternatives(
                                         mail_subject_campaign_creator, message_campaign_creator, to=[instance_CampaignFundRaiser.user.email]
                         )
-                    email_campaigner.attach_alternative(message, "text/html")
+                    email_campaigner.attach_alternative(message_campaign_creator, "text/html")
                     email_campaigner.send()
                 except:
                     pass
