@@ -827,49 +827,63 @@ def campaign_selected(request, url_text):
                         return redirect('login')
 
                 elif form_type == 'Doners':
-                    CheckPotentialCampaignDoners_Forms = CheckPotentialCampaignDoners(request.POST)
-                    if CheckPotentialCampaignDoners_Forms.is_valid():
-                        is_donating = CheckPotentialCampaignDoners_Forms.cleaned_data['is_donating']
-                        if is_donating:
-                            Campaign_Doners_Forms = CampaignDonersForms(request.POST)
-                            if Campaign_Doners_Forms.is_valid():
-                                Campaign_Doners_Forms = Campaign_Doners_Forms.save(commit=False)
-                                Campaign_Doners_Forms.campaign_fund_raiser = instance_CampaignFundRaiser
-                                if request.user.is_authenticated:
-                                    Campaign_Doners_Forms.doner_user = request.user
-                                Campaign_Doners_Forms.source = source
+                    # CheckPotentialCampaignDoners_Forms = CheckPotentialCampaignDoners(request.POST)
+                    # if CheckPotentialCampaignDoners_Forms.is_valid():
+                    #     is_donating = CheckPotentialCampaignDoners_Forms.cleaned_data['is_donating']
+                    #     if is_donating:
+                    #         Campaign_Doners_Forms = CampaignDonersForms(request.POST)
+                    #         if Campaign_Doners_Forms.is_valid():
+                    #             Campaign_Doners_Forms = Campaign_Doners_Forms.save(commit=False)
+                    #             Campaign_Doners_Forms.campaign_fund_raiser = instance_CampaignFundRaiser
+                    #             if request.user.is_authenticated:
+                    #                 Campaign_Doners_Forms.doner_user = request.user
+                    #             Campaign_Doners_Forms.source = source
 
-                                Campaign_Doners_Forms.save()
+                    #             Campaign_Doners_Forms.save()
 
-                                return redirect('campaign_payment', ID=instance_CampaignFundRaiser.id, OID=Campaign_Doners_Forms.id)
+                    #             return redirect('campaign_payment', ID=instance_CampaignFundRaiser.id, OID=Campaign_Doners_Forms.id)
 
-                            else:
-                                form_error = 'Doners'
-                                Campaign_Comments_Form = CampaignCommentsForm()
+                    #         else:
+                    #             form_error = 'Doners'
+                    #             Campaign_Comments_Form = CampaignCommentsForm()
 
-                        else:
-                            Campaign_Doners_Forms = PotentialCampaignDonersForms(request.POST)
-                            if Campaign_Doners_Forms.is_valid():
-                                Campaign_Doners_Forms = Campaign_Doners_Forms.save(commit=False)
-                                Campaign_Doners_Forms.campaign_fund_raiser = instance_CampaignFundRaiser
-                                if request.user.is_authenticated:
-                                    Campaign_Doners_Forms.doner_user = request.user
-                                Campaign_Doners_Forms.source = source
+                    #     else:
+                    #         Campaign_Doners_Forms = PotentialCampaignDonersForms(request.POST)
+                    #         if Campaign_Doners_Forms.is_valid():
+                    #             Campaign_Doners_Forms = Campaign_Doners_Forms.save(commit=False)
+                    #             Campaign_Doners_Forms.campaign_fund_raiser = instance_CampaignFundRaiser
+                    #             if request.user.is_authenticated:
+                    #                 Campaign_Doners_Forms.doner_user = request.user
+                    #             Campaign_Doners_Forms.source = source
 
-                                Campaign_Doners_Forms.save()
+                    #             Campaign_Doners_Forms.save()
 
-                                # messages.add_message(request,messages.SUCCESS,'Thanks for supporting.')
+                    #             messages.add_message(request,messages.SUCCESS,'Thanks for supporting.')
 
-                                # return redirect('campaign_selected', url_text=url_text)
-                                return redirect('campaign_payment', ID=instance_CampaignFundRaiser.id, OID=Campaign_Doners_Forms.id)
+                    #             return redirect('campaign_selected', url_text=url_text)
 
-                            else:
-                                form_error = 'Doners'
-                                Campaign_Comments_Form = CampaignCommentsForm()
+                    #         else:
+                    #             form_error = 'Doners'
+                    #             Campaign_Comments_Form = CampaignCommentsForm()
+
+                    # else:
+                    #     form_error = 'Doners'
+                    #     Campaign_Doners_Forms = CampaignDonersForms(request.POST)
+                    #     Campaign_Comments_Form = CampaignCommentsForm()
+                    Campaign_Doners_Forms = CampaignDonersForms(request.POST)
+                    if Campaign_Doners_Forms.is_valid():
+                        Campaign_Doners_Forms = Campaign_Doners_Forms.save(commit=False)
+                        Campaign_Doners_Forms.campaign_fund_raiser = instance_CampaignFundRaiser
+                        if request.user.is_authenticated:
+                            Campaign_Doners_Forms.doner_user = request.user
+                            Campaign_Doners_Forms.source = source
+
+                        Campaign_Doners_Forms.save()
+
+                        return redirect('campaign_payment', ID=instance_CampaignFundRaiser.id, OID=Campaign_Doners_Forms.id)
 
                     else:
-                        form_error = 'Doners'
-                        Campaign_Doners_Forms = CampaignDonersForms(request.POST)
+                        print(Campaign_Doners_Forms.errors)
                         Campaign_Comments_Form = CampaignCommentsForm()
                         
                 else:
