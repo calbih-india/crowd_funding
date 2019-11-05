@@ -1085,6 +1085,17 @@ def payment_check(request):
                         )
                     email.attach_alternative(message, "text/html")
                     email.send()
+
+                    mail_subject_campaign_creator = 'A new doner funded your campaign.'
+                    message_campaign_creator = render_to_string('email_template/fundraiser_campaign_creator_inform.html', {
+                        'domain': current_site.domain,
+                        'instance_CampaignDoners':instance_CampaignDoners,
+                    })
+                    email = EmailMultiAlternatives(
+                                        mail_subject_campaign_creator, message_campaign_creator, to=[instance_CampaignFundRaiser.user.email]
+                        )
+                    email.attach_alternative(message, "text/html")
+                    email.send()
                 except:
                     pass
 
