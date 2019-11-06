@@ -7274,6 +7274,7 @@ def my_event_campaign_updates(request, url_text):
     try:
         instance_Event = Event.objects.get(url_text=url_text, user=request.user)
         instance_EventUpdates = EventUpdates.objects.filter(event=instance_Event)
+        instance_EventGroupMembers_email = EventGroupMembers.objects.filter(event=instance_Event).values_list('email', flat=True)
 
         if request.method == 'POST':
             EventUpdates_Form = EventUpdatesForm(request.POST)
@@ -7283,6 +7284,18 @@ def my_event_campaign_updates(request, url_text):
                 EventUpdates_Form.save()
 
                 messages.add_message(request,messages.SUCCESS,'Event Update " %s " added successfully. ' %(EventUpdates_Form.title))
+
+                mail_subject = "New Update on Event"
+                current_site = get_current_site(request)
+                message = render_to_string('email_template/event_update_email.html',{
+                    'instance_Event':instance_Event,
+                    'domain': current_site.domain,
+                })
+                email = EmailMultiAlternatives(
+                    mail_subject, message, to=instance_EventGroupMembers_email
+                )
+                email.attach_alternative(message, "text/html")
+                email.send()
 
                 return redirect('my_event_campaign_updates', url_text=url_text)
 
@@ -7306,6 +7319,7 @@ def my_event_campaign_buzz(request, url_text):
     try:
         instance_Event = Event.objects.get(url_text=url_text, user=request.user)
         instance_EventBuzz = EventBuzz.objects.filter(event=instance_Event)
+        instance_EventGroupMembers_email = EventGroupMembers.objects.filter(event=instance_Event).values_list('email', flat=True)
 
         if request.method == 'POST':
             EventBuzz_Form = EventBuzzForm(request.POST, request.FILES)
@@ -7315,6 +7329,18 @@ def my_event_campaign_buzz(request, url_text):
                 EventBuzz_Form.save()
 
                 messages.add_message(request,messages.SUCCESS,'Campaign Buzz " %s " added successfully. ' %(EventBuzz_Form.title))
+
+                mail_subject = "New Buzz on Event"
+                current_site = get_current_site(request)
+                message = render_to_string('email_template/event_buzz_update_email.html',{
+                    'instance_Event':instance_Event,
+                    'domain': current_site.domain,
+                })
+                email = EmailMultiAlternatives(
+                    mail_subject, message, to=instance_EventGroupMembers_email
+                )
+                email.attach_alternative(message, "text/html")
+                email.send()
 
                 return redirect('my_event_campaign_buzz', url_text=url_text)
 

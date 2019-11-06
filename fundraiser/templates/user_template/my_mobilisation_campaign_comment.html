@@ -98,6 +98,26 @@
           "lengthChange": false,
           "pageLength": 5
         });
+
+        $('#comment_id').click(function(){
+          if($(this).prop("checked") == true){
+            $("#comment_id_text").text("Enable comments for this campaign");
+              $(this).parent().parent().addClass("jss878 jss877");
+          }
+          else if($(this).prop("checked") == false){
+              $("#comment_id_text").text("Disable comments for this campaign");
+            $(this).parent().parent().removeClass("jss878 jss877");
+          }
+        });
+
+        if($("#comment_id").prop("checked") == true){
+          $("#comment_id_text").text("Enable comments for this campaign");
+            $("#comment_id").parent().parent().addClass("jss878 jss877");
+        }
+        else if($("#comment_id").prop("checked") == false){
+            $("#comment_id_text").text("Disable comments for this campaign");
+          $("#comment_id").parent().parent().removeClass("jss878 jss877");
+        }
     });
   </script>
 {% endblock %}
