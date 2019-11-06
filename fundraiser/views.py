@@ -6136,7 +6136,7 @@ def my_fundraiser_campaign_updates(request, url_text):
     try:
         instance_CampaignFundRaiser = CampaignFundRaiser.objects.get(url_text=url_text, user=request.user)
         instance_CampaignUpdates = CampaignUpdates.objects.filter(campaign_fund_raiser=instance_CampaignFundRaiser)
-        instance_CampaignDoners = CampaignDoners.objects.filter(campaign_fund_raiser=instance_CampaignFundRaiser)
+        instance_CampaignDoners_email = CampaignDoners.objects.filter(campaign_fund_raiser=instance_CampaignFundRaiser).values_list('email', flat=True)
 
         if request.method == 'POST':
             campaign_updates_form = CampaignUpdatesForm(request.POST)
@@ -6146,17 +6146,15 @@ def my_fundraiser_campaign_updates(request, url_text):
                 campaign_updates_form.save()
 
                 messages.add_message(request,messages.SUCCESS,'Campaign Update " %s " added successfully. ' %(campaign_updates_form.title))
-                email = instance_CampaignDoners.objects.values_list('email', flat=True)
-                # email = request.GET.getlist('id[]', None)
-                email_message = "Hello here is a new update"
-                mail_subject = "New Update"
+
+                mail_subject = "New Update on Fundraiser Campaign"
                 current_site = get_current_site(request)
                 message = render_to_string('email_template/fundraiser_update_email.html',{
-                    'email_message':email_message,
+                    'instance_CampaignFundRaiser':instance_CampaignFundRaiser,
                     'domain': current_site.domain,
                 })
                 email = EmailMultiAlternatives(
-                    mail_subject, message, to=email
+                    mail_subject, message, to=instance_CampaignDoners_email
                 )
                 email.attach_alternative(message, "text/html")
                 email.send()
@@ -6735,6 +6733,8 @@ def my_mobilisation_campaign_updates(request, url_text):
     try:
         instance_SupportGroup = SupportGroup.objects.get(url_text=url_text, group_leader=request.user)
         instance_SupportUpdates = SupportUpdates.objects.filter(support_group=instance_SupportGroup)
+        # instance_SupportGroupMembers = SupportGroupMembers.objects.filter(support_group=instance_SupportGroup)
+        instance_SupportGroupMembers_email = SupportGroupMembers.objects.filter(support_group=instance_SupportGroup).values_list('email', flat=True)
 
         if request.method == 'POST':
             SupportUpdates_Form = SupportUpdatesForm(request.POST)
@@ -6744,6 +6744,19 @@ def my_mobilisation_campaign_updates(request, url_text):
                 SupportUpdates_Form.save()
 
                 messages.add_message(request,messages.SUCCESS,'Campaign Update " %s " added successfully. ' %(SupportUpdates_Form.title))
+
+                mail_subject = "New Update on Mobilisation Campaign"
+                current_site = get_current_site(request)
+                message = render_to_string('email_template/mobilisation_update_email.html',{
+                    # 'instance_SupportGroupMembers':instance_SupportGroupMembers,
+                    'instance_SupportGroup':instance_SupportGroup,
+                    'domain': current_site.domain,
+                })
+                email = EmailMultiAlternatives(
+                    mail_subject, message, to=instance_SupportGroupMembers_email
+                )
+                email.attach_alternative(message, "text/html")
+                email.send()
 
                 return redirect('my_mobilisation_campaign_updates', url_text=url_text)
 
@@ -6767,6 +6780,7 @@ def my_mobilisation_campaign_buzz(request, url_text):
     try:
         instance_SupportGroup = SupportGroup.objects.get(url_text=url_text, group_leader=request.user)
         instance_SupportBuzz = SupportBuzz.objects.filter(support_group=instance_SupportGroup)
+        instance_SupportGroupMembers_email = SupportGroupMembers.objects.filter(support_group=instance_SupportGroup).values_list('email', flat=True)
 
         if request.method == 'POST':
             SupportBuzz_Form = SupportBuzzForm(request.POST, request.FILES)
@@ -6776,6 +6790,19 @@ def my_mobilisation_campaign_buzz(request, url_text):
                 SupportBuzz_Form.save()
 
                 messages.add_message(request,messages.SUCCESS,'Campaign Buzz " %s " added successfully. ' %(SupportBuzz_Form.title))
+
+                mail_subject = "New Buzz on Mobilisation Campaign"
+                current_site = get_current_site(request)
+                message = render_to_string('email_template/mobilisation_buzz_update_email.html',{
+                    # 'instance_SupportGroupMembers':instance_SupportGroupMembers,
+                    'instance_SupportGroup':instance_SupportGroup,
+                    'domain': current_site.domain,
+                })
+                email = EmailMultiAlternatives(
+                    mail_subject, message, to=instance_SupportGroupMembers_email
+                )
+                email.attach_alternative(message, "text/html")
+                email.send()
 
                 return redirect('my_mobilisation_campaign_buzz', url_text=url_text)
 
