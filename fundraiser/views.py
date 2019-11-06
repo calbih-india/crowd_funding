@@ -6181,6 +6181,7 @@ def my_fundraiser_campaign_buzz(request, url_text):
     try:
         instance_CampaignFundRaiser = CampaignFundRaiser.objects.get(url_text=url_text, user=request.user)
         instance_CampaignBuzz = CampaignBuzz.objects.filter(campaign_fund_raiser=instance_CampaignFundRaiser)
+        instance_CampaignDoners_email = CampaignDoners.objects.filter(campaign_fund_raiser=instance_CampaignFundRaiser).values_list('email', flat=True)
 
         if request.method == 'POST':
             campaign_buzz_form = CampaignBuzzForm(request.POST, request.FILES)
@@ -6190,6 +6191,18 @@ def my_fundraiser_campaign_buzz(request, url_text):
                 campaign_buzz_form.save()
 
                 messages.add_message(request,messages.SUCCESS,'Campaign Buzz " %s " added successfully. ' %(campaign_buzz_form.title))
+
+                mail_subject = "New Buzz on Fundraiser Campaign"
+                current_site = get_current_site(request)
+                message = render_to_string('email_template/fundraiser_buzz_update_email.html',{
+                    'instance_CampaignFundRaiser':instance_CampaignFundRaiser,
+                    'domain': current_site.domain,
+                })
+                email = EmailMultiAlternatives(
+                    mail_subject, message, to=instance_CampaignDoners_email
+                )
+                email.attach_alternative(message, "text/html")
+                email.send()
 
                 return redirect('my_fundraiser_campaign_buzz', url_text=url_text)
 

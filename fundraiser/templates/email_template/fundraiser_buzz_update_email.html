@@ -1,0 +1,119 @@
+{% autoescape off %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="format-detection" content="telephone=no"> <!-- disable auto telephone linking in iOS -->
+
+</head>
+<body class="body"   style="padding: 0;margin: 0;display: block;background: #ffffff;-webkit-text-size-adjust: none;-webkit-font-smoothing: antialiased;width: 100%;max-width:600px;height: 100%;color: #37302d;font-family: Arial;"
+  bgcolor="#ffffff">
+  <div bgcolor="#ffffff" style="margin:0px;padding:0px;max-width:600px;">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width:600px;">
+      <tbody>
+        <tr>
+          <td style="background-color:#ffffff">            
+              <div id="m_-6148083909276714131maincontent" style="max-width:620px;margin:0 auto">
+                <table border="0" cellpadding="0" cellspacing="0" style="width:100%">
+                  <tbody>
+                    <tr>
+                      <td>
+                        <table border="0" cellpadding="0" cellspacing="0" style="width:100%">
+                          <tbody>
+                            <tr>
+                              <td bgcolor="#ffffff">
+                                <table border="0" cellpadding="0" cellspacing="0" style="width:100%">
+                                  <tbody>
+                                    <tr>
+                                      <td align="left" bgcolor="#ffffff">
+                                        <img alt="Logo" border="0" src="http://{{domain}}/static/images/logo_small.png" width="600" style="display:block;width:100%;max-width:600px;font-family:Arial;font-size:25px;line-height:30px;font-weight:bold;text-align:center">
+                                      </td>
+                                    </tr>
+                                    <tr>
+                                      <td style="text-align:center;padding:10px 20px 0px 20px">
+                                        <div style="display:inline-block;width:100%;max-width:520px">
+                                          <table align="center" border="0" cellpadding="0" cellspacing="0"
+                                            style="font-family:Arial;font-size:15px;font-weight:regular;line-height:20px;text-align:left;width:100%">
+                                            <tbody>
+                                              <tr>
+                                                <td style="font-weight:regular;text-align:left">
+                                                  <p style="Margin:0 0 0px 0;font-size:24px;line-height:24px;color:#25254d;font-weight:500;text-align:left;font-family: Arial;padding:0px">
+                                                      <br>
+                                                      Hello,  <br> <br></p>
+                                                      {% comment %} {% for SupportGroupMembers in instance_SupportGroupMembers %}
+                                                       {{SupportGroupMembers.name}}
+                                                        {% endfor %} {% endcomment %}
+                                                  <p  style="Margin:0 0 0px 0;font-size:15px;line-height:22px;color:#25254d;font-weight:400;text-align:left;font-family: Arial;padding:0px">
+                                                    {% comment %} {{instance_CampaignDoners.campaign_fund_raiser.custome_note|linebreaks}} {% endcomment %}
+                                                    There is a new Buzz on the Fundraiser Campaign "{{instance_CampaignFundRaiser.title}}". Please check.
+                                                    <br></p>
+                                                   
+                                                  
+                                                </td>
+                                              </tr>
+                                              <tr height="10">
+                                                <td></td>
+                                              </tr>
+
+                                              <!-- URL Here -->
+
+                                              <tr>
+                                                  <td>
+                                                      {% comment %} <p style="Margin:0 0 0px 0;font-size:15px;line-height:22px;color:#25254d;font-weight:400;text-align:left;font-family: Arial;padding:0px">
+                                                         <a href="{% if request.is_secure %}https{% else %}http{% endif %}://{{domain}}{% url 'campaign_selected' url_text=instance_CampaignDoners.campaign_fund_raiser.url_text  %}">{% if request.is_secure %}https{% else %}http{% endif %}://{{domain}}{% url 'campaign_selected' url_text=instance_CampaignDoners.campaign_fund_raiser.url_text  %} </a>
+                                                      </p>  {% endcomment %}
+                                                  </td>
+                                                </tr>
+                                                <tr height="10">
+                                                    <td></td>
+                                                  </tr>
+                                                                                      
+                                              
+  
+                                          
+    
+                                                  <tr align="left">
+                                                    <td align="left" style="margin:0 auto;padding:0px 0px 0px 0px">
+                                                      <div align="left" style="width:100%">
+                                                        <table border="0" cellpadding="0" cellspacing="0" style="width:100%">
+                                                          <tbody>
+                                                            <tr>
+                                                              <td style="font-weight:400;text-align:left">
+                                                                <p>Thanks,
+                                                                  <br/>
+                                                                Team CrowdFunding</p>                                                                
+                                                              </td>
+                                                            </tr>
+                                                          </tbody>
+                                                        </table>
+                                                      </div>
+                                                    </td>
+                                                  </tr>
+
+                                            </tbody>
+                                          </table>
+                                        </div>
+                                      </td>
+                                    </tr>
+
+                                  </tbody>
+                                </table>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>
+{% endautoescape %}
