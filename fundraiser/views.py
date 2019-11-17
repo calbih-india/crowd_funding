@@ -6146,18 +6146,18 @@ def my_fundraiser_campaign_updates(request, url_text):
                 campaign_updates_form.save()
 
                 messages.add_message(request,messages.SUCCESS,'Campaign Update " %s " added successfully. ' %(campaign_updates_form.title))
-
-                mail_subject = "New Update on Fundraiser Campaign"
-                current_site = get_current_site(request)
-                message = render_to_string('email_template/fundraiser_update_email.html',{
-                    'instance_CampaignFundRaiser':instance_CampaignFundRaiser,
-                    'domain': current_site.domain,
-                })
-                email = EmailMultiAlternatives(
-                    mail_subject, message, to=instance_CampaignDoners_email
-                )
-                email.attach_alternative(message, "text/html")
-                email.send()
+                if request.POST['send_email']:
+                    mail_subject = "New Update on Fundraiser Campaign"
+                    current_site = get_current_site(request)
+                    message = render_to_string('email_template/fundraiser_update_email.html',{
+                        'instance_CampaignFundRaiser':instance_CampaignFundRaiser,
+                        'domain': current_site.domain,
+                    })
+                    email = EmailMultiAlternatives(
+                        mail_subject, message, to=instance_CampaignDoners_email
+                    )
+                    email.attach_alternative(message, "text/html")
+                    email.send()
 
                 return redirect('my_fundraiser_campaign_updates', url_text=url_text)
 
@@ -6192,17 +6192,18 @@ def my_fundraiser_campaign_buzz(request, url_text):
 
                 messages.add_message(request,messages.SUCCESS,'Campaign Buzz " %s " added successfully. ' %(campaign_buzz_form.title))
 
-                mail_subject = "New Buzz on Fundraiser Campaign"
-                current_site = get_current_site(request)
-                message = render_to_string('email_template/fundraiser_buzz_update_email.html',{
-                    'instance_CampaignFundRaiser':instance_CampaignFundRaiser,
-                    'domain': current_site.domain,
-                })
-                email = EmailMultiAlternatives(
-                    mail_subject, message, to=instance_CampaignDoners_email
-                )
-                email.attach_alternative(message, "text/html")
-                email.send()
+                if request.POST['send_email']:
+                    mail_subject = "New Buzz on Fundraiser Campaign"
+                    current_site = get_current_site(request)
+                    message = render_to_string('email_template/fundraiser_buzz_update_email.html',{
+                        'instance_CampaignFundRaiser':instance_CampaignFundRaiser,
+                        'domain': current_site.domain,
+                    })
+                    email = EmailMultiAlternatives(
+                        mail_subject, message, to=instance_CampaignDoners_email
+                    )
+                    email.attach_alternative(message, "text/html")
+                    email.send()
 
                 return redirect('my_fundraiser_campaign_buzz', url_text=url_text)
 
@@ -6758,18 +6759,20 @@ def my_mobilisation_campaign_updates(request, url_text):
 
                 messages.add_message(request,messages.SUCCESS,'Campaign Update " %s " added successfully. ' %(SupportUpdates_Form.title))
 
-                mail_subject = "New Update on Mobilisation Campaign"
-                current_site = get_current_site(request)
-                message = render_to_string('email_template/mobilisation_update_email.html',{
-                    # 'instance_SupportGroupMembers':instance_SupportGroupMembers,
-                    'instance_SupportGroup':instance_SupportGroup,
-                    'domain': current_site.domain,
-                })
-                email = EmailMultiAlternatives(
-                    mail_subject, message, to=instance_SupportGroupMembers_email
-                )
-                email.attach_alternative(message, "text/html")
-                email.send()
+                
+                if request.POST['send_email']:
+                    mail_subject = "New Update on Mobilisation Campaign"
+                    current_site = get_current_site(request)
+                    message = render_to_string('email_template/mobilisation_update_email.html',{
+                        # 'instance_SupportGroupMembers':instance_SupportGroupMembers,
+                        'instance_SupportGroup':instance_SupportGroup,
+                        'domain': current_site.domain,
+                    })
+                    email = EmailMultiAlternatives(
+                        mail_subject, message, to=instance_SupportGroupMembers_email
+                    )
+                    email.attach_alternative(message, "text/html")
+                    email.send()
 
                 return redirect('my_mobilisation_campaign_updates', url_text=url_text)
 
@@ -6804,18 +6807,19 @@ def my_mobilisation_campaign_buzz(request, url_text):
 
                 messages.add_message(request,messages.SUCCESS,'Campaign Buzz " %s " added successfully. ' %(SupportBuzz_Form.title))
 
-                mail_subject = "New Buzz on Mobilisation Campaign"
-                current_site = get_current_site(request)
-                message = render_to_string('email_template/mobilisation_buzz_update_email.html',{
-                    # 'instance_SupportGroupMembers':instance_SupportGroupMembers,
-                    'instance_SupportGroup':instance_SupportGroup,
-                    'domain': current_site.domain,
-                })
-                email = EmailMultiAlternatives(
-                    mail_subject, message, to=instance_SupportGroupMembers_email
-                )
-                email.attach_alternative(message, "text/html")
-                email.send()
+                if request.POST['send_email']:
+                    mail_subject = "New Buzz on Mobilisation Campaign"
+                    current_site = get_current_site(request)
+                    message = render_to_string('email_template/mobilisation_buzz_update_email.html',{
+                        # 'instance_SupportGroupMembers':instance_SupportGroupMembers,
+                        'instance_SupportGroup':instance_SupportGroup,
+                        'domain': current_site.domain,
+                    })
+                    email = EmailMultiAlternatives(
+                        mail_subject, message, to=instance_SupportGroupMembers_email
+                    )
+                    email.attach_alternative(message, "text/html")
+                    email.send()
 
                 return redirect('my_mobilisation_campaign_buzz', url_text=url_text)
 
@@ -7285,17 +7289,18 @@ def my_event_campaign_updates(request, url_text):
 
                 messages.add_message(request,messages.SUCCESS,'Event Update " %s " added successfully. ' %(EventUpdates_Form.title))
 
-                mail_subject = "New Update on Event"
-                current_site = get_current_site(request)
-                message = render_to_string('email_template/event_update_email.html',{
-                    'instance_Event':instance_Event,
-                    'domain': current_site.domain,
-                })
-                email = EmailMultiAlternatives(
-                    mail_subject, message, to=instance_EventGroupMembers_email
-                )
-                email.attach_alternative(message, "text/html")
-                email.send()
+                if request.POST['send_email']:
+                    mail_subject = "New Update on Event"
+                    current_site = get_current_site(request)
+                    message = render_to_string('email_template/event_update_email.html',{
+                        'instance_Event':instance_Event,
+                        'domain': current_site.domain,
+                    })
+                    email = EmailMultiAlternatives(
+                        mail_subject, message, to=instance_EventGroupMembers_email
+                    )
+                    email.attach_alternative(message, "text/html")
+                    email.send()
 
                 return redirect('my_event_campaign_updates', url_text=url_text)
 
@@ -7330,17 +7335,18 @@ def my_event_campaign_buzz(request, url_text):
 
                 messages.add_message(request,messages.SUCCESS,'Campaign Buzz " %s " added successfully. ' %(EventBuzz_Form.title))
 
-                mail_subject = "New Buzz on Event"
-                current_site = get_current_site(request)
-                message = render_to_string('email_template/event_buzz_update_email.html',{
-                    'instance_Event':instance_Event,
-                    'domain': current_site.domain,
-                })
-                email = EmailMultiAlternatives(
-                    mail_subject, message, to=instance_EventGroupMembers_email
-                )
-                email.attach_alternative(message, "text/html")
-                email.send()
+                if request.POST['send_email']:
+                    mail_subject = "New Buzz on Event"
+                    current_site = get_current_site(request)
+                    message = render_to_string('email_template/event_buzz_update_email.html',{
+                        'instance_Event':instance_Event,
+                        'domain': current_site.domain,
+                    })
+                    email = EmailMultiAlternatives(
+                        mail_subject, message, to=instance_EventGroupMembers_email
+                    )
+                    email.attach_alternative(message, "text/html")
+                    email.send()
 
                 return redirect('my_event_campaign_buzz', url_text=url_text)
 

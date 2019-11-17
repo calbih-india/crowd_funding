@@ -35,8 +35,10 @@
       <table class="table text-center   data_table">
         <thead class="thead-light">
           <tr>
-            <th scope="col">Email</th>
+            <th scope="col">Date</th>
+            <th scope="col">User</th>
             <th scope="col" style="min-width: 250px">Campaign</th>
+            <th scope="col">Document</th>
             <th scope="col">Total Amount</th>
             <th scope="col">Total Withdrawal​</th>
             <th scope="col">Available Amount</th>
@@ -48,8 +50,16 @@
         <tbody>
           {% for WithdrawalRequest in instance_WithdrawalRequest %}
           <tr>
-              <td>{{ WithdrawalRequest.campaign.user.email }}</td>
+            <td>{{ WithdrawalRequest.request_date }}</td>
+              <td>{{ WithdrawalRequest.campaign.user.name }}</td>
               <td>{{ WithdrawalRequest.campaign.title }}</td>
+              <td>
+                    <div class="text_ecllipse reaon_req"  data-toggle="modal" data-target="#textDisplay"><i class="fa fa-eye cursor_pointer" aria-hidden="true"></i>
+                    <div class=" reaon_req_text d-none"> Cancelled Cheque<br> {% if WithdrawalRequest.campaign.cancelled_cheque_image %}<img width="700px" src="/media/{{ WithdrawalRequest.campaign.cancelled_cheque_image}}">{% else %} Not Uploaded {% endif %} <br><br>
+                    Address Proof : {{WithdrawalRequest.campaign.address_proof_type}}<br> {% if WithdrawalRequest.campaign.address_proof_image %}<img width="700px" src="/media/{{ WithdrawalRequest.campaign.address_proof_image}}">{% else %} Not Uploaded {% endif %}<br><br>
+                    PAN Number : {{WithdrawalRequest.campaign.pancard_no}}<br> {% if WithdrawalRequest.campaign.pancard_image %}<img width="700px" src="/media/{{ WithdrawalRequest.campaign.pancard_image}}">{% else %} Not Uploaded {% endif %}
+                    </div></div>
+              </td>
               <td>{{ WithdrawalRequest.campaign.campaigntotalamount.total_amount }}</td>
               <td>{{ WithdrawalRequest.campaign.total_withdrawl_fund }}</td>
               <td>{{ WithdrawalRequest.campaign.available_withdrawl_fund }}</td>
@@ -68,6 +78,28 @@
 {% endblock %}
 
 {% block model_popup %}
+
+<div id="textDisplay" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+  
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header text-center">
+          <h5 class="modal-title w-100">Documents</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p id="reason_txt"></p>
+        </div>
+      </div>
+  
+    </div>
+  </div>
+
+
+
 <div class="modal fade" id="createMediaArticle" tabindex="-1" role="dialog" aria-labelledby="createCampaignTitle"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable  modal-dialog-centered" role="document">
@@ -188,6 +220,11 @@
 <script type="text/javascript" src="/static/js/intlTelInput.js" ></script>
 
   <script>
+
+
+  $(".reaon_req").click(function(){
+		$("#reason_txt").html($(this).find(".reaon_req_text").html());
+	});
     $(document).ready(function() {
       $("#mobile-number").intlTelInput();    
       $('.select2_modal').select2({
